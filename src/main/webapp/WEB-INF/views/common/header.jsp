@@ -6,16 +6,20 @@
 	href="https://fonts.googleapis.com/css?family=Bangers|Noto+Sans+KR&display=swap"
 	rel="stylesheet">
 <!-- 부트스트랩 -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- css 여기있어야함 -->
 <link rel="stylesheet" href="/css/header/hStyle.css">
 
 <div class="header">
 	<div class="header1">
-		<a href="main.html"><img src="/imgs/bluelogo.png"></a>
+		<a href="/"><img src="/imgs/bluelogo.png"></a>
 	</div>
 	<div class="headermiddle">
 		<label for="keyword">
@@ -28,9 +32,23 @@
 	</div>
 	<div class="header2">
 		<ul>
-			<li><a href="#">로그인</a></li>
-			<li><a href="#">회원가입</a></li>
-			<li><a href="#">장바구니</a></li>
+			<c:if test="${empty sessionScope.member }">
+				<!--로그인되어있지않을때 -->
+				<li><a href="#">로그인</a></li>
+				<li><a href="#">회원가입</a></li>
+				<li><a href="#">장바구니</a></li>
+			</c:if>
+			<c:if test="${not empty sessionScope.member }">
+				<!--로그인되어있을때 -->
+				<c:if test="${sessionScope.member.memberId eq 'admin' }">
+				<li><a href="#">${sessionScope.member.memberName }</a></li>
+				</c:if>
+				<c:if test="${sessionScope.member.memberId ne 'admin' }">
+				<li><a href="#">${sessionScope.member.memberName }님</a></li>
+				</c:if>
+				<li><a href="#">로그아웃</a></li>
+				<li><a href="#">장바구니</a></li>
+			</c:if>
 		</ul>
 	</div>
 	<div class="header3">
