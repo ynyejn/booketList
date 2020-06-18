@@ -54,12 +54,12 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 웹소켓설정 chat.do를 요청하면 myHandler가 실행 -->
-	<websocket:handlers>
-		<websocket:mapping handler="myHandler" path="/chat.do"/>
-		<websocket:handshake-interceptors>
-			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-		</websocket:handshake-interceptors>
-	</websocket:handlers>
+<!-- 	<websocket:handlers> -->
+<!-- 		<websocket:mapping handler="myHandler" path="/chat.do"/> -->
+<!-- 		<websocket:handshake-interceptors> -->
+<!-- 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/> -->
+<!-- 		</websocket:handshake-interceptors> -->
+<!-- 	</websocket:handlers> -->
 	
 	
 	<tx:annotation-driven /> 
