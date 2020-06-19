@@ -31,7 +31,7 @@
 			이메일<input type="text" name="memberEmail"><button type="button" id="emailBtn"/>
 			인증번호<input type="text" name="number"><button type="button" id="numberBtn"/>
 			<h2>카톡 api</h2><h2>네이버 api</h2>
-			<h2>도서선호장르</h2>
+			<h2>도서선호장르 최대3개까지 선택가능</h2>
 			<input type="checkbox" name="bookcheck" value="컴퓨터/모바일" />
 			<input type="checkbox" name="bookcheck" value="과학" />
 			<input type="checkbox" name="bookcheck" value="경제경영" />
@@ -46,8 +46,21 @@
 			<input type="checkbox" name="bookcheck" value="예술/대중문화" />
 			<input type="checkbox" name="bookcheck" value="잡지" />
 			<input type="checkbox" name="bookcheck" value="전집/중고전집" /><br>
-			<input type="checkbox" name="bookcheck" value="" />
-			
+			<input type="checkbox" name="bookcheck" value="외국어" />
+			<input type="checkbox" name="bookcheck" value="자기계발" />
+			<input type="checkbox" name="bookcheck" value="수험서/자격증" />
+			<input type="checkbox" name="bookcheck" value="초등학교참고서" />
+			<input type="checkbox" name="bookcheck" value="중학교참고서" />
+			<input type="checkbox" name="bookcheck" value="고등학교참고서" />
+			<input type="checkbox" name="bookcheck" value="대학교재/전문서적" /><br>
+			<input type="checkbox" name="bookcheck" value="유아" />
+			<input type="checkbox" name="bookcheck" value="어린이" />
+			<input type="checkbox" name="bookcheck" value="청소년" />
+			<input type="checkbox" name="bookcheck" value="좋은부모" />
+			<input type="checkbox" name="bookcheck" value="가정/요리/뷰티" />
+			<input type="checkbox" name="bookcheck" value="건강/취미/레저" />
+			<input type="checkbox" name="bookcheck" value="달력/기타" /><br>
+			<input type="submit" value="회원가입">
 		</form>	
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
