@@ -57,12 +57,12 @@
 			<ul class="hNavi1">
 				<li><a href="/rent/goBookSearch.do">도서 검색</a></li>
 				<li><a href="#">도서 반납</a></li>
-				<li><a href="#">도서 입고 신청</a></li>
+				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
 				<li><a href="#" data-toggle="tooltip" title="Try it!">취향분석</a></li>
 			</ul>
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>
-				<li><a href="#">후기 게시판</a></li>
+				<li><a href="/review/reviewList.do">후기 게시판</a></li>
 				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
 				<li><a href="#">도서기증 / 판매</a></li>
 			</ul>
