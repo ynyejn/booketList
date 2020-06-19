@@ -16,6 +16,12 @@
 	background-color: aliceblue;
 }
 </style>
+<script type="text/javascript">
+	//모든 공백체크 정규식
+	var empty = /\s/g;
+	//아이디 정규식
+	var id = /^[a-zA-Z][a-zA-Z0-9]{4,19}$/;
+</script>
 <body>
 	<div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
