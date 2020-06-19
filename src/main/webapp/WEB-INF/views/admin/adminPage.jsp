@@ -16,7 +16,7 @@
   <meta name="author" content="">
 
   <title>BooketList</title>
-	
+   
 
   <!-- Custom fonts for this template-->
   <link href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,7 +58,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        	회원 관리
+           회원 관리
       </div>
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -78,9 +78,9 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        	도서 관리
+           도서 관리
       </div>
-		
+      
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -95,10 +95,18 @@
           </div>
         </div>
       </li>
-	  <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-table"></i>
-          <span>도서 목록</span></a>
+     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>도서 내역</span>
+        </a>
+        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">도서 내역</h6>
+            <a class="collapse-item" href="/adminBookListFrm.do">도서내역</a>
+            <a class="collapse-item" href="#">도서신청내역</a>
+          </div>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
@@ -109,7 +117,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        	SPOT 관리
+           SPOT 관리
       </div>
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -128,7 +136,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        	챗봇 관리
+           챗봇 관리
       </div>
       <li class="nav-item">
         <a class="nav-link" href="#">
@@ -161,7 +169,7 @@
           </button>
           
           <div style="margin-left:350px;">
-          	<a href="#"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+             <a href="#"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
           </div>
 
           <!-- Topbar Search -->
@@ -316,7 +324,7 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  	비밀번호 변경
+                     비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
