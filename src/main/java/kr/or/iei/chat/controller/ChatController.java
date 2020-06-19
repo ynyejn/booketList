@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
+
 import kr.or.iei.chat.model.service.ChatService;
 import kr.or.iei.chat.model.vo.Chat;
 
@@ -17,10 +19,16 @@ public class ChatController {
 	@Autowired
 	@Qualifier("chatService")
 	private ChatService service;
-	@RequestMapping("openChatting.do")
+	
+	public ChatController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@RequestMapping(value="openChatting.do")
 	public String openChatting(Model model) {
 		ArrayList<Chat> arrChat = service.selectOpenChatting();
-		model.addAttribute(arrChat);
+		model.addAttribute("openChatting",arrChat);
 		return "openChatting/openChatting";
 	}
 }

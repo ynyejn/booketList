@@ -18,6 +18,11 @@ public class ChatService {
 @Qualifier("chatDao")
 private ChatDao dao;
 
+public ChatService() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+
 public ArrayList<Chat> selectOpenChatting() {
 	List list = dao.selectOpenChatting();
 	return (ArrayList<Chat>)list;
