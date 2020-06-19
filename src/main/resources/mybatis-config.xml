@@ -6,5 +6,10 @@
 </settings>
    <typeAliases>
       <typeAlias type="kr.or.iei.chat.model.vo.Chat" alias="chat"/>
+      <typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
+      <typeAlias type="kr.or.iei.rent.model.vo.Rent" alias="rent"/>
+      <typeAlias type="kr.or.iei.reservaion.model.vo.Reservation" alias="reservation"/>
+      <typeAlias type="kr.or.iei.notice.model.vo.Notice" alias="notice"/>
+      <typeAlias type="kr.or.iei.cart.model.vo.Cart" alias="cart"/>
    </typeAliases>
 </configuration>
