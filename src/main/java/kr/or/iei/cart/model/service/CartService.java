@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.cart.model.dao.CartDao;
 
-@Service("cartDao")
+@Service("cartService")
 public class CartService {
 
 	@Autowired
