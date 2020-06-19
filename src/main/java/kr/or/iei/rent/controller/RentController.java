@@ -8,5 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RentController {
 	
 	
-	
+	@RequestMapping("/goBookSearch.do")
+	public String GoBookSearch() {
+		return "book/bookSearch";
+	}
 }

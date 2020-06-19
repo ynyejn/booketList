@@ -55,7 +55,7 @@
 	<div class="header3">
 		<div class="naviFrame">
 			<ul class="hNavi1">
-				<li><a href="/">도서 검색</a></li>
+				<li><a href="/goBookSearch.do">도서 검색</a></li>
 				<li><a href="#">도서 반납</a></li>
 				<li><a href="#">도서 입고 신청</a></li>
 				<li><a href="#" data-toggle="tooltip" title="Try it!">취향분석</a></li>
