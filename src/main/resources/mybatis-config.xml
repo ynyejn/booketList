@@ -6,5 +6,8 @@
 </settings>
    <typeAliases>
       <typeAlias type="kr.or.iei.chat.model.vo.Chat" alias="chat"/>
+      <typeAlias type="kr.or.iei.apply.model.vo.Apply" alias="apply"/>
+      <typeAlias type="kr.or.iei.complain.model.vo.Complain" alias="complain"/>
+      <typeAlias type="kr.or.iei.review.model.vo.Review" alias="review"/>
    </typeAliases>
 </configuration>
