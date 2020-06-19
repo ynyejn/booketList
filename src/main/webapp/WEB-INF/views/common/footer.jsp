@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="/css/footer/fStyle.css">
+<link rel="stylesheet" href="/resources/css/footer/fStyle.css">
 <div class="footer">
 	<div class="fFrame">
 		<div class="fNavi">
@@ -14,7 +14,7 @@
 		<div class="fInfo">
 			서울특별시 영등포구 선유동2로 57 이레빌딩 (구관) 19F, 20F<br> 문의전화 02-000-0000 팩스
 			02-123-4567<br> Copyright© Booket-List. All rights reserved. <img
-				src="/imgs/whitelogo.png">
+				src="/resources/imgs/whitelogo.png">
 		</div>
 	</div>
 </div>
