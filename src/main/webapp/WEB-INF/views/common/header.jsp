@@ -34,8 +34,8 @@
 		<ul>
 			<c:if test="${empty sessionScope.member }">
 				<!--로그인되어있지않을때 -->
-				<li><a href="#">로그인</a></li>
-				<li><a href="#">회원가입</a></li>
+				<li><a href="/login.do">로그인</a></li>
+				<li><a href="/join.do">회원가입</a></li>
 				<li><a href="#">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
@@ -47,7 +47,7 @@
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="#">${sessionScope.member.memberName }님</a></li>
 				</c:if>
-				<li><a href="#">로그아웃</a></li>
+				<li><a href="/logout.do">로그아웃</a></li>
 				<li><a href="#">장바구니</a></li>
 			</c:if>
 		</ul>
@@ -55,7 +55,7 @@
 	<div class="header3">
 		<div class="naviFrame">
 			<ul class="hNavi1">
-				<li><a href="#">도서 검색</a></li>
+				<li><a href="/">도서 검색</a></li>
 				<li><a href="#">도서 반납</a></li>
 				<li><a href="#">도서 입고 신청</a></li>
 				<li><a href="#" data-toggle="tooltip" title="Try it!">취향분석</a></li>
@@ -63,7 +63,7 @@
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>
 				<li><a href="#">후기 게시판</a></li>
-				<li><a href="#" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
+				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
 				<li><a href="#">도서기증 / 판매</a></li>
 			</ul>
 		</div>
