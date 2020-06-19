@@ -37,6 +37,7 @@
 				<li><a href="#">로그인</a></li>
 				<li><a href="#">회원가입</a></li>
 				<li><a href="#">장바구니</a></li>
+				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
 				<!--로그인되어있을때 -->
