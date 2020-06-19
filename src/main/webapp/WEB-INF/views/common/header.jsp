@@ -62,7 +62,7 @@
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>
 				<li><a href="#">후기 게시판</a></li>
-				<li><a href="#" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
+				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
 				<li><a href="#">도서기증 / 판매</a></li>
 			</ul>
 		</div>
