@@ -11,7 +11,7 @@ import kr.or.iei.member.model.service.MemberService;
 @RequestMapping("/member")
 public class MemberController {
 	@Autowired
-	@Qualifier("memberSerivce")
+	@Qualifier("memberService")
 	private MemberService service;
 	
 	public MemberController() {
