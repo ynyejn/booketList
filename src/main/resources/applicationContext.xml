@@ -60,9 +60,14 @@
 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
-	
 <context:component-scan base-package="kr.or.iei.common"/>
 <context:component-scan base-package="kr.or.iei.chat"/>	
+<context:component-scan base-package="kr.or.iei.cart"/>	
+<context:component-scan base-package="kr.or.iei.member"/>	
+<context:component-scan base-package="kr.or.iei.book"/>	
+<context:component-scan base-package="kr.or.iei.notice"/>	
+<context:component-scan base-package="kr.or.iei.rent"/>
+<context:component-scan base-package="kr.or.iei.reservation"/>	
 	<tx:annotation-driven /> 
 	<task:annotation-driven /> <!-- 작업관련 (@Scheduled 여기들어있음) -->
 	<aop:aspectj-autoproxy />

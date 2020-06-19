@@ -8,10 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.google.gson.Gson;
+
 
 import kr.or.iei.chat.model.service.ChatService;
 import kr.or.iei.chat.model.vo.Chat;
+
 
 @Controller
 @RequestMapping("/chat")
