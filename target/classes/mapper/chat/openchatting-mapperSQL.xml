@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chat">
+ 	<select id="selectOpenChatting" resultType="chat">
+ 		select 
+ 		chat_no as chatNo,
+ 		chat_title as chatTitle,
+ 		chat_filepath as chatFilepath,
+ 		chat_people as chatPeople,
+ 		chat_pw as chatPw,
+ 		chat_enroll_date as chatEnrollDate,
+ 		member_nickname as memberNickName from chat
+ 	</select>
+</mapper>

@@ -4,7 +4,7 @@
 <settings>
    <setting name="jdbcTypeForNull" value="NULL"/>
 </settings>
-<!--    <typeAliases> -->
-<!--       <typeAlias type="" alias=""/> -->
-<!--    </typeAliases> -->
+   <typeAliases>
+      <typeAlias type="kr.or.iei.chat.model.vo.Chat" alias="chat"/>
+   </typeAliases>
 </configuration>
