@@ -15,18 +15,18 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- css 여기있어야함 -->
-<link rel="stylesheet" href="/css/header/hStyle.css">
+<link rel="stylesheet" href="/resources/css/header/hStyle.css">
 
 <div class="header">
 	<div class="header1">
-		<a href="/"><img src="/imgs/bluelogo.png"></a>
+		<a href="/"><img src="/resources/imgs/bluelogo.png"></a>
 	</div>
 	<div class="headermiddle">
 		<label for="keyword">
 			<form action="/" method="get">
-				<label for="search"><img src="/imgs/fDot.png"></label> <input
+				<label for="search"><img src="/resources/imgs/fDot.png"></label> <input
 					type="text" placeholder="필요한 도서정보에 대해 검색해보세요~!" id="keyword"><input
-					type="submit" id="search"> <img src="/imgs/x.png" id="x">
+					type="submit" id="search"> <img src="/resources/imgs/x.png" id="x">
 			</form>
 		</label>
 	</div>
@@ -37,6 +37,7 @@
 				<li><a href="#">로그인</a></li>
 				<li><a href="#">회원가입</a></li>
 				<li><a href="#">장바구니</a></li>
+				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
 				<!--로그인되어있을때 -->
