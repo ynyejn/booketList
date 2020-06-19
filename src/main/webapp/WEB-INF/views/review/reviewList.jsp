@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Booket List openChatting</title>
+<title>Booket List 후기</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <style>
         .content {
@@ -22,16 +22,7 @@
 <div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
-		<c:forEach var="list" items="${openChatting }">
-			${list.chatNo }<br>
-			${list.chatTitle }<br>
-			${list.chatFilepath }<br>
-			${list.chatPeople }<br>
-			${list.chatPw }<br>
-			${list.chatEnrollDate }<br>
-			${list.memberNickName }<br>
-		</c:forEach>
-			openChatting
+		
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>

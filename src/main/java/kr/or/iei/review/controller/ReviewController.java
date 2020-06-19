@@ -17,5 +17,8 @@ public class ReviewController {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+	@RequestMapping("/reviewList.do")
+	public String reviewList() {
+		return "review/reviewList";
+	}
 }
