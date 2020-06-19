@@ -10,4 +10,9 @@ public class AdminController {
 	public String adminPageFrm() {
 		return "/admin/adminPage";
 	}
+	
+	@RequestMapping(value="/adminBookListFrm.do")
+	public String adminBookListFrm() {
+		return "admin/adminBookList";
+	}
 }
