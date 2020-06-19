@@ -16,7 +16,8 @@ public class Member {
 	private String memberCategory2;
 	private String memberCategory3;
 	private int delayStatus;
-	private int complainStatus;
+	private int compainStatus;
 	private Date enrollDate;
 	private String memberNickname;
+	
 }
