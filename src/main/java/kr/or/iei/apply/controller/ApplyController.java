@@ -18,5 +18,9 @@ public class ApplyController {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@RequestMapping("/applyApplication.do")
+	public String applyApplication() {
+		return "apply/applyApplication";
+	}
 	
 }
