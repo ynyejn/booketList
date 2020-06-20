@@ -28,6 +28,7 @@ public class AdminController {
 	}
 	@RequestMapping(value="/memberList.do")
 	public String memberList(Model model) {
+		System.out.println("AdminController");
 		ArrayList<Member>list = service.selectMember();
 		model.addAttribute("list",list);
 		return "/admin/memberList";

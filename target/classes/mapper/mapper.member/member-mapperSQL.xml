@@ -3,19 +3,14 @@
 <mapper namespace="member">
 	<select id="selectMember" resultType="member">
 		select
-		member_no as memberNo,
-		member_id as memberId,
-		member_pw as memberPw,
-		member_name as memberName,
-		member_email as memberEmail,
-		member_phone as memberPhone,
-		member_category1 as memberCategory1,
-		member_category2 as memberCategory2,
-		member_category3 as memberCategory3,
-		delay_status as delayStatus,
-		complain_status as complainStatus,
-		enroll_date as enrollDate,
-		member_nickname as memberNickname
+			member_no as memberNo,
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			member_email as memberEmail,
+			member_phone as memberPhone,
+			enroll_date as enrollDate,
+			member_nickname as memberNickname
 		from member
 	</select>
 </mapper>
