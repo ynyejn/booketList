@@ -96,9 +96,17 @@
         </div>
       </li>
      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-table"></i>
-          <span>도서 목록</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>도서 내역</span>
+        </a>
+        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">도서 내역</h6>
+            <a class="collapse-item" href="/adminBookList.do">도서내역</a>
+            <a class="collapse-item" href="#">도서신청내역</a>
+          </div>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
