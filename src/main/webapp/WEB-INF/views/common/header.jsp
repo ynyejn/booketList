@@ -56,7 +56,7 @@
 		<div class="naviFrame">
 			<ul class="hNavi1">
 				<li><a href="/goBookSearch.do">도서 검색</a></li>
-				<li><a href="#">도서 반납</a></li>
+				<li><a href="/goBookReturn.do">도서 반납</a></li>
 				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
 				<li><a href="#" data-toggle="tooltip" title="Try it!">취향분석</a></li>
 			</ul>
@@ -110,7 +110,7 @@
 						var height = 0;
 						height = $(window).scrollTop();
 						if (height >= 59) {
-							$(".header3").css("opacity", "90%").css(
+							$(".header3").css("opacity", "95%").css(
 									"background-color", "white").css(
 									"border-top", "1px solid #eeeeee");
 							$(".hNavi1>li>a").css("color", "#0066b3");
