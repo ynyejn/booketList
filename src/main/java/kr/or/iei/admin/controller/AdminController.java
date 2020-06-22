@@ -33,4 +33,5 @@ public class AdminController {
 		model.addAttribute("list",list);
 		return "/admin/memberList";
 	}
+	@RequestMapping()
 }

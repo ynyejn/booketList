@@ -48,7 +48,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/adminPage.do">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>관리자 페이지</span></a>
       </li>
@@ -90,7 +90,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
-            <a class="collapse-item" href="#">도서대여현황</a>
+            <a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
             <a class="collapse-item" href="#">도서예약내역</a>
           </div>
         </div>
