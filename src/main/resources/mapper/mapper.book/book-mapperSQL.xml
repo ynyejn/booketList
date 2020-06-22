@@ -7,6 +7,21 @@
 	<select id="bookTotalCount2" resultType="_int">
 		select count(*) as cnt from book
 	</select>
+	<select id="bookTotalCount3" parameterType="map" resultType="_int">
+		select count(*) as cnt from book where 
+		<if test = "searchTitle.equals('도서이름')">
+			book_name like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('작가')">
+			book_writer like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('출판사')">
+			book_publisher like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('장르')">
+			book_category like '%' || #{search} || '%'
+		</if>
+	</select>
 	<select id="selectList1" parameterType="map" resultType="book">
 		select * from 
 			(select rownum as rnum, n.* from
@@ -21,6 +36,27 @@
 				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
 				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
 				from book order by book_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectList3" parameterType="map" resultType="book">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
+				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
+				from book where 
+				<if test = "searchTitle.equals('도서이름')">
+					book_name like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('작가')">
+					book_writer like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('출판사')">
+					book_publisher like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('장르')">
+					book_category like '%' || #{search} || '%'
+				</if>
+				order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
 </mapper>

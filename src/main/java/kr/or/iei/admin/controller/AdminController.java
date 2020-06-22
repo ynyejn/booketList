@@ -25,16 +25,29 @@ public class AdminController {
 		return "/admin/adminPage";
 	}
 	@RequestMapping(value="/adminBookList.do")
-	public String adminBookList(Model model, int reqPage, int check, int reqPage2) {
-		BookPageData bpd = service.selectList1(reqPage);
-		BookPageData bpd2 = service.selectList2(reqPage2);
+	public String adminBookList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
+		System.out.println(search);
+		System.out.println(searchTitle);
 		model.addAttribute("check", check);
+		BookPageData bpd = null;
+		BookPageData bpd2 = null;
+		if(!(search == null || search.equals(""))) {
+			bpd = service.selectList3(reqPage,search,searchTitle);
+			bpd2 = service.selectList3(reqPage2,search,searchTitle);
+		}else {
+			bpd = service.selectList1(reqPage);
+			bpd2 = service.selectList2(reqPage2);
+		}
 		
 		model.addAttribute("list1",bpd.getList());
 		model.addAttribute("pageNavi1",bpd.getPageNavi());
+		model.addAttribute("reqPage", reqPage);
 		
 		model.addAttribute("list2", bpd2.getList());
 		model.addAttribute("pageNavi2", bpd2.getPageNavi());
+		model.addAttribute("reqPage2", reqPage2);
+		model.addAttribute("search", search);
+		model.addAttribute("searchTitle", searchTitle);
 		
 		return "admin/adminBookList";
 	}

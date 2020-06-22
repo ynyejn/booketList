@@ -48,8 +48,7 @@
 	$(function() {
 		var check = '${check }';
 		
-		if(check == '2'){
-			
+		if(check == '2'){			
 			$('#tt2').addClass("active");
 			$('#tt1').removeClass("active");
 			$('#profile').addClass("active in");
@@ -61,6 +60,11 @@
 			$('#profile').removeClass("active in");
 		}
 		
+		$(".searchList").click(function(){
+			var searchSelect = $(this).html();
+			$("#searchTitle").html(searchSelect); 
+		});
+		
 		$('#myTab').children('a').click(function(e) {
 			e.preventDefault()
 			$(this).tab('show')
@@ -68,10 +72,10 @@
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
-		/* $("#sear").click(function() {
+	    $("#sear").click(function() {
 			var search = $("#search").val();
-			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search;
-		}); */
+			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search + "&searchTitle="+$("#searchTitle").html();
+		}); 
 		$("#search").keydown(function(key){
 			if(key.keyCode == 13){
 				$("#sear").click();	
@@ -473,27 +477,30 @@
 									<div class="col-lg-6">
 										<div class="input-group">
 											<div class="input-group-btn">
-												<button type="button"
+												<button id="searchTitle" type="button"
 													class="btn btn-default dropdown-toggle"
-													data-toggle="dropdown" aria-expanded="false">id</button>
+													data-toggle="dropdown" aria-expanded="false">
+													<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
+													<c:if test="${empty searchTitle }">도서이름</c:if>
+												</button>
 												<ul class="dropdown-menu" role="menu">
-													<li><a href="#">id</a></li>
+													<li><a class="searchList">도서이름</a></li>
+													<li><a class="searchList">작가</a></li>
+													<li><a class="searchList">출판사</a></li>
+													<li><a class="searchList">장르</a></li>
 												</ul>
 											</div>
 											<!-- /btn-group -->
 											<c:if test="${not empty search }">
-												<input type="text" class="form-control " aria-label="..."
-													id="search" value="${search }">
+												<input type="text" class="form-control " aria-label="..." id="search" value="${search }">
 												<span class="glyphicon glyphicon-search" id="sear"></span>
 											</c:if>
 											<c:if test="${empty search }">
-												<input type="text" class="form-control " aria-label="..."
-													id="search">
+												<input type="text" class="form-control " aria-label="..." id="search">
 												<span class="glyphicon glyphicon-search" id="sear"></span>
 											</c:if>
 										</div>
 										<!-- /input-group -->
-
 									</div>
 								</div>
 								<!-- /.col-lg-6 -->
