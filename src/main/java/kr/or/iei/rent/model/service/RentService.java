@@ -1,9 +1,15 @@
 package kr.or.iei.rent.model.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookData;
 import kr.or.iei.rent.model.dao.RentDao;
 
 @Service("rentService")
@@ -11,5 +17,48 @@ public class RentService {
 	@Autowired
 	@Qualifier("rentDao")
 	private RentDao dao;
+
+	public BookData selectBookPage(int reqPage) {
+		int totalCount = dao.totalCount();
+		System.out.println("totalcount : "+totalCount);		
+		int numPerPage = 5;
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount / numPerPage;
+		}else {
+			totalPage = totalCount / numPerPage+1;
+		}
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage * numPerPage;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end",end);
+		
+		List list = dao.bookAllPage(map);
+		
+		String pageNavi ="";
+		int pageNaviSize = 3;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
+		//페이지 네비 [이전] [현재] [다음]
+		if(pageNo != 1) {
+			pageNavi += "<a href='/noticeList.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
+		}
+		for(int i=0; i<pageNaviSize; i++) {
+			if(reqPage == pageNo) {
+				pageNavi += "<span>"+pageNo+"</span>";
+			}else {
+				pageNavi += "<a href='/noticeList.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+			}
+			pageNo++;
+			if(pageNo>totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<a href='/noticeList.do?reqPage="+pageNo+"'>[다음]</a>";
+		}
+		BookData bd = new BookData((ArrayList<Book>)list, pageNavi);
+		return bd;
+	}
 
 }
