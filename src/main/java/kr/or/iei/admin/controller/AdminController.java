@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.iei.admin.service.AdminService;
+import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.member.model.vo.Member;
 
 @Controller
@@ -23,7 +25,16 @@ public class AdminController {
 		return "/admin/adminPage";
 	}
 	@RequestMapping(value="/adminBookList.do")
-	public String adminBookList() {
+	public String adminBookList(Model model, int reqPage, int check, int reqPage2) {
+		BookPageData bpd = service.selectList1(reqPage);
+		BookPageData bpd2 = service.selectList2(reqPage2);
+		model.addAttribute("check", check);
+		
+		model.addAttribute("list1",bpd.getList());
+		model.addAttribute("pageNavi1",bpd.getPageNavi());
+		
+		model.addAttribute("list2", bpd2.getList());
+		model.addAttribute("pageNavi2", bpd2.getPageNavi());
 		
 		return "admin/adminBookList";
 	}
