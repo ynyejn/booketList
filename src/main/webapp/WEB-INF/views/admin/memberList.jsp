@@ -343,6 +343,26 @@
             <div class="card-body">
               <div class="table-responsive">
                <!-- 테이블 -->
+               	<table>
+               	<tr>
+               		<th>아이디</th>
+               		<th>이름</th>
+               		<th>이메일</th>
+               		<th>전화번호</th>
+               		<th>가입일</th>
+               		<th>닉네임</th>
+               	</tr>
+               	<c:forEach items="${list }" var="l">
+               		<tr>
+               		<td>${l.memberId }</td>
+               		<td>${l.memberName }</td>
+               		<td>${l.memberEmail }</td>
+               		<td>${l.memberPhone }</td>
+               		<td>${l.enrollDate }</td>
+               		<td>${l.memberNickname }</td>
+               		</tr>
+               	</c:forEach>
+               </table>
               </div>
             </div>
           </div>

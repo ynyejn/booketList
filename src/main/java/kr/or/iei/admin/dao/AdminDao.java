@@ -1,5 +1,40 @@
 package kr.or.iei.admin.dao;
 
-public class AdminDao {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import kr.or.iei.book.model.vo.Book;
+
+
+@Repository("adminDao")
+public class AdminDao {
+	
+	@Autowired
+	SqlSessionTemplate sqlSession;
+
+	public List selectMember() {
+		System.out.println("AdminDao");
+		return sqlSession.selectList("member.selectMember");
+	}
+
+	public int bookTotalCount() {		
+		return sqlSession.selectOne("book.bookTotalCount");
+	}
+
+	public List selectList1(HashMap<String, Integer> map) {
+		return sqlSession.selectList("book.selectList1",map);
+	}
+
+	public int bookTotalCount2() {
+		return sqlSession.selectOne("book.bookTotalCount2");
+	}
+
+	public List selectList2(HashMap<String, Integer> map) {
+		return sqlSession.selectList("book.selectList2",map);
+	}
 }
