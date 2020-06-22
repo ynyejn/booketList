@@ -25,6 +25,19 @@
 
   <!-- Custom styles for this template-->
   <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+  
+  <!-- 테이블 부트스트랩 -->
+  <link rel="stylesheet"
+	href="/resources/adminBootstrap/css/bootstrap.css" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 
 </head>
 
@@ -164,18 +177,6 @@
           	<a href="#"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
           </div>
 
-          <!-- Topbar Search -->
-<!--           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"> -->
-<!--             <div class="input-group"> -->
-<!--               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2"> -->
-<!--               <div class="input-group-append"> -->
-<!--                 <button class="btn btn-primary" type="button"> -->
-<!--                   <i class="fas fa-search fa-sm"></i> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </form> -->
-
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
@@ -248,63 +249,6 @@
               </div>
             </li>
 
-            <!-- Nav Item - Messages -->
-<!--             <li class="nav-item dropdown no-arrow mx-1"> -->
-<!--               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-<!--                 <i class="fas fa-envelope fa-fw"></i> -->
-<!--                 Counter - Messages -->
-<!--                 <span class="badge badge-danger badge-counter">7</span> -->
-<!--               </a> -->
-<!--               Dropdown - Messages -->
-<!--               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown"> -->
-<!--                 <h6 class="dropdown-header"> -->
-<!--                   Message Center -->
-<!--                 </h6> -->
-<!--                 <a class="dropdown-item d-flex align-items-center" href="#"> -->
-<!--                   <div class="dropdown-list-image mr-3"> -->
-<!--                     <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt=""> -->
-<!--                     <div class="status-indicator bg-success"></div> -->
-<!--                   </div> -->
-<!--                   <div class="font-weight-bold"> -->
-<!--                     <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div> -->
-<!--                     <div class="small text-gray-500">Emily Fowler · 58m</div> -->
-<!--                   </div> -->
-<!--                 </a> -->
-<!--                 <a class="dropdown-item d-flex align-items-center" href="#"> -->
-<!--                   <div class="dropdown-list-image mr-3"> -->
-<!--                     <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt=""> -->
-<!--                     <div class="status-indicator"></div> -->
-<!--                   </div> -->
-<!--                   <div> -->
-<!--                     <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div> -->
-<!--                     <div class="small text-gray-500">Jae Chun · 1d</div> -->
-<!--                   </div> -->
-<!--                 </a> -->
-<!--                 <a class="dropdown-item d-flex align-items-center" href="#"> -->
-<!--                   <div class="dropdown-list-image mr-3"> -->
-<!--                     <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt=""> -->
-<!--                     <div class="status-indicator bg-warning"></div> -->
-<!--                   </div> -->
-<!--                   <div> -->
-<!--                     <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div> -->
-<!--                     <div class="small text-gray-500">Morgan Alvarez · 2d</div> -->
-<!--                   </div> -->
-<!--                 </a> -->
-<!--                 <a class="dropdown-item d-flex align-items-center" href="#"> -->
-<!--                   <div class="dropdown-list-image mr-3"> -->
-<!--                     <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt=""> -->
-<!--                     <div class="status-indicator bg-success"></div> -->
-<!--                   </div> -->
-<!--                   <div> -->
-<!--                     <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div> -->
-<!--                     <div class="small text-gray-500">Chicken the Dog · 2w</div> -->
-<!--                   </div> -->
-<!--                 </a> -->
-<!--                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a> -->
-<!--               </div> -->
-<!--             </li> -->
-
-<!--             <div class="topbar-divider d-none d-sm-block"></div> -->
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
@@ -336,36 +280,120 @@
           <h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
           
           <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">List</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-               <!-- 테이블 -->
-               	<table>
-               	<tr>
-               		<th>아이디</th>
-               		<th>이름</th>
-               		<th>이메일</th>
-               		<th>전화번호</th>
-               		<th>가입일</th>
-               		<th>닉네임</th>
-               	</tr>
-               	<c:forEach items="${list }" var="l">
-               		<tr>
-               		<td>${l.memberId }</td>
-               		<td>${l.memberName }</td>
-               		<td>${l.memberEmail }</td>
-               		<td>${l.memberPhone }</td>
-               		<td>${l.enrollDate }</td>
-               		<td>${l.memberNickname }</td>
-               		</tr>
-               	</c:forEach>
-               </table>
-              </div>
-            </div>
-          </div>
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">List</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<!-- 테이블 -->
+								<div class="bs-example bs-example-tabs" role="tabpanel"
+									data-example-id="togglable-tabs">
+
+									<ul id="myTab" class="nav nav-tabs" role="tablist">
+										<li id="tt1" role="presentation" class="active"><a
+											href="#home" id="home-tab" role="tab" data-toggle="tab"
+											aria-controls="home" aria-expanded="true"><b>회원목록</b></a></li>
+									</ul>
+
+									<div id="myTabContent" class="tab-content">
+										<div role="tabpanel" class="tab-pane fade active in" id="home"
+											aria-labelledby="home-tab">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th class="num">번호</th>
+														<th class="th2">아이디</th>
+														<th class="th2">이름</th>
+														<th class="th2">이메일</th>
+														<th class="th2">전화번호</th>
+														<th class="th2">닉네임</th>
+														<th class="th2">가입일</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${list }" var="l" varStatus="i">
+														<tr class="move" id="move2"
+															onclick="detail2(${p.bookNo },${reqPage2 })">
+															<th scope="row" class="num">${(reqPage-1)*10 + i.count }</th>
+															<th scope="row" class="th2">${l.memberId }</th>
+															<td>${l.memberName }</td>
+															<td class="th2">${l.memberEmail }</td>
+															<td class="th2">${l.memberPhone }</td>
+															<td class="th2">${l.memberNickname }</td>
+															<td class="th2">${l.enrollDate }</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+											<nav id="footNav2">
+												<ul class="pagination">${pageNavi1 }</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="input-group">
+											<div class="input-group-btn">
+												<button type="button"
+													class="btn btn-default dropdown-toggle"
+													data-toggle="dropdown" aria-expanded="false">id</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="#">id</a></li>
+												</ul>
+
+											</div>
+											<!-- /btn-group -->
+											<c:if test="${not empty search }">
+												<input type="text" class="form-control " aria-label="..."
+													id="search" value="${search }">
+												<span class="glyphicon glyphicon-search" id="sear"></span>
+											</c:if>
+											<c:if test="${empty search }">
+												<input type="text" class="form-control " aria-label="..."
+													id="search">
+												<span class="glyphicon glyphicon-search" id="sear"></span>
+											</c:if>
+										</div>
+										<!-- /input-group -->
+
+									</div>
+								</div>
+								<!-- /.col-lg-6 -->
+								<div id="sel">
+									<button type="button" class="btn btn-default" id="back">돌아가기</button>
+								</div>
+<!--           <div class="card shadow mb-4"> -->
+<!--             <div class="card-header py-3"> -->
+<!--               <h6 class="m-0 font-weight-bold text-primary">List</h6> -->
+<!--             </div> -->
+<!--             <div class="card-body"> -->
+<!--               <div class="table-responsive"> -->
+<!--                테이블 -->
+<!--                	<table> -->
+<!--                	<tr> -->
+<!--                		<th>아이디</th> -->
+<!--                		<th>이름</th> -->
+<!--                		<th>이메일</th> -->
+<!--                		<th>전화번호</th> -->
+<!--                		<th>가입일</th> -->
+<!--                		<th>닉네임</th> -->
+<!--                	</tr> -->
+<%--                	<c:forEach items="${list }" var="l"> --%>
+<!--                		<tr> -->
+<%--                		<td>${l.memberId }</td> --%>
+<%--                		<td>${l.memberName }</td> --%>
+<%--                		<td>${l.memberEmail }</td> --%>
+<%--                		<td>${l.memberPhone }</td> --%>
+<%--                		<td>${l.enrollDate }</td> --%>
+<%--                		<td>${l.memberNickname }</td> --%>
+<!--                		</tr> -->
+<%--                	</c:forEach> --%>
+<!--                </table> -->
+<!--               </div> -->
+<!--             </div> -->
+<!--           </div> -->
 
         </div>
         <!-- /.container-fluid -->
