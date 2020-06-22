@@ -31,7 +31,7 @@
 					<tr>
 						<th>도서이름<th>
 						<th>
-						<input type="text" id="bookName" name="bookName" value="${ }">
+						<input type="text" id="bookName" name="bookName" value="">
 						</th>
 					<tr>
 					<tr>
