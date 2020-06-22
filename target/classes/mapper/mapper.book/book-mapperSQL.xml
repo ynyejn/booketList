@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="book">
+	<select id="bookTotalCount" resultType="_int">
+		select count(*) as cnt from book
+	</select>
+	<select id="bookTotalCount2" resultType="_int">
+		select count(*) as cnt from book
+	</select>
+	<select id="selectList1" parameterType="map" resultType="book">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
+				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
+				from book order by book_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectList2" parameterType="map" resultType="book">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
+				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
+				from book order by book_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
 </mapper>
