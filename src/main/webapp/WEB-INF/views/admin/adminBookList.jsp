@@ -33,7 +33,7 @@
 	rel="stylesheet" type="text/css">
 
 <link rel="stylesheet"
-	href="/resources/adminBootstrap/vendor/bootstrap/bootstrap.css" />
+	href="/resources/adminBootstrap/css/bootstrap.css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -46,9 +46,10 @@
 
 <script>
 	$(function() {
-		var check = ${check };
+		var check = '${check }';
 		
-		if(check == 2){
+		if(check == '2'){
+			
 			$('#tt2').addClass("active");
 			$('#tt1').removeClass("active");
 			$('#profile').addClass("active in");
@@ -67,10 +68,10 @@
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
-		$("#sear").click(function() {
+		/* $("#sear").click(function() {
 			var search = $("#search").val();
 			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search;
-		});
+		}); */
 		$("#search").keydown(function(key){
 			if(key.keyCode == 13){
 				$("#sear").click();	
@@ -478,7 +479,6 @@
 												<ul class="dropdown-menu" role="menu">
 													<li><a href="#">id</a></li>
 												</ul>
-
 											</div>
 											<!-- /btn-group -->
 											<c:if test="${not empty search }">
