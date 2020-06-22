@@ -62,7 +62,7 @@
       </div>
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="/memberList.do">
+        <a class="nav-link" href="/memberList.do?reqPage=1">
           <i class="fas fa-fw fa-table"></i>
           <span>회원 목록</span></a>
       </li>

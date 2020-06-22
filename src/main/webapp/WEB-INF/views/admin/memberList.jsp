@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
 
 <!DOCTYPE html>
@@ -9,25 +9,31 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
-  <title>BooketList</title>
-	
+<title>BooketList</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
-  <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
-  
-  <!-- 테이블 부트스트랩 -->
-  <link rel="stylesheet"
+<!-- Custom fonts for this template-->
+<link
+	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- 테이블 부트스트랩 -->
+<link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -43,243 +49,258 @@
 
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+		<!-- Sidebar -->
+		<ul
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			id="accordionSidebar">
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-book"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">BooketList</div>
-      </a>
-        <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+			<!-- Sidebar - Brand -->
+			<a
+				class="sidebar-brand d-flex align-items-center justify-content-center"
+				href="#">
+				<div class="sidebar-brand-icon rotate-n-15">
+					<i class="fas fa-book"></i>
+				</div>
+				<div class="sidebar-brand-text mx-3">BooketList</div>
+			</a>
+			<!-- Divider -->
+			<hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>관리자 페이지</span></a>
-      </li>
+			<!-- Nav Item - Dashboard -->
+			<li class="nav-item active"><a class="nav-link"
+				href="index.html"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>관리자
+						페이지</span></a></li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+			<!-- Divider -->
+			<hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        	회원 관리
-      </div>
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link" href="/memberList.do">
-          <i class="fas fa-fw fa-table"></i>
-          <span>회원 목록</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>회원 신고 관리</span></a>
-      </li>
+			<!-- Heading -->
+			<div class="sidebar-heading">회원 관리</div>
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link"
+				href="/memberList.do?reqPage=1"> <i class="fas fa-fw fa-table"></i>
+					<span>회원 목록</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-cog"></i> <span>회원 신고 관리</span></a></li>
 
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+			<!-- Divider -->
+			<hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        	도서 관리
-      </div>
-		
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>도서 대여</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">도서 대여</h6>
-            <a class="collapse-item" href="#">도서대여현황</a>
-            <a class="collapse-item" href="#">도서예약내역</a>
-          </div>
-        </div>
-      </li>
-	  <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-table"></i>
-          <span>도서 목록</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>도서 분실 신고</span></a>
-      </li>
-      <hr class="sidebar-divider">
+			<!-- Heading -->
+			<div class="sidebar-heading">도서 관리</div>
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        	SPOT 관리
-      </div>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>SPOT</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">SPOT</h6>
-            <a class="collapse-item" href="#">SPOT리스트</a>
-            <a class="collapse-item" href="#">SPOT생성</a>
-          </div>
-        </div>
-      </li>
-      <hr class="sidebar-divider">
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+					class="fas fa-fw fa-folder"></i> <span>도서 대여</span>
+			</a>
+				<div id="collapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">도서 대여</h6>
+						<a class="collapse-item" href="#">도서대여현황</a> <a
+							class="collapse-item" href="#">도서예약내역</a>
+					</div>
+				</div></li>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-table"></i> <span>도서 목록</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-cog"></i> <span>도서 분실 신고</span></a></li>
+			<hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        	챗봇 관리
-      </div>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>챗봇</span></a>
-      </li>
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+			<!-- Heading -->
+			<div class="sidebar-heading">SPOT 관리</div>
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapseUtilities"
+				aria-expanded="true" aria-controls="collapseUtilities"> <i
+					class="fas fa-fw fa-folder"></i> <span>SPOT</span>
+			</a>
+				<div id="collapseUtilities" class="collapse"
+					aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">SPOT</h6>
+						<a class="collapse-item" href="#">SPOT리스트</a> <a
+							class="collapse-item" href="#">SPOT생성</a>
+					</div>
+				</div></li>
+			<hr class="sidebar-divider">
 
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+			<!-- Heading -->
+			<div class="sidebar-heading">챗봇 관리</div>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-cog"></i> <span>챗봇</span></a></li>
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
 
-    </ul>
-    <!-- End of Sidebar -->
+			<!-- Sidebar Toggler (Sidebar) -->
+			<div class="text-center d-none d-md-inline">
+				<button class="rounded-circle border-0" id="sidebarToggle"></button>
+			</div>
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+		</ul>
+		<!-- End of Sidebar -->
 
-      <!-- Main Content -->
-      <div id="content">
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+			<!-- Main Content -->
+			<div id="content">
 
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-          
-          <div style="margin-left:350px;">
-          	<a href="#"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
-          </div>
+				<!-- Topbar -->
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop"
+						class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
 
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
+					<div style="margin-left: 350px;">
+						<a href="#"><img src="/resources/imgs/bluelogo.png"
+							style="width: 280px; height: 80px;"></a>
+					</div>
 
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3</span>
-              </a>
-              <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Alerts Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-              </div>
-            </li>
+					<!-- Topbar Navbar -->
+					<ul class="navbar-nav ml-auto">
+
+						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+						<li class="nav-item dropdown no-arrow d-sm-none"><a
+							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
+						</a> <!-- Dropdown - Messages -->
+							<div
+								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+								aria-labelledby="searchDropdown">
+								<form class="form-inline mr-auto w-100 navbar-search">
+									<div class="input-group">
+										<input type="text"
+											class="form-control bg-light border-0 small"
+											placeholder="Search for..." aria-label="Search"
+											aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div></li>
+
+						<!-- Nav Item - Alerts -->
+						<li class="nav-item dropdown no-arrow mx-1"><a
+							class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+								<span class="badge badge-danger badge-counter">3</span>
+						</a> <!-- Dropdown - Alerts -->
+							<div
+								class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+								aria-labelledby="alertsDropdown">
+								<h6 class="dropdown-header">Alerts Center</h6>
+								<a class="dropdown-item d-flex align-items-center" href="#">
+									<div class="mr-3">
+										<div class="icon-circle bg-primary">
+											<i class="fas fa-file-alt text-white"></i>
+										</div>
+									</div>
+									<div>
+										<div class="small text-gray-500">December 12, 2019</div>
+										<span class="font-weight-bold">A new monthly report is
+											ready to download!</span>
+									</div>
+								</a> <a class="dropdown-item d-flex align-items-center" href="#">
+									<div class="mr-3">
+										<div class="icon-circle bg-success">
+											<i class="fas fa-donate text-white"></i>
+										</div>
+									</div>
+									<div>
+										<div class="small text-gray-500">December 7, 2019</div>
+										$290.29 has been deposited into your account!
+									</div>
+								</a> <a class="dropdown-item d-flex align-items-center" href="#">
+									<div class="mr-3">
+										<div class="icon-circle bg-warning">
+											<i class="fas fa-exclamation-triangle text-white"></i>
+										</div>
+									</div>
+									<div>
+										<div class="small text-gray-500">December 2, 2019</div>
+										Spending Alert: We've noticed unusually high spending for your
+										account.
+									</div>
+								</a> <a class="dropdown-item text-center small text-gray-500"
+									href="#">Show All Alerts</a>
+							</div></li>
 
 
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="/resources/imgs/bluelogo.png">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  	비밀번호 변경
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <!-- End of Topbar -->
+						<!-- Nav Item - User Information -->
+						<li class="nav-item dropdown no-arrow"><a
+							class="nav-link dropdown-toggle" href="#" id="userDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <span
+								class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+								<img class="img-profile rounded-circle"
+								src="/resources/imgs/bluelogo.png">
+						</a> <!-- Dropdown - User Information -->
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+								aria-labelledby="userDropdown">
+								<a class="dropdown-item" href="#"> <i
+									class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 비밀번호 변경
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" data-toggle="modal"
+									data-target="#logoutModal"> <i
+									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+									Logout
+								</a>
+							</div></li>
+					</ul>
+				</nav>
+				<!-- End of Topbar -->
 
-		<!-- Begin Page Content -->
-         <div class="container-fluid">
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
-          
-          <!-- DataTales Example -->
+					<!-- Page Heading -->
+					<h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
+
+<style>
+.tableTop {
+	width: 100%;
+	height: 45px;
+	diplay: block;
+	border : 1px dotted black;
+	float : right;
+}
+
+.tableTopLeft {
+	width: 10%;
+	height: 100%;
+	float: left;
+	border : 1px dotted green;
+	padding-left : 20px;
+	text-align: center;
+}
+.tableTopRight {
+	width: 30%;
+	height: 100%;
+	border : 1px dotted red;
+	float: right;
+	padding : 5px;
+}
+
+</style>
+
+					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">List</h6>
@@ -291,10 +312,49 @@
 									data-example-id="togglable-tabs">
 
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
-										<li id="tt1" role="presentation" class="active"><a
-											href="#home" id="home-tab" role="tab" data-toggle="tab"
-											aria-controls="home" aria-expanded="true"><b>회원목록</b></a></li>
-									</ul>
+									<li id="tt1" role="presentation" class="active"><a
+													href="#home" id="home-tab" role="tab" data-toggle="tab"
+													aria-controls="home" aria-expanded="true"><b>회원목록</b></a>
+									</li>
+									<li>
+										<div class="tableTop">
+											<div class="tableTopLeft">
+												<select class="form-control"
+													style="width: 80px; height: 40px;">
+													<option value="10">10</option>
+													<option value="25">25</option>
+													<option value="50">50</option>
+													<option value="100">100</option>
+												</select>
+											</div>
+											<div class="tableTopRight">
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="input-group" style="width:400px;">
+															<div class="input-group-btn"
+																style="padding-bottom: 50px;">
+																<button type="button"
+																	class="btn btn-default dropdown-toggle"
+																	data-toggle="dropdown" aria-expanded="false">id</button>
+																<ul class="dropdown-menu" role="menu">
+																	<li><a href="#">id</a></li>
+																	<li><a href="#">id</a></li>
+																	<li><a href="#">id</a></li>
+																</ul>
+
+															</div>
+															<!-- /btn-group -->
+																	<input type="text" class="form-control" aria-label="..." id="search">
+																	<span class="glyphicon glyphicon-search" id="sear" style="width:40px; height:40px;"></span>
+														</div>
+														<!-- /input-group -->
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
 
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
@@ -313,11 +373,10 @@
 												</thead>
 												<tbody>
 													<c:forEach items="${list }" var="l" varStatus="i">
-														<tr class="move" id="move2"
-															onclick="detail2(${p.bookNo },${reqPage2 })">
+														<tr>
 															<th scope="row" class="num">${(reqPage-1)*10 + i.count }</th>
-															<th scope="row" class="th2">${l.memberId }</th>
-															<td>${l.memberName }</td>
+															<td class="th2">${l.memberId }</td>
+															<td class="th2">${l.memberName }</td>
 															<td class="th2">${l.memberEmail }</td>
 															<td class="th2">${l.memberPhone }</td>
 															<td class="th2">${l.memberNickname }</td>
@@ -327,139 +386,88 @@
 												</tbody>
 											</table>
 											<nav id="footNav2">
-												<ul class="pagination">${pageNavi1 }</ul>
+												<ul class="pagination" style="padding-left: 500px;">${pageNavi }</ul>
 											</nav>
 										</div>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="input-group">
-											<div class="input-group-btn">
-												<button type="button"
-													class="btn btn-default dropdown-toggle"
-													data-toggle="dropdown" aria-expanded="false">id</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="#">id</a></li>
-												</ul>
 
-											</div>
-											<!-- /btn-group -->
-											<c:if test="${not empty search }">
-												<input type="text" class="form-control " aria-label="..."
-													id="search" value="${search }">
-												<span class="glyphicon glyphicon-search" id="sear"></span>
-											</c:if>
-											<c:if test="${empty search }">
-												<input type="text" class="form-control " aria-label="..."
-													id="search">
-												<span class="glyphicon glyphicon-search" id="sear"></span>
-											</c:if>
-										</div>
-										<!-- /input-group -->
-
-									</div>
-								</div>
 								<!-- /.col-lg-6 -->
 								<div id="sel">
 									<button type="button" class="btn btn-default" id="back">돌아가기</button>
 								</div>
-<!--           <div class="card shadow mb-4"> -->
-<!--             <div class="card-header py-3"> -->
-<!--               <h6 class="m-0 font-weight-bold text-primary">List</h6> -->
-<!--             </div> -->
-<!--             <div class="card-body"> -->
-<!--               <div class="table-responsive"> -->
-<!--                테이블 -->
-<!--                	<table> -->
-<!--                	<tr> -->
-<!--                		<th>아이디</th> -->
-<!--                		<th>이름</th> -->
-<!--                		<th>이메일</th> -->
-<!--                		<th>전화번호</th> -->
-<!--                		<th>가입일</th> -->
-<!--                		<th>닉네임</th> -->
-<!--                	</tr> -->
-<%--                	<c:forEach items="${list }" var="l"> --%>
-<!--                		<tr> -->
-<%--                		<td>${l.memberId }</td> --%>
-<%--                		<td>${l.memberName }</td> --%>
-<%--                		<td>${l.memberEmail }</td> --%>
-<%--                		<td>${l.memberPhone }</td> --%>
-<%--                		<td>${l.enrollDate }</td> --%>
-<%--                		<td>${l.memberNickname }</td> --%>
-<!--                		</tr> -->
-<%--                	</c:forEach> --%>
-<!--                </table> -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </div> -->
 
-        </div>
-        <!-- /.container-fluid -->
+							</div>
+							<!-- /.container-fluid -->
 
-      </div>
-      <!-- End of Main Content -->
+						</div>
+						<!-- End of Main Content -->
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+						<!-- Footer -->
+						<footer class="sticky-footer bg-white">
+							<div class="container my-auto">
+								<div class="copyright text-center my-auto">
+									<span>Copyright &copy; Your Website 2019</span>
+								</div>
+							</div>
+						</footer>
+						<!-- End of Footer -->
 
-    </div>
-    <!-- End of Content Wrapper -->
+					</div>
+					<!-- End of Content Wrapper -->
 
-  </div>
-  <!-- End of Page Wrapper -->
+				</div>
+				<!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+				<!-- Scroll to Top Button-->
+				<a class="scroll-to-top rounded" href="#page-top"> <i
+					class="fas fa-angle-up"></i>
+				</a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+				<!-- Logout Modal-->
+				<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Ready to
+									Leave?</h5>
+								<button class="close" type="button" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">Select "Logout" below if you are
+								ready to end your current session.</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancel</button>
+								<a class="btn btn-primary" href="login.html">Logout</a>
+							</div>
+						</div>
+					</div>
+				</div>
 
-  <!-- Bootstrap core JavaScript-->
-  
-  <script src="/resources/adminBootstrap/vendor/jquery/jquery.min.js" ></script>
-  <script src="/resources/adminBootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  
+				<!-- Bootstrap core JavaScript-->
 
-  <!-- Core plugin JavaScript-->
-  <script src="/resources/adminBootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
+				<script src="/resources/adminBootstrap/vendor/jquery/jquery.min.js"></script>
+				<script
+					src="/resources/adminBootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="/resources/adminBootstrap/js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="/resources/adminBootstrap/vendor/chart.js/Chart.min.js"></script>
+				<!-- Core plugin JavaScript-->
+				<script
+					src="/resources/adminBootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="/resources/adminBootstrap/js/demo/chart-area-demo.js"></script>
-  <script src="/resources/adminBootstrap/js/demo/chart-pie-demo.js"></script>
- 
+				<!-- Custom scripts for all pages-->
+				<script src="/resources/adminBootstrap/js/sb-admin-2.min.js"></script>
+
+				<!-- Page level plugins -->
+				<script src="/resources/adminBootstrap/vendor/chart.js/Chart.min.js"></script>
+
+				<!-- Page level custom scripts -->
+				<script src="/resources/adminBootstrap/js/demo/chart-area-demo.js"></script>
+				<script src="/resources/adminBootstrap/js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>
