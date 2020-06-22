@@ -23,7 +23,40 @@
 <div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
-		
+			<h1>도서 신청</h1>
+			<form action="/apply/applyInsert.do" method="get">
+				<table>
+					<tr>
+						<th>도서이름<th>
+						<th></th>
+					<tr>
+					<tr>
+						<th>출판일</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>작가</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>출판사</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>카테 고리</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>이미지</th>
+						<td></td>
+					</tr>
+				</table>
+			</form>
+			
+			${sessionScope.member.memberId }
+			신청 사유
+			도서 이름 : 
+			<textarea rows="5" cols="30"></textarea>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
