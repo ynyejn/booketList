@@ -10,6 +10,7 @@
       <typeAlias type="kr.or.iei.rent.model.vo.Rent" alias="rent"/>
       <typeAlias type="kr.or.iei.reservation.model.vo.Reservation" alias="reservation"/>
       <typeAlias type="kr.or.iei.notice.model.vo.Notice" alias="notice"/>
+      <typeAlias type="kr.or.iei.apply.model.vo.Apply" alias="apply"/>
       <typeAlias type="kr.or.iei.cart.model.vo.Cart" alias="cart"/>
       <typeAlias type="kr.or.iei.book.model.vo.Book" alias="book"/>
    </typeAliases>

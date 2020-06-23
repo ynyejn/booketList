@@ -76,17 +76,19 @@ public class AladdinAPI {
 				ArrayList<Book> list = new ArrayList<Book>();
 				for(int i=0; i<resultJson2.size(); i++) {
 					Book b = new Book();
-					b.setBookName(resultJson2.get(i).getAsJsonObject().get("title").getAsString());
-					b.setBookContent(resultJson2.get(i).getAsJsonObject().get("description").getAsString());
+					b.setBookName(resultJson2.get(i).getAsJsonObject().get("title").getAsString());//제목
+					b.setBookContent(resultJson2.get(i).getAsJsonObject().get("description").getAsString());//도서내용
 					b.setBookImg(resultJson2.get(i).getAsJsonObject().get("cover").getAsString());
-					b.setBookWriter(resultJson2.get(i).getAsJsonObject().get("author").getAsString());
-					b.setBookPublisher(resultJson2.get(i).getAsJsonObject().get("publisher").getAsString());
-					b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);
-					java.sql.Date d = java.sql.Date.valueOf(resultJson2.get(i).getAsJsonObject().get("pubDate").getAsString());
+					b.setBookWriter(resultJson2.get(i).getAsJsonObject().get("author").getAsString());//작가
+					b.setBookPublisher(resultJson2.get(i).getAsJsonObject().get("publisher").getAsString());//출판사
+					b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);//카테코리
+					java.sql.Date d = java.sql.Date.valueOf(resultJson2.get(i).getAsJsonObject().get("pubDate").getAsString());//출판일
 					b.setBookPubDate(d);
 					list.add(b);
+					
 				}
 				System.out.println("listSize : "+list.size());
+				
 				////////////////////////
 				////////엑셀파일로 빼기//////
 				////////////////////////
@@ -122,7 +124,7 @@ public class AladdinAPI {
 					workbook.write(outFile);
 					outFile.close();		
 					System.out.println("파일생성 완료");
-					return new Gson().toJson(resultJson2);
+					return new Gson().toJson(list);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
