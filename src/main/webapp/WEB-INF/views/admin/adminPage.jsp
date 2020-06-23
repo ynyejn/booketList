@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-size:18px;">
 
 <head>
 
@@ -25,7 +25,20 @@
 
   <!-- Custom styles for this template-->
   <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet"
+	href="/resources/adminBootstrap/css/bootstrap.css" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+	
 </head>
 
 <body id="page-top">
@@ -48,7 +61,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/adminPage.do">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>관리자 페이지</span></a>
       </li>
@@ -62,13 +75,15 @@
       </div>
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="/memberList.do">
+        <a class="nav-link" href="/memberList.do?reqPage=1&selectCount=10">
           <i class="fas fa-fw fa-table"></i>
           <span>회원 목록</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="fas fa-fw fa-cog"></i>
+          
+          
           <span>회원 신고 관리</span></a>
       </li>
 
@@ -90,7 +105,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
-            <a class="collapse-item" href="#">도서대여현황</a>
+            <a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
             <a class="collapse-item" href="#">도서예약내역</a>
           </div>
         </div>
@@ -103,7 +118,7 @@
         <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 내역</h6>
-            <a class="collapse-item" href="/adminBookListFrm.do">도서내역</a>
+            <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
             <a class="collapse-item" href="#">도서신청내역</a>
           </div>
         </div>
@@ -596,9 +611,9 @@
                   <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
                 </div>
                 <div class="card-body">
-                  <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
-                  </div>
+<!--                   <div class="text-center"> -->
+<!--                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt=""> -->
+<!--                   </div> -->
                   <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
                   <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
                 </div>

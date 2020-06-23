@@ -16,8 +16,8 @@
         }
 
 </style>
-<body>
-<div class="wrapper">
+<body style="line-height:normal;">
+<div class="wrapper" >
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content"></div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

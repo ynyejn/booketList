@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+	h2{
+		font-size : 30px;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	.num{
+		width: 10%;
+		text-align: center;
+	}
+	.id{
+		width: 20%;
+		text-align: center;
+	}
+	.title{
+		width: 40%;
+		text-align: center;
+	}
+	.insertdate{
+		width: 20%;
+		text-align: center;
+	}
+	.delete{
+		width : 10%;
+		
+	}
+	.move{
+		cursor:pointer;
+	}
+	
+	.PHJbtn{
+		text-align: center;
+	}
+	
+	.th2{
+		text-align : center;
+		
+	}
+	.th1{
+		text-align : center;
+	}
+	
+	.table>tbody>tr>th{
+		height: 40px;
+		line-height: 40px;
+	}
+	.table>thead>tr>th{
+		height: 40px;
+		line-height: 40px;
+	}
+	
+	.table>tbody>tr>td{
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+	}
+	.table{
+		font-size: 15px;
+	}
+	.delete>button{
+		height: 30px;
+		line-height: 30px;
+	}
+	#back{
+		background-color: black;
+		color : white;
+		width: 90px;
+		height: 40px;
+		float : right;
+		margin-top : 20px;
+	}
+	#back:hover{
+		background-color: #E2E2E2;
+		color : black;
+	}
+	#search{
+		width: 200px;
+	}
+	#footNav2{
+		border-bottom: none;
+		width : 300px;
+		float : left;
+		padding-top: none;
+		margin-right: 200px;
+	}
+	#footNav{
+		border-bottom: none;
+		width : 300px;
+		float : left;
+		padding-top: none;
+		margin-right: 200px;
+	}
+	#sear{
+		font-size: 25px;
+		margin-top: 5px;
+		color:gray;
+		cursor: pointer;
+	}
+	.row{
+		width: 600px;
+		float : left;
+		padding-top: 20px;
+	}
+	.col-lg-6{
+		width: 400px;
+	}
+	.input-group{
+		width: 500px;
+		float:left;
+	}
+	
+	#sel{
+		float : right;
+		width: 300px;
+	}
+	
