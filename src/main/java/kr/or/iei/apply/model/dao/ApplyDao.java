@@ -1,14 +1,16 @@
 package kr.or.iei.apply.model.dao;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+
+
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.apply.model.vo.Apply;
+import kr.or.iei.book.model.vo.Book;
 
 @Repository("applyDao")
 public class ApplyDao {
@@ -20,24 +22,22 @@ public class ApplyDao {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int applyInsert(Apply a, String bookPubDates){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		java.util.Date date = null;
-				
-			try {
-				date = sdf.parse(bookPubDates);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			 String transDate = sdf.format(date);
-			 Date d = Date.valueOf(transDate);
-			
-		System.out.println(d);
-		a.setBookPubDate(d);
-		System.out.println(a.getBookPubDate());
+	public int applyInsert(Apply a){
 		return sql.insert("apply.appltInsert",a);
+	}
+	public int selectCheck(Book b) {
+		System.out.println(b.getBookName());
+		List<Book> bookNames = sql.selectList("apply.selectCheck",b);
+		
+		if(!bookNames.isEmpty()) {
+			int result = 1;
+			return result;
+		}else {
+			int result = 0;
+			return result;
+		}
+	
+		
 	}
 	
 }

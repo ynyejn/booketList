@@ -49,7 +49,7 @@
 							html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
 							html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
 							html+="<td class='bookContent'><c:if test='${data[i].bookContent==null }'>내용 없음</c:if>"+data[i].bookContent+"</td>";
-							html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
+							html+="<td><c:if test='${data[i].selectCheck == 0 }'><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></c:if><c:if test='${data[i].selectCheck == 1 }'>이미 있는 책입니다.</c:if></td></tr>";
 						}
 						
 						$("table>tbody").append(html);
