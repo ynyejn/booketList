@@ -19,21 +19,7 @@
 <title>BooketList</title>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<!-- Custom fonts for this template-->
-<link
-	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
 
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-<!-- Custom styles for this template-->
-<link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
-	rel="stylesheet" type="text/css">
-
-<link rel="stylesheet"
-	href="/resources/adminBootstrap/css/bootstrap.css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -42,7 +28,28 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
+	crossorigin="anonymous" />
+	
+<link rel="stylesheet" href="/resources/css/admin/adminBookList.css" />
+
+
+<!-- Custom fonts for this template-->
+<link
+	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+
+
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+
+<!-- Custom styles for this template-->
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
+	rel="stylesheet" type="text/css">
+
+
+
 
 <script>
 	$(function() {
@@ -473,10 +480,21 @@
 
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="input-group">
-											<div class="input-group-btn">
+								
+								
+								
+								<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+									   Dropdown
+									  <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">도서이름</a></li>
+									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">작가</a></li>
+									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">출판사</a></li>
+									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">장르</a></li>
+									  </ul>
+								</div>
 												<button id="searchTitle" type="button"
 													class="btn btn-default dropdown-toggle"
 													data-toggle="dropdown" aria-expanded="false">
@@ -489,7 +507,7 @@
 													<li><a class="searchList">출판사</a></li>
 													<li><a class="searchList">장르</a></li>
 												</ul>
-											</div>
+											
 											<!-- /btn-group -->
 											<c:if test="${not empty search }">
 												<input type="text" class="form-control " aria-label="..." id="search" value="${search }">
@@ -499,18 +517,21 @@
 												<input type="text" class="form-control " aria-label="..." id="search">
 												<span class="glyphicon glyphicon-search" id="sear"></span>
 											</c:if>
-										</div>
-										<!-- /input-group -->
-									</div>
-								</div>
+										
 								<!-- /.col-lg-6 -->
 								<div id="sel">
 									<button type="button" class="btn btn-default" id="back">돌아가기</button>
 								</div>
+								
+								
+ 
+  
+
 								<!-- /.container-fluid -->
 
 							</div>
 							<!-- End of Main Content -->
+							<div class="row">
 
 							<!-- Footer -->
 							<footer class="sticky-footer bg-white">
@@ -527,7 +548,6 @@
 
 					</div>
 					<!-- End of Page Wrapper -->
-
 					<!-- Scroll to Top Button-->
 					<a class="scroll-to-top rounded" href="#page-top"> <i
 						class="fas fa-angle-up"></i>
