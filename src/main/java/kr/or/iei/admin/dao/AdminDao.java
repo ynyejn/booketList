@@ -45,7 +45,7 @@ public class AdminDao {
 
 	public List selectList3(HashMap<String, String> map2) {
 		return sqlSession.selectList("book.selectList3",map2);
-
+	}
 	public int memberTotalCount() {
 		return sqlSession.selectOne("member.memberTotalCount");
 
