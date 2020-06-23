@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-size:18px;">
 
 <head>
 
@@ -19,6 +19,18 @@
 <title>BooketList</title>
 
 
+<link rel="stylesheet"
+	href="/resources/adminBootstrap/css/bootstrap.css" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
 <!-- Custom fonts for this template-->
 <link
 	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
@@ -28,23 +40,24 @@
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 
+
 <!-- Custom styles for this template-->
 <link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
 	rel="stylesheet" type="text/css">
 
-<!-- 테이블 부트스트랩 -->
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
 
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+<!-- 테이블 부트스트랩 -->
 </head>
 
 <body id="page-top">
@@ -53,96 +66,126 @@
 	<div id="wrapper">
 
 		<!-- Sidebar -->
-		<ul
-			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-			id="accordionSidebar">
+		<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-			<!-- Sidebar - Brand -->
-			<a
-				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="#">
-				<div class="sidebar-brand-icon rotate-n-15">
-					<i class="fas fa-book"></i>
-				</div>
-				<div class="sidebar-brand-text mx-3">BooketList</div>
-			</a>
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">BooketList</div>
+      </a>
+        <!-- Divider -->
+      <hr class="sidebar-divider my-0">
 
-			<!-- Nav Item - Dashboard -->
-			<li class="nav-item active"><a class="nav-link"
-				href="index.html"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>관리자
-						페이지</span></a></li>
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/adminPage.do">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>관리자 페이지</span></a>
+      </li>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">회원 관리</div>
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link"
-				href="/memberList.do?reqPage=1"> <i class="fas fa-fw fa-table"></i>
-					<span>회원 목록</span></a></li>
-			<li class="nav-item"><a class="nav-link" href="#"> <i
-					class="fas fa-fw fa-cog"></i> <span>회원 신고 관리</span></a></li>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+           회원 관리
+      </div>
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="/memberList.do?reqPage=1">
+          <i class="fas fa-fw fa-table"></i>
+          <span>회원 목록</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-cog"></i>
+          
+          
+          <span>회원 신고 관리</span></a>
+      </li>
 
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">도서 관리</div>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+           도서 관리
+      </div>
+      
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>도서 대여</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">도서 대여</h6>
+            <a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
+            <a class="collapse-item" href="#">도서예약내역</a>
+          </div>
+        </div>
+      </li>
+     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>도서 내역</span>
+        </a>
+        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">도서 내역</h6>
+            <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
+            <a class="collapse-item" href="#">도서신청내역</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>도서 분실 신고</span></a>
+      </li>
+      <hr class="sidebar-divider">
 
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-					class="fas fa-fw fa-folder"></i> <span>도서 대여</span>
-			</a>
-				<div id="collapsePages" class="collapse"
-					aria-labelledby="headingPages" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">도서 대여</h6>
-						<a class="collapse-item" href="#">도서대여현황</a> <a
-							class="collapse-item" href="#">도서예약내역</a>
-					</div>
-				</div></li>
-			<li class="nav-item"><a class="nav-link" href="#"> <i
-					class="fas fa-fw fa-table"></i> <span>도서 목록</span></a></li>
-			<li class="nav-item"><a class="nav-link" href="#"> <i
-					class="fas fa-fw fa-cog"></i> <span>도서 분실 신고</span></a></li>
-			<hr class="sidebar-divider">
+      <!-- Heading -->
+      <div class="sidebar-heading">
+           SPOT 관리
+      </div>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>SPOT</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">SPOT</h6>
+            <a class="collapse-item" href="#">SPOT리스트</a>
+            <a class="collapse-item" href="#">SPOT생성</a>
+          </div>
+        </div>
+      </li>
+      <hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">SPOT 관리</div>
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapseUtilities"
-				aria-expanded="true" aria-controls="collapseUtilities"> <i
-					class="fas fa-fw fa-folder"></i> <span>SPOT</span>
-			</a>
-				<div id="collapseUtilities" class="collapse"
-					aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">SPOT</h6>
-						<a class="collapse-item" href="#">SPOT리스트</a> <a
-							class="collapse-item" href="#">SPOT생성</a>
-					</div>
-				</div></li>
-			<hr class="sidebar-divider">
+      <!-- Heading -->
+      <div class="sidebar-heading">
+           챗봇 관리
+      </div>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>챗봇</span></a>
+      </li>
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">챗봇 관리</div>
-			<li class="nav-item"><a class="nav-link" href="#"> <i
-					class="fas fa-fw fa-cog"></i> <span>챗봇</span></a></li>
-			<!-- Divider -->
-			<hr class="sidebar-divider d-none d-md-block">
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
 
-			<!-- Sidebar Toggler (Sidebar) -->
-			<div class="text-center d-none d-md-inline">
-				<button class="rounded-circle border-0" id="sidebarToggle"></button>
-			</div>
-
-		</ul>
+    </ul>
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
@@ -273,37 +316,54 @@
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
 
-<style>
+					<style>
 .tableTop {
 	width: 100%;
 	height: 45px;
 	diplay: block;
-	border : 1px dotted black;
-	float : right;
+	float: right;
 }
 
 .tableTopLeft {
 	width: 10%;
-	height: 100%;
-	float: left;
-	border : 1px dotted green;
-	padding-left : 20px;
-	text-align: center;
-}
-.tableTopRight {
-	width: 30%;
-	height: 100%;
-	border : 1px dotted red;
-	float: right;
-	padding : 5px;
+	height: 45px;
+	padding-left: 10px;
 }
 
+#mytab {
+	position: relative;
+}
+
+#mytab>li {
+	display: inline-block;
+}
+
+#searchbar {
+	position: absolute;
+	right: 0px;
+}
 </style>
-
+<script>
+	$(function(){
+		$("#selectMemberCount").change(function(){
+			var smc = $("#selectMemberCount option:selected").val();
+			$.ajax({
+				url : "/memberList.do?reqPage=1",
+				type : "post",
+				data : {
+					smc : Number(smc),
+				},
+				success : function(data){
+					alert("성공");
+				}
+			});
+		});
+	});
+</script>
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">List</h6>
+							<h4 class="m-0 font-weight-bold text-primary">List</h4>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -312,49 +372,51 @@
 									data-example-id="togglable-tabs">
 
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
-									<li id="tt1" role="presentation" class="active"><a
-													href="#home" id="home-tab" role="tab" data-toggle="tab"
-													aria-controls="home" aria-expanded="true"><b>회원목록</b></a>
-									</li>
-									<li>
-										<div class="tableTop">
-											<div class="tableTopLeft">
-												<select class="form-control"
-													style="width: 80px; height: 40px;">
-													<option value="10">10</option>
-													<option value="25">25</option>
-													<option value="50">50</option>
-													<option value="100">100</option>
-												</select>
-											</div>
-											<div class="tableTopRight">
-												<div class="row">
-													<div class="col-lg-6">
-														<div class="input-group" style="width:400px;">
-															<div class="input-group-btn"
-																style="padding-bottom: 50px;">
-																<button type="button"
-																	class="btn btn-default dropdown-toggle"
-																	data-toggle="dropdown" aria-expanded="false">id</button>
-																<ul class="dropdown-menu" role="menu">
-																	<li><a href="#">id</a></li>
-																	<li><a href="#">id</a></li>
-																	<li><a href="#">id</a></li>
-																</ul>
+										<li id="tt1" role="presentation" class="active"><a
+											href="#home" id="home-tab" role="tab" data-toggle="tab"
+											aria-controls="home" aria-expanded="true"><b>회원목록</b></a></li>
+										<li><select class="form-control"
+											style="width: 80px; height: 40px; margin-left: 10px;" id="selectMemberCount">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+										</select></li>
+										<li id="searchbar">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="input-group" style="width: 350px;">
+														<div class="input-group-btn">
+															<button type="button"
+																class="btn btn-default dropdown-toggle"
+																data-toggle="dropdown" aria-expanded="false"
+																style="margin-bottom: 25px;">id</button>
+															<ul class="dropdown-menu" role="menu">
+																<li><a href="#">id</a></li>
+																<li><a href="#">id</a></li>
+																<li><a href="#">id</a></li>
+															</ul>
 
-															</div>
-															<!-- /btn-group -->
-																	<input type="text" class="form-control" aria-label="..." id="search">
-																	<span class="glyphicon glyphicon-search" id="sear" style="width:40px; height:40px;"></span>
 														</div>
-														<!-- /input-group -->
-
+														<!-- /btn-group -->
+														<c:if test="${not empty search }">
+															<input type="text" class="form-control " aria-label="..."
+																id="search" value="${search }">
+															<span class="glyphicon glyphicon-search" id="sear"></span>
+														</c:if>
+														<c:if test="${empty search }">
+															<input type="text" class="form-control" aria-label="..."
+																id="search" style="width: 200px; float: left;">
+															<span class="glyphicon glyphicon-search" id="sear"
+																style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+														</c:if>
 													</div>
+													<!-- /input-group -->
+
 												</div>
 											</div>
-										</div>
-									</li>
-								</ul>
+										</li>
+									</ul>
 
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
@@ -385,17 +447,17 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<nav id="footNav2">
-												<ul class="pagination" style="padding-left: 500px;">${pageNavi }</ul>
+											<nav id="footNav2" style="text-align: center;">
+												<ul class="pagination">${pageNavi }</ul>
+												<div id="sel" style="float: right; margin-top:10px;">
+													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												</div>
 											</nav>
 										</div>
 									</div>
 								</div>
-
 								<!-- /.col-lg-6 -->
-								<div id="sel">
-									<button type="button" class="btn btn-default" id="back">돌아가기</button>
-								</div>
+
 
 							</div>
 							<!-- /.container-fluid -->

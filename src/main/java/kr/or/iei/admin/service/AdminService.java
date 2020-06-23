@@ -22,9 +22,9 @@ public class AdminService {
 	@Qualifier("adminDao")
 	private AdminDao dao;
 
-	public MemberPageData selectMember(int reqPage) {
+	public MemberPageData selectMember(int reqPage, int selectCount) {
 		System.out.println("AdminService");
-		int numPerPage = 10;
+		int numPerPage = selectCount;
 		int totalCount = dao.memberTotalCount();
 		System.out.println(totalCount);
 		int totalPage = 0;

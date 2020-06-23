@@ -40,9 +40,9 @@ public class AdminController {
 		return "admin/adminBookList";
 	}
 	@RequestMapping(value="/memberList.do")
-	public String memberList(Model model, int reqPage) {
+	public String memberList(Model model, int reqPage, int selectCount) {
 		System.out.println("AdminController");
-		MemberPageData mpd = service.selectMember(reqPage);
+		MemberPageData mpd = service.selectMember(reqPage,selectCount);
 		model.addAttribute("list",mpd.getList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage", reqPage);
