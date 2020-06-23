@@ -17,9 +17,9 @@ public class AdminDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-	public List selectMember() {
+	public List selectMember(HashMap<String, Integer> map) {
 		System.out.println("AdminDao");
-		return sqlSession.selectList("member.selectMember");
+		return sqlSession.selectList("member.selectMember",map);
 	}
 
 	public int bookTotalCount() {		
@@ -38,11 +38,16 @@ public class AdminDao {
 		return sqlSession.selectList("book.selectList2",map);
 	}
 
+
 	public int bookTotalCount3(HashMap<String, String> map2) {
 		return sqlSession.selectOne("book.bookTotalCount3",map2);
 	}
 
 	public List selectList3(HashMap<String, String> map2) {
 		return sqlSession.selectList("book.selectList3",map2);
+
+	public int memberTotalCount() {
+		return sqlSession.selectOne("member.memberTotalCount");
+
 	}
 }

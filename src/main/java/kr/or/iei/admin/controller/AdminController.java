@@ -12,6 +12,7 @@ import kr.or.iei.admin.service.AdminService;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.member.model.vo.MemberPageData;
 
 @Controller
 public class AdminController {
@@ -52,10 +53,13 @@ public class AdminController {
 		return "admin/adminBookList";
 	}
 	@RequestMapping(value="/memberList.do")
-	public String memberList(Model model) {
+	public String memberList(Model model, int reqPage, int selectCount) {
 		System.out.println("AdminController");
-		ArrayList<Member>list = service.selectMember();
-		model.addAttribute("list",list);
+		MemberPageData mpd = service.selectMember(reqPage,selectCount);
+		model.addAttribute("list",mpd.getList());
+		model.addAttribute("pageNavi",mpd.getPageNavi());
+		model.addAttribute("reqPage", reqPage);
+		System.out.println(mpd.getList().size());
 		return "/admin/memberList";
 	}
 }

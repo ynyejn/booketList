@@ -42,54 +42,69 @@
         overflow: hidden;
         margin: 0 auto;
         border: 1px solid #dddddd;
+        padding-bottom: 200px;
     }
-    .btnDiv{
+
+    .btnDiv {
         width: 950px;
         margin: 0px auto;
         margin-top: 20px;
         height: 35px;
-        border: 1px solid lightgray;
     }
-    .btnDiv>span{
+
+    .btnDiv>span {
         display: inline-block;
         margin-top: 7px;
     }
-    .btnDiv>span>img{
+
+    .check {
         width: 20px;
         height: 20px;
         vertical-align: -2px;
     }
-    .btnBox{
+
+    .btnBox {
         text-align: right;
         width: 80%;
         height: 100%;
         display: inline-block;
     }
-    .allCheck{
+
+    .allCheck,
+    .addDiv,.subDiv {
         border: none;
         background-color: #666666;
         color: white;
-        width: 100px;
+        width: 110px;
+        margin-left: 2px;
         height: 35px;
         font-size: 14px;
         border-radius: 2px;
     }
-    .addDiv{
-        border: none;
-        background-color: #eeeeee;
-        width: 35px;
-        height: 35px;
-        border-radius: 2px;
+
+    .addDiv {
+        width: 30px;
+        background-color: #0066b3;
     }
-    .addDiv>img{
+    .subDiv{
         width: 15px;
-        height: 15px;
+        height: 24px;
+        background-color: #dddddd; 
+        position: absolute;
+        right: 10px;
+        top:10px;
+    }
+    
+    .subDiv>img{
+        margin-top: 3px;
+        width: 13px;
+        height: 13px;
     }
     .frame {
+        overflow: hidden;
         width: 950px;
-        height: 500px;
         margin: 0 auto;
-        margin-top: 2px;
+        margin-top: 5px;
         margin-bottom: 30px;
         border-top: 2px solid #426f8f;
         border-bottom: 2px solid #426f8f;
@@ -97,9 +112,17 @@
 
     .bookBox {
         margin: 20px;
+        padding: 25px 50px;
         background-color: #eeeeee;
+        position: relative;
         width: 910px;
-        height: 300px;
+    }
+
+    .bookBox>input {
+        width: 100%;
+        height: 35px;
+        border: 1px solid #0066b3;
+        outline: none;
     }
 
 </style>
@@ -111,16 +134,35 @@
             <div class="black"></div><span>도서 반납 신청</span>
         </div>
         <div class="content">
-            <div class="btnDiv"><span><img src="/resources/imgs/bluecheck.png">대여중인 도서 : n권</span><div class="btnBox">
-                <button class="allCheck">전체 도서 반납</button>
-                <button class="addDiv"><img src="/resources/imgs/plus.png"></button>
-                </div></div>
+            <div class="btnDiv"><span><img src="/resources/imgs/bluecheck.png" class="check">대여중인 도서 : n권</span>
+                <div class="btnBox">
+                    <button class="allCheck">전체 도서 반납</button>
+                    <button class="addDiv">+</button>
+                </div>
+            </div>
             <div class="frame">
-                <div class="bookBox"></div>
+                <div class="bookBox">
+                    <img src="/resources/imgs/bluecheck.png" class="check">도서 제목
+                    <button class="subDiv"><img src="/resources/imgs/x.png"></button>
+                    <input type="text" name="bookName" placeholder="도서제목을 입력하세요">
+                    
+                </div>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
 </body>
 
+
 </html>
+    
+<script>
+    $(".addDiv").click(function(){
+        $.ajax({
+            url : "/",
+           success: function(){
+               console.log("hi");
+           }
+        });
+    });
+</script>
