@@ -1,6 +1,7 @@
 package kr.or.iei.apply.controller;
 
 import java.sql.Date;
+import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,12 +31,12 @@ public class ApplyController {
 		return "apply/applySearch";
 	}
 	@RequestMapping("/applyInsert.do")
-	public String applyInsert(Apply a) {
-		System.out.println(a.getBookPubDate());
+	public String applyInsert(Apply a,String bookPubDates) throws ParseException {
+		
 //		String[] arr = a.getBookPubDate().split("/");
 //		Date d = new Date(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]), Integer.parseInt(arr[2]));
 		
-		int result = service.applyInsert(a);
+		int result = service.applyInsert(a,bookPubDates);
 		if(result>0) {
 			return "redirect:/";			
 		}else {

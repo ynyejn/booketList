@@ -64,19 +64,21 @@
 							var bookImg = $(this).parent().parent().find(".bookImg").val();
 							var array = bookPubDate.split(",");
 							var aa = array[0].split("월 ");
-							var apply = array[1]+aa[0]+aa[1];
-							var arrayy = Date.parse(array[1],aa[0],aa[1]); 
-							alert(arrayy);
+							
+							var apply = array[1]+"-"+aa[0]+"-"+aa[1]; 
+							
+							alert(apply);
+							
 							
 							
 							opener.document.getElementById("bookImg1").src = bookImg;
-							opener.document.getElementById("bookPubDate").value = arrayy;
+							opener.document.getElementById("bookPubDates").value = apply;
 							opener.document.getElementById("bookWriter").value = bookWriter;
 							opener.document.getElementById("bookPublisher").value = bookPublisher;
 							opener.document.getElementById("bookCategory").value = bookCategory;
 							opener.document.getElementById("bookContent").value = bookContent;
 							opener.document.getElementById("bookName").value = bookName;
-							opener.document.getElementById("bookImg").value = bookImg;
+							opener.document.getElementById("bookImg2").value = bookImg;
 						})
 					},
 					error : function(){

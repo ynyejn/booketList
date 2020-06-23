@@ -37,7 +37,7 @@
 					<tr>
 						<th>출판일</th>
 						<th>
-						<input type="text" id="bookPubDate" name="bookPubDate">
+						<input type="text" id="bookPubDates" name="bookPubDates">
 						</th>
 					</tr>
 					<tr>
@@ -61,7 +61,7 @@
 					<tr>
 						<th>이미지</th>
 						<td><img id="bookImg1"name="bookImg1" width="300px" height="150px" >
-						<input type="text" id="bookImg" name="bookImg">
+						<input type="text" id="bookImg2" name="bookImg2">
 						</td>
 					</tr>
 					<tr>
