@@ -12,6 +12,7 @@ import kr.or.iei.admin.dao.AdminDao;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.member.model.vo.MemberPageData;
 
 
 @Service("adminService")
@@ -21,12 +22,49 @@ public class AdminService {
 	@Qualifier("adminDao")
 	private AdminDao dao;
 
-	public ArrayList<Member> selectMember() {
+	public MemberPageData selectMember(int reqPage, int selectCount) {
 		System.out.println("AdminService");
-		List list = dao.selectMember();
-		ArrayList<Member>alist = new ArrayList<Member>();
+		int numPerPage = selectCount;
+		int totalCount = dao.memberTotalCount();
+		System.out.println(totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		int end = reqPage*numPerPage;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		ArrayList<Member> list = (ArrayList<Member>)dao.selectMember(map);
+		System.out.println(list.size());
+		String pageNavi = "";
 		
-		return (ArrayList<Member>)list;
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='/memberList.do?reqPage=" + (pageNo - pageNaviSize) + "&reqPage=1'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+				pageNavi += "<li><a href='/memberList.do?reqPage=" + pageNo + "&reqPage=1'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li><a aria-label='Next' href='/memberList.do?reqPage=" + pageNo + "&reqPage=1'><span>»</span></a></li>";
+		}
+		
+		MemberPageData mpd = new MemberPageData(list,pageNavi);
+		return mpd;
+
 	}
 
 	public BookPageData selectList1(int reqPage) {
@@ -116,5 +154,55 @@ public class AdminService {
 		BookPageData bpd = new BookPageData(list, pageNavi);
 		return bpd;
 		
+	}
+
+	public BookPageData selectList3(int reqPage, String search, String searchTitle) {
+		int numPerPage = 10;
+		HashMap<String, String> map2 = new HashMap<String, String>();
+		map2.put("search", search);
+		map2.put("searchTitle", searchTitle);
+		int totalCount = dao.bookTotalCount3(map2);
+		int totalPage = 0;
+		if(totalCount % numPerPage == 0) {
+			totalPage = totalCount /numPerPage;
+		}else {
+			totalPage = totalCount / numPerPage + 1;
+		}
+		//조회해 올 게시물 시작번화와 끝번호연산
+		String start = Integer.toString((reqPage - 1) * numPerPage + 1);
+		String end = Integer.toString(reqPage * numPerPage);
+		map2.put("start", start);
+		map2.put("end", end);
+		
+		ArrayList<Book> list = (ArrayList<Book>)dao.selectList3(map2);
+		
+		String pageNavi = "";
+		
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='/adminBookList.do?reqPage=" + (pageNo - pageNaviSize) + "&check=1&reqPage2=1&search="+search+"&searchTitle="+searchTitle+"'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+				pageNavi += "<li><a href='/adminBookList.do?reqPage=" + pageNo + "&check=1&reqPage2=1&search="+search+"&searchTitle="+searchTitle+"'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li><a aria-label='Next' href='/adminBookList.do?reqPage=" + pageNo + "&check=1&reqPage2=1&search="+search+"&searchTitle="+searchTitle+"'><span>»</span></a></li>";
+		}
+		
+		BookPageData bpd = new BookPageData(list, pageNavi);
+		return bpd;
+	}
+
+	public BookPageData selectList4(int reqPage2, String search, String searchTitle) {
+		return null;
 	}
 }
