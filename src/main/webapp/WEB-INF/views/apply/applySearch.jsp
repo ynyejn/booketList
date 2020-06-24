@@ -48,8 +48,18 @@
 							html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
 							html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
 							html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
-							html+="<td class='bookContent'><c:if test='${data[i].bookContent==null }'>내용 없음</c:if>"+data[i].bookContent+"</td>";
-							html+="<td><c:if test='${data[i].selectCheck == 0 }'><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></c:if><c:if test='${data[i].selectCheck == 1 }'>이미 있는 책입니다.</c:if></td></tr>";
+							if(data[i].bookContent==""){
+								html+="<td class='bookContent'>내용 없음</td>";
+							}else{
+								html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
+							}
+							if(data[i].selectCheck==0){
+								html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
+							}else{
+								html+="<td>이미 책이 있습니다.</td></tr>";
+							}
+							
+							
 						}
 						
 						$("table>tbody").append(html);
@@ -78,7 +88,7 @@
 							opener.document.getElementById("bookCategory").value = bookCategory;
 							opener.document.getElementById("bookContent").value = bookContent;
 							opener.document.getElementById("bookName").value = bookName;
-							opener.document.getElementById("bookImg2").value = bookImg;
+							opener.document.getElementById("bookImg").value = bookImg;
 						})
 					},
 					error : function(){

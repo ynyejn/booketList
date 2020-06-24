@@ -90,11 +90,17 @@ public class AladdinAPI {
 					b.setBookImg(resultJson2.get(i).getAsJsonObject().get("cover").getAsString());
 					b.setBookWriter(resultJson2.get(i).getAsJsonObject().get("author").getAsString());//작가
 					b.setBookPublisher(resultJson2.get(i).getAsJsonObject().get("publisher").getAsString());//출판사
-					b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);//카테코리
+					if(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().isEmpty()) {
+						b.setBookCategory(null);
+					}else {
+						b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);//카테코리
+					}
 					java.sql.Date d = java.sql.Date.valueOf(resultJson2.get(i).getAsJsonObject().get("pubDate").getAsString());//출판일
+					
 					b.setBookPubDate(d);
 					int result = dao.selectCheck(b);
 					b.setSelectCheck(result);
+					System.out.println(result);
 					list.add(b);			
 					System.out.println(list.size());
 				}
