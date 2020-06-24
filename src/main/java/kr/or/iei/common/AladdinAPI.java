@@ -15,6 +15,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,12 +26,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import kr.or.iei.apply.model.dao.ApplyDao;
+import kr.or.iei.apply.model.service.ApplyService;
+import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.book.model.vo.Book;
 
 //import kr.or.iei.member.model.vo.Book;
 
 @Controller("/aladdin")
 public class AladdinAPI {
+	@Autowired
+	@Qualifier("applyDao")
+	private ApplyDao dao;
 	@ResponseBody
 	@RequestMapping(value="/aladdin.do", produces = "application/json; charset=utf-8")
 	public String aladdin(String title, HttpServletRequest request) {
@@ -72,8 +80,9 @@ public class AladdinAPI {
 				System.out.println(resultJson2.get(0).getAsJsonObject().get("pubDate").getAsString());
 				System.out.println(resultJson2.get(0).getAsJsonObject().get("pubDate").getClass().getName());
 				System.out.println(resultJson2.get(0).getAsJsonObject().get("pubDate").getAsString().getClass().getName());
-
+				
 				ArrayList<Book> list = new ArrayList<Book>();
+				System.out.println(resultJson2.size());
 				for(int i=0; i<resultJson2.size(); i++) {
 					Book b = new Book();
 					b.setBookName(resultJson2.get(i).getAsJsonObject().get("title").getAsString());//제목
@@ -84,10 +93,13 @@ public class AladdinAPI {
 					b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);//카테코리
 					java.sql.Date d = java.sql.Date.valueOf(resultJson2.get(i).getAsJsonObject().get("pubDate").getAsString());//출판일
 					b.setBookPubDate(d);
-					list.add(b);
-					
+					int result = dao.selectCheck(b);
+					b.setSelectCheck(result);
+					list.add(b);			
+					System.out.println(list.size());
 				}
-				System.out.println("listSize : "+list.size());
+				
+				System.out.println("listSize : "+list.size()+"!!");
 				
 				////////////////////////
 				////////엑셀파일로 빼기//////
@@ -101,38 +113,40 @@ public class AladdinAPI {
 				//Sheet명 설정
 				XSSFSheet sheet = workbook.createSheet("mySheet");
 				
-				for(int i=0; i<list.size(); i++) {
-					//출력 row 생성
-					row = sheet.createRow(i);
-					//출력 cell 생성
-					row.createCell(0).setCellValue(i);
-					row.createCell(1).setCellValue(list.get(i).getBookName());
-					row.createCell(2).setCellValue(list.get(i).getBookWriter());
-					row.createCell(3).setCellValue(list.get(i).getBookPublisher());
-					row.createCell(4).setCellValue(list.get(i).getBookCategory());
-					row.createCell(5).setCellValue(list.get(i).getBookImg());
-					row.createCell(6).setCellValue(list.get(i).getBookPubDate());
-					row.createCell(7).setCellValue(list.get(i).getBookStatus());
-					row.createCell(8).setCellValue(list.get(i).getBookContent());
-				}
+//				for(int i=0; i<list.size(); i++) {
+//					//출력 row 생성
+//					row = sheet.createRow(i);
+//					//출력 cell 생성
+//					row.createCell(0).setCellValue(i);
+//					row.createCell(1).setCellValue(list.get(i).getBookName());
+//					row.createCell(2).setCellValue(list.get(i).getBookWriter());
+//					row.createCell(3).setCellValue(list.get(i).getBookPublisher());
+//					row.createCell(4).setCellValue(list.get(i).getBookCategory());
+//					row.createCell(5).setCellValue(list.get(i).getBookImg());
+//					row.createCell(6).setCellValue(list.get(i).getBookPubDate());
+//					row.createCell(7).setCellValue(list.get(i).getBookStatus());
+//					row.createCell(8).setCellValue(list.get(i).getBookContent());
+//					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
+//				}
 
 				// 출력 파일 위치및 파일명 설정
 
-				FileOutputStream outFile;
+//				FileOutputStream outFile;
 				try {
-					outFile = new FileOutputStream("인기신간 다.xlsx");
-					workbook.write(outFile);
-					outFile.close();		
+//					outFile = new FileOutputStream("인기신간 다.xlsx");
+//					workbook.write(outFile);
+//					outFile.close();		
 					System.out.println("파일생성 완료");
 					return new Gson().toJson(list);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
+				
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());
 			}
 		} catch (Exception e){
-			System.err.println(e.toString());
+			e.printStackTrace();
 		}
 		return "fail";
 	}

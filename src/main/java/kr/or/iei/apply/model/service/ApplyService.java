@@ -1,6 +1,6 @@
 package kr.or.iei.apply.model.service;
 
-import java.text.ParseException;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,8 +20,8 @@ public class ApplyService {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int applyInsert(Apply a, String bookPubDates){
-		int result =  dao.applyInsert(a,bookPubDates);
+	public int applyInsert(Apply a){
+		int result =  dao.applyInsert(a);
 		return result;
 	}
 	
