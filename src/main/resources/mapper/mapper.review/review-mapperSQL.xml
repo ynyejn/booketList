@@ -13,4 +13,21 @@
 		book_writer as bookWriter,
 		book_category as bookCategory from review
 	</select>
+	<select id="reviewSelectBook" parameterType="string" resultType="string">
+		select book_name 
+		from book where book_no
+		 in (select book_no from rent where member_id=#{memberId} and rent_return=0)
+	</select>
+	<select id="selectBookno" parameterType="review" resultType="_int">
+	
+	select book_no from rent where member_id=#{memberId} and rent_return=0 
+	</select>
+	<insert id="reviewInsert">
+		insert into review values(review_seq.nextval,#{memberNickName},#{reviewContent},#{reviewScore},#{reviewFilename},#{bookName},#{bookPublisher},#{bookWriter},#{bookCategory})
+	</insert>
+	<select id="selectBook" parameterType="book" resultType="book">
+		select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
+				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
+				from book where book_name = #{bookName} and book_pub_date = #{bookPubDate}
+	</select>
 </mapper>

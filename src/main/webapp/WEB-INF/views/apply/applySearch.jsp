@@ -36,6 +36,7 @@
 		$(function() {
 			$("button").click(function() {
 				var title = $("#title").val();
+				
 				$.ajax({
 					url : "/aladdin.do",
 					data : { title:title },

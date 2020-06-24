@@ -48,6 +48,8 @@
 			window.open(url,title,style);
 		});
 	})
+	window.opener.location.reload();
+	window.close();
 	</script>
 </body>
 </html>
