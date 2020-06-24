@@ -14,6 +14,7 @@ public class Book {
 	private Date bookPubDate;
 	private int bookStatus;
 	private String bookContent;
+	
 	public int getBookNo() {
 		return bookNo;
 	}

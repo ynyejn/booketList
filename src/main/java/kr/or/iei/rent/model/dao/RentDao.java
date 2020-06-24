@@ -25,4 +25,8 @@ public class RentDao {
 	public List bookAllPage(HashMap<String, Integer> map) {
 		return sql.selectList("book.selectBookAllPage", map);
 	}
+
+	public List selectBookList(String bookName) {
+		return sql.selectList("book.selectBookList", bookName);
+	}
 }

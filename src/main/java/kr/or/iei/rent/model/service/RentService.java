@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndReview;
+import kr.or.iei.book.model.vo.BookAndReviewPageData;
 import kr.or.iei.book.model.vo.BookData;
 import kr.or.iei.rent.model.dao.RentDao;
 
@@ -18,7 +20,7 @@ public class RentService {
 	@Qualifier("rentDao")
 	private RentDao dao;
 
-	public BookData selectBookPage(int reqPage) {
+	public BookAndReviewPageData selectBookPage(int reqPage) {
 		int totalCount = dao.totalCount();
 		System.out.println("totalcount : "+totalCount);		
 		int numPerPage = 5;
@@ -37,17 +39,17 @@ public class RentService {
 		List list = dao.bookAllPage(map);
 		
 		String pageNavi ="";
-		int pageNaviSize = 3;
+		int pageNaviSize = 5;
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
 		//페이지 네비 [이전] [현재] [다음]
 		if(pageNo != 1) {
-			pageNavi += "<a href='/noticeList.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
+			pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage == pageNo) {
 				pageNavi += "<span>"+pageNo+"</span>";
 			}else {
-				pageNavi += "<a href='/noticeList.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+				pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -55,10 +57,16 @@ public class RentService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/noticeList.do?reqPage="+pageNo+"'>[다음]</a>";
+			pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+pageNo+"'>[다음]</a>";
 		}
-		BookData bd = new BookData((ArrayList<Book>)list, pageNavi);
+		
+		BookAndReviewPageData bd = new BookAndReviewPageData((ArrayList<BookAndReview>)list, pageNavi);
 		return bd;
+	}
+
+	public ArrayList<Book> selectBookList(String bookName) {
+		List list = dao.selectBookList(bookName);
+		return (ArrayList<Book>)list;
 	}
 
 }
