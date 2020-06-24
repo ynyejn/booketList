@@ -1,40 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="book">
-	<select id="selectBookList" resultType="book" parameterType="String">
-		select 
-			book_no as bookNo, book_name as bookName, book_writer as bookWriter,
-			book_publisher as bookPublisher, book_category as bookCategory,
-			book_img as bookImg, book_pub_date as bookPubDate,
-			book_status as bookStatus, book_content as bookContent 
-		from book 
-		where book_name = #{_param}
-	</select>
-	<select id="totalCountBook" resultType="_int">
-		select count(*) as cnt from 
-			(SELECT BOOK_NAME
-			FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME)
-	</select>
-	<select id="selectBookAllPage" parameterType="map" resultType="bookAndReview">
-		select * from 
-		    (select rownum as rnum, n.* from 
-		        (SELECT 
-		        	book_no as bookNo, book_name as bookName, book_writer as bookWriter,
-					book_publisher as bookPublisher, book_category as bookCategory,
-					book_img as bookImg, book_pub_date as bookPubDate,
-					book_status as bookStatus, book_content as bookContent,
-					avg_score as avgScore, cnt
-		       	FROM (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
-		        JOIN (SELECT BOOK_NAME, avg(REVIEW_SCORE) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT
-		            FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME))n)
-		        where rnum BETWEEN #{start} and #{end}
-	</select>
-
 	<select id="bookTotalCount" resultType="_int">
 		select count(*) as cnt from book
 	</select>
 	<select id="bookTotalCount2" resultType="_int">
 		select count(*) as cnt from book
+	</select>
+	<select id="bookTotalCount3" parameterType="map" resultType="_int">
+		select count(*) as cnt from book where 
+		<if test = "searchTitle.equals('도서이름')">
+			book_name like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('작가')">
+			book_writer like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('출판사')">
+			book_publisher like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('장르')">
+			book_category like '%' || #{search} || '%'
+		</if>
 	</select>
 	<select id="selectList1" parameterType="map" resultType="book">
 		select * from 
@@ -52,5 +38,25 @@
 				from book order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
-
+	<select id="selectList3" parameterType="map" resultType="book">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
+				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
+				from book where 
+				<if test = "searchTitle.equals('도서이름')">
+					book_name like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('작가')">
+					book_writer like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('출판사')">
+					book_publisher like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('장르')">
+					book_category like '%' || #{search} || '%'
+				</if>
+				order by book_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
 </mapper>
