@@ -15,5 +15,4 @@ public class BookAndReview {
 	private String bookContent;
 	private double avgScore;
 	private int cnt;
-
 }

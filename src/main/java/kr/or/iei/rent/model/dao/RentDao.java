@@ -29,4 +29,12 @@ public class RentDao {
 	public List selectBookList(String bookName) {
 		return sql.selectList("book.selectBookList", bookName);
 	}
+
+	public int searchBookDetailTotalCount(HashMap<String, String> map2) {
+		return sql.selectOne("book.searchBookDetailTotalCount", map2);
+	}
+
+	public List searchBookDetail(HashMap<?,?> map3) {
+		return sql.selectList("book.searchBookDetail", map3);
+	}
 }

@@ -29,9 +29,6 @@ public class RentController {
 	public String GoBookSearch(int reqPage, Model model) {
 		BookAndReviewPageData bd = service.selectBookPage(reqPage);
 		HashMap<String, Integer> bookNum = new HashMap<String, Integer>();
-		for(int i=0; i<bd.getList().size(); i++) {
-			
-		}
 		model.addAttribute("list", bd.getList());
 		model.addAttribute("pageNavi", bd.getPageNavi());
 		return "book/bookSearch";
@@ -42,5 +39,22 @@ public class RentController {
 		ArrayList<Book> list = service.selectBookList(bookName);
 		System.out.println("hihihi");
 		return new Gson().toJson(list);
+	}
+	@RequestMapping(value = "/searchBookDetail.do")
+	public String searchBookDetail(Model model, int reqPage, String categorySelect, String bookAttr, String inputText, String sort) {
+		System.out.println(categorySelect);
+		System.out.println(bookAttr);
+		System.out.println(inputText);
+		System.out.println(sort);
+		BookAndReviewPageData bd = service.searchBookDetail(reqPage, categorySelect, bookAttr, inputText, sort);
+		System.out.println(bd.getList().size());
+		HashMap<String, Integer> bookNum = new HashMap<String, Integer>();
+		model.addAttribute("list", bd.getList());
+		model.addAttribute("pageNavi", bd.getPageNavi());	
+		model.addAttribute("categorySelect", categorySelect);
+		model.addAttribute("bookAttr", bookAttr);
+		model.addAttribute("inputText", inputText);
+		model.addAttribute("sort", sort);
+		return "book/bookSearch";
 	}
 }
