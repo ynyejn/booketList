@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
 <!DOCTYPE html>
 <html>
 
@@ -71,7 +72,8 @@
     }
 
     .allCheck,
-    .addDiv,.subDiv {
+    .addDiv,
+    .subDiv {
         border: none;
         background-color: #666666;
         color: white;
@@ -86,22 +88,23 @@
         width: 30px;
         background-color: #0066b3;
     }
-    .subDiv{
+
+    .subDiv {
         width: 15px;
         height: 24px;
-        background-color: #dddddd; 
+        background-color: #dddddd;
         position: absolute;
         right: 10px;
-        top:10px;
+        top: 10px;
     }
-    
-    .subDiv>img{
+
+    .subDiv>img {
         margin-top: 3px;
         width: 13px;
         height: 13px;
     }
+
     .frame {
-        overflow: hidden;
         width: 950px;
         margin: 0 auto;
         margin-top: 5px;
@@ -110,7 +113,7 @@
         border-bottom: 2px solid #426f8f;
     }
 
-    .bookBox {
+    .searchBox {
         margin: 20px;
         padding: 25px 50px;
         background-color: #eeeeee;
@@ -118,11 +121,35 @@
         width: 910px;
     }
 
-    .bookBox>input {
+    .searchBox>input {
         width: 100%;
-        height: 35px;
+        height: 40px;
         border: 1px solid #0066b3;
         outline: none;
+        box-sizing: border-box;
+    }
+
+    .bookList {
+        position: absolute;
+        width: 810px;
+        overflow: hidden;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        box-shadow: 0 10px 12px rgba(0, 0, 0, .08), 1px 1px 3px rgba(1, 0, 0, .1);
+        display: none;
+    }
+
+    .bookList>li {
+        display: inline-block;
+        width: 810px;
+        height: 30px;
+        font-size: 15px;
+        line-height: 30px;
+        background-color: white;
+    }
+
+    .bookList>li:hover {
+        background-color: #a0c5e8;
     }
 
 </style>
@@ -141,13 +168,18 @@
                 </div>
             </div>
             <div class="frame">
-                <div class="bookBox">
+                <div class="searchBox">
                     <img src="/resources/imgs/bluecheck.png" class="check">도서 제목
                     <button class="subDiv"><img src="/resources/imgs/x.png"></button>
                     <input type="text" name="bookName" placeholder="도서제목을 입력하세요">
-                    
+                    <ul class="bookList">
+                    <c:forEach items="${list }" var="r">
+                        <li><span>${r.bookName }</span><input type="hidden" value=${r.bookNo}></li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
+            <button onclick="location.href='/bookDelay.do';">연체</button>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
@@ -155,14 +187,31 @@
 
 
 </html>
-    
+
 <script>
-    $(".addDiv").click(function(){
-        $.ajax({
-            url : "/",
-           success: function(){
-               console.log("hi");
-           }
+    $(function() {
+        $("input[name=bookName]").keyup(function() {
+        	var val=$(this).val();
+            if ($(this).val() == "") {
+                $(this).next().hide();
+            }else{
+                $(this).next().show();
+                $(this).next().children("li").show();
+            }
+        	if(val.length>1){
+              var regExp = new RegExp(val);
+                $(".bookList>li").each(function() {
+                    if (regExp.test($(this).children("span").html())) {
+                        $(this).css("display", "block");
+                    } else {
+                        $(this).css("display", "none");
+                    }
+                });
+            }   
+        });
+        $("input[name=bookName]").focusout(function(){
+             $(this).next().hide();
         });
     });
+
 </script>

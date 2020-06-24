@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="return">
+<select id="selectAllRent" parameterType="string" resultType="rent">
+SELECT book_no as bookNo,
+		rent_no as rentNo,
+		member_id as memberId,
+		spot_name as spotName,
+		rent_start_date as rentStartDate,
+		rent_end_date as rentEndDate,
+		rent.book_category as bookCategory,
+		book_name as bookName
+ FROM RENT JOIN BOOK USING(BOOK_NO) WHERE MEMBER_ID=#{_parameter} and rent_return=0
+</select>
+<update id="updateBookStatus">
+update book set book_status=4 where  book_no in 
+(select book_no from rent join book using(book_no)  where rent_end_date &lt; sysdate and rent_return=0) 
+</update>
+<update id="updateDelayStatus">
+update member set delay_status= delay_status+1 where member_id in 
+(select member_id from rent join member using(member_id)  where rent_end_date &lt; sysdate and rent_return=0)
+</update>
+<update id="reduceDelayStatus">
+update member set delay_status=delay_status-1 where member_id in 
+(select member_id from (select sum(decode(rent_return,0,1,0)) , member_id from rent group by member_id having  sum(decode(rent_return,0,1,0))=0)) and delay_status!=0
+</update>
+</mapper>
