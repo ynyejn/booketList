@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kr.or.iei.member.model.dao.MemberDao;
+import kr.or.iei.member.model.vo.Member;
 
 @Service("memberService")
 public class MemberService {
@@ -14,5 +15,10 @@ public class MemberService {
 	
 	public MemberService() {
 		super();
+	}
+
+	public Member selectMemberOne(Member m) {
+		Member member = dao.selectMemberOne(m);
+		return member;
 	}
 }

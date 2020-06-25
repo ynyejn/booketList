@@ -34,7 +34,7 @@
 		<ul>
 			<c:if test="${empty sessionScope.member }">
 				<!--로그인되어있지않을때 -->
-				<li><a href="/login.do">로그인</a></li>
+				<li><a href="/member/login.do">로그인</a></li>
 				<li><a href="/join.do">회원가입</a></li>
 				<li><a href="#">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
