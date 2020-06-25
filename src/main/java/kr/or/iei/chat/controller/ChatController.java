@@ -37,7 +37,15 @@ public class ChatController {
 	@RequestMapping(value="/openChatting.do")
 	public String openChatting(Model model) {
 		ArrayList<Chat> arrChat = service.selectOpenChatting();
-		model.addAttribute("openChatting",arrChat);
+		ArrayList<Chat> list = new ArrayList<Chat>();
+		for(int i=0;i<arrChat.size();i++) {
+			
+				if(arrChat[i]==c.getChatTitle()) {
+					list.remove(c);
+				}
+			
+		}
+		model.addAttribute("openChatting",list);
 		return "openChatting/openChatting";
 	}
 	@RequestMapping("/chat.do")

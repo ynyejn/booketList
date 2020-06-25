@@ -12,7 +12,7 @@
             width: 1200px;
             overflow: hidden;
             margin: 120px auto 0 auto;
-            height: 900px;
+            height: 100%;
             background-color: aliceblue;
         }
 
