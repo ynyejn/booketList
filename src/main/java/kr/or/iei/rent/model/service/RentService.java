@@ -1,7 +1,6 @@
 package kr.or.iei.rent.model.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookAndReview;
 import kr.or.iei.book.model.vo.BookAndReviewPageData;
-import kr.or.iei.book.model.vo.BookData;
+import kr.or.iei.cart.model.dao.CartDao;
+import kr.or.iei.cart.model.vo.Cart;
 import kr.or.iei.rent.model.dao.RentDao;
 
 @Service("rentService")
@@ -20,6 +20,10 @@ public class RentService {
 	@Autowired
 	@Qualifier("rentDao")
 	private RentDao dao;
+	@Autowired
+	@Qualifier("cartDao")
+	private CartDao cartDao;
+	
 	//책검색 메인페이지 가기.
 	public BookAndReviewPageData selectBookPage(int reqPage) {
 		int totalCount = dao.totalCount();
@@ -105,13 +109,13 @@ public class RentService {
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
 		//페이지 네비 [이전] [현재] [다음]
 		if(pageNo != 1) {
-			pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+(pageNo-1)+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>[이전]</a>";
+			pageNavi += "<a href='/rent/searchBookDetail.do?reqPage="+(pageNo-1)+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>[이전]</a>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage == pageNo) {
 				pageNavi += "<span>"+pageNo+"</span>";
 			}else {
-				pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+(pageNo)+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>"+pageNo+"</a>";
+				pageNavi += "<a href='/rent/searchBookDetail.do?reqPage="+(pageNo)+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>"+pageNo+"</a>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -119,11 +123,16 @@ public class RentService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+(pageNo)+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>[다음]</a>";
+			pageNavi += "<a href='/rent/searchBookDetail.do?reqPage="+(pageNo)+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>[다음]</a>";
 		}
 		
 		BookAndReviewPageData bd = new BookAndReviewPageData((ArrayList<BookAndReview>)list, pageNavi);
 		return bd;
+	}
+
+	public int insertCart(Cart c) {
+		int result = cartDao.insertCart(c);
+		return result;
 	}
 
 }

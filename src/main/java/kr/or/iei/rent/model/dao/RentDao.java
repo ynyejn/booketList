@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookData;
 
 @Repository("rentDao")
@@ -37,4 +38,6 @@ public class RentDao {
 	public List searchBookDetail(HashMap<?,?> map3) {
 		return sql.selectList("book.searchBookDetail", map3);
 	}
+
+
 }

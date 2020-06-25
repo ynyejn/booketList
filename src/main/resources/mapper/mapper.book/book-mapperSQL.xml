@@ -9,8 +9,8 @@
 			JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME))
 		where 
 			${bookAttr} like '%' ||#{inputText}||'%'
-		<if test = "selectCategory != null and selectCategory != ''">
-			and book_category = #{selectCategory}
+		<if test = "categorySelect != null and categorySelect!='' ">
+			and book_category = #{categorySelect}
 		</if>
 	</select>
 	<select id="searchBookDetail" resultType="bookAndReview" parameterType="map">
@@ -27,8 +27,8 @@
 		                GROUP BY BOOK_NAME)
 		            USING (BOOK_NAME)
 	             WHERE ${map2.bookAttr} LIKE '%'||#{map2.inputText}||'%' 
-					<if test = "map2.selectCategory != null and map2.selectCategory != ''">
-						and book_category = #{map2.selectCategory}
+					<if test = "map2.categorySelect != null and map2.categorySelect !='' ">
+						and book_category = #{map2.categorySelect}
 					</if>
 					<choose>
 						<when test="map2.sort.equals('book_writer')">

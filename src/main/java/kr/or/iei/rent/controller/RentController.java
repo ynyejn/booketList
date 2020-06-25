@@ -2,12 +2,17 @@ package kr.or.iei.rent.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -15,6 +20,8 @@ import com.google.gson.Gson;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookAndReviewPageData;
 import kr.or.iei.book.model.vo.BookData;
+import kr.or.iei.cart.model.vo.Cart;
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.service.RentService;
 
 @Controller
@@ -56,5 +63,31 @@ public class RentController {
 		model.addAttribute("inputText", inputText);
 		model.addAttribute("sort", sort);
 		return "book/bookSearch";
+	}
+	@ResponseBody
+	@RequestMapping(value= "/insertCart.do", method = RequestMethod.GET)
+	public int insertCart(HttpServletRequest request, HttpSession session) {
+		String[] param = request.getParameterValues("chkArray");
+		
+		//로그인 된 아이디 받기
+//		Member member = session.getAttribute("member");
+		
+		//임시//
+		Member member = new Member();
+		member.setMemberId("user01");
+		///////
+		int result = 0;
+		for(int i=0; i<param.length; i++) {
+			Cart c = new Cart();
+			c.setBookName(param[i].split("~구분~")[0]);
+			c.setBookWriter(param[i].split("~구분~")[1]);
+			c.setBookPublisher(param[i].split("~구분~")[2]);
+			c.setBookImg(param[i].split("~구분~")[3]);
+			c.setMemberId(member.getMemberId());
+			
+			result += service.insertCart(c);
+		}
+		System.out.println("result : "+result);
+		return result;
 	}
 }
