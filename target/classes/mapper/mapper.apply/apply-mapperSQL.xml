@@ -4,4 +4,16 @@
  	<insert id="appltInsert" parameterType="apply">
  		insert into apply values(APPLY_SEQ.NEXTVAL, 'user01', SYSDATE,#{applyContent },#{bookName },#{bookWriter },#{bookPublisher },DEFAULT,#{bookCategory },#{bookImg },#{bookPubDate },#{bookContent })
  	</insert>
+ 	<select id="selectCheck" parameterType="book" resultType="book">
+ 		select book_no as bookNo,
+ 		 book_name as bookName, 
+ 		 book_writer as bookWriter,
+ 		 book_publisher as bookPublisher, 
+		 book_category as bookCategory,
+		 book_img as bookImg,
+		  book_pub_date as bookPubDate,
+		  book_status as bookStatus, 
+		  book_content as bookContent
+		from book where book_name = #{bookName}
+ 	</select>
 </mapper>
