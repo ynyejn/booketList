@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-size:18px">
 
 <head>
 
@@ -20,24 +20,22 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="/resources/adminBootstrap/css/bootstrap.css" />
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous" />
-	
-<link rel="stylesheet" href="/resources/css/admin/adminBookList.css" />
+	crossorigin="anonymous">
 
-
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
 <!-- Custom fonts for this template-->
 <link
 	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
-
 
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -49,20 +47,16 @@
 	rel="stylesheet" type="text/css">
 
 
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 
-
-
-<link rel="stylesheet"
-	href="/resources/adminBootstrap/css/bootstrap.css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
-<!-- <link -->
-<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" -->
-<!-- 	rel="stylesheet" -->
-<!-- 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" -->
-<!-- 	crossorigin="anonymous"> -->
 
 
 <script>
@@ -100,6 +94,47 @@
 		$("#search").keydown(function(key){
 			if(key.keyCode == 13){
 				$("#sear").click();	
+			}
+		});
+		
+		$("#ck_all").click(function(){
+			if($("#ck_all").prop("checked")){
+				$("input[type=checkbox]").prop("checked",true);
+			}else{
+				$("input[type=checkbox]").prop("checked",false);
+			}
+		});
+		
+		$("#selDelete").click(function(){
+			if(confirm("선택 도서를 삭제 하시겠습니까?")){
+				var checkArr = new Array();
+				var reqPages = ${reqPage };
+				
+				$(".checkRow:checked").each(function(){
+					checkArr.push($(this).val());
+				})
+				
+				console.log(checkArr);
+					
+					
+					$.ajax({
+						url : "/deleteBookList.do",
+						type : "get",
+						traditional : true,
+						data : {chBox : checkArr, reqPage : reqPages},
+						success : function(result){
+							console.log(result);
+							if(result > 0){
+								alert("삭제가 완료되었습니다.");
+								location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check=1&reqPage2=1";
+							}else{
+								alert("삭제가 실패 하였습니다.");
+							}
+						}
+						
+					});
+			}else{
+				return false;
 			}
 		});
 	});
@@ -258,7 +293,8 @@
 							role="button" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
 						</a> <!-- Dropdown - Messages -->
-							<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+							<div
+								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
 								aria-labelledby="searchDropdown">
 								<form class="form-inline mr-auto w-100 navbar-search">
 									<div class="input-group">
@@ -273,8 +309,7 @@
 										</div>
 									</div>
 								</form>
-							</div>
-						</li>
+							</div></li>
 
 						<!-- Nav Item - Alerts -->
 						<li class="nav-item dropdown no-arrow mx-1"><a
@@ -427,11 +462,10 @@
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										<li id="tt1" role="presentation" class="active"><a
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
-											aria-controls="home" aria-expanded="true"><b>답변 대기</b></a></li>
+											aria-controls="home" aria-expanded="true"><b>도서 내역</b></a></li>
 										<li id="tt2" role="presentation" class=""><a
 											href="#profile" role="tab" id="profile-tab" data-toggle="tab"
-											aria-controls="profile" aria-expanded="false"><b>답변
-													완료</b></a></li>
+											aria-controls="profile" aria-expanded="false"><b>도서신청내역</b></a></li>
 									</ul>
 
 									<div id="myTabContent" class="tab-content">
@@ -440,20 +474,23 @@
 											<table class="table table-hover">
 												<thead>
 													<tr>
-														<th class="num">번호</th>
-														<th class="id">id</th>
-														<th class="th2">제목</th>
-														<th class="th1" colspan="2">등록일</th>
+														<th class="width1"><input type="checkbox" id="ck_all"></th>
+														<th class="width2">도서이름</th>
+														<th class="width1">작가</th>
+														<th class="width1">출판사</th>
+														<th class="width1">장르</th>
+														<th class="width2">등록일</th> 
 													</tr>
 												</thead>
 												<tbody>
 													<c:forEach items="${list1 }" var="p" varStatus="i">
-														<tr class="move" id="move"
-															onclick="detail(${p.bookNo },${reqPage })">
-															<th scope="row" class="num">${(reqPage-1)*10 + i.count }</th>
+														<tr class="move" id="move">
+															<th><input type="checkbox" class="checkRow" value="${p.bookNo }"></th>
+															<td>${p.bookName }</td>
 															<td>${p.bookWriter }</td>
-															<td class="title">${p.bookName }</td>
-															<td class="insertdate">${p.bookContent }</td>
+															<td>${p.bookPublisher }</td>
+															<td>${p.bookCategory }</td>
+															<td>${p.bookPubDate }</td>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -500,7 +537,7 @@
 								<div class="dropdown">
 									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 									   Dropdown
-									  <span class="caret"></span>
+									  
 									  </button>
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">도서이름</a></li>
@@ -509,32 +546,24 @@
 									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">장르</a></li>
 									  </ul>
 								</div>
-												<button id="searchTitle" type="button"
-													class="btn btn-default dropdown-toggle"
-													data-toggle="dropdown" aria-expanded="false">
-													<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
-													<c:if test="${empty searchTitle }">도서이름</c:if>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a class="searchList">도서이름</a></li>
-													<li><a class="searchList">작가</a></li>
-													<li><a class="searchList">출판사</a></li>
-													<li><a class="searchList">장르</a></li>
-												</ul>
+							
 											
-											<!-- /btn-group -->
-											<c:if test="${not empty search }">
-												<input type="text" class="form-control " aria-label="..." id="search" value="${search }">
-												<span class="glyphicon glyphicon-search" id="sear"></span>
-											</c:if>
-											<c:if test="${empty search }">
-												<input type="text" class="form-control " aria-label="..." id="search">
-												<span class="glyphicon glyphicon-search" id="sear"></span>
-											</c:if>
+										
+										<!-- /btn-group -->
+										<c:if test="${not empty search }">
+											<input type="text" class="form-control" aria-label="..." id="search" value="${search }" style="witdh:300px">
+											<span class="glyphicon glyphicon-search" id="sear"></span>
+										</c:if>
+										<c:if test="${empty search }">
+											<input type="text" class="form-control " aria-label="..." id="search">
+											<span class="glyphicon glyphicon-search" id="sear"></span>
+										</c:if>
 										
 								<!-- /.col-lg-6 -->
 								<div id="sel">
 									<button type="button" class="btn btn-default" id="back">돌아가기</button>
+									<button type="button" class="btn btn-default" id="selDelete">선택삭제</button>
+									<button type="button" class="btn btn-default" id="">도서등록</button>
 								</div>
 								
 								

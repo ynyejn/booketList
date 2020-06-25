@@ -205,4 +205,9 @@ public class AdminService {
 	public BookPageData selectList4(int reqPage2, String search, String searchTitle) {
 		return null;
 	}
+
+	public int deleteBookList(String[] params) {
+		
+		return dao.deletebookList(params);
+	}
 }

@@ -59,4 +59,11 @@
 				order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
+	<delete id="deleteBookList">
+		delete from book where 
+		book_no in
+		<foreach collection="array" item="arr" separator="," open="(" close=")">
+			 #{arr}
+		</foreach>
+	</delete>
 </mapper>

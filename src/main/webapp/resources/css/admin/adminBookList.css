@@ -5,14 +5,14 @@
 		margin-top: 30px;
 		margin-bottom: 30px;
 	}
-	.num{
-		width: 10%;
+	 .width1{
+		width: 300px;
 		text-align: center;
 	}
-	.id{
+	.width2{
 		width: 20%;
 		text-align: center;
-	}
+	} 
 	.title{
 		width: 40%;
 		text-align: center;
@@ -31,14 +31,6 @@
 	
 	.PHJbtn{
 		text-align: center;
-	}
-	
-	.th2{
-		text-align : center;
-		
-	}
-	.th1{
-		text-align : center;
 	}
 	
 	.table>tbody>tr>th{

@@ -2,11 +2,14 @@ package kr.or.iei.admin.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.iei.admin.service.AdminService;
 import kr.or.iei.book.model.vo.Book;
@@ -27,8 +30,7 @@ public class AdminController {
 	}
 	@RequestMapping(value="/adminBookList.do")
 	public String adminBookList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
-		System.out.println(search);
-		System.out.println(searchTitle);
+		
 		model.addAttribute("check", check);
 		BookPageData bpd = null;
 		BookPageData bpd2 = null;
@@ -52,6 +54,26 @@ public class AdminController {
 		
 		return "admin/adminBookList";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteBookList.do")
+	public int deleteBookList(HttpServletRequest request, Model model, int reqPage) {
+		String[] params = request.getParameterValues("chBox");
+		System.out.println(params.length);
+		if(params.length == 1) {
+			System.out.println(params[0]);
+		}else {
+			for(int i=0;i<params.length;i++) {
+				System.out.println(params[i]);
+			}
+		}
+		
+		int result = service.deleteBookList(params);
+		model.addAttribute("reqPage", reqPage);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
 	@RequestMapping(value="/memberList.do")
 	public String memberList(Model model, int reqPage, int selectCount) {
 		System.out.println("AdminController");

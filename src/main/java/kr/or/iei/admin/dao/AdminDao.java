@@ -38,7 +38,6 @@ public class AdminDao {
 		return sqlSession.selectList("book.selectList2",map);
 	}
 
-
 	public int bookTotalCount3(HashMap<String, String> map2) {
 		return sqlSession.selectOne("book.bookTotalCount3",map2);
 	}
@@ -46,8 +45,13 @@ public class AdminDao {
 	public List selectList3(HashMap<String, String> map2) {
 		return sqlSession.selectList("book.selectList3",map2);
 	}
+	
 	public int memberTotalCount() {
 		return sqlSession.selectOne("member.memberTotalCount");
 
+	}
+
+	public int deletebookList(String[] params) {
+		return sqlSession.delete("book.deleteBookList", params);
 	}
 }
