@@ -54,4 +54,12 @@ public class AdminDao {
 	public int deletebookList(String[] params) {
 		return sqlSession.delete("book.deleteBookList", params);
 	}
+
+	public Book selectOneBookList(int bookNoo) {
+		return sqlSession.selectOne("book.selectOneBookList",bookNoo);
+	}
+
+	public int detailOneBookDelete(int bookNo) {
+		return sqlSession.delete("book.selectOneBookDelete",bookNo);
+	}
 }

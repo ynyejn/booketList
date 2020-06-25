@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+
 import kr.or.iei.admin.service.AdminService;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
@@ -59,16 +61,24 @@ public class AdminController {
 	@RequestMapping(value="/deleteBookList.do")
 	public int deleteBookList(HttpServletRequest request, Model model, int reqPage) {
 		String[] params = request.getParameterValues("chBox");
-		System.out.println(params.length);
-		if(params.length == 1) {
-			System.out.println(params[0]);
-		}else {
-			for(int i=0;i<params.length;i++) {
-				System.out.println(params[i]);
-			}
-		}
-		
 		int result = service.deleteBookList(params);
+		model.addAttribute("reqPage", reqPage);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectOneBookList.do",produces = "application/json;charset=utf-8")
+	public String selectOneBookList(int bookNo) {
+		System.out.println(bookNo);
+		Book book = service.selectOneBookList(bookNo);
+		System.out.println(book.getBookNo());
+		return new Gson().toJson(book);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detailOneBookDelete.do")
+	public int detailOneBookDelete(Model model, int reqPage, int bookNo) {
+		int result = service.detailOneBookDelete(bookNo);
 		model.addAttribute("reqPage", reqPage);
 		System.out.println("result : "+result);
 		return result;

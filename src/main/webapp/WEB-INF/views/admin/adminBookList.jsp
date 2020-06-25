@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" style="font-size:18px">
+<html lang="en" style="font-size: 18px">
 
 <head>
 
@@ -18,7 +18,8 @@
 
 <title>BooketList</title>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
@@ -77,6 +78,7 @@
 		
 		$(".searchList").click(function(){
 			var searchSelect = $(this).html();
+			$("#searchTitle").html("");
 			$("#searchTitle").html(searchSelect); 
 		});
 		
@@ -89,7 +91,9 @@
 		});
 	    $("#sear").click(function() {
 			var search = $("#search").val();
-			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search + "&searchTitle="+$("#searchTitle").html();
+			var searchTitle = $("#searchTitle").html();
+			alert(searchTitle);
+			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+$("#searchTitle").html();
 		}); 
 		$("#search").keydown(function(key){
 			if(key.keyCode == 13){
@@ -112,10 +116,7 @@
 				
 				$(".checkRow:checked").each(function(){
 					checkArr.push($(this).val());
-				})
-				
-				console.log(checkArr);
-					
+				});
 					
 					$.ajax({
 						url : "/deleteBookList.do",
@@ -137,10 +138,75 @@
 				return false;
 			}
 		});
+		
 	});
+	 
+	function detail(no){
+		$("#delNo").val(no);
+		$.ajax({
+			url : "/selectOneBookList.do",
+			type : "get",
+			data : {bookNo : no},
+			success:function(data){
+				$("#Bookin").children("table").children().remove(); 
+				html = "";
+				html += "<tr><th colspan='2'>"+data.bookName+"</th><tr>"
+				html += "<tr><th><img src='"+data.bookImg+"'></th>";
+				html += "<th>";
+				html += "<span>- 작가 : "+data.bookWriter+"</span><br>";
+				html += "<span>- 출판사 : "+data.bookPublisher+"</span><br>";
+				html += "<span>- 장르 : "+data.bookCategory+"</span><br>";
+				html += "<span>- 출판일 : "+data.bookPubDate+"</span><br>";
+				html += "</th></tr>";
+				if(data.bookContent==null){
+					html += "<tr><th colspan='2'></th><tr>"
+				}else{
+					html += "<tr><th colspan='2'>"+data.bookContent+"</th><tr>";
+				}
+				
+				
+				$("#Bookin").children("table").append(html);
+				
+			},
+			error:function(){
+				console.log("ajax통신 실패");
+			}
+		});
+	}
 	
 	
+	
+	function deleteBookList(no){
+		no = $("#delNo").val();
+		var reqPages = ${reqPage }
+		
+		if(confirm("선택 도서를 삭제 하시겠습니까?")){
+			$.ajax({
+				url : "/detailOneBookDelete.do",
+				type : "get",
+				traditional : true,
+				data : {bookNo : no, reqPage : reqPages},
+				success : function(result){
+
+					if(result > 0){
+						alert("삭제가 완료되었습니다.");
+						location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check=1&reqPage2=1";
+					}else{
+						alert("삭제가 실패 하였습니다.");
+					}
+				}
+				
+			});
+		}else{
+			
+		}
+	}
 </script>
+<style>
+.move {
+	cursor: pointer;
+}
+</style>
 </head>
 
 <body id="page-top">
@@ -479,13 +545,16 @@
 														<th class="width1">작가</th>
 														<th class="width1">출판사</th>
 														<th class="width1">장르</th>
-														<th class="width2">등록일</th> 
+														<th class="width2">등록일</th>
 													</tr>
 												</thead>
 												<tbody>
 													<c:forEach items="${list1 }" var="p" varStatus="i">
-														<tr class="move" id="move">
-															<th><input type="checkbox" class="checkRow" value="${p.bookNo }"></th>
+														<tr class="move"
+															onclick="detail('${p.bookNo }','${reqPage }')"
+															data-toggle="modal" data-target="#myModal">
+															<th><input type="checkbox" class="checkRow"
+																value="${p.bookNo }"></th>
 															<td>${p.bookName }</td>
 															<td>${p.bookWriter }</td>
 															<td>${p.bookPublisher }</td>
@@ -498,6 +567,48 @@
 											<nav id="footNav2">
 												<ul class="pagination">${pageNavi1 }</ul>
 											</nav>
+
+
+											<div class="col-lg-6">
+												<div class="input-group">
+													<div class="input-group-btn">
+														<button id="searchTitle"
+															class="btn btn-default dropdown-toggle" type="button"
+															data-toggle="dropdown" aria-expanded="false">
+															<c:if test="${empty searchTitle }">도서이름</c:if>
+															<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
+														</button>
+														<ul class="dropdown-menu" role="menu">
+															<li><a class="searchList">도서이름</a></li>
+															<li><a class="searchList">작가</a></li>
+															<li><a class="searchList">출판사</a></li>
+															<li><a class="searchList">장르</a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+
+
+
+											<!-- /btn-group -->
+											<c:if test="${not empty search }">
+												<input type="text" class="form-control" aria-label="..."
+													id="search" value="${search }" style="witdh: 300px">
+												<span class="glyphicon glyphicon-search" id="sear"></span>
+											</c:if>
+											<c:if test="${empty search }">
+												<input type="text" class="form-control " aria-label="..."
+													id="search">
+												<span class="glyphicon glyphicon-search" id="sear"></span>
+											</c:if>
+
+											<!-- /.col-lg-6 -->
+											<div id="sel">
+												<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												<button type="button" class="btn btn-default" id="selDelete">선택삭제</button>
+												<button type="button" class="btn btn-default" id="">도서등록</button>
+											</div>
 										</div>
 
 										<div role="tabpanel" class="tab-pane fade" id="profile"
@@ -529,46 +640,39 @@
 											</nav>
 										</div>
 
+
+
 									</div>
 								</div>
-								
-								
-								
-								<div class="dropdown">
-									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-									   Dropdown
-									  
-									  </button>
-									  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">도서이름</a></li>
-									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">작가</a></li>
-									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">출판사</a></li>
-									    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">장르</a></li>
-									  </ul>
+								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+									aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title" id="myModalLabel">도서 상세보기</h4>
+											</div>
+											<div class="modal-body" id="Bookin" style="height: 500px">
+												<table class="table table-bordered">
+												</table>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">돌아가기</button>
+												<input type="hidden" id="delNo">
+												<button type="button" class="btn btn-primary"
+													id="detailDelete" onclick="deleteBookList(this)">삭제</button>
+
+											</div>
+										</div>
+									</div>
 								</div>
-							
-											
-										
-										<!-- /btn-group -->
-										<c:if test="${not empty search }">
-											<input type="text" class="form-control" aria-label="..." id="search" value="${search }" style="witdh:300px">
-											<span class="glyphicon glyphicon-search" id="sear"></span>
-										</c:if>
-										<c:if test="${empty search }">
-											<input type="text" class="form-control " aria-label="..." id="search">
-											<span class="glyphicon glyphicon-search" id="sear"></span>
-										</c:if>
-										
-								<!-- /.col-lg-6 -->
-								<div id="sel">
-									<button type="button" class="btn btn-default" id="back">돌아가기</button>
-									<button type="button" class="btn btn-default" id="selDelete">선택삭제</button>
-									<button type="button" class="btn btn-default" id="">도서등록</button>
-								</div>
-								
-								
- 
-  
+
+
+
+
+
+
 
 								<!-- /.container-fluid -->
 
@@ -576,72 +680,73 @@
 							<!-- End of Main Content -->
 							<div class="row">
 
-							<!-- Footer -->
-							<footer class="sticky-footer bg-white">
-								<div class="container my-auto">
-									<div class="copyright text-center my-auto">
-										<span>Copyright &copy; Your Website 2019</span>
+								<!-- Footer -->
+								<footer class="sticky-footer bg-white">
+									<div class="container my-auto">
+										<div class="copyright text-center my-auto">
+											<span>Copyright &copy; Your Website 2019</span>
+										</div>
 									</div>
-								</div>
-							</footer>
-							<!-- End of Footer -->
+								</footer>
+								<!-- End of Footer -->
+
+							</div>
+							<!-- End of Content Wrapper -->
 
 						</div>
-						<!-- End of Content Wrapper -->
+						<!-- End of Page Wrapper -->
+						<!-- Scroll to Top Button-->
+						<a class="scroll-to-top rounded" href="#page-top"> <i
+							class="fas fa-angle-up"></i>
+						</a>
 
-					</div>
-					<!-- End of Page Wrapper -->
-					<!-- Scroll to Top Button-->
-					<a class="scroll-to-top rounded" href="#page-top"> <i
-						class="fas fa-angle-up"></i>
-					</a>
-
-					<!-- Logout Modal-->
-					<div class="modal fade" id="logoutModal" tabindex="-1"
-						role="dialog" aria-labelledby="exampleModalLabel"
-						aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Ready to
-										Leave?</h5>
-									<button class="close" type="button" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">×</span>
-									</button>
-								</div>
-								<div class="modal-body">Select "Logout" below if you are
-									ready to end your current session.</div>
-								<div class="modal-footer">
-									<button class="btn btn-secondary" type="button"
-										data-dismiss="modal">Cancel</button>
-									<a class="btn btn-primary" href="login.html">Logout</a>
+						<!-- Logout Modal-->
+						<div class="modal fade" id="logoutModal" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Ready to
+											Leave?</h5>
+										<button class="close" type="button" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<div class="modal-body">Select "Logout" below if you are
+										ready to end your current session.</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" type="button"
+											data-dismiss="modal">Cancel</button>
+										<a class="btn btn-primary" href="login.html">Logout</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<!-- Bootstrap core JavaScript-->
+						<!-- Bootstrap core JavaScript-->
 
-					<script src="/resources/adminBootstrap/vendor/jquery/jquery.min.js"></script>
-					<script
-						src="/resources/adminBootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+						<script
+							src="/resources/adminBootstrap/vendor/jquery/jquery.min.js"></script>
+						<script
+							src="/resources/adminBootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
-					<!-- Core plugin JavaScript-->
-					<script
-						src="/resources/adminBootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
+						<!-- Core plugin JavaScript-->
+						<script
+							src="/resources/adminBootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-					<!-- Custom scripts for all pages-->
-					<script src="/resources/adminBootstrap/js/sb-admin-2.min.js"></script>
+						<!-- Custom scripts for all pages-->
+						<script src="/resources/adminBootstrap/js/sb-admin-2.min.js"></script>
 
-					<!-- Page level plugins -->
-					<script
-						src="/resources/adminBootstrap/vendor/chart.js/Chart.min.js"></script>
+						<!-- Page level plugins -->
+						<script
+							src="/resources/adminBootstrap/vendor/chart.js/Chart.min.js"></script>
 
-					<!-- Page level custom scripts -->
-					<script src="/resources/adminBootstrap/js/demo/chart-area-demo.js"></script>
-					<script src="/resources/adminBootstrap/js/demo/chart-pie-demo.js"></script>
+						<!-- Page level custom scripts -->
+						<script src="/resources/adminBootstrap/js/demo/chart-area-demo.js"></script>
+						<script src="/resources/adminBootstrap/js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>

@@ -210,4 +210,12 @@ public class AdminService {
 		
 		return dao.deletebookList(params);
 	}
+
+	public Book selectOneBookList(int bookNo) {
+		return dao.selectOneBookList(bookNo);
+	}
+
+	public int detailOneBookDelete(int bookNo) {
+		return dao.detailOneBookDelete(bookNo);
+	}
 }
