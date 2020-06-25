@@ -45,8 +45,9 @@ public class ReviewController {
 	}
 	@RequestMapping("/reviewInsert.do")
 	public String reviewInster(HttpServletRequest request,MultipartFile file,String type,Review review) {
+		String memberId = "user01";
 		if(!file.isEmpty()) {
-			String savePath = request.getSession().getServletContext().getRealPath("resources/review/notice/");
+			String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
 			String originalFileName = file.getOriginalFilename();
 			String onlyFilename = originalFileName.substring(0, originalFileName.lastIndexOf("."));
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -55,12 +56,17 @@ public class ReviewController {
 			review.setReviewFilename(onlyFilename);
 			review.setReviewFilepath(filepath);
 			review.setBookName(type);
-			System.out.println(type);
-			int bookNo = service.selectBookno(review);
-			Book b = service.selectBook(review.getBookName());
-			review.setBookCategory(b.getBookCategory());
-			review.setBookPublisher(b.getBookPublisher());
-			review.setBookWriter(b.getBookWriter());
+			ArrayList<Book> list = service.reviewSelectBook(memberId);
+			for(Book b : list) {
+				if(b.getBookName()==type) {
+					System.out.println(b.getBookCategory());
+					System.out.println(b.getBookPublisher());
+					System.out.println(b.getBookWriter());
+					review.setBookCategory(b.getBookCategory());
+					review.setBookPublisher(b.getBookPublisher());
+					review.setBookWriter(b.getBookWriter());
+				}
+			}
 			int result = service.reviewInsert(review);
 			if(result>0) {
 				try {
@@ -74,6 +80,23 @@ public class ReviewController {
 					e.printStackTrace();
 				}	
 			}
+		}else {
+			review.setBookName(type);
+			ArrayList<Book> list = service.reviewSelectBook(memberId);
+			for(Book b : list) {
+				if(b.getBookName()==type) {
+					System.out.println(b.getBookCategory());
+					System.out.println(b.getBookPublisher());
+					System.out.println(b.getBookWriter());
+					review.setBookCategory(b.getBookCategory());
+					review.setBookPublisher(b.getBookPublisher());
+					review.setBookWriter(b.getBookWriter());
+				}
+			}
+			int result = service.reviewInsert(review);
+			if(result>0) {
+				return "review/reviewList";
+			}
 		}
 		return "review/reviewList";
 	}
@@ -85,8 +108,7 @@ public class ReviewController {
 	@ResponseBody
 	@RequestMapping(value = "/reviewSelectBook.do",produces = "application/json; charset=utf-8")
 	public String reviewSelectBook(String memberId) {
-		System.out.println(memberId);
-		ArrayList<String> list = service.reviewSelectBook(memberId);
+		ArrayList<Book> list = service.reviewSelectBook(memberId);
 		System.out.println(list.size());
 		return new Gson().toJson(list);
 	}

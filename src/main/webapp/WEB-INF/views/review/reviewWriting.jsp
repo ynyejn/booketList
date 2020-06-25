@@ -20,10 +20,9 @@
 <body>
 	<h1>후기 작성</h1>
 	<form action="/review/reviewInsert.do" method="post" enctype="multipart/form-data" id="reviewInster">
-	닉네임 : <input type="text" name="memberNickName" value="내아를 나둬"><br>
-	책 선택 : <select id="type" name="type">
-		
-	</select><br>
+	닉네임 : <input type="text" name="memberNickName" value="동건"><br>
+	<div id="book"></div>
+	책 선택 : <select id="type" name="type"></select><br>
 	<p>평점 : <img class="sta" src="/resources/star/star3.jpg">
 	<img class="sta" src="/resources/star/star3.jpg">
 	<img class="sta" src="/resources/star/star3.jpg">
@@ -58,12 +57,13 @@ function loadImg(f) {
 			data : { memberId:memberId },
 			success : function(data){
 				html="";
-				
+
 				for(var i=0;i<data.length;i++){
-					html+="<option value='"+data[i]+"'>"+data[i]+"</option>"
-				
+					html+="<option value='"+data[i].bookName+"'>"+data[i].bookName+"</option>";
+					
 				}
 				$("#type").append(html);
+				
 			}
 		});
 		

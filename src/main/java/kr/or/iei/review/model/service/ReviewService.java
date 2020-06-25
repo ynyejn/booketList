@@ -27,9 +27,9 @@ public class ReviewService {
 		return (ArrayList<Review>)list;
 	}
 
-	public ArrayList<String> reviewSelectBook(String memberId) {
+	public ArrayList<Book> reviewSelectBook(String memberId) {
 		List list = dao.reviewSelectBook(memberId);
-		return (ArrayList<String>)list;
+		return (ArrayList<Book>)list;
 	}
 
 	public int reviewInsert(Review review) {
@@ -37,17 +37,4 @@ public class ReviewService {
 		return result;
 	}
 
-	public Book selectBook(String bookName) {
-		Book b = dao.selectBook(bookName);
-		return b;
-	}
-
-	public int selectBookno(Review review) {
-		String memberId = "user01";
-		int bookNo = dao.selectBookno(review);
-		return bookNo;
-	}
-
-	
-	
 }

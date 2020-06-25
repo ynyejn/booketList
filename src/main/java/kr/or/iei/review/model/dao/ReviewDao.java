@@ -31,17 +31,7 @@ public class ReviewDao {
 
 	public int reviewInsert(Review review) {
 	
-		return sql.insert("review.reviewInnsert",review);
+		return sql.insert("review.reviewInsert",review);
 	}
 
-	public Book selectBook(String bookName) {
-		
-		return sql.selectOne("review.selectBook",bookName);
-	}
-
-	public int selectBookno(Review review) {
-		
-		return sql.selectOne("review.selectBookno",review);
-	}
-	
 }
