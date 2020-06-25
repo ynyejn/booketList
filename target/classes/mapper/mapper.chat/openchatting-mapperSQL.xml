@@ -5,13 +5,12 @@
  		select 
  		chat_no as chatNo,
  		chat_title as chatTitle,
- 		chat_filepath as chatFilepath,
  		chat_people as chatPeople,
  		chat_pw as chatPw,
  		chat_enroll_date as chatEnrollDate,
  		member_nickname as memberNickname from chat
  	</select>
  	<insert id="chatInsert" parameterType="chat">
- 		insert into chat values(chat_seq.nextval,#{chatTitle},#{chatFilepath},#{chatPeople},#{chatPw},sysdate,#{memberNickname})
+ 		insert into chat values(chat_seq.nextval,#{chatTitle},#{chatPeople},#{chatPw},sysdate,#{memberNickname})
  	</insert>
 </mapper>

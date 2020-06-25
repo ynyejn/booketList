@@ -26,7 +26,6 @@
 		<c:forEach var="list" items="${openChatting }">
 			${list.chatNo }<br>
 			${list.chatTitle }<br>
-			${list.chatFilepath }<br>
 			${list.chatPeople }<br>
 			${list.chatPw }<br>
 			${list.chatEnrollDate }<br>

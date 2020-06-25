@@ -10,12 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 import kr.or.iei.chat.model.service.ChatService;
 import kr.or.iei.chat.model.vo.Chat;
 import kr.or.iei.member.model.vo.Member;
-
 
 @Controller
 @RequestMapping("/chat")
@@ -23,40 +20,34 @@ public class ChatController {
 	@Autowired
 	@Qualifier("chatService")
 	private ChatService service;
-	
+
 	public ChatController() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	@RequestMapping("makingRoomFrm.do")
 	public String makingRoomFrm(HttpSession session, Model model) {
 		Member m = (Member) session.getAttribute("member");
 		model.addAttribute("m", m);
 		return "openChatting/makingRoom";
 	}
-	@RequestMapping(value="/openChatting.do")
+
+	@RequestMapping(value = "/openChatting.do")
 	public String openChatting(Model model) {
 		ArrayList<Chat> arrChat = service.selectOpenChatting();
-		ArrayList<Chat> list = new ArrayList<Chat>();
-		for(int i=0;i<arrChat.size();i++) {
-			
-				if(arrChat[i]==c.getChatTitle()) {
-					list.remove(c);
-				}
-			
-		}
-		model.addAttribute("openChatting",list);
+		model.addAttribute("openChatting", arrChat);
 		return "openChatting/openChatting";
 	}
+
 	@RequestMapping("/chat.do")
-	public String chat(Chat c,Model model,String memberNickname) {
-		System.out.println(c.getChatFilepath());
+	public String chat(Chat c, Model model, String memberNickname) {
 		System.out.println(c.getChatPeople());
 		System.out.println(c.getChatPw());
 		System.out.println(c.getChatTitle());
 		System.out.println(memberNickname);
 		int result = service.chatInsert(c);
-		model.addAttribute("title",c.getChatTitle());
+		model.addAttribute("title", c.getChatTitle());
 		return "openChatting/chat";
 	}
 }
