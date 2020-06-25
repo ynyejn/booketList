@@ -2,6 +2,7 @@ package kr.or.iei.turn.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ReturnController {
 		if(result>0) {
 			System.out.println("성공");
 		}else {
-			System.out.println("실패애");
+			System.out.println("실패");
 		}
 	}
 	
@@ -40,5 +41,12 @@ public class ReturnController {
 		ArrayList<Rent> list = service.selectAllRent(memberId);
 		model.addAttribute("list",list);
 		return "book/returnBook";
+	}
+	
+	@RequestMapping("/goSpotPage.do")
+	public String goSpotPage(HttpServletRequest request,Model model) {
+		String[] numbers=request.getParameterValues("bookNo");
+		model.addAttribute("numbers",numbers);
+		return "book/spotPage";
 	}
 }

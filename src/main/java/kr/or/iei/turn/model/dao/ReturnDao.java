@@ -26,4 +26,6 @@ public class ReturnDao {
 	public int reduceDelayStatus() {
 		return sqlSession.update("return.reduceDelayStatus");
 	}
+
+
 }
