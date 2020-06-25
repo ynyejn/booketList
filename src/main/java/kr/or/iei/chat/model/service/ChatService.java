@@ -27,4 +27,9 @@ public ArrayList<Chat> selectOpenChatting() {
 	List list = dao.selectOpenChatting();
 	return (ArrayList<Chat>)list;
 }
+
+public int chatInsert(Chat c) {
+	int result = dao.chatInsert(c);
+	return result;
+}
 }

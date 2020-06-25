@@ -22,6 +22,7 @@
 <div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
+		<button>방만들기</button>
 		<c:forEach var="list" items="${openChatting }">
 			${list.chatNo }<br>
 			${list.chatTitle }<br>
@@ -29,11 +30,23 @@
 			${list.chatPeople }<br>
 			${list.chatPw }<br>
 			${list.chatEnrollDate }<br>
-			${list.memberNickName }<br>
+			${list.memberNickname }<br>
 		</c:forEach>
 			openChatting
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
+	<script type="text/javascript">
+	$(function () {
+		$("button").click(function () {
+			window.name="apply"
+			var url = "/chat/makingRoomFrm.do";
+			var title = "도서 검색";
+			var style = "width=400,height=400,top=100,left=400";
+			window.open(url,title,style);
+		});
+	})
+	
+	</script>
 </body>
 </html>

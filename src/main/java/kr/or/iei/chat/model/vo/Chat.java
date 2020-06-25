@@ -11,7 +11,7 @@ public class Chat {
 	private int chatPeople;
 	private String chatPw;
 	private Date chatEnrollDate;
-	private String memberNickName;
+	private String memberNickname;
 	
 	
 }
