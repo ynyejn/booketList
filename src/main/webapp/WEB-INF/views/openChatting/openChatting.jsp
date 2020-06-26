@@ -29,10 +29,10 @@
 			<input type="hidden" class="title" value="${list.chatTitle }">
 			${list.chatTitle }<br>
 			${list.chatPeople }<br>
-			${list.chatPw }<br>
 			${list.chatEnrollDate }<br>
 			${list.memberNickname }<br>
-			<span class="span"></span>
+			현재 접속자수 
+			<span class="span"></span><br>
 			</a>
 		</c:forEach>
 			openChatting

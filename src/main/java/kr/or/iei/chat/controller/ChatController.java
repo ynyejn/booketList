@@ -43,7 +43,6 @@ public class ChatController {
 	@RequestMapping("/chat.do")
 	public String chat(Chat c, Model model, String memberNickname) {
 		System.out.println(c.getChatPeople());
-		System.out.println(c.getChatPw());
 		System.out.println(c.getChatTitle());
 		System.out.println(memberNickname);
 		int result = service.chatInsert(c);

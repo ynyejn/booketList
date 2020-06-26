@@ -13,23 +13,11 @@
 <input type="hidden" name="memberNickname" value="${m.memberNickname }">
 	방제목 : <input type="text" name="chatTitle"><span id="titleSpan"></span><br>
 	최대 인원수 : <input type="text" name="chatPeople"><br>
-	비밀 번호 : <input type="checkbox" id="check"><br>
-	<span id="chatpw">방 비밀 번호 :</span> <input type="text" name="chatPw"><br>
 	<input type="submit" value="방만들기"><input type="button" onclick="window.close()"value="취소">
 </form>
 <script type="text/javascript">
 	$(function () {
-		$("input[name=chatPw]").hide();
-		$("#chatpw").hide();
-		$("#check").click(function () {
-			if($("#check").is(":checked")){
-				$("input[name=chatPw]").show();
-				$("#chatpw").show();
-			}else{
-				$("input[name=chatPw]").hide();
-				$("#chatpw").hide();
-			}
-		})
+		
 		$("input[name=chatTitle]").focusout(function () {
 			
 			if($("input[name=chatTitle]").val() == ""){
