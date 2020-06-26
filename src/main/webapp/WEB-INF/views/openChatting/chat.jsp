@@ -9,27 +9,29 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
 <body>
+<input type="hidden" id="title"value="${title }">
+<textarea rows="5" cols="30" id="msgArea"></textarea>
+	<br>
+	메세지 : <input type="text" id="chatMsg"><br>
+	
+	<button id="sendBtn">전송</button>
+	${sessionScope.member.memberId}
 <script>
 	var ws;
 	var memberId = '${sessionScope.member.memberId}';
-	var	result = $("#onon").val();
-	var msg1 = {
-			type : "delete",
-			memberId : memberId,
-			result : result
-	}
-	
+	var	title = $("#title").val();
+
 	
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.28/onon.do?memberId="+memberId+" "+result);
+		ws = new WebSocket("ws://192.168.10.28/openChatting.do?memberId="+memberId+" "+title);
 		
 		ws.onopen = function () {
 			console.log("웹소켓 연결 생성");
-			console.log(result);
+			console.log(title);
 			var msg = {
 					type : "register",
 					memberId : memberId,
-					result : result
+					title : title
 			}
 			
 			ws.send(JSON.stringify(msg));//스트링으로 풀어서 보내기 type : "register",memberId : 'tjehdrjs1230';
@@ -51,7 +53,7 @@
 	}
 	$(function() {
 		connect();
-		var	result = $("#onon").val();
+		var	title = $("#title").val();
 		$("#sendBtn").click(function () {
 			var chat = $("#chatMsg").val();
 			var msg = $("#msgArea").val()+"\n나 : "+chat;
@@ -60,7 +62,7 @@
 			var sendMsg = {
 					type : "chat",
 					msg : chat,
-					result : result,
+					title : title,
 					memberId : memberId
 			};
 			ws.send(JSON.stringify(sendMsg));

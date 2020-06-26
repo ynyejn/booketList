@@ -24,7 +24,7 @@
 		<div class="content">
 		<button>방만들기</button>
 		<c:forEach var="list" items="${openChatting }">
-		<a href="/chat/chat.do?chatTitle=${list.chatTitle }">
+		<a  href="/chat/chat.do?chatTitle=${list.chatTitle }&memberNickname=${list.memberNickname }"  onclick="window.open(this.href, '_blank', 'width=400,height=300,toolbars=no,scrollbars=no'); return false;">
 			${list.chatNo }<br>
 			<input type="hidden" class="title" value="${list.chatTitle }">
 			${list.chatTitle }<br>
@@ -40,7 +40,7 @@
 	</div>
 	<script type="text/javascript">
 	var ws;
-	
+	var memberId = '${sessionScope.member.memberId}';
 	var	title = document.getElementsByClassName("title");
 	
 	function connect() {
@@ -51,6 +51,7 @@
 			var title2=$(".title").eq(i).val();
 			var msg = {
 					type : "type",
+					memberId : memberId,
 					title : title2
 			}
 			
@@ -82,6 +83,7 @@
 			var style = "width=400,height=400,top=100,left=400";
 			window.open(url,title,style);
 		});
+		
 	})
 	
 	</script>
