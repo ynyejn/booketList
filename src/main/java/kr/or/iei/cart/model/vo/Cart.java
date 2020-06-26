@@ -11,6 +11,4 @@ public class Cart {
 	private String bookPublisher;
 	private String bookImg;
 
-	
-	
 }

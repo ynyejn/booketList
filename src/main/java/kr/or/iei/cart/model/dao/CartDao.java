@@ -1,5 +1,6 @@
 package kr.or.iei.cart.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -18,16 +19,16 @@ public class CartDao {
 		super();
 	}
 
-	public int dupChk(Book book) {
-		return sql.selectOne("cart.dupChk", book);
+	public int dupChk(Cart cart) {
+		return sql.selectOne("cart.dupChk", cart);
 	}
 
 //	public int insertCart(Book book) {
 //		return sql.insert("cart.insertCart", book);
 //	}
 
-	public int insertCart(Cart c) {
-		return sql.insert("cart.insertCart", c);
+	public int insertCart(Cart cart) {
+		return sql.insert("cart.insertCart", cart);
 	}
 
 }

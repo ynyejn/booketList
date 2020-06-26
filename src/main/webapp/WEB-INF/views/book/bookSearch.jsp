@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Booket List</title>
+
 </head>
 <style>
         .content {
@@ -19,20 +20,48 @@
         }
 
 </style>
+	<!-- 로딩 -->
+	<style>
+		.loader {
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    z-index: 1;
+	    width: 150px;
+	    height: 150px;
+	    margin: -75px 0 0 -75px;
+	    border: 16px solid #f3f3f3;
+	    border-radius: 50%;
+	    border-top: 16px solid #3498db;
+	    width: 120px;
+	    height: 120px;
+	    -webkit-animation: spin 2s linear infinite;
+	    animation: spin 2s linear infinite;
+	}
+	
+	
+	@-webkit-keyframes spin {
+	    0% { -webkit-transform: rotate(0deg); }
+	    100% { -webkit-transform: rotate(360deg); }
+	}
+	
+	@keyframes spin {
+	    0% { transform: rotate(0deg); }
+	    100% { transform: rotate(360deg); }
+	}
+	</style>
+	<script>
+		var _showPage = function() {
+			  var loader = $("div.loader");
+			  var container = $("div.loaderDiv"); 
+			  loader.css("display","none");
+			  container.css("display","block"); 
+		};
+	</script>
 <script>
-	function textLengthOverCut(txt, len, lastTxt) {
-	    if (len == "" || len == null) { // 기본값
-	        len = 20;
-	    }
-	    if (lastTxt == "" || lastTxt == null) { // 기본값
-	        lastTxt = "...";
-	    }
-	    if (txt.length > len) {
-	        txt = txt.substr(0, len) + lastTxt;
-	    }
-	    return txt;
-	};
+
 	function bookListLoad(bookName, obj, numb) {
+		$("div.loader").css("display","block");
 		$.ajax({
 			url : "/rent/bookListLoad.do",
 			type : "post",
@@ -64,12 +93,12 @@
 				$(obj).parents().find("div#listDiv"+numb).append(html);
 				$(obj).next().show();
 				$(obj).hide();
-				
 			},
 			error : function() {
 				console.log("아작스 실패");
 			}
 		});
+		$("div.loader").css("display","none");
 	}
 	function bookListRemove(obj, numb) {
 		$(obj).prev().show();
@@ -114,7 +143,9 @@
 		}		
 	})
 	$(function () {
+		//장바구니에 넣기
 		$("#insertCart").click(function () {
+			$("div.loader").css("display","block");
 			var chkArray = new Array();
 			for(var i=0; i< $("input:checkbox[name=chkbox]").length ; i++) {
 				if($("input:checkbox[name=chkbox]").eq(i).is(":checked")) {
@@ -122,8 +153,6 @@
 					chkArray.push($("input:checkbox[name=chkbox]").eq(i).val());
 				}
 			}
-			console.log(chkArray);
-			
 			$.ajax({
 				url : "/rent/insertCart.do",
 				type : "get",
@@ -132,11 +161,44 @@
 				success : function(data) {
 					console.log("return :"+data);
 					console.log("아작스 성공");
+					if(data == -1) {
+						alert("책을 선택해야만 합니다. ");
+					}else if(data == 0){
+						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
+					}else {
+						var chkArraySize = chkArray.length;
+						alert(chkArraySize+"권 중에\n "+data+"권이 장바구니에 들어갔습니다.");
+						
+					}
 				}, error : function () {
 					console.log("아작스 실패");
 				}
 			});
+			$("div.loader").css("display","none");
+
 		});
+		//예약하기
+		$("#reservationButton").click(function() {
+			$("div.loader").css("display","block");
+			var resVal = $("#reservationInput").val();
+			console.log(resVal);
+			$.ajax({
+				url : "/reservation/insertReservation.do",
+				type :"get",
+				data : {resVal : resVal},
+				success : function(data) {
+					if(data == -1) {
+						alert("이미 예약되어 있는 책입니다. ");						
+					}else {
+						alert("예약 성공");
+					}
+				}, error : function(){
+					console.log("아작스 실패");
+				}
+			});
+			$("div.loader").css("display","none");
+		});
+		
 	});
 	
 </script>
@@ -197,6 +259,7 @@
 				contentDiv
 				<div id="selectDiv">
 					<button type="button" id="allSelect">전체 선택/취소</button>
+<!-- 					<button type="button" id="insertCart" data-toggle="modal" data-target="#inserCartPop">선택한 책 장바구니에 담기</button> -->
 					<button type="button" id="insertCart">선택한 책 장바구니에 담기</button>
 				</div>
 				<div id="MainContentDiv">
@@ -219,7 +282,8 @@
 												${n.bookName}  
 												<input type="hidden" name="${n.bookName }" value="${n.bookName }">
 												<c:if test="${n.cnt eq '0'}">
-													<button type="button">예약하기</button>
+													<button type="button" id="reservationButton">예약하기</button>
+													<input type="hidden" id="reservationInput" value="${n.bookName }~구분~${n.bookWriter }~구분~${n.bookPublisher}~구분~${n.bookCategory}">
 												</c:if>
 											</td>
 										</tr>
@@ -280,7 +344,10 @@
 				${pageNavi}
 			</div>
 		</div>
+		<!-- 로딩 페이지 -->
+	<div class="loader" style='display:none;'></div>
+</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	</div>
 </body>
+
 </html>

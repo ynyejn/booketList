@@ -67,27 +67,31 @@ public class RentController {
 	@ResponseBody
 	@RequestMapping(value= "/insertCart.do", method = RequestMethod.GET)
 	public int insertCart(HttpServletRequest request, HttpSession session) {
-		String[] param = request.getParameterValues("chkArray");
-		
-		//로그인 된 아이디 받기
-//		Member member = session.getAttribute("member");
-		
-		//임시//
-		Member member = new Member();
-		member.setMemberId("user01");
-		///////
-		int result = 0;
-		for(int i=0; i<param.length; i++) {
-			Cart c = new Cart();
-			c.setBookName(param[i].split("~구분~")[0]);
-			c.setBookWriter(param[i].split("~구분~")[1]);
-			c.setBookPublisher(param[i].split("~구분~")[2]);
-			c.setBookImg(param[i].split("~구분~")[3]);
-			c.setMemberId(member.getMemberId());
+		if(request.getParameter("chkArray") != null) {			
+			String[] param = request.getParameterValues("chkArray");
+			//로그인 된 아이디 받기
+			//		Member member = session.getAttribute("member");
 			
-			result += service.insertCart(c);
+			//임시//
+			Member member = new Member();
+			member.setMemberId("user01");
+			///////
+			int result = 0;
+			ArrayList<Cart> cartList = new ArrayList<Cart>();
+			for(int i=0; i<param.length; i++) {
+				Cart c = new Cart();
+				c.setBookName(param[i].split("~구분~")[0]);
+				c.setBookWriter(param[i].split("~구분~")[1]);
+				c.setBookPublisher(param[i].split("~구분~")[2]);
+				c.setBookImg(param[i].split("~구분~")[3]);
+				c.setMemberId(member.getMemberId());
+				cartList.add(c);
+			}
+			result = service.insertCart(cartList);
+			System.out.println("result : "+result);
+			return result;
+		}else {
+			return -1;			
 		}
-		System.out.println("result : "+result);
-		return result;
 	}
 }

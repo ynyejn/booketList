@@ -130,8 +130,19 @@ public class RentService {
 		return bd;
 	}
 
-	public int insertCart(Cart c) {
-		int result = cartDao.insertCart(c);
+	public int insertCart(ArrayList<Cart> cartList) {
+		//중복제거
+		System.out.println("서비스 카트사이즈 :"+cartList.size());
+		System.out.println("서비스 카트사이즈 :"+cartList.get(0));
+//		System.out.println("서비스 카트사이즈 :"+cartList.get(1));
+		int result = 0;
+		for(int i=0; i< cartList.size(); i++) {
+			int count = cartDao.dupChk(cartList.get(i));
+			if(count == 0) {
+				result += cartDao.insertCart(cartList.get(i));
+			}
+		}
+		System.out.println("insert : "+result);
 		return result;
 	}
 
