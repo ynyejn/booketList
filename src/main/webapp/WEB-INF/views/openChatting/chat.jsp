@@ -15,22 +15,22 @@
 	메세지 : <input type="text" id="chatMsg"><br>
 	
 	<button id="sendBtn">전송</button>
-	${sessionScope.member.memberId}
+	${sessionScope.member.memberNickname}
 <script>
 	var ws;
-	var memberId = '${sessionScope.member.memberId}';
+	var memberNickname = '${sessionScope.member.memberNickname}';
 	var	title = $("#title").val();
 
 	
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.28/openChatting.do?memberId="+memberId+" "+title);
+		ws = new WebSocket("ws://192.168.219.102/openChatting.do?memberNickname="+memberNickname+" "+title);
 		
 		ws.onopen = function () {
 			console.log("웹소켓 연결 생성");
 			console.log(title);
 			var msg = {
 					type : "register",
-					memberId : memberId,
+					memberNickname : memberNickname,
 					title : title
 			}
 			
@@ -63,9 +63,10 @@
 					type : "chat",
 					msg : chat,
 					title : title,
-					memberId : memberId
+					memberNickname : memberNickname
 			};
-			ws.send(JSON.stringify(sendMsg));
+			var socketMsg = JSON.stringify(sendMsg);
+			ws.send(socketMsg);
 		});
 	});
 	</script>

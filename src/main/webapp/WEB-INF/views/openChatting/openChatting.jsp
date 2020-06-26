@@ -24,7 +24,7 @@
 		<div class="content">
 		<button>방만들기</button>
 		<c:forEach var="list" items="${openChatting }">
-		<a  href="/chat/chat.do?chatTitle=${list.chatTitle }&memberNickname=${list.memberNickname }"  onclick="window.open(this.href, '_blank', 'width=400,height=300,toolbars=no,scrollbars=no'); return false;">
+		<a  href="/chat/chatRoom.do?title=${list.chatTitle }"  onclick="window.open(this.href, '_blank', 'width=400,height=300,toolbars=no,scrollbars=no'); return false;">
 			${list.chatNo }<br>
 			<input type="hidden" class="title" value="${list.chatTitle }">
 			${list.chatTitle }<br>
@@ -32,6 +32,7 @@
 			${list.chatPw }<br>
 			${list.chatEnrollDate }<br>
 			${list.memberNickname }<br>
+			<span class="span"></span>
 			</a>
 		</c:forEach>
 			openChatting
@@ -40,7 +41,7 @@
 	</div>
 	<script type="text/javascript">
 	var ws;
-	var memberId = '${sessionScope.member.memberId}';
+	var memberNickname = '${sessionScope.member.memberNickname}';
 	var	title = document.getElementsByClassName("title");
 	
 	function connect() {
@@ -51,7 +52,7 @@
 			var title2=$(".title").eq(i).val();
 			var msg = {
 					type : "type",
-					memberId : memberId,
+					memberNickname : memberNickname,
 					title : title2
 			}
 			
@@ -61,8 +62,13 @@
 		
 		ws.onmessage = function (e) {
 			var msg = e.data;
-			var chat = $("#msgArea").val()+"\n상대방 :"+msg;
-			$("#msgArea").val(chat);
+			var array = msg.split(" ");
+			for(var i=0;i<title.length;i++){
+				var title2=$(".title").eq(i).val();
+				if(title2 == array[0]){
+					$(".span").eq(i).html(array[1]);
+				}
+			}
 		}
 		
 		ws.onclose = function () {

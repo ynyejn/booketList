@@ -50,4 +50,10 @@ public class ChatController {
 		model.addAttribute("title", c.getChatTitle());
 		return "openChatting/chat";
 	}
+	@RequestMapping("/chatRoom.do")
+	public String chatRoom(String title,Model model) {
+		
+		model.addAttribute("title",title);
+		return "openChatting/chat";
+	}
 }

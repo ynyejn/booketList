@@ -40,48 +40,56 @@ public class OpenChatting extends TextWebSocketHandler {
 		String type = element.getAsJsonObject().get("type").getAsString();
 		HashMap<String, WebSocketSession> members;
 		if (type.equals("type")) {
-			String memberId = element.getAsJsonObject().get("memberId").getAsString();
+			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();
 			String title = element.getAsJsonObject().get("title").getAsString();
 			System.out.println(title);
 			members = map.get(title);
-			int result = members.size();
-			String result2 = Integer.toString(result);
-			WebSocketSession ws = members.get(memberId);
-			ws.sendMessage(new TextMessage(result2));
+			if(members!=null) {
+				int result = members.size();
+				String result2 = Integer.toString(result);
+				WebSocketSession ws = members.get(memberNickname);
+				ws.sendMessage(new TextMessage(result2+""+title));
+				
+			}
 		}else if(type.equals("register")){
-			String memberId = element.getAsJsonObject().get("memberId").getAsString();
+			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();
 			String title = element.getAsJsonObject().get("title").getAsString();
 			members = map.get(title);
 			
 			if(members == null) {//대화방이 방제목에 해당하는 방이 없을 경우
 				members= new HashMap<String, WebSocketSession>();
 				map.put(title, members);
-				members.put(memberId, session);
-				for(String key : map.keySet()){
+				members.put(memberNickname, session);
+				System.out.println(memberNickname);
+				System.out.println(title);
+				for(String key : members.keySet()){
+					System.out.println(key);
+					System.out.println(memberNickname);
+					System.out.println(title);
 				WebSocketSession ws = members.get(key);
-				ws.sendMessage(new TextMessage(memberId+"님이"+title+"방을 생성 하였습니다."));
+				ws.sendMessage(new TextMessage(memberNickname+"님이"+title+"방을 생성 하였습니다."));
 				}
 				
 			}
-				System.out.println(memberId);
-				members.put(memberId, session);
+				System.out.println(memberNickname);
+				members.put(memberNickname, session);
 			
 						
 			for(String key : members.keySet()){//리절트에 해당하는 대화방의 저장되어있는 세션을 모두 순회
 				System.out.println("키 : "+key);
 				WebSocketSession ws = members.get(key);
-				ws.sendMessage(new TextMessage(memberId+"님이 입장하셧습니다."));
+				ws.sendMessage(new TextMessage(memberNickname+"님이 입장하셧습니다."));
 	        }
 
 		}else {
-			String memberId = element.getAsJsonObject().get("memberId").getAsString();
+			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();
 			String msg = element.getAsJsonObject().get("msg").getAsString();
-			String title = element.getAsJsonObject().get("result").getAsString();
-			System.out.println(memberId);
+			String title = element.getAsJsonObject().get("title").getAsString();
+			System.out.println(memberNickname);
 			members = map.get(title);
-			for(String key : map.keySet()){
+			for(String key : members.keySet()){
 	            System.out.println("키 : " + key);
-	            if(!key.equals(memberId)) {
+	            if(!key.equals(memberNickname)) {
 	            	WebSocketSession ws = members.get(key);
 					ws.sendMessage(new TextMessage(msg));
 	            }
@@ -95,8 +103,9 @@ public class OpenChatting extends TextWebSocketHandler {
 		System.out.println(session);
 		System.out.println(session.getUri().getQuery());
 		String array = session.getUri().getQuery();
-		String[] memberId = array.split("=");
-		String[] title = memberId[1].split(" ");
+		System.out.println(array);
+		String[] memberNickname = array.split("=");
+		String[] title = memberNickname[1].split(" ");
 		System.out.println(title[0]);
 		System.out.println(title[1]);
 		System.out.println(title.length);
@@ -112,7 +121,7 @@ public class OpenChatting extends TextWebSocketHandler {
             	for(String key1 : map.keySet()) {
             		System.out.println(key1+"대화방 삭제"+map.get(title[1]));
             		members = map.get(title[1]);
-            		if(map.isEmpty()) {
+            		if(members.isEmpty()) {
             			System.out.println(title[1]+"대화방 삭제");
             			map.remove(title[1]);
             			
@@ -122,7 +131,7 @@ public class OpenChatting extends TextWebSocketHandler {
             	break;
             }
         }
-		for(String key : map.keySet()){
+		for(String key : members.keySet()){
             System.out.println("키 : " + key);
             WebSocketSession ws = members.get(key);
 			ws.sendMessage(new TextMessage(title[0]+"님이 퇴장 하였습니다."));
