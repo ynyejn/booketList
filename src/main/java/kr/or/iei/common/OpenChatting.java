@@ -16,28 +16,40 @@ import com.google.gson.JsonParser;
 import kr.or.iei.chat.model.vo.Chat;
 
 @Component("openChatting")
-public class OpenChatting extends TextWebSocketHandler{
-	
+public class OpenChatting extends TextWebSocketHandler {
+
 //	@Autowired
 	private ArrayList<WebSocketSession> allSession;
-	private HashMap<String, HashMap<String, WebSocketSession>> title;
-	public OpenChatting() {		
-		allSession = new  ArrayList<WebSocketSession>();
-		title = new HashMap<String, HashMap<String, WebSocketSession>>();
+	private HashMap<String, HashMap<String, WebSocketSession>> map;
+
+	public OpenChatting() {
+		allSession = new ArrayList<WebSocketSession>();
+		map = new HashMap<String, HashMap<String, WebSocketSession>>();
 	}
+
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		allSession.add(session);
 	}
+
 	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
+	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		System.out.println(message);
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(message.getPayload());
 		String type = element.getAsJsonObject().get("type").getAsString();
 		HashMap<String, WebSocketSession> members;
+		if (type.equals("type")) {
+			String title = element.getAsJsonObject().get("title").getAsString();
+			System.out.println(title);
+			members = map.get(title);
+			int result = members.size();
+			System.out.println(result);
+		}
 	}
+
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		HashMap<String, WebSocketSession> members;
 		allSession.remove(session);
 	}
