@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="book">
+	<select id="searchBookDetailTotalCount" resultType="_int" parameterType="map">
+		select count(*) as cnt 
+		from 
+			(SELECT *
+			FROM (SELECT * from book where rowid in (select max(rowid) from book group by book_name)) 
+			JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME))
+		where 
+			${bookAttr} like '%' ||#{inputText}||'%'
+		<if test = "categorySelect != null and categorySelect!='' ">
+			and book_category = #{categorySelect}
+		</if>
+	</select>
+	<select id="searchBookDetail" resultType="bookAndReview" parameterType="map">
+		select * from 
+		    (select rownum as rnum, n.* from 
+		        (SELECT 
+      	        	book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
+		        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
+		        	book_content as bookContent, avg_score as avgScore, cnt		        
+		        FROM 
+		            (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
+		            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
+		                LEFT JOIN REVIEW USING (BOOK_NAME)
+		                GROUP BY BOOK_NAME)
+		            USING (BOOK_NAME)
+	             WHERE ${map2.bookAttr} LIKE '%'||#{map2.inputText}||'%' 
+					<if test = "map2.categorySelect != null and map2.categorySelect !='' ">
+						and book_category = #{map2.categorySelect}
+					</if>
+					<choose>
+						<when test="map2.sort.equals('book_writer')">
+							order by ${map2.sort} desc
+						</when>
+						<when test="map2.sort.equals('book_name')">
+							order by ${map2.sort} asc
+						</when>
+						<when test="map2.sort.equals('book_pub_date')">
+							order by ${map2.sort} desc
+						</when>
+					</choose>
+		        )n)where rnum BETWEEN #{map.start} and #{map.end}
+	</select>
+	
+	<select id="selectBookList" resultType="book" parameterType="String">
+		select 
+			book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
+        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
+        	book_content as bookContent
+		from book 
+		where book_name = #{_param}	
+	</select>
+	<select id="selectBookAllPage" resultType="bookAndReview" parameterType="map">
+		select * from 
+	    (select rownum as rnum, n.* from 
+	        (SELECT 
+	        	book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
+	        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
+	        	book_content as bookContent, avg_score as avgScore, cnt	
+	        FROM 
+	            (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
+	            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
+	                LEFT JOIN REVIEW USING (BOOK_NAME)
+	                GROUP BY BOOK_NAME)
+            USING (BOOK_NAME))n)
+        where rnum BETWEEN #{start} and #{end}
+	</select>
+	<select id="totalCountBook" resultType="_int">
+		select count(*) as cnt 
+		from 
+			(SELECT *
+			FROM (SELECT * from book where rowid in (select max(rowid) from book group by book_name)) 
+			JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME))
+	</select>
 	<select id="bookTotalCount" resultType="_int">
 		select count(*) as cnt from book
 	</select>
