@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
 import kr.or.iei.admin.service.AdminService;
+import kr.or.iei.apply.model.vo.Apply;
+import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.member.model.vo.Member;
@@ -35,21 +38,22 @@ public class AdminController {
 		
 		model.addAttribute("check", check);
 		BookPageData bpd = null;
-		BookPageData bpd2 = null;
+		ApplyPageData apd = null;
+		
 		if(!(search == null || search.equals(""))) {
 			bpd = service.selectList3(reqPage,search,searchTitle);
-			bpd2 = service.selectList3(reqPage2,search,searchTitle);
+			apd = service.selectList4(reqPage2,search,searchTitle);
 		}else {
 			bpd = service.selectList1(reqPage);
-			bpd2 = service.selectList2(reqPage2);
+			apd = service.selectList2(reqPage2);
 		}
 		
 		model.addAttribute("list1",bpd.getList());
 		model.addAttribute("pageNavi1",bpd.getPageNavi());
 		model.addAttribute("reqPage", reqPage);
 		
-		model.addAttribute("list2", bpd2.getList());
-		model.addAttribute("pageNavi2", bpd2.getPageNavi());
+		model.addAttribute("list2", apd.getList());
+		model.addAttribute("pageNavi2", apd.getPageNavi());
 		model.addAttribute("reqPage2", reqPage2);
 		model.addAttribute("search", search);
 		model.addAttribute("searchTitle", searchTitle);
@@ -76,11 +80,59 @@ public class AdminController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/selectOneApplyList.do",produces = "application/json;charset=utf-8")
+	public String selectOneApplyList(int applyNo) {
+		System.out.println(applyNo);
+		Apply apply = service.selectOneApplyList(applyNo);
+		System.out.println(apply.getApplyNo());
+		return new Gson().toJson(apply);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/detailOneBookDelete.do")
 	public int detailOneBookDelete(Model model, int reqPage, int bookNo) {
 		int result = service.detailOneBookDelete(bookNo);
 		model.addAttribute("reqPage", reqPage);
 		System.out.println("result : "+result);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detailOneApplyNo.do")
+	public int detailOneApplyNo(Model model, int reqPage2, int applyNo) {
+		int result = service.detailOneApplyNo(applyNo);
+		model.addAttribute("reqPage2", reqPage2);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detailOneApplyYes.do")
+	public int detailOneApplyYes(Model model, int reqPage2, int applyNo) {
+		int result = service.detailOneApplyYes(applyNo);
+		model.addAttribute("reqPage2", reqPage2);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/insertBookList.do")
+	public int insertBookList(HttpServletRequest request) {
+		String[] insertContent = request.getParameterValues("insertContent");
+		int result = 0;
+		for(int i=0;i<insertContent.length;i++) {
+			System.out.println(insertContent[i]);
+		}
+		
+		
+		Book book = service.checkBookList(insertContent[0]);
+		System.out.println(book);
+		
+		if(book != null) {
+			result = 0;
+		}else {
+			result = service.insertBookList(insertContent);
+		}
+		
+		
 		return result;
 	}
 	
@@ -94,4 +146,6 @@ public class AdminController {
 		System.out.println(mpd.getList().size());
 		return "/admin/memberList";
 	}
+	
+	
 }

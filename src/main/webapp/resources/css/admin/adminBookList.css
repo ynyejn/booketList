@@ -6,13 +6,33 @@
 		margin-bottom: 30px;
 	}
 	 .width1{
-		width: 300px;
+		width: 10%;
+		height : 30px;
 		text-align: center;
 	}
-	.width2{
-		width: 20%;
+	 .width2{
+		width: 40%;
+		height : 30px;
 		text-align: center;
-	} 
+		overflow: hidden;
+	}
+	 .width3{
+		width: 15%;
+		text-align: center;
+	}
+	 .width4{
+		width: 15%;
+		text-align: center;
+	}
+	 .width5{
+		width: 10%;
+		text-align: center;
+	}
+	.width6{
+		width: 10%;
+		text-align: center;
+	}
+	
 	.title{
 		width: 40%;
 		text-align: center;
@@ -105,5 +125,8 @@
 	#sel{
 		float : right;
 		width: 300px;
+	}
+	.modal-body{
+		overflow: scroll;
 	}
 	

@@ -4,9 +4,7 @@
 	<select id="bookTotalCount" resultType="_int">
 		select count(*) as cnt from book
 	</select>
-	<select id="bookTotalCount2" resultType="_int">
-		select count(*) as cnt from book
-	</select>
+	
 	<select id="bookTotalCount3" parameterType="map" resultType="_int">
 		select count(*) as cnt from book where 
 		<if test = "searchTitle.equals('도서이름')">
@@ -30,14 +28,7 @@
 				from book order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
-	<select id="selectList2" parameterType="map" resultType="book">
-		select * from 
-			(select rownum as rnum, n.* from
-				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
-				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
-				from book order by book_no desc)n)
-		where rnum between #{start} and #{end}
-	</select>
+	
 	<select id="selectList3" parameterType="map" resultType="book">
 		select * from 
 			(select rownum as rnum, n.* from
@@ -82,4 +73,14 @@
 	<delete id="selectOneBookDelete" parameterType="_int">
 		delete from book where book_no = #{bookNo}
 	</delete>
+	<select id="checkBookList" parameterType="String" resultType="book">
+		select book_name as bookName from book where book_name = #{string}
+	</select>
+	<insert id="insertBookList">
+		insert into book(book_name, book_writer, book_publisher, book_category, book_img, book_pub_date, book_content, book_status, book_no) 
+			values <foreach collection="array" item="arr" separator="," open="(" close=", ">
+			 			#{arr}
+				   </foreach>
+				  default, book_seq.nextval) 
+	</insert>
 </mapper>
