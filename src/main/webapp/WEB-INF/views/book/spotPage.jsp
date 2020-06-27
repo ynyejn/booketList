@@ -26,7 +26,7 @@
     }
 
     .cTop>span {
-        color: #eeeeee;
+        color: #f5f5f5;
         font-size: 40px;
         font-weight: bolder;
         position: absolute;
