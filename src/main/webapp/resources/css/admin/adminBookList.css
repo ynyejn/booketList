@@ -86,7 +86,9 @@
 		background-color: #E2E2E2;
 		color : black;
 	}
-	
+	#search{
+		width: 200px;
+	}
 	#footNav2{
 		border-bottom: none;
 		width : 300px;
