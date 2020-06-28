@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.complain.model.vo.Complain;
 
 
 @Repository("adminDao")
@@ -90,6 +91,20 @@ public class AdminDao {
 	public int insertBookList(String[] insertContent) {
 		return sqlSession.insert("book.insertBookList",insertContent);
 	}
+
+	
+	  public int complainTotalCount1() { return
+	  sqlSession.selectOne("complain.ComplainTotalCount1"); }
+	  
+	  public List complainSelectList1(HashMap<String, Integer> map) { return
+	  sqlSession.selectList("complain.ComplainSelectList1",map); }
+	  
+	  public int complainTotalCount2() { return
+	  sqlSession.selectOne("complain.ComplainTotalCount2"); }
+	  
+	  public List complainSelectList2(HashMap<String, Integer> map) { return
+	  sqlSession.selectList("complain.ComplainSelectList2",map); }
+	 
 
 	
 }

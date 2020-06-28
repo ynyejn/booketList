@@ -19,6 +19,7 @@ import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
+import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
 
@@ -147,5 +148,32 @@ public class AdminController {
 		return "/admin/memberList";
 	}
 	
-	
+	@RequestMapping(value="/adminComplainList.do")
+	public String adminComplainList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
+		model.addAttribute("check", check);
+		ComplainPageData cpd = null;
+		ComplainPageData cpd2 = null;
+		
+		if(!(search == null || search.equals(""))) {
+			cpd = service.complainSelectList3(reqPage,search,searchTitle);
+			cpd2 = service.complainSelectList4(reqPage2,search,searchTitle);
+		}else {
+			cpd = service.complainSelectList1(reqPage);
+			cpd2 = service.complainSelectList2(reqPage2);
+		}
+		
+		model.addAttribute("list1",cpd.getList());
+		model.addAttribute("pageNavi1",cpd.getPageNavi());
+		model.addAttribute("reqPage", reqPage);
+		
+		model.addAttribute("list2", cpd2.getList());
+		model.addAttribute("pageNavi2", cpd2.getPageNavi());
+		model.addAttribute("reqPage2", reqPage2);
+		model.addAttribute("search", search);
+		model.addAttribute("searchTitle", searchTitle);
+		
+		return "admin/adminComplainList";
+		
+	}
+
 }
