@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.spot.model.vo.Spot;
+import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.turn.model.dao.ReturnDao;
 
 @Service
@@ -37,4 +39,8 @@ public class ReturnService {
 		}
 		return sum;
 	}
+
+
+
+
 }
