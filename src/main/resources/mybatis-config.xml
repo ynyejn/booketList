@@ -14,5 +14,7 @@
       <typeAlias type="kr.or.iei.cart.model.vo.Cart" alias="cart"/>
       <typeAlias type="kr.or.iei.book.model.vo.Book" alias="book"/>
       <typeAlias type="kr.or.iei.spot.model.vo.Spot" alias="spot"/>
+      <typeAlias type="kr.or.iei.complain.model.vo.Complain" alias="complain"/>
+      <typeAlias type="kr.or.iei.book.model.vo.BookAndReview" alias="bookAndReview"/>
    </typeAliases>
 </configuration>
