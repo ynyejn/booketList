@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +20,7 @@ import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
+import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
@@ -174,6 +176,14 @@ public class AdminController {
 		
 		return "admin/adminComplainList";
 		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectOneComplainList.do",produces = "application/json;charset=utf-8")
+	public String selectOneComplainList(int ComplainNo) {
+		System.out.println(ComplainNo);
+		Complain complain = service.selectOneComplainList(ComplainNo);
+		return new Gson().toJson(complain);
 	}
 
 }

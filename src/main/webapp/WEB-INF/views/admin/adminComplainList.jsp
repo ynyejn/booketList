@@ -14,7 +14,8 @@
 
 <title>회원 신고 관리페이지</title>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
@@ -81,7 +82,7 @@
 			var search = $("#search").val();
 			var searchTitle = $("#searchTitle").html();
 			alert(searchTitle);
-			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+$("#searchTitle").html();
+			location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+$("#searchTitle").html();
 
 		});
 		$("#search").keydown(function(key) {
@@ -93,71 +94,52 @@
 	});
 
 	function detail(no) {
-		$("#delNo").val(no);
 		$.ajax({
-			url : "/selectOneBookList.do",
+			url : "/selectOneComplainList.do",
 			type : "get",
-			data : {bookNo : no},
-			success : function(data) {
-				$("#Bookin").children("table").children().remove();
+			data : {ComplainNo : no},
+			success:function(data){
+				$("#ComplainHold").children("table").children().remove(); 
 				html = "";
-				html += "<tr><th colspan='2'>" + data.bookName + "</th><tr>"
-				html += "<tr><th><img src='"+data.bookImg+"'></th>";
-				html += "<th>";
-				html += "<span>- 작가 : " + data.bookWriter + "</span><br>";
-				html += "<span>- 출판사 : " + data.bookPublisher + "</span><br>";
-				html += "<span>- 장르 : " + data.bookCategory + "</span><br>";
-				html += "<span>- 출판일 : " + data.bookPubDate + "</span><br>";
-				html += "</th></tr>";
-				if (data.bookContent == null) {
-					html += "<tr><th colspan='2'></th><tr>"
-				} else {
-					html += "<tr><th colspan='2'>" + data.bookContent
-							+ "</th><tr>";
-				}
-
-				$("#Bookin").children("table").append(html);
-
+				html += "<tr><th>신고한 id</th>";
+				html += "<th>"+data.memberId+"</th></tr>";
+				html += "<tr><th>신고당한 id</th>";
+				html += "<th>"+data.attacker+"</th></tr>";
+				html += "<tr><th>신고 날짜</th>";
+				html += "<th>"+data.complainDate+"</th></tr>";
+				html += "<tr><th>신고 사유</th>";
+				html += "<th>"+data.complainContent+"</th></tr>";
+				$("#ComplainHold").children("table").append(html);
+				
 			},
-			error : function() {
+			error:function(){
 				console.log("ajax통신 실패");
 			}
 		});
 	}
 
 	function detail2(no) {
-		$("#selectApply").val(no);
 		$.ajax({
-			url : "/selectOneApplyList.do",
+			url : "/selectOneComplainList.do",
 			type : "get",
-			data : {
-				applyNo : no
-			},
-			success : function(data) {
-				$("#Applyin").children("table").children().remove();
+			data : {ComplainNo : no},
+			success:function(data){
+				$("#ComplainHold2").children("table").children().remove(); 
 				html = "";
-				html += "<tr><th colspan='2'>" + data.bookName + "</th><tr>"
-				html += "<tr><th><img src='"+data.bookImg+"'></th>";
-				html += "<th>";
-				html += "<span>- 작가 : " + data.bookWriter + "</span><br>";
-				html += "<span>- 출판사 : " + data.bookPublisher + "</span><br>";
-				html += "<span>- 장르 : " + data.bookCategory + "</span><br>";
-				html += "<span>- 출판일 : " + data.bookPubDate + "</span><br>";
-				html += "</th></tr>";
-				if (data.bookContent == null) {
-					html += "<tr><th colspan='2'></th><tr>"
-				} else {
-					html += "<tr><th colspan='2'>" + data.bookContent
-							+ "</th><tr>";
-				}
-
-				html += "<tr><th colspan='2'><span><신청사유></span><br>";
-				html += data.applyContent + "</th><tr>";
-
-				$("#Applyin").children("table").append(html);
-
+				html += "<tr><th>신고한 id</th>";
+				html += "<th>"+data.memberId+"</th></tr>";
+				html += "<tr><th>신고당한 id</th>";
+				html += "<th>"+data.attacker+"</th></tr>";
+				html += "<tr><th>신고 날짜</th>";
+				html += "<th>"+data.complainDate+"</th></tr>";
+				html += "<tr><th>신고 사유</th>";
+				html += "<th>"+data.complainContent+"</th></tr>";
+				html += "<tr><th>신고 상태</th>";
+				html += "<th>"+data.complainStauts+"</th></tr>";
+				$("#ComplainHold2").children("table").append(html);
+				
 			},
-			error : function() {
+			error:function(){
 				console.log("ajax통신 실패");
 			}
 		});
@@ -219,8 +201,8 @@
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">도서 대여</h6>
-						<a class="collapse-item" href="#">도서대여현황</a>
-						<a class="collapse-item" href="#">도서예약내역</a>
+						<a class="collapse-item" href="#">도서대여현황</a> <a
+							class="collapse-item" href="#">도서예약내역</a>
 					</div>
 				</div></li>
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
@@ -488,7 +470,7 @@
 											href="#profile" role="tab" id="profile-tab" data-toggle="tab"
 											aria-controls="profile" aria-expanded="false"><b>신고처리완료</b></a></li>
 									</ul>
-									
+
 									<!-- 신고내역 리스트 받아올 때 -->
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
@@ -520,7 +502,8 @@
 												<ul class="pagination">${pageNavi1 }</ul>
 											</nav>
 											<div id="sel">
-												<button type="button" class="btn btn-default" id="insertBook" data-toggle="modal" data-target="#myModal2">도서등록</button>
+												<button type="button" class="btn btn-default"
+													id="insertBook" data-toggle="modal" data-target="#myModal2">도서등록</button>
 											</div>
 
 										</div>
@@ -541,16 +524,15 @@
 												<tbody>
 													<c:forEach items="${list2 }" var="p" varStatus="i">
 														<tr class="move" id="move2"
-															onclick="detail2(${p.complainNo },${reqPage2 })" data-toggle="modal" data-target="#myModal3">
+															onclick="detail2(${p.complainNo },${reqPage2 })"
+															data-toggle="modal" data-target="#myModal3">
 															<th scope="row">${(reqPage2-1)*10 + i.count }</th>
 															<td class="width1">${p.memberId }</td>
 															<td class="width2">${p.attacker }</td>
 															<td class="width3">${p.complainDate }</td>
-															<td>
-															 <c:if test="${p.complainStauts == 1}">
+															<td><c:if test="${p.complainStauts == 1}">
 																Y
-															</c:if> 
-															<c:if test="${p.complainStauts == 2}">
+															</c:if> <c:if test="${p.complainStauts == 2}">
 																N
 															</c:if></td>
 														</tr>
@@ -567,15 +549,19 @@
 									</div>
 								</div>
 
-								<!-- 책 상세보기 모달 -->
+
+
+
+								<!-- 신고처리대기 상세보기 모달 -->
 								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 									aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="modal-title" id="myModalLabel">도서 상세보기</h4>
+												<h4 class="modal-title" id="myModalLabel">신고처리대기</h4>
 											</div>
-											<div class="modal-body" id="Bookin" style="height: 500px">
+											<div class="modal-body" id="ComplainHold"
+												style="height: 500px">
 												<table class="table table-bordered">
 												</table>
 
@@ -585,7 +571,10 @@
 													data-dismiss="modal">돌아가기</button>
 												<input type="hidden" id="delNo">
 												<button type="button" class="btn btn-primary"
-													id="detailDelete" onclick="deleteBookList(this)">삭제</button>
+													id="detailDelete" onclick="deleteBookList(this)">신고등록</button>
+												<button type="button" class="btn btn-primary"
+													id="detailDelete" onclick="deleteBookList(this)">신고반려</button>
+
 
 											</div>
 										</div>
@@ -593,15 +582,16 @@
 								</div>
 
 
-								<!-- 도서신청 상세보기 모달 -->
-								<div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
+								<!-- 신고처리완료 상세보기 모달 -->
+								<div class="modal fade" id="myModal3" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="modal-title" id="myModalLabel">도서 상세보기</h4>
+												<h4 class="modal-title" id="myModalLabel">신고처리완료</h4>
 											</div>
-											<div class="modal-body" id="Applyin" style="height: 500px">
+											<div class="modal-body" id="ComplainHold2"
+												style="height: 500px">
 												<table class="table table-bordered">
 												</table>
 
@@ -609,47 +599,14 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">돌아가기</button>
-												
+
 												<input type="hidden" id="selectApply">
 												<button type="button" class="btn btn-primary"
-													id="detailUpdate1" onclick="updateBookList1(this)">도서 등록</button>
+													id="detailUpdate1" onclick="updateBookList1(this)">도서
+													등록</button>
 												<button type="button" class="btn btn-primary"
 													id="detailUpdate2" onclick="updateBookList2(this)">반려</button>
 
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								<!-- 도서등록 모달 -->
-								<div class="modal fade" id="myModal2" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog modal-lg">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h4 class="modal-title" id="myModalLabel">도서등록</h4>
-											</div>
-											<div class="modal-body" style="height: 500px">
-												<input type="text" id="searchcontent">
-												<button class="searchAl">검색</button>
-
-												<table class="addBookList">
-													<tr>
-														<th class="width1">이미지</th>
-														<th class="width1">도서이름</th>
-														<th class="width3">출판일</th>
-														<th class="width4">작가</th>
-														<th class="width5">출판사</th>
-														<th class="width6">카테 고리</th>
-														<th class="width1">도서내용</th>
-														<th class="width1">선택</th>
-													</tr>
-												</table>
-												
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">돌아가기</button>
 											</div>
 										</div>
 									</div>
@@ -662,19 +619,17 @@
 											<button id="searchTitle"
 												class="btn btn-default dropdown-toggle" type="button"
 												data-toggle="dropdown" aria-expanded="false">
-												<c:if test="${empty searchTitle }">도서이름</c:if>
+												<c:if test="${empty searchTitle }">신고한id</c:if>
 												<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
 											</button>
 											<ul class="dropdown-menu" role="menu">
-												<li><a class="searchList">도서이름</a></li>
-												<li><a class="searchList">작가</a></li>
-												<li><a class="searchList">출판사</a></li>
-												<li><a class="searchList">장르</a></li>
+												<li><a class="searchList">신고한id</a></li>
+												<li><a class="searchList">신고당한id</a></li>
 											</ul>
 										</div>
 									</div>
 								</div>
-								
+
 								<!-- 검색창, 검색모양 -->
 								<c:if test="${not empty search }">
 									<input type="text" class="form-control" aria-label="..."
@@ -690,96 +645,6 @@
 								<!-- /.col-lg-6 -->
 
 								<button type="button" class="btn btn-default" id="back">돌아가기</button>
-
-<script type="text/javascript">
-   //function setParentText(){
-       // opener.document.getElementById("bookName").innerHTML = document.getElementsByClassName(".bookName").innerHTML;
-       // console.log(document.getElementsByClassName(".bookName").innerHTML+"dd");
-   //}
-   var apply = "";
-      $(function() {
-         $(".searchAl").click(function() {
-            var title = $("#searchcontent").val();
-            
-            $.ajax({
-               url : "/aladdin.do",
-               data : { title:title },
-               success : function(data){
-            	  $(".addBookList>tbody").children(".apply").remove();
-                  html="";
-                  for(var i=0;i<data.length;i++){
-                     html+="<tr class='apply'><td><input type='hidden' class='bookImg'value='"+data[i].bookImg+"'><img src='"+data[i].bookImg+"'></td>";
-                     html+="<td class='bookName'>"+data[i].bookName+"</td>";
-                     html+="<td class='bookPubDate'>"+data[i].bookPubDate+"</td>";
-                     html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
-                     html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
-                     html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
-                     if(data[i].bookContent==""){
-                        html+="<td class='bookContent'>내용 없음</td>";
-                     }else{
-                        html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
-                     }
-                     if(data[i].selectCheck==0){
-                        html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
-                     }else{
-                        html+="<td>이미 책이 있습니다.</td></tr>";
-                     }
-                     
-                     
-                  }
-                  $(".addBookList>tbody").append(html);
-                  
-                  $(".reqBook").click(function () {
-                	  var checkArr = new Array();
-                	  checkArr.push($(this).parent().parent().find(".bookName").html());
-                	  checkArr.push($(this).parent().parent().find(".bookWriter").html());
-                	  checkArr.push($(this).parent().parent().find(".bookPublisher").html());
-                	  checkArr.push($(this).parent().parent().find(".bookCategory").html());
-                	  checkArr.push($(this).parent().parent().find(".bookImg").val());
-                	  var bookPubDate = $(this).parent().parent().find(".bookPubDate").html();
-                	  var array = bookPubDate.split(",");
-                      var aa = array[0].split("월 ");
-                      var apply = array[1]+"-"+aa[0]+"-"+aa[1]; 
-                      
-                      alert(apply);
-
-                	  checkArr.push(apply);
-                	  checkArr.push($(this).parent().parent().find(".bookContent").html());
-                	  
-                	  
-                	  if(confirm("선택 도서를 등록 하시겠습니까?")){
-          					
-          					$.ajax({
-          						url : "/insertBookList.do",
-          						type : "get",
-          						traditional : true,
-          						data : {insertContent : checkArr},
-          						success : function(result){
-          							
-          							if(result > 0){
-          								alert("도서 등록이 완료되었습니다.");
-          								location.href = "/adminBookList.do?reqPage=1&check=1&reqPage2=1";
-          							}else{
-          								alert("도서가 이미 존재합니다.");
-          							}
-          						}
-          						
-          					});
-          			}else{
-          				return false;
-          			}
-                	  
-                  });
-               },
-               error : function(){
-                  console.log("ajax통신 실패")
-               }
-            });
-         })
-      })
-</script>
-
-
 
 								<!-- /.container-fluid -->
 

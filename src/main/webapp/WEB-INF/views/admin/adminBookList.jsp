@@ -138,28 +138,28 @@
 			url : "/selectOneBookList.do",
 			type : "get",
 			data : {bookNo : no},
-			success:function(data){
-				$("#Bookin").children("table").children().remove(); 
+			success : function(data) {
+				$("#Bookin").children("table").children().remove();
 				html = "";
-				html += "<tr><th colspan='2'>"+data.bookName+"</th><tr>"
+				html += "<tr><th colspan='2'>" + data.bookName + "</th><tr>"
 				html += "<tr><th><img src='"+data.bookImg+"'></th>";
 				html += "<th>";
-				html += "<span>- 작가 : "+data.bookWriter+"</span><br>";
-				html += "<span>- 출판사 : "+data.bookPublisher+"</span><br>";
-				html += "<span>- 장르 : "+data.bookCategory+"</span><br>";
-				html += "<span>- 출판일 : "+data.bookPubDate+"</span><br>";
+				html += "<span>- 작가 : " + data.bookWriter + "</span><br>";
+				html += "<span>- 출판사 : " + data.bookPublisher + "</span><br>";
+				html += "<span>- 장르 : " + data.bookCategory + "</span><br>";
+				html += "<span>- 출판일 : " + data.bookPubDate + "</span><br>";
 				html += "</th></tr>";
-				if(data.bookContent==null){
+				if (data.bookContent == null) {
 					html += "<tr><th colspan='2'></th><tr>"
-				}else{
-					html += "<tr><th colspan='2'>"+data.bookContent+"</th><tr>";
+				} else {
+					html += "<tr><th colspan='2'>" + data.bookContent
+							+ "</th><tr>";
 				}
-				
-				
+
 				$("#Bookin").children("table").append(html);
-				
+
 			},
-			error:function(){
+			error : function() {
 				console.log("ajax통신 실패");
 			}
 		});
@@ -702,7 +702,7 @@
 											<div class="modal-header">
 												<h4 class="modal-title" id="myModalLabel">도서 상세보기</h4>
 											</div>
-											<div class="modal-body" id="Bookin" style="height: 500px">
+											<div class="modal-body" id="bookin" style="height: 500px">
 												<table class="table table-bordered">
 												</table>
 
