@@ -16,10 +16,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>BooketList</title>
-
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<title>도서 관리페이지</title>
 
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
