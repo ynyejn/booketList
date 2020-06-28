@@ -30,7 +30,7 @@ public class SpotController {
 		model.addAttribute("pageNavi",spd.getPageNavi());
 		
 		//lacalName
-		ArrayList<String> localName = service.selectAllLocalName();
+		//ArrayList<String> localName = service.selectAllLocalName();
 		return "book/spotPage";
 	}
 }
