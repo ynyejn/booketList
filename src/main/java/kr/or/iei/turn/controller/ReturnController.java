@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.spot.model.vo.Spot;
+import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.turn.model.service.ReturnService;
 
 @Controller
@@ -43,10 +45,5 @@ public class ReturnController {
 		return "book/returnBook";
 	}
 	
-	@RequestMapping("/goSpotPage.do")
-	public String goSpotPage(HttpServletRequest request,Model model) {
-		String[] numbers=request.getParameterValues("bookNo");
-		model.addAttribute("numbers",numbers);
-		return "book/spotPage";
-	}
+
 }

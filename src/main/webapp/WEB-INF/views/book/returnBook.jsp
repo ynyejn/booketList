@@ -345,7 +345,8 @@
             <div class="returnFrame">
                 <span>반납도서</span> <small>반납 선택한 도서 목록입니다</small>
                 <div class="returnBox" status=0>
-                    <form action="/goSpotPage.do" method="get" onsubmit="return nextFunc();">
+                    <form action="/goSpotPage.do?reqPage=1" method="get" onsubmit="return nextFunc();">
+                    	<input type="hidden" name="reqPage" value=1>
                         <input type='submit' id='goReturn' style='display: none;'>
                     </form>
                 </div>
