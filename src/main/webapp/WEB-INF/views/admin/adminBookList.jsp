@@ -18,6 +18,8 @@
 
 <title>도서 관리페이지</title>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
 
