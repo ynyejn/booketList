@@ -440,10 +440,14 @@ public class AdminService {
 	public ComplainPageData complainSelectList4(int reqPage2, String search, String searchTitle) {
 		return null;
 	}
+	public List selectExcelList(String memberId) {
+		return dao.selectExcelList(memberId);
+	}
+	public int adminDeleteMember(String memberId) {
+		return dao.adminDeleteMember(memberId);
+	}
 
 
 	
-
-
 
 }

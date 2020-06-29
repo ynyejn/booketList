@@ -59,145 +59,233 @@
 	crossorigin="anonymous"></script>
 <!-- 테이블 부트스트랩 -->
 <script>
-	
-						window.onload= function() {
-							console.log("onload");
-							$("#back").click(function(){
-								location.href="/adminPage.do";
-							});
-							 $("#sear").click(function() {
-								 $("#tbody").html("");
-								 $(".pagination").html("");
-								var reqPage = $("#reqPage").val();
-						      	var selectColumn = $("#selectColumn option:selected").val();
-						      	var search = $("#search").val();
-						      	var smc = $("#selectMemberCount option:selected").val();
-								smc = parseInt(smc);
-						      	$.ajax({
-						      		url : "/memberSearchList.do",
-						      		type : "post",
-						      		dataType : "json",
-						      		data : {
-						      			selectCount : smc,
-						      			reqPage : 1,
-						      			selectColumn : selectColumn,
-						      			search : search
-						      		},
-						      		success : function(data){
-						      			console.log(data.list);
-						      			console.log(data.list[0].memberId);
-						      			console.log(data.pageNavi);
-						      			var resultText = "";
-						      			for(var i =0;i<data.list.length;i++){
-						      				resultText += "<tr><th scope=row class=num>"+((data.reqPage-1)*data.selectCount+i+1)+"</th>";
-						      				resultText += "<td class=th2>"+data.list[i].memberId+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberName+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberEmail+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberPhone+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberNickname+"</td>";
-						      				resultText += "<td class=th2>"+data.arrEnrollDate[i]+"</td></tr>";
-						      			}
-						      			$("#tbody").html(resultText);
-						      			$(".pagination").html(data.pageNavi);
-						      		},						      				
-						      		error : function(){
-						      			
-						      		}
-						      	});
-							 });
-							$("#selectMemberCount").change(function() {
-									var smc = $("#selectMemberCount option:selected").val();
-									smc = parseInt(smc);
-									 $("#tbody").html("");
-									 $(".pagination").html("");
-							      	var selectColumn = $("#selectColumn option:selected").val();
-							      	var search = $("#search").val();
-							      	$.ajax({
-							      		url : "/memberSearchList.do",
-							      		type : "post",
-							      		dataType : "json",
-							      		data : {
-							      			selectCount : smc,
-							      			reqPage : 1,
-							      			selectColumn : selectColumn,
-							      			search : search
-							      		},
-							      		success : function(data){
-							      			console.log(data.list);
-							      			console.log(data.list[0].memberId);
-							      			console.log(data.pageNavi);
-							      			var resultText = "";
-							      			for(var i =0;i<data.list.length;i++){
-							      				resultText += "<tr><th scope=row class=num>"+((data.reqPage-1)*data.selectCount+i+1)+"</th>";
-							      				resultText += "<td class=th2>"+data.list[i].memberId+"</td>";
-							      				resultText += "<td class=th2>"+data.list[i].memberName+"</td>";
-							      				resultText += "<td class=th2>"+data.list[i].memberEmail+"</td>";
-							      				resultText += "<td class=th2>"+data.list[i].memberPhone+"</td>";
-							      				resultText += "<td class=th2>"+data.list[i].memberNickname+"</td>";
-							      				resultText += "<td class=th2>"+data.arrEnrollDate[i]+"</td></tr>";
-							      			}
-							      			$("#tbody").html(resultText);
-							      			$(".pagination").html(data.pageNavi);
-							      		},						      				
-							      		error : function(){
-							      			
-							      		}
-									
-							});
+	window.onload = function() {
+		console.log("onload");
+		$("#back").click(function() {
+			location.href = "/adminPage.do";
+		});
+		$("#sear")
+				.click(
+						function() {
+							$(".chBox").prop("checked", false);
+							$("#allCheck").prop("checked", false);
+							$("#tbody").html("");
+							$(".pagination").html("");
+							var reqPage = $("#reqPage").val();
+							var selectColumn = $(
+									"#selectColumn option:selected").val();
+							var search = $("#search").val();
+							var smc = $("#selectMemberCount option:selected")
+									.val();
+							smc = parseInt(smc);
+							$
+									.ajax({
+										url : "/memberSearchList.do",
+										type : "post",
+										dataType : "json",
+										data : {
+											selectCount : smc,
+											reqPage : 1,
+											selectColumn : selectColumn,
+											search : search
+										},
+										success : function(data) {
+											console.log(data.list);
+											console.log(data.list[0].memberId);
+											console.log(data.pageNavi);
+											var resultText = "";
+											for (var i = 0; i < data.list.length; i++) {
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+														+ ((data.reqPage - 1)
+																* data.selectCount
+																+ i + 1)
+														+ "</th>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberId
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberName
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberEmail
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberPhone
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberNickname
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.arrEnrollDate[i]
+														+ "</td>";
+														
+												resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+											}
+											$("#tbody").html(resultText);
+											$(".pagination")
+													.html(data.pageNavi);
+										},
+										error : function() {
+
+										}
+									});
 						});
-};
-						function searchPageNavi(obj){
-							console.log($(obj).html());
-								console.log("searchPageNavi 클릭");
-								var smc = $("#selectMemberCount option:selected").val();
-								smc = parseInt(smc);
-								var reqPage;
-								if($(obj).html()=="<span>»</span>"){
-									reqPage = 6;
-								}else if($(obj).html()=="<span>«</span>"){
-									reqPage = 1;
-								}else{
-									reqPage = parseInt($(obj).html());
-								}
-								var selectColumn = $("#selectColumn option:selected").val();
-						      	var search = $("#search").val();
-						      	$.ajax({
-						      		url : "/memberSearchList.do",
-						      		type : "post",
-						      		dataType : "json",
-						      		data : {
-						      		
-						      			selectCount : smc,
-						      			reqPage : reqPage,
-						      			selectColumn : selectColumn,
-						      			search : search
-						      		},
-						      		success : function(data){
-						      			console.log(data.list[0].enrollDate);
-						      			$(".pagination").html("");
-						      			 $("#tbody").html("");
-						      			var resultText = "";
-						      			for(var i =0;i<data.list.length;i++){
-						      				resultText += "<tr><th scope=row class=num>"+((data.reqPage-1)*data.selectCount+i+1)+"</th>";
-						      				resultText += "<td class=th2>"+data.list[i].memberId+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberName+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberEmail+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberPhone+"</td>";
-						      				resultText += "<td class=th2>"+data.list[i].memberNickname+"</td>";
-						      				resultText += "<td class=th2>"+data.arrEnrollDate[i]+"</td></tr>";
-						      			}
-						      			$("#tbody").html(resultText);
-						      			$(".pagination").html(data.pageNavi);
-						      		},
-						      		error : function(){
-						      			
-						      		}
-						      	});
-						      $("#ExcelDownLoad").click(function(){
-						    	  
-						      });
-						}
-					</script>
+		$("#selectMemberCount").change(function() {
+			$(".chBox").prop("checked", false);
+			$("#allCheck").prop("checked", false);
+							var smc = $("#selectMemberCount option:selected")
+									.val();
+							smc = parseInt(smc);
+							$("#tbody").html("");
+							$(".pagination").html("");
+							var selectColumn = $(
+									"#selectColumn option:selected").val();
+							var search = $("#search").val();
+							$
+									.ajax({
+										url : "/memberSearchList.do",
+										type : "post",
+										dataType : "json",
+										data : {
+											selectCount : smc,
+											reqPage : 1,
+											selectColumn : selectColumn,
+											search : search
+										},
+										success : function(data) {
+											console.log(data.list);
+											console.log(data.list[0].memberId);
+											console.log(data.pageNavi);
+											var resultText = "";
+											for (var i = 0; i < data.list.length; i++) {
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+														 + ((data.reqPage - 1)
+																* data.selectCount
+																+ i + 1)
+														+ "</th>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberId
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberName
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberEmail
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberPhone
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberNickname
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.arrEnrollDate[i]
+														+ "</td>";
+												resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+											}
+											$("#tbody").html(resultText);
+											$(".pagination")
+													.html(data.pageNavi);
+										},
+										error : function() {
+
+										}
+									});
+						});
+		$("#allCheck").click(function(){
+			 var chk = $("#allCheck").prop("checked");
+			 if(chk) {
+			  $(".chBox").prop("checked", true);
+			 } else {
+			  $(".chBox").prop("checked", false);
+			 }
+			});
+		$(".chBox").click(function(){
+				$("#allCheck").prop("checked", false);
+		 });
+		$("#excelDownLoad").click(function(){
+			console.log("엑셀다운로드");
+			var checkArr = new Array();
+			$("input[class='chBox']:checked").each(function(){
+				checkArr.push($(this).attr("data-memberId"));
+			});
+			console.log(checkArr);
+			location.href="/excelDown.do?checkArr="+checkArr;
+
+		});
+
+	};
+	function searchPageNavi(obj) {
+		console.log($(obj).html());
+		console.log("searchPageNavi 클릭");
+		$(".chBox").prop("checked", false);
+		$("#allCheck").prop("checked", false);
+		var smc = $("#selectMemberCount option:selected").val();
+		smc = parseInt(smc);
+		var reqPage;
+		if ($(obj).html() == "<span>»</span>") {
+			reqPage = 6;
+		} else if ($(obj).html() == "<span>«</span>") {
+			reqPage = 1;
+		} else {
+			reqPage = parseInt($(obj).html());
+		}
+		var selectColumn = $("#selectColumn option:selected").val();
+		var search = $("#search").val();
+		$.ajax({
+			url : "/memberSearchList.do",
+			type : "post",
+			dataType : "json",
+			data : {
+
+				selectCount : smc,
+				reqPage : reqPage,
+				selectColumn : selectColumn,
+				search : search
+			},
+			success : function(data) {
+				console.log(data.list[0].enrollDate);
+				$(".pagination").html("");
+				$("#tbody").html("");
+				var resultText = "";
+				for (var i = 0; i < data.list.length; i++) {
+					resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+							+ ((data.reqPage - 1) * data.selectCount + i + 1)
+							+ "</th>";
+					resultText += "<td class=th2>" + data.list[i].memberId
+							+ "</td>";
+					resultText += "<td class=th2>" + data.list[i].memberName
+							+ "</td>";
+					resultText += "<td class=th2>" + data.list[i].memberEmail
+							+ "</td>";
+					resultText += "<td class=th2>" + data.list[i].memberPhone
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.list[i].memberNickname + "</td>";
+					resultText += "<td class=th2>" + data.arrEnrollDate[i]
+							+ "</td>";
+					resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+				}
+				$("#tbody").html(resultText);
+				$(".pagination").html(data.pageNavi);
+			},
+			error : function() {
+
+			}
+		});
+
+	}
+	function deleteMember(obj){
+		console.log($(obj).attr("data-memberId"));
+			var memberId = $(obj).attr("data-memberId");
+			var result = confirm("탈퇴 시키시겠습니까?");
+			if(result){
+				location.href = "/adminDeleteMember.do?memberId="+memberId;	
+			}else{
+			
+			}
+	}
+</script>
 </head>
 
 <body id="page-top">
@@ -464,12 +552,21 @@
 	position: absolute;
 	right: 0px;
 }
-#ExcelDownLoad{
-	margin-top : 20px;
-	float:left;
+
+#excelDownLoad {
+	margin-top: 20px;
+	float: left;
 }
+#tbody button{
+width:50px;
+height:20px;
+font-size:8pt;
+padding-top:3px;
+}
+
 </style>
-					
+
+
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -502,7 +599,7 @@
 												<div class="col-lg-6">
 													<div class="input-group" style="width: 350px;">
 														<div class="input-group-btn">
-														<input type="hidden" id="reqPage" value=${reqPage }>
+															<input type="hidden" id="reqPage" value=${reqPage }>
 															<select class="form-control"
 																style="width: 90px; height: 35px; margin-left: 10px;"
 																id="selectColumn" name="selectColumn">
@@ -518,13 +615,13 @@
 
 														</div>
 														<!-- /btn-group -->
-															<input type="text" class="form-control" aria-label="..."
-																id="search" style="width: 200px; float: left;">
-															<span class="glyphicon glyphicon-search" id="sear"
-																style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+														<input type="text" class="form-control" aria-label="..."
+															id="search" style="width: 200px; float: left;"> <span
+															class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
 													</div>
 													<!-- /input-group -->
-					
+
 
 												</div>
 											</div>
@@ -534,50 +631,52 @@
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
-											<table class="table table-hover">
-												<thead>
-													<tr>
-														<th class="num">번호</th>
-														<th class="th2">아이디</th>
-														<th class="th2">이름</th>
-														<th class="th2">이메일</th>
-														<th class="th2">전화번호</th>
-														<th class="th2">닉네임</th>
-														<th class="th2">가입일</th>
-													</tr>
-												</thead>
-												<tbody id="tbody">
-													<c:forEach items="${list }" var="l" varStatus="i">
+												<table class="table table-hover">
+													<thead>
 														<tr>
-															<th scope="row" class="num">${(reqPage-1)*selectCount + i.count }</th>
-															<td class="th2">${l.memberId }</td>
-															<td class="th2">${l.memberName }</td>
-															<td class="th2">${l.memberEmail }</td>
-															<td class="th2">${l.memberPhone }</td>
-															<td class="th2">${l.memberNickname }</td>
-															<td class="th2">${l.enrollDate }</td>
+															<th class="num"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
+															<th class="th2">아이디</th>
+															<th class="th2">이름</th>
+															<th class="th2">이메일</th>
+															<th class="th2">전화번호</th>
+															<th class="th2">닉네임</th>
+															<th class="th2">가입일</th>
 														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-											<nav id="footNav2" style="text-align: center;">
-												<button class="btn btn-primary" id="ExcelDownLoad">엑셀 다운로드</button>
-												<ul class="pagination">${pageNavi }</ul>
-												<div id="sel" style="float: right; margin-top: 10px;">
-													<button type="button" class="btn btn-primary" id="back">돌아가기</button>
-												</div>
-											</nav>
+													</thead>
+													<tbody id="tbody">
+														<c:forEach items="${list }" var="l" varStatus="i">
+															<tr>
+																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-memberId="${l.memberId }">${(reqPage-1)*selectCount + i.count }</th>
+																<td class="th2">${l.memberId }</td>
+																<td class="th2">${l.memberName }</td>
+																<td class="th2">${l.memberEmail }</td>
+																<td class="th2">${l.memberPhone }</td>
+																<td class="th2">${l.memberNickname }</td>
+																<td class="th2">${l.enrollDate }</td>
+																<td class="th2"><button class="btn btn-danger" data-memberId="${l.memberId }" onclick="deleteMember(this)">탈퇴</button></td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+												
+												<nav id="footNav2" style="text-align: center;">
+													<button class="btn btn-primary" id="excelDownLoad">엑셀
+														다운로드</button>
+													<ul class="pagination">${pageNavi }</ul>
+													<div id="sel" style="float: right; margin-top: 10px;">
+														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
+													</div>
+												</nav>
 										</div>
 									</div>
 								</div>
 								<!-- /.col-lg-6 -->
 
-
 							</div>
 							<!-- /.container-fluid -->
 
 						</div>
-						
+
 						<!-- End of Main Content -->
 
 						<!-- Footer -->

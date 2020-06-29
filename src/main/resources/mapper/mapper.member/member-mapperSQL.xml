@@ -62,4 +62,19 @@
 		order by member_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
+	<select id="selectExcelList" parameterType="String" resultType="member">
+	select member_no as memberNo,
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			member_email as memberEmail,
+			member_phone as memberPhone,
+			enroll_date as enrollDate,
+			member_nickname as memberNickname
+			
+		from member where member_id = #{memberId}
+	</select>
+	<delete id="adminDeleteMember" parameterType="String">
+		delete from member where member_id=#{memberId}
+	</delete>
 </mapper>

@@ -117,6 +117,15 @@ public class AdminDao {
 	  
 	  public List complainSelectList2(HashMap<String, Integer> map) { return
 	  sqlSession.selectList("complain.ComplainSelectList2",map); }
+
+	public List selectExcelList(String memberId) {
+		return sqlSession.selectList("member.selectExcelList",memberId);
+	}
+
+	public int adminDeleteMember(String memberId) {
+		return sqlSession.delete("member.adminDeleteMember",memberId);
+	}
+
 	 
 
 	

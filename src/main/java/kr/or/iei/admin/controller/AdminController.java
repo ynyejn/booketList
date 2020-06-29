@@ -1,28 +1,26 @@
 package kr.or.iei.admin.controller;
 
 
-import java.io.OutputStream;
-import java.net.URLEncoder;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
-import javax.servlet.http.HttpServletRequest;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -62,11 +60,6 @@ public class AdminController {
 	}
 	@RequestMapping(value="/adminBookList.do")
 
-	public String adminBookList(Model model, int reqPage, int check, int reqPage2) {
-		BookPageData bpd = service.selectList1(reqPage);
-		BookPageData bpd2 = service.selectList2(reqPage2);
-		model.addAttribute("check", check);
-
 	public String adminBookList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
 		
 		model.addAttribute("check", check);
@@ -85,9 +78,6 @@ public class AdminController {
 		model.addAttribute("list1",bpd.getList());
 		model.addAttribute("pageNavi1",bpd.getPageNavi());
 		
-
-		model.addAttribute("list2", bpd2.getList());
-		model.addAttribute("pageNavi2", bpd2.getPageNavi());
 
 		model.addAttribute("list2", apd.getList());
 		model.addAttribute("pageNavi2", apd.getPageNavi());
@@ -214,94 +204,6 @@ public class AdminController {
 	
 	}
 
-	  @RequestMapping(value = "/ExcelPoi.do")
-	  public void ExcelPoi(@RequestParam String fileName, HttpServletResponse response, Model model) throws Exception {
-
-	  HSSFWorkbook objWorkBook = new HSSFWorkbook();
-	  HSSFSheet objSheet = null;// 시트생성
-	  HSSFRow objRow = null;// 행 생성
-	  HSSFCell objCell = null;// 셀 생성
-
-	  HSSFFont font = objWorkBook.createFont();
-	  font.setFontHeightInPoints((short) 14);
-	  // 글자 굵게 하기
-	  font.setBoldweight((short) font.BOLDWEIGHT_BOLD);
-	  // 폰트 설정
-	  font.setFontName("맑은고딕");
-
-	  // 제목 스타일에 폰트 적용, 정렬
-	  HSSFCellStyle styleHd = objWorkBook.createCellStyle();// 제목 스타일
-	  // 폰트 설정
-	  styleHd.setFont(font);
-	  // 가운데 정렬
-	  styleHd.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-	  styleHd.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-
-	  objSheet = objWorkBook.createSheet("첫번째 시트"); // 워크시트 생성
-
-	  List rowList = service.selectRow();
-
-	  // 행으로 제작을 하네
-	  // 1행
-	  objRow = objSheet.createRow(0);
-	  objRow.setHeight((short) 0x150);
-
-	  objCell = objRow.createCell(0);
-	  objCell.setCellValue("아이디");
-	  objCell.setCellStyle(styleHd);
-
-	  objCell = objRow.createCell(1);
-	  objCell.setCellValue("이름");
-	  objCell.setCellStyle(styleHd);
-
-	  objCell = objRow.createCell(2);
-	  objCell.setCellValue("나이");
-	  objCell.setCellStyle(styleHd);
-
-	  objCell = objRow.createCell(3);
-	  objCell.setCellValue("이메일");
-	  objCell.setCellStyle(styleHd);
-
-	  int index = 1;
-	  for (Map map : rowList) {
-	    objRow = objSheet.createRow(index);
-	    objRow.setHeight((short) 0x150);
-
-	    objCell = objRow.createCell(0);
-	    objCell.setCellValue((String)map.get("custId"));
-	    objCell.setCellStyle(styleHd);
-
-	    objCell = objRow.createCell(1);
-	    objCell.setCellValue((String)map.get("custName"));
-	    objCell.setCellStyle(styleHd);
-
-	    objCell = objRow.createCell(2);
-	    objCell.setCellValue((String)map.get("custAge"));
-	    objCell.setCellStyle(styleHd);
-
-	    objCell = objRow.createCell(3);
-	    objCell.setCellValue((String)map.get("custEmail"));
-	    objCell.setCellStyle(styleHd);
-	    index++;
-	  }
-
-	  for (int i = 0; i < rowList.size(); i++) {
-	    objSheet.autoSizeColumn(i);
-	  }
-
-	  response.setContentType("Application/Msexcel");
-	  response.setHeader("Content-Disposition", "ATTachment; Filename="
-	      + URLEncoder.encode(fileName, "UTF-8") + ".xls");
-
-	  OutputStream fileOut = response.getOutputStream();
-	  objWorkBook.write(fileOut);
-	  fileOut.close();
-
-	  response.getOutputStream().flush();
-	  response.getOutputStream().close();
-	}
-}
-
 	@RequestMapping(value="/adminComplainList.do")
 	public String adminComplainList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
 		model.addAttribute("check", check);
@@ -329,6 +231,150 @@ public class AdminController {
 		return "admin/adminComplainList";
 		
 	}
+	
+	@RequestMapping(value = "/excelDown.do")
+	public void excelDown(HttpServletResponse response,String[]checkArr) throws Exception {
+	    ArrayList<Member> list = new ArrayList<Member>();
+	    ArrayList<Member> selList = new ArrayList<Member>();
+	    System.out.println("컨트롤러");
+	    for(String id : checkArr) {
+	    	// 게시판 목록조회
+	    	selList=(ArrayList<Member>)service.selectExcelList(id);
+	    	int excelMemberNo = selList.get(0).getMemberNo();
+	    	String excelMemberId = selList.get(0).getMemberId();
+	    	String excelMemberName = selList.get(0).getMemberName();
+	    	String excelMemberEmail = selList.get(0).getMemberEmail();
+	    	String excelMemberPhone = selList.get(0).getMemberPhone();
+	    	String excelMemberCategory1 =selList.get(0).getMemberCategory1();
+	    	String excelMemberCategory2 =selList.get(0).getMemberCategory2();
+	    	String excelMemberCategory3 =selList.get(0).getMemberCategory3();
+	    	int excelDelayStatus = selList.get(0).getDelayStatus();
+	    	int excelComplainStatus = selList.get(0).getCompainStatus();
+	    	String excelMemberNickName = selList.get(0).getMemberNickname();
+	    	Date excelEnrollDate = selList.get(0).getEnrollDate();
+	    	Member excelMember = new Member();
+	    	excelMember.setMemberNo(excelMemberNo);
+	    	excelMember.setMemberId(excelMemberId);
+	    	excelMember.setMemberName(excelMemberName);
+	    	excelMember.setMemberEmail(excelMemberEmail);
+	    	excelMember.setMemberPhone(excelMemberPhone);
+	    	excelMember.setMemberCategory1(excelMemberCategory1);
+	    	excelMember.setMemberCategory2(excelMemberCategory2);
+	    	excelMember.setMemberCategory3(excelMemberCategory3);
+	    	excelMember.setDelayStatus(excelDelayStatus);
+	    	excelMember.setCompainStatus(excelComplainStatus);
+	    	excelMember.setMemberNickname(excelMemberNickName);
+	    	excelMember.setEnrollDate(excelEnrollDate);
+	    	list.add(excelMember);
+	    }
+	    System.out.println(list.size());
+	    // 워크북 생성
+	    Workbook wb = new HSSFWorkbook();
+	    Sheet sheet = wb.createSheet("게시판");
+	    Row row = null;
+	    Cell cell = null;
+	    int rowNo = 0;
+	    // 테이블 헤더용 스타일
+	    CellStyle headStyle = wb.createCellStyle();
+	    // 가는 경계선을 가집니다.
+	    headStyle.setBorderTop(BorderStyle.THIN);
+	    headStyle.setBorderBottom(BorderStyle.THIN);
+	    headStyle.setBorderLeft(BorderStyle.THIN);
+	    headStyle.setBorderRight(BorderStyle.THIN);
+	    // 배경색은 노란색입니다.
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	    // 데이터는 가운데 정렬합니다.
+	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+	    // 데이터용 경계 스타일 테두리만 지정
+	    CellStyle bodyStyle = wb.createCellStyle();
+	    bodyStyle.setBorderTop(BorderStyle.THIN);
+	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    // 헤더 생성
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("번호");
+	    
+	    cell = row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("아이디");
+	    
+	    cell = row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("이름");
+	    
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("이메일");
+	    
+	    cell = row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("전화번호");
+	    
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("닉네임");
+	    
+	    cell = row.createCell(6);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("가입일");
+	    
+	    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    // 데이터 부분 생성
+	    for(Member vo : list) {
+	        row = sheet.createRow(rowNo++);
+	        cell = row.createCell(0);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberNo());
+	        
+	        cell = row.createCell(1);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberId());
+	        
+	        cell = row.createCell(2);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberName());
+	        
+	        cell = row.createCell(3);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberEmail());
+	        
+	        cell = row.createCell(4);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberPhone());
+	        
+	        cell = row.createCell(5);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberNickname());
+	        
+	        
+	        String strDate = sdFormat.format(vo.getEnrollDate());
+	        cell = row.createCell(6);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(strDate);
 
+	    }
+	    response.setContentType("application/vnd.ms-excel");
+
+	    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+	    // 엑셀 출력
+	    wb.write(response.getOutputStream());
+	    wb.close();
+	    
+	}
+	@RequestMapping("/adminDeleteMember.do")
+	public String adminDeleteMember(String memberId) {
+		int result = service.adminDeleteMember(memberId);
+		System.out.println(result);
+		if(result > 0) {
+			return "redirect:/memberList.do?reqPage=1&selectCount=10";
+		}else {
+			return "redirect:/memberList.do?reqPage=1&selectCount=10";
+		}
+		
+	}
 }
 
