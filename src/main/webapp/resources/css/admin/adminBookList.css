@@ -5,14 +5,34 @@
 		margin-top: 30px;
 		margin-bottom: 30px;
 	}
-	.num{
+	 .width1{
+		width: 10%;
+		height : 30px;
+		text-align: center;
+	}
+	 .width2{
+		width: 40%;
+		height : 30px;
+		text-align: center;
+		overflow: hidden;
+	}
+	 .width3{
+		width: 15%;
+		text-align: center;
+	}
+	 .width4{
+		width: 15%;
+		text-align: center;
+	}
+	 .width5{
 		width: 10%;
 		text-align: center;
 	}
-	.id{
-		width: 20%;
+	.width6{
+		width: 10%;
 		text-align: center;
 	}
+	
 	.title{
 		width: 40%;
 		text-align: center;
@@ -31,14 +51,6 @@
 	
 	.PHJbtn{
 		text-align: center;
-	}
-	
-	.th2{
-		text-align : center;
-		
-	}
-	.th1{
-		text-align : center;
 	}
 	
 	.table>tbody>tr>th{
@@ -113,5 +125,8 @@
 	#sel{
 		float : right;
 		width: 300px;
+	}
+	.modal-body{
+		overflow: scroll;
 	}
 	
