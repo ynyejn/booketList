@@ -52,8 +52,13 @@ public class ReturnController {
 		//String memberId = m.getMemberId();
 		String memberId="user01";
 		turn.setMemberId(memberId);
-		System.out.println(turn.getBookNo()+"/"+turn.getSpot_name());
-		return null;
+		System.out.println(turn.getBookNo()+"/"+turn.getSpotName());
+		int result = service.insertTurnApply(turn);
+		if(result>0) {
+			return "book/returnSuccess";
+		}else {
+			return "book/returnFailed";
+		}
 	}
 
 }
