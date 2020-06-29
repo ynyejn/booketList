@@ -41,13 +41,18 @@ public class ChatController {
 	}
 
 	@RequestMapping("/chat.do")
-	public String chat(Chat c, Model model, String memberNickname) {
+	public String chat(Chat c, Model model, String memberNickname,HttpSession session) {
 		System.out.println(c.getChatPeople());
 		System.out.println(c.getChatTitle());
 		System.out.println(memberNickname);
 		int result = service.chatInsert(c);
-		model.addAttribute("title", c.getChatTitle());
-		return "openChatting/chat";
+		if(result>0) {
+			model.addAttribute("title", c.getChatTitle());
+			return "openChatting/chat";
+		}else {
+			model.addAttribute("title", c.getChatTitle());
+			return "openChatting/chat";
+		}
 	}
 	@RequestMapping("/chatRoom.do")
 	public String chatRoom(String title,Model model) {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -13,12 +15,14 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import kr.or.iei.chat.model.dao.ChatDao;
 import kr.or.iei.chat.model.vo.Chat;
 
 @Component("openChatting")
 public class OpenChatting extends TextWebSocketHandler {
-
-//	@Autowired
+	@Autowired
+	@Qualifier("chatDao")
+	private ChatDao dao;
 	private ArrayList<WebSocketSession> allSession;
 	private HashMap<String, HashMap<String, WebSocketSession>> map;
 
@@ -39,19 +43,7 @@ public class OpenChatting extends TextWebSocketHandler {
 		JsonElement element = parser.parse(message.getPayload());
 		String type = element.getAsJsonObject().get("type").getAsString();
 		HashMap<String, WebSocketSession> members;
-		if (type.equals("type")) {
-			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();
-			String title = element.getAsJsonObject().get("title").getAsString();
-			System.out.println(title);
-			members = map.get(title);
-			if(members!=null) {
-				int result = members.size();
-				String result2 = Integer.toString(result);
-				WebSocketSession ws = members.get(memberNickname);
-				ws.sendMessage(new TextMessage(result2+""+title));
-				
-			}
-		}else if(type.equals("register")){
+			if(type.equals("register")){
 			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();
 			String title = element.getAsJsonObject().get("title").getAsString();
 			members = map.get(title);
@@ -73,12 +65,16 @@ public class OpenChatting extends TextWebSocketHandler {
 			}
 				System.out.println(memberNickname);
 				members.put(memberNickname, session);
+				
 			
 						
+				int result = dao.chatUpdate(title);
+				if(result>0) {
 			for(String key : members.keySet()){//리절트에 해당하는 대화방의 저장되어있는 세션을 모두 순회
-				System.out.println("키 : "+key);
-				WebSocketSession ws = members.get(key);
-				ws.sendMessage(new TextMessage(memberNickname+"님이 입장하셧습니다."));
+					
+					WebSocketSession ws = members.get(key);
+					ws.sendMessage(new TextMessage(memberNickname+"님이 입장하셧습니다."));
+				}
 	        }
 
 		}else {
@@ -100,31 +96,22 @@ public class OpenChatting extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		HashMap<String, WebSocketSession> members;
-		System.out.println(session);
-		System.out.println(session.getUri().getQuery());
-		String array = session.getUri().getQuery();
-		System.out.println(array);
-		String[] memberNickname = array.split("=");
-		String[] title = memberNickname[1].split(" ");
-		System.out.println(title[0]);
-		System.out.println(title[1]);
-		System.out.println(title.length);
-		members = map.get(title[1]);
-		for(String key : members.keySet()){
-            System.out.println("키 : " + key);
-            
+		if(session.getUri().getQuery()!=null) {
+			String array = session.getUri().getQuery();
+			String[] memberNickname = array.split("=");
+			String[] title = memberNickname[1].split(" ");
+			members = map.get(title[1]);
+		for(String key : members.keySet()){  
             if(key.equals(title[0])) {
-            	System.out.println("ddddd");
             	members.remove(title[0]);
-            	System.out.println(map.size()+"ddddd");
-            	
             	for(String key1 : map.keySet()) {
-            		System.out.println(key1+"대화방 삭제"+map.get(title[1]));
             		members = map.get(title[1]);
             		if(members.isEmpty()) {
             			System.out.println(title[1]+"대화방 삭제");
-            			map.remove(title[1]);
-            			
+            			int result = dao.titleDlelte(title[1]);
+            			if(result>0) {
+            				map.remove(title[1]);
+            			}
             		}
             	}
             	
@@ -132,13 +119,15 @@ public class OpenChatting extends TextWebSocketHandler {
             }
         }
 		for(String key : members.keySet()){
-            System.out.println("키 : " + key);
+			int result = dao.chatUpdatedelete(title[1]);
             WebSocketSession ws = members.get(key);
 			ws.sendMessage(new TextMessage(title[0]+"님이 퇴장 하였습니다."));
         }
 		
-		
-		System.out.println("연결 종료");
-		allSession.remove(session);
+		}else {
+			
+			System.out.println("연결 종료");
+			allSession.remove(session);
+		}
 	}
 }

@@ -26,4 +26,23 @@ public class ChatDao {
 		return sql.insert("chat.chatInsert",c);
 	}
 
+
+	public int chatUpdate(String title) {
+		return sql.update("chat.chatUpdate",title);
+	}
+
+	public int chatUpdatedelete(String title) {
+		
+		return sql.update("chat.chatUpdatedelete",title);
+	}
+
+	public int titleDlelte(String title) {
+		return sql.delete("chat.titleDlelte",title);
+	}
+
+	public String selectOnetitle(String chatTitle) {
+		
+		return sql.selectOne("chat.selectOnetitle",chatTitle);
+	}
+
 }

@@ -31,7 +31,7 @@
 			${list.chatPeople }<br>
 			${list.chatEnrollDate }<br>
 			${list.memberNickname }<br>
-			현재 접속자수 
+			현재 접속자수 ${list.chatPersonnel }
 			<span class="span"></span><br>
 			</a>
 		</c:forEach>
@@ -40,48 +40,8 @@
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
 	<script type="text/javascript">
-	var ws;
-	var memberNickname = '${sessionScope.member.memberNickname}';
-	var	title = document.getElementsByClassName("title");
-	
-	function connect() {
-		ws = new WebSocket("ws://192.168.219.102/openChatting.do");
-		ws.onopen = function () {
-			console.log("웹소켓 연결 생성");
-		for(var i=0;i<title.length;i++){
-			var title2=$(".title").eq(i).val();
-			var msg = {
-					type : "type",
-					memberNickname : memberNickname,
-					title : title2
-			}
-			
-			ws.send(JSON.stringify(msg));//스트링으로 풀어서 보내기 type : "register",memberId : 'tjehdrjs1230';
-		}
-		}
-		
-		ws.onmessage = function (e) {
-			var msg = e.data;
-			var array = msg.split(" ");
-			for(var i=0;i<title.length;i++){
-				var title2=$(".title").eq(i).val();
-				if(title2 == array[0]){
-					$(".span").eq(i).html(array[1]);
-				}
-			}
-		}
-		
-		ws.onclose = function () {
-		
-			
-			console.log("연결종료");
-		}
-		
-		
-	}
 	$(function () {
-		console.log(title);
-		connect();
+
 		$("button").click(function () {
 			window.name="apply"
 			var url = "/chat/makingRoomFrm.do";
