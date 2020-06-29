@@ -2,6 +2,7 @@ package kr.or.iei.turn.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.spot.model.vo.Spot;
+import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.turn.model.service.ReturnService;
 
 @Controller
@@ -27,7 +30,7 @@ public class ReturnController {
 		if(result>0) {
 			System.out.println("성공");
 		}else {
-			System.out.println("실패애");
+			System.out.println("실패");
 		}
 	}
 	
@@ -41,4 +44,6 @@ public class ReturnController {
 		model.addAttribute("list",list);
 		return "book/returnBook";
 	}
+	
+
 }

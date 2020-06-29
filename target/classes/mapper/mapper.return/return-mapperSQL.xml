@@ -9,7 +9,9 @@ SELECT book_no as bookNo,
 		rent_start_date as rentStartDate,
 		rent_end_date as rentEndDate,
 		rent.book_category as bookCategory,
-		book_name as bookName
+		book_name as bookName,
+		book_writer as bookWriter,
+		book_status as bookStatus
  FROM RENT JOIN BOOK USING(BOOK_NO) WHERE MEMBER_ID=#{_parameter} and rent_return=0
 </select>
 <update id="updateBookStatus">
