@@ -472,6 +472,14 @@ public class AdminService {
 		return dao.selectOneComplainList(complainNo);
 	}
 
+	public int detailComplainYes(int complainNo) {
+		return dao.detailComplainYes(complainNo);
+	}
+
+	public int detailComplainNo(int complainNo) {
+		return dao.detailComplainNo(complainNo);
+	}
+
 
 	
 

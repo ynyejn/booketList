@@ -127,6 +127,14 @@ public class AdminDao {
 		return sqlSession.selectOne("complain.selectOneComplainList", complainNo);
 	}
 
+	public int detailComplainYes(int complainNo) {
+		return sqlSession.update("complain.detailComplainYes",complainNo);
+	}
+
+	public int detailComplainNo(int complainNo) {
+		return sqlSession.update("complain.detailComplainNo",complainNo);
+	}
+
 	
 
 	

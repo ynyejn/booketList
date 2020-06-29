@@ -90,4 +90,10 @@
 		from complain
 		where complain_no = #{complainNo}
 	</select>
+	<update id="detailComplainYes" parameterType="_int">
+		update complain set complain_Stauts=1 where complain_no = #{complainNo}
+	</update>
+	<update id="detailComplainNo" parameterType="_int">
+		update complain set complain_Stauts=2 where complain_no = #{complainNo}
+	</update>
 </mapper>

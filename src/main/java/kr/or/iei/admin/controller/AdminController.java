@@ -185,5 +185,24 @@ public class AdminController {
 		Complain complain = service.selectOneComplainList(ComplainNo);
 		return new Gson().toJson(complain);
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value="/detailComplainYes.do")
+	public int detailComplainYes(Model model, int reqPage, int ComplainNo) {
+		System.out.println(ComplainNo);
+		int result = service.detailComplainYes(ComplainNo);
+		
+		model.addAttribute("reqPage", reqPage);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detailComplainNo.do")
+	public int detailComplainNo(Model model, int reqPage, int ComplainNo) {
+		int result = service.detailComplainNo(ComplainNo);
+		model.addAttribute("reqPage", reqPage);
+		System.out.println("result : "+result);
+		return result;
+	}
 }

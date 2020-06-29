@@ -94,6 +94,7 @@
 	});
 
 	function detail(no) {
+		$("#complainHoldNo").val(no);
 		$.ajax({
 			url : "/selectOneComplainList.do",
 			type : "get",
@@ -119,6 +120,7 @@
 	}
 
 	function detail2(no) {
+		$("#complainCompleteNo").val(no);
 		$.ajax({
 			url : "/selectOneComplainList.do",
 			type : "get",
@@ -136,13 +138,128 @@
 				html += "<th>"+data.complainContent+"</th></tr>";
 				html += "<tr><th>신고 상태</th>";
 				html += "<th>"+data.complainStauts+"</th></tr>";
+				$("#detailUpdate1").hide();
+				$("#detailUpdate2").hide();
+				if(data.complainStauts == '2'){
+					$("#detailUpdate1").show();
+				
+				}else{
+					$("#detailUpdate2").show();
+				}
 				$("#ComplainHold2").children("table").append(html);
+				$("#complainStatus").val(data.complainStauts);
 				
 			},
 			error:function(){
 				console.log("ajax통신 실패");
 			}
 		});
+	}
+	
+	function updateComplainYesList(no){
+		
+		no = $("#complainHoldNo").val();
+		var reqPages = ${reqPage }
+		
+		if(confirm("신고 처리 하시겠습니까?")){
+			$.ajax({
+				url : "/detailComplainYes.do",
+				type : "get",
+				traditional : true,
+				data : {ComplainNo : no, reqPage : reqPages},
+				success : function(result){
+
+					if(result > 0){
+						alert("처리가 완료되었습니다.");
+						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=1&reqPage2=1";
+					}else{
+						alert("처리가 실패 하였습니다.");
+					}
+				}
+				
+			});
+		}else{
+			
+		}
+	}
+	
+	function updateComplainYesList2(no){
+		
+		no = $("#complainCompleteNo").val();
+		var reqPages = ${reqPage }
+		
+		if(confirm("신고 처리 하시겠습니까?")){
+			$.ajax({
+				url : "/detailComplainYes.do",
+				type : "get",
+				traditional : true,
+				data : {ComplainNo : no, reqPage : reqPages},
+				success : function(result){
+
+					if(result > 0){
+						alert("처리가 완료되었습니다.");
+						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=2&reqPage2=1";
+					}else{
+						alert("처리가 실패 하였습니다.");
+					}
+				}
+				
+			});
+		}else{
+			
+		}
+	}
+	
+	function updateComplainNoList(no){
+		no = $("#complainHoldNo").val();
+		var reqPages = ${reqPage }
+		
+		if(confirm("신고반려처리를 하시겠습니까?")){
+			$.ajax({
+				url : "/detailComplainNo.do",
+				type : "get",
+				traditional : true,
+				data : {ComplainNo : no, reqPage : reqPages},
+				success : function(result){
+
+					if(result > 0){
+						alert("처리가 완료되었습니다.");
+						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=1&reqPage2=1";
+					}else{
+						alert("처리가 실패 하였습니다.");
+					}
+				}
+				
+			});
+		}else{
+			
+		}
+	}
+	
+	function updateComplainNoList2(no){
+		no = $("#complainCompleteNo").val();
+		var reqPages = ${reqPage }
+		
+		if(confirm("신고반려처리를 하시겠습니까?")){
+			$.ajax({
+				url : "/detailComplainNo.do",
+				type : "get",
+				traditional : true,
+				data : {ComplainNo : no, reqPage : reqPages},
+				success : function(result){
+
+					if(result > 0){
+						alert("처리가 완료되었습니다.");
+						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=2&reqPage2=1";
+					}else{
+						alert("처리가 실패 하였습니다.");
+					}
+				}
+				
+			});
+		}else{
+			
+		}
 	}
 </script>
 </head>
@@ -569,13 +686,12 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">돌아가기</button>
-												<input type="hidden" id="delNo">
-												<button type="button" class="btn btn-primary"
-													id="detailDelete" onclick="deleteBookList(this)">신고등록</button>
-												<button type="button" class="btn btn-primary"
-													id="detailDelete" onclick="deleteBookList(this)">신고반려</button>
+												<input type="hidden" id="complainHoldNo">
 
-
+												<button type="button" class="btn btn-primary"
+													id="detailUpdateYes" onclick="updateComplainYesList(this)">신고등록</button>
+												<button type="button" class="btn btn-primary"
+													id="detailUpdateNo" onclick="updateComplainNoList(this)">신고반려</button>
 											</div>
 										</div>
 									</div>
@@ -599,13 +715,17 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">돌아가기</button>
+												<input type="hidden" id="complainCompleteNo">
+												
+												
+													<button type="button" class="btn btn-primary"
+														id="detailUpdate1" onclick="updateComplainYesList2(this)">신고등록</button>
+												
+													<button type="button" class="btn btn-primary"
+														id="detailUpdate2" onclick="updateComplainNoList2(this)">신고철회</button>
+												
 
-												<input type="hidden" id="selectApply">
-												<button type="button" class="btn btn-primary"
-													id="detailUpdate1" onclick="updateBookList1(this)">도서
-													등록</button>
-												<button type="button" class="btn btn-primary"
-													id="detailUpdate2" onclick="updateBookList2(this)">반려</button>
+
 
 											</div>
 										</div>
