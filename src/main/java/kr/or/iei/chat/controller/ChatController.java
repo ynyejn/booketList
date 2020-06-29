@@ -50,8 +50,7 @@ public class ChatController {
 			model.addAttribute("title", c.getChatTitle());
 			return "openChatting/chat";
 		}else {
-			model.addAttribute("title", c.getChatTitle());
-			return "openChatting/chat";
+			return "redirect:/chat/chatRoom.do?title="+c.getChatTitle();
 		}
 	}
 	@RequestMapping("/chatRoom.do")
