@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.member.model.vo.Member;
 
 
 @Repository("adminDao")
@@ -49,5 +50,12 @@ public class AdminDao {
 	public int memberTotalCount() {
 		return sqlSession.selectOne("member.memberTotalCount");
 
+	}
+	public int selectMemberTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("member.selectMemberTotalCount",map);
+	}
+
+	public List selectMemberList(HashMap<String, Object> map) {
+		return sqlSession.selectList("member.selectMemberList",map);
 	}
 }

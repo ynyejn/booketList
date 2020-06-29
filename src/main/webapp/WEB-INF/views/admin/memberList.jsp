@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" style="font-size:18px;">
+<html lang="en" style="font-size: 18px;">
 
 <head>
 
@@ -18,7 +18,8 @@
 
 <title>BooketList</title>
 
-
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
 <link
@@ -58,6 +59,146 @@
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 <!-- 테이블 부트스트랩 -->
+<script>
+	
+						window.onload= function() {
+							console.log("onload");
+							$("#back").click(function(){
+								location.href="/adminPage.do";
+							});
+							 $("#sear").click(function() {
+								 $("#tbody").html("");
+								 $(".pagination").html("");
+								var reqPage = $("#reqPage").val();
+						      	var selectColumn = $("#selectColumn option:selected").val();
+						      	var search = $("#search").val();
+						      	var smc = $("#selectMemberCount option:selected").val();
+								smc = parseInt(smc);
+						      	$.ajax({
+						      		url : "/memberSearchList.do",
+						      		type : "post",
+						      		dataType : "json",
+						      		data : {
+						      			selectCount : smc,
+						      			reqPage : 1,
+						      			selectColumn : selectColumn,
+						      			search : search
+						      		},
+						      		success : function(data){
+						      			console.log(data.list);
+						      			console.log(data.list[0].memberId);
+						      			console.log(data.pageNavi);
+						      			var resultText = "";
+						      			for(var i =0;i<data.list.length;i++){
+						      				resultText += "<tr><th scope=row class=num>"+((data.reqPage-1)*data.selectCount+i+1)+"</th>";
+						      				resultText += "<td class=th2>"+data.list[i].memberId+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberName+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberEmail+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberPhone+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberNickname+"</td>";
+						      				resultText += "<td class=th2>"+data.arrEnrollDate[i]+"</td></tr>";
+						      			}
+						      			$("#tbody").html(resultText);
+						      			$(".pagination").html(data.pageNavi);
+						      		},						      				
+						      		error : function(){
+						      			
+						      		}
+						      	});
+							 });
+							$("#selectMemberCount").change(function() {
+									var smc = $("#selectMemberCount option:selected").val();
+									smc = parseInt(smc);
+									 $("#tbody").html("");
+									 $(".pagination").html("");
+							      	var selectColumn = $("#selectColumn option:selected").val();
+							      	var search = $("#search").val();
+							      	$.ajax({
+							      		url : "/memberSearchList.do",
+							      		type : "post",
+							      		dataType : "json",
+							      		data : {
+							      			selectCount : smc,
+							      			reqPage : 1,
+							      			selectColumn : selectColumn,
+							      			search : search
+							      		},
+							      		success : function(data){
+							      			console.log(data.list);
+							      			console.log(data.list[0].memberId);
+							      			console.log(data.pageNavi);
+							      			var resultText = "";
+							      			for(var i =0;i<data.list.length;i++){
+							      				resultText += "<tr><th scope=row class=num>"+((data.reqPage-1)*data.selectCount+i+1)+"</th>";
+							      				resultText += "<td class=th2>"+data.list[i].memberId+"</td>";
+							      				resultText += "<td class=th2>"+data.list[i].memberName+"</td>";
+							      				resultText += "<td class=th2>"+data.list[i].memberEmail+"</td>";
+							      				resultText += "<td class=th2>"+data.list[i].memberPhone+"</td>";
+							      				resultText += "<td class=th2>"+data.list[i].memberNickname+"</td>";
+							      				resultText += "<td class=th2>"+data.arrEnrollDate[i]+"</td></tr>";
+							      			}
+							      			$("#tbody").html(resultText);
+							      			$(".pagination").html(data.pageNavi);
+							      		},						      				
+							      		error : function(){
+							      			
+							      		}
+									
+							});
+						});
+};
+						function searchPageNavi(obj){
+							console.log($(obj).html());
+								console.log("searchPageNavi 클릭");
+								var smc = $("#selectMemberCount option:selected").val();
+								smc = parseInt(smc);
+								var reqPage;
+								if($(obj).html()=="<span>»</span>"){
+									reqPage = 6;
+								}else if($(obj).html()=="<span>«</span>"){
+									reqPage = 1;
+								}else{
+									reqPage = parseInt($(obj).html());
+								}
+								var selectColumn = $("#selectColumn option:selected").val();
+						      	var search = $("#search").val();
+						      	$.ajax({
+						      		url : "/memberSearchList.do",
+						      		type : "post",
+						      		dataType : "json",
+						      		data : {
+						      		
+						      			selectCount : smc,
+						      			reqPage : reqPage,
+						      			selectColumn : selectColumn,
+						      			search : search
+						      		},
+						      		success : function(data){
+						      			console.log(data.list[0].enrollDate);
+						      			$(".pagination").html("");
+						      			 $("#tbody").html("");
+						      			var resultText = "";
+						      			for(var i =0;i<data.list.length;i++){
+						      				resultText += "<tr><th scope=row class=num>"+((data.reqPage-1)*data.selectCount+i+1)+"</th>";
+						      				resultText += "<td class=th2>"+data.list[i].memberId+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberName+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberEmail+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberPhone+"</td>";
+						      				resultText += "<td class=th2>"+data.list[i].memberNickname+"</td>";
+						      				resultText += "<td class=th2>"+data.arrEnrollDate[i]+"</td></tr>";
+						      			}
+						      			$("#tbody").html(resultText);
+						      			$(".pagination").html(data.pageNavi);
+						      		},
+						      		error : function(){
+						      			
+						      		}
+						      	});
+						      $("#ExcelDownLoad").click(function(){
+						    	  
+						      });
+						}
+					</script>
 </head>
 
 <body id="page-top">
@@ -66,126 +207,108 @@
 	<div id="wrapper">
 
 		<!-- Sidebar -->
-		<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+		<ul
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			id="accordionSidebar">
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-book"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">BooketList</div>
-      </a>
-        <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+			<!-- Sidebar - Brand -->
+			<a
+				class="sidebar-brand d-flex align-items-center justify-content-center"
+				href="#">
+				<div class="sidebar-brand-icon rotate-n-15">
+					<i class="fas fa-book"></i>
+				</div>
+				<div class="sidebar-brand-text mx-3">BooketList</div>
+			</a>
+			<!-- Divider -->
+			<hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/adminPage.do">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>관리자 페이지</span></a>
-      </li>
+			<!-- Nav Item - Dashboard -->
+			<li class="nav-item active"><a class="nav-link"
+				href="/adminPage.do"> <i class="fas fa-fw fa-tachometer-alt"></i>
+					<span>관리자 페이지</span></a></li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+			<!-- Divider -->
+			<hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-           회원 관리
-      </div>
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link" href="/memberList.do?reqPage=1">
-          <i class="fas fa-fw fa-table"></i>
-          <span>회원 목록</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          
-          
-          <span>회원 신고 관리</span></a>
-      </li>
+			<!-- Heading -->
+			<div class="sidebar-heading">회원 관리</div>
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link"
+				href="/memberList.do?reqPage=1"> <i class="fas fa-fw fa-table"></i>
+					<span>회원 목록</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-cog"></i> <span>회원 신고 관리</span></a></li>
 
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+			<!-- Divider -->
+			<hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-           도서 관리
-      </div>
-      
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>도서 대여</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">도서 대여</h6>
-            <a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
-            <a class="collapse-item" href="#">도서예약내역</a>
-          </div>
-        </div>
-      </li>
-     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookcollapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>도서 내역</span>
-        </a>
-        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">도서 내역</h6>
-            <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
-            <a class="collapse-item" href="#">도서신청내역</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>도서 분실 신고</span></a>
-      </li>
-      <hr class="sidebar-divider">
+			<!-- Heading -->
+			<div class="sidebar-heading">도서 관리</div>
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-           SPOT 관리
-      </div>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>SPOT</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">SPOT</h6>
-            <a class="collapse-item" href="#">SPOT리스트</a>
-            <a class="collapse-item" href="#">SPOT생성</a>
-          </div>
-        </div>
-      </li>
-      <hr class="sidebar-divider">
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+					class="fas fa-fw fa-folder"></i> <span>도서 대여</span>
+			</a>
+				<div id="collapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">도서 대여</h6>
+						<a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
+						<a class="collapse-item" href="#">도서예약내역</a>
+					</div>
+				</div></li>
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#bookcollapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+					class="fas fa-fw fa-folder"></i> <span>도서 내역</span>
+			</a>
+				<div id="bookcollapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">도서 내역</h6>
+						<a class="collapse-item"
+							href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a> <a
+							class="collapse-item" href="#">도서신청내역</a>
+					</div>
+				</div></li>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-cog"></i> <span>도서 분실 신고</span></a></li>
+			<hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-           챗봇 관리
-      </div>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>챗봇</span></a>
-      </li>
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+			<!-- Heading -->
+			<div class="sidebar-heading">SPOT 관리</div>
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapseUtilities"
+				aria-expanded="true" aria-controls="collapseUtilities"> <i
+					class="fas fa-fw fa-folder"></i> <span>SPOT</span>
+			</a>
+				<div id="collapseUtilities" class="collapse"
+					aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">SPOT</h6>
+						<a class="collapse-item" href="#">SPOT리스트</a> <a
+							class="collapse-item" href="#">SPOT생성</a>
+					</div>
+				</div></li>
+			<hr class="sidebar-divider">
 
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+			<!-- Heading -->
+			<div class="sidebar-heading">챗봇 관리</div>
+			<li class="nav-item"><a class="nav-link" href="#"> <i
+					class="fas fa-fw fa-cog"></i> <span>챗봇</span></a></li>
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
 
-    </ul>
+			<!-- Sidebar Toggler (Sidebar) -->
+			<div class="text-center d-none d-md-inline">
+				<button class="rounded-circle border-0" id="sidebarToggle"></button>
+			</div>
+
+		</ul>
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
@@ -342,24 +465,12 @@
 	position: absolute;
 	right: 0px;
 }
+#ExcelDownLoad{
+	margin-top : 20px;
+	float:left;
+}
 </style>
-<script>
-	$(function(){
-		$("#selectMemberCount").change(function(){
-			var smc = $("#selectMemberCount option:selected").val();
-			$.ajax({
-				url : "/memberList.do?reqPage=1",
-				type : "post",
-				data : {
-					smc : Number(smc),
-				},
-				success : function(data){
-					alert("성공");
-				}
-			});
-		});
-	});
-</script>
+					
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -376,42 +487,45 @@
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
 											aria-controls="home" aria-expanded="true"><b>회원목록</b></a></li>
 										<li><select class="form-control"
-											style="width: 80px; height: 40px; margin-left: 10px;" id="selectMemberCount">
-												<option value="10">10</option>
-												<option value="25">25</option>
-												<option value="50">50</option>
-												<option value="100">100</option>
+											style="width: 80px; height: 40px; margin-left: 10px;"
+											id="selectMemberCount" name="selectMemberCount">
+												<option value="10"
+													<c:if test="${selectCount eq 10 }">selected</c:if>>10</option>
+												<option value="25"
+													<c:if test="${selectCount eq 25}">selected</c:if>>25</option>
+												<option value="50"
+													<c:if test="${selectCount eq 50}">selected</c:if>>50</option>
+												<option value="100"
+													<c:if test="${selectCount eq 100}">selected</c:if>>100</option>
 										</select></li>
 										<li id="searchbar">
 											<div class="row">
 												<div class="col-lg-6">
 													<div class="input-group" style="width: 350px;">
 														<div class="input-group-btn">
-															<button type="button"
-																class="btn btn-default dropdown-toggle"
-																data-toggle="dropdown" aria-expanded="false"
-																style="margin-bottom: 25px;">id</button>
-															<ul class="dropdown-menu" role="menu">
-																<li><a href="#">id</a></li>
-																<li><a href="#">id</a></li>
-																<li><a href="#">id</a></li>
-															</ul>
+														<input type="hidden" id="reqPage" value=${reqPage }>
+															<select class="form-control"
+																style="width: 90px; height: 35px; margin-left: 10px;"
+																id="selectColumn" name="selectColumn">
+																<option value="member_id"
+																	<c:if test="${selectColumn eq memberId }">selected</c:if>>ID</option>
+																<option value="member_name"
+																	<c:if test="${selectColumn eq membeName}">selected</c:if>>이름</option>
+																<option value="member_email"
+																	<c:if test="${selectColumn eq email}">selected</c:if>>이메일</option>
+																<option value="member_nickname"
+																	<c:if test="${selectColumn eq nickName}">selected</c:if>>닉네임</option>
+															</select>
 
 														</div>
 														<!-- /btn-group -->
-														<c:if test="${not empty search }">
-															<input type="text" class="form-control " aria-label="..."
-																id="search" value="${search }">
-															<span class="glyphicon glyphicon-search" id="sear"></span>
-														</c:if>
-														<c:if test="${empty search }">
 															<input type="text" class="form-control" aria-label="..."
 																id="search" style="width: 200px; float: left;">
 															<span class="glyphicon glyphicon-search" id="sear"
 																style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
-														</c:if>
 													</div>
 													<!-- /input-group -->
+					
 
 												</div>
 											</div>
@@ -433,10 +547,10 @@
 														<th class="th2">가입일</th>
 													</tr>
 												</thead>
-												<tbody>
+												<tbody id="tbody">
 													<c:forEach items="${list }" var="l" varStatus="i">
 														<tr>
-															<th scope="row" class="num">${(reqPage-1)*10 + i.count }</th>
+															<th scope="row" class="num">${(reqPage-1)*selectCount + i.count }</th>
 															<td class="th2">${l.memberId }</td>
 															<td class="th2">${l.memberName }</td>
 															<td class="th2">${l.memberEmail }</td>
@@ -448,9 +562,10 @@
 												</tbody>
 											</table>
 											<nav id="footNav2" style="text-align: center;">
+												<button class="btn btn-primary" id="ExcelDownLoad">엑셀 다운로드</button>
 												<ul class="pagination">${pageNavi }</ul>
-												<div id="sel" style="float: right; margin-top:10px;">
-													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												<div id="sel" style="float: right; margin-top: 10px;">
+													<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 												</div>
 											</nav>
 										</div>
@@ -463,6 +578,7 @@
 							<!-- /.container-fluid -->
 
 						</div>
+						
 						<!-- End of Main Content -->
 
 						<!-- Footer -->
