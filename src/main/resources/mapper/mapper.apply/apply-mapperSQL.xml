@@ -4,4 +4,92 @@
  	<insert id="appltInsert" parameterType="apply">
  		insert into apply values(APPLY_SEQ.NEXTVAL, 'user01', SYSDATE,#{applyContent },#{bookName },#{bookWriter },#{bookPublisher },DEFAULT,#{bookCategory },#{bookImg },#{bookPubDate },#{bookContent })
  	</insert>
+ 	<select id="selectCheck" parameterType="book" resultType="book">
+ 		select book_no as bookNo,
+ 		 book_name as bookName, 
+ 		 book_writer as bookWriter,
+ 		 book_publisher as bookPublisher, 
+		 book_category as bookCategory,
+		 book_img as bookImg,
+		  book_pub_date as bookPubDate,
+		  book_status as bookStatus, 
+		  book_content as bookContent
+		from book where book_name = #{bookName}
+ 	</select>
+ 	
+ 	<select id="TotalCount2" resultType="_int">
+		select count(*) as cnt from apply
+	</select>
+ 	
+ 	<select id="totalCount4" parameterType="map" resultType="_int">
+		select count(*) as cnt from apply where
+		<if test = "searchTitle.equals('도서이름')">
+			book_name like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('작가')">
+			book_writer like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('출판사')">
+			book_publisher like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('장르')">
+			book_category like '%' || #{search} || '%'
+		</if>
+	</select>
+	
+	<select id="selectList4" parameterType="map" resultType="apply">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select apply_no as applyNo, member_id as memberId, apply_date as applyDate, apply_content as applyContent, book_name as bookName, book_writer as bookWriter, 
+				book_publisher as bookPublisher, apply_status as applyStatus ,book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_content as bookContent
+				from apply where 
+				<if test = "searchTitle.equals('도서이름')">
+					book_name like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('작가')">
+					book_writer like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('출판사')">
+					book_publisher like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('장르')">
+					book_category like '%' || #{search} || '%'
+				</if>
+				order by apply_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="selectList2" parameterType="map" resultType="apply">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select apply_no as applyNo, member_id as memberId, apply_date as applyDate, apply_content as applyContent, book_name as bookName, book_writer as bookWriter, 
+				book_publisher as bookPublisher, apply_status as applyStatus ,book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_content as bookContent
+				from apply order by apply_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="selectOneApplyList" parameterType="_int" resultType="apply">
+		select apply_no as applyNo, 
+			member_id as memberId, 
+			apply_date as applyDate, 
+			apply_content as applyContent, 
+			book_name as bookName, 
+			book_writer as bookWriter, 
+			book_publisher as bookPublisher, 
+			apply_status as applyStatus, 
+			book_category as bookCategory, 
+			book_img as bookImg, 
+			book_pub_date as bookPubDate, 
+			book_content as bookContent
+		from apply 
+		where apply_no = #{applyNoo}
+	</select>
+	
+	<update id="detailOneApplyNo" parameterType="_int">
+		update apply set apply_status = 2 where apply_no = #{applyNo} 
+	</update>
+	
+	<update id="detailOneApplyYes" parameterType="_int">
+		update apply set apply_status = 1 where apply_no = #{applyNo} 
+	</update>
 </mapper>

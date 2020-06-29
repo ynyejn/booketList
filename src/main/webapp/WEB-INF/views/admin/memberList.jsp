@@ -46,8 +46,7 @@
 <link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
 	rel="stylesheet" type="text/css">
 
-<link rel="stylesheet"
-	href="/resources/adminBootstrap/css/bootstrap.css" />
+
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"

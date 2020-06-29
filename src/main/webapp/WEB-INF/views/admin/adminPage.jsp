@@ -80,11 +80,17 @@
           <span>회원 목록</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-cog"></i>
-          
-          
-          <span>회원 신고 관리</span></a>
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#complaincollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-cog"></i>    
+          <span>회원 신고 관리</span>
+        </a>
+         <div id="complaincollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">회원 신고 관리</h6>
+            <a class="collapse-item" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">신고처리대기</a>
+            <a class="collapse-item" href="/adminComplainList.do?reqPage=1&check=2&reqPage2=1">신고처리완료</a>
+          </div>
+        </div> 
       </li>
 
 
@@ -110,6 +116,7 @@
           </div>
         </div>
       </li>
+      
      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookcollapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
@@ -123,10 +130,12 @@
           </div>
         </div>
       </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="fas fa-fw fa-cog"></i>
-          <span>도서 분실 신고</span></a>
+          <span>도서 분실 신고</span>
+         </a>
       </li>
       <hr class="sidebar-divider">
 

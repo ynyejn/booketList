@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cart">
+	<!-- 중복 검사 후 바로 인서트 -->
+<!-- 	<insert id="insertCart" parameterType="cart">
+		INSERT INTO CART (CART_NO, MEMBER_ID, BOOK_NAME, BOOK_WRITER, BOOK_PUBLISHER, BOOK_IMG) 
+  	 		SELECT CART_SEQ.NEXTVAL, #{memberId}, #{bookName}, #{bookWriter}, #{bookPublisher}, #{bookImg} 
+ 		 		FROM CART WHERE NOT EXISTS (
+      				SELECT COUNT(*) FROM CART WHERE BOOK_NAME = #{bookName} AND BOOK_WRITER= #{bookWriter} AND BOOK_PUBLISHER = #{bookPublisher})	
+	</insert> -->
+	<select id='dupChk' parameterType="cart" resultType="_int">
+		SELECT COUNT(*) CNT FROM CART WHERE BOOK_NAME = #{bookName} AND BOOK_WRITER = #{bookWriter} AND BOOK_PUBLISHER = #{bookPublisher}
+	
+	</select>
+	<insert id="insertCart" parameterType = "cart">
+		INSERT INTO CART(CART_NO, MEMBER_ID, BOOK_NAME, BOOK_WRITER, BOOK_PUBLISHER, BOOK_IMG) VALUES
+			(CART_SEQ.NEXTVAL, #{memberId}, #{bookName}, #{bookWriter}, #{bookPublisher}, #{bookImg})	
+	</insert> 
+	
 </mapper>
