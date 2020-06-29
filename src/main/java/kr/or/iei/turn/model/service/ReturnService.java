@@ -26,8 +26,11 @@ public class ReturnService {
 	public int bookDalay() {
 		int[] result= new int[3];
 		result[0] = dao.updateBookStatus();
+		System.out.println(result[0]);
 		result[1] = dao.updateDelayStatus();
+		System.out.println(result[1]);
 		result[2] = dao.reduceDelayStatus();
+		System.out.println(result[2]);
 		int sum=0;
 		for(int i=0; i<3; i++) {
 			if(result[i]>0) {

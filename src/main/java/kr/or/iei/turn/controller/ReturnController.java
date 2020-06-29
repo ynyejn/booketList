@@ -17,6 +17,7 @@ import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.turn.model.service.ReturnService;
+import kr.or.iei.turn.model.vo.TurnApply;
 
 @Controller
 public class ReturnController {
@@ -45,5 +46,14 @@ public class ReturnController {
 		return "book/returnBook";
 	}
 	
+	@RequestMapping("/returnBook.do")
+	public String goBookReturn(HttpSession session, TurnApply turn) {
+		Member m = (Member)session.getAttribute("member");
+		//String memberId = m.getMemberId();
+		String memberId="user01";
+		turn.setMemberId(memberId);
+		System.out.println(turn.getBookNo()+"/"+turn.getSpot_name());
+		return null;
+	}
 
 }
