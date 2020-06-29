@@ -16,9 +16,13 @@ public class SpotService {
 	@Autowired
 	private SpotDao dao;
 	
-	public SpotPageData selectAllSpot(int reqPage) {
+	public SpotPageData selectAllSpot(int reqPage, String localName, String keyword, String[] bookNo) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("localName", localName);
+		map.put("keyword", keyword);
+		
 		int numPerPage=5; //한페이지당 게시물 수
-		int totalCount = dao.totalCount();//총 게시물 수를 구해오는 dao호출
+		int totalCount = dao.totalCount(map);//총 게시물 수를 구해오는 dao호출
 		System.out.println("총스팟수: "+totalCount);
 		//총 페이지 수를 연산
 		int totalPage= 0;
@@ -31,7 +35,7 @@ public class SpotService {
 		int start = (reqPage-1)*numPerPage+1;
 		int end = reqPage*numPerPage;
 
-		HashMap<String, String> map = new HashMap<String, String>();
+		
 		map.put("start", String.valueOf(start));
 		map.put("end", String.valueOf(end));
 		List list = dao.selectAllSpot(map);
@@ -41,17 +45,27 @@ public class SpotService {
 		//페이지 네비게이션 길이
 		int pageNaviSize = 5;
 		int pageNo=((reqPage-1)/pageNaviSize)*pageNaviSize+1;//페이지네비 시작페이지넘버
-		
+		String str = "";
+		str+="/goSpotPage.do?";
+		if(keyword!=null) {
+			str+="&keyword="+keyword;
+		}
+		if(localName!=null) {
+			str+="&localName="+localName;
+		}
+		for(int i=0;i<bookNo.length;i++) {
+			str += ("&bookNo="+bookNo[i]);
+		}
 		//이전버튼
 		if(pageNo!=1) { 
-			pageNavi +="<a class='btn' href='/noticeList?reqPage="+(pageNo-pageNaviSize)+"'>이전</a>";
+			pageNavi +="<a class='heading' href='"+str+"&reqPage="+(pageNo-pageNaviSize)+"'>이전</a>";
 		}
 		//숫자
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage==pageNo) {  
 				pageNavi += "<span class='selectPage'>"+pageNo+"</span>";
 			}else {
-				pageNavi+="<a class='btn' href = '/noticeList?reqPage="+pageNo+"'>"+pageNo+"</a>";
+				pageNavi+="<a class='naviBtn' href = '"+str+"&reqPage="+pageNo+"'>"+pageNo+"</a>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -60,17 +74,17 @@ public class SpotService {
 		}
 		//다음버튼 ,위의 숫자표시부분을통하면서 pageNo가 네비의 다음단위의 첫페이지로 바뀌어있는상태 
 		//ex) pageNo 1로시작햇으면 5번for문통하면서 6돼있음
-		if(pageNo <= totalPage) { //그pageNo가 있는페이지면 이동가능하게해둠
-			pageNavi += "<a class='btn' href='/noticeList?reqPage="+pageNo+"'>다음</a>";
+		if(pageNo <= totalPage) { //그pageNo가 있는페이지면 이동가능하게해둠(pageNo+pageNaviSize)
+			pageNavi += "<a class='heading' href='"+str+"&reqPage="+(pageNo)+"'>다음</a>";
 		}
 		//받아온게시물리스트와 작성한 페이지 네비를 객체에 함께 담아 전달
 		SpotPageData spd = new SpotPageData(list2, pageNavi);
 		return spd;
 	}
 
-	public ArrayList<Spot> selectAllLocalName() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<String> selectAllLocalName() {
+		List list = dao.selectAllLocalName();
+		return (ArrayList<String>)list;
 	}
 
 }

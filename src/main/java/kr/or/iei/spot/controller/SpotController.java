@@ -19,18 +19,21 @@ public class SpotController {
 	private SpotService service;
 	
 	@RequestMapping("/goSpotPage.do")
-	public String goSpotPage(HttpServletRequest request,Model model) {
+	public String goSpotPage(HttpServletRequest request,Model model,int reqPage,String localName,String keyword) {
 		//책번호넘기기
-		String[] numbers=request.getParameterValues("bookNo");
-		model.addAttribute("numbers",numbers);
+		String[] bookNo=request.getParameterValues("bookNo");
+		model.addAttribute("bookNo",bookNo);
 		//spot정보들
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		SpotPageData spd = service.selectAllSpot(reqPage);
+		SpotPageData spd = service.selectAllSpot(reqPage,localName,keyword,bookNo);
 		model.addAttribute("list",spd.getList());
 		model.addAttribute("pageNavi",spd.getPageNavi());
+		//lacalName list
+		ArrayList<String> localList = service.selectAllLocalName();
+		model.addAttribute("localList",localList);
 		
-		//lacalName
-		//ArrayList<String> localName = service.selectAllLocalName();
+		//검색
+		model.addAttribute("localName",localName);
+		model.addAttribute("keyword",keyword);
 		return "book/spotPage";
 	}
 }

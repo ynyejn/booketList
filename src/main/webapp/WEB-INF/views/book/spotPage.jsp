@@ -48,14 +48,61 @@
     }
     
     .selectZone{
-        border: 1px solid lightgray;
+        margin: 20px 0;
+        margin-top: 40px;
         width: 100%;
         overflow: hidden;
     }
+    #localName{
+        width: 180px;
+        height: 40px;
+        text-indent: 10px;
+        border: 1px solid lightgray;
+        color: gray;
+    }
+    #nameList{
+        text-indent: 10px;
+        
+    }
+    input[name=keyword]{
+        width: 300px;
+        height: 38px;
+        border: 1px solid lightgray;
+        color: gray;
+    }
+    #searchBtn, #submitBtn{
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        width: 80px;
+        text-align: center;
+        font-size: 14px;
+        color: white;
+        background-color: #666666;
+        border-radius: 5px;
+    }
+    #searchBtn:hover{
+        cursor: pointer;
+    }
+    #submitBtn{
+        float: right;
+        width: 150px;
+        height: 50px;
+        margin-right: 50px;
+        background-color: #353835;
+        border: none;
+        font-size: 16px;
+        
+    }
+    #submitBtn:hover{
+        background-color: #00a3e0;
+    }
+    /*------------------------------------------------------------spot정보*/
     .spotFrame {
         width: 100%;
         height: 600px;
-        border: 1px solid #dddddd;
+        border-top: 2px solid #353835;
+        border-bottom: 2px solid #353835;
     }
 
     .spotFrame>div {
@@ -63,12 +110,13 @@
         float: left;
         width: 50%;
         height: 100%;
-        border: 1px solid #dddddd;
+       
     }
     #map{
         margin: 30px;
         width: 538px;
         height: 538px;
+        border: 1px solid #dddddd;
     }
 
     .spotList>div:first-of-type {
@@ -115,7 +163,26 @@
         color: #111111;
         line-height: 28px;
     }
-
+    .navi{
+        text-align: center;
+        margin-top: 17px;
+    }
+	.naviBtn, .selectPage, .heading{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 20px;
+        color: #666666;
+        display: inline-block;
+	}
+    .selectPage{
+        color: #0066bc;
+        font-size: 25px;
+        text-decoration: underline;
+    }
+    .heading{
+        width: 80px;
+    }
 </style>
 
 <body style="line-height:normal;">
@@ -125,7 +192,21 @@
             <div class="black"></div><span>반납 장소 선택</span>
         </div>
         <div class="content">
-            <div class="selectZone"></div>
+            <form action="/returnBook.do" method="post">
+            <div class="selectZone">
+            <select name="localName" id="localName">
+                <option value="" id="nameList">전체보기</option>
+            <c:forEach items="${localList }" var="local">
+            <option value="${local}" id="nameList">${local}</option>
+            </c:forEach>
+            </select>
+            <input type="text" name="keyword" value="${keyword }">
+            <div id="searchBtn">검색</div>
+            <c:forEach items="${bookNo }" var="no">
+            <input type="hidden" value="${no}" name="bookNo">
+                </c:forEach>
+            <button type="submit" id="submitBtn">반납신청</button>
+            </div>
             <div class="spotFrame">
                 <div id="map"></div>
                 <div class="spotList">
@@ -143,6 +224,10 @@
 
                 </div>
             </div>
+                </form>
+            <div class="navi">
+            ${pageNavi}
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
@@ -153,35 +238,65 @@
 
 <script>
     $(function() {
+    	if ("${localName}" != "") {
+            $("select[name=localName]").val("${localName}").attr("selected", "true");
+         }
+        $("#localName").change(function(){
+           var localName = $(this).val();
+           var bookNo= document.getElementsByName("bookNo");
+           var str="";
+           for (var i = 0; i < bookNo.length; i++) {
+                   str+=("&bookNo="+bookNo[i].value);
+           }
+           if(localName==""){
+        	   location.href="/goSpotPage.do?reqPage=1"+str;
+           }else{
+        	   location.href="/goSpotPage.do?reqPage=1&localName="+localName+str;   
+           }
+        });
+        $("#searchBtn").click(function(){
+        	var localName = $("#localName").val();
+        	var keyword =$(this).prev().val();
+        	var bookNo= document.getElementsByName("bookNo");
+            var str="";
+            for (var i = 0; i < bookNo.length; i++) {
+                    str+=("&bookNo="+bookNo[i].value);
+            }
+            location.href="/goSpotPage.do?reqPage=1&keyword="+keyword+"&localName="+localName+str; 
+        });
+        
+        //--------------------------------------------지도------------------------------
             var xx;
             var yy;
             var addr;
             var name;
-        $("input[type=radio]").click(function() {
-            
-            name = $(this).val();
-            addr = $(this).parent().next().next().children().html();
-
-            var geocoder = new kakao.maps.services.Geocoder();
-
             var callback = function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     console.log(result);
                     xx = result[0].x;
                     yy = result[0].y;
                     console.log(xx + "," + yy);
+                    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+                    var options = { //지도를 생성할 때 필요한 기본 옵션
+                        center: new kakao.maps.LatLng(yy, xx), //지도의 중심좌표.
+                        level: 3 //지도의 레벨(확대, 축소 정도)
+                    };
+
+                    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴 
                 }
             };
+        $("input[type=radio]").click(function() {
+        	
+            name = $(this).val();
+            addr = $(this).parent().next().next().children().html();
+
+            var geocoder = new kakao.maps.services.Geocoder();
+
+           
             
             geocoder.addressSearch(addr, callback);
             
-            var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-            var options = { //지도를 생성할 때 필요한 기본 옵션
-                center: new kakao.maps.LatLng(yy, xx), //지도의 중심좌표.
-                level: 3 //지도의 레벨(확대, 축소 정도)
-            };
-
-            var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴     
+               
             
 
         });
