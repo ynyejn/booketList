@@ -36,7 +36,7 @@
 				<!--로그인되어있지않을때 -->
 				<li><a href="/login.do">로그인</a></li>
 				<li><a href="/join.do">회원가입</a></li>
-				<li><a href="#">장바구니</a></li>
+				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
@@ -48,7 +48,7 @@
 				<li><a href="#">${sessionScope.member.memberName }님</a></li>
 				</c:if>
 				<li><a href="/logout.do">로그아웃</a></li>
-				<li><a href="#">장바구니</a></li>
+				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 			</c:if>
 		</ul>
 	</div>
