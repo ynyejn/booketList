@@ -42,4 +42,16 @@ public int chatUpdate(String title) {
 	int result = dao.chatUpdate(title);
 	return result;
 }
+
+public int titleDlelte(String title) {
+	int result2 = dao.contentDlelte(title);
+	if(result2>0) {
+		int result = dao.titleDlelte(title);
+		if(result>0) {
+			return result;			
+		}
+	}else {
+		return result2;
+	}
+}
 }

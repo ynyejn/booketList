@@ -19,13 +19,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import kr.or.iei.chat.model.dao.ChatDao;
-import kr.or.iei.chat.model.vo.Chat;
+import kr.or.iei.chat.model.service.ChatService;
+
 
 @Component("openChatting")
 public class OpenChatting extends TextWebSocketHandler {
 	@Autowired
 	@Qualifier("chatDao")
 	private ChatDao dao;
+	@Qualifier("chatService")
+	private ChatService service;
 	private ArrayList<WebSocketSession> allSession;
 	private HashMap<String, HashMap<String, WebSocketSession>> map;
 	
@@ -111,10 +114,12 @@ public class OpenChatting extends TextWebSocketHandler {
             		members = map.get(title[1]);
             		if(members.isEmpty()) {
             			System.out.println(title[1]+"대화방 삭제");
-            			int result = dao.titleDlelte(title[1]);
+            			int result = service.titleDlelte(title[1]);
             			if(result>0) {
+            				
             				map.remove(title[1]);
             			}
+            			
             		}
             	}
             	
