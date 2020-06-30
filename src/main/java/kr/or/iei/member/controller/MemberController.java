@@ -17,4 +17,6 @@ public class MemberController {
 	public MemberController() {
 		super();
 	}
+	
+	
 }

@@ -643,6 +643,12 @@ public class AdminService {
 	public int cancelLostBookList(String[] params) {
 		return dao.cancelLostbookList(params);
 	}
+	public Member login(Member m) {
+		return dao.login(m);
+	}
+	public List userLostBook(Member m) {
+		return dao.userLostBook(m);
+	}
 	
 	
 

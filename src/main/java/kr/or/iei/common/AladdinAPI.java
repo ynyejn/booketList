@@ -113,29 +113,29 @@ public class AladdinAPI {
 				//Sheet명 설정
 				XSSFSheet sheet = workbook.createSheet("mySheet");
 				
-//				for(int i=0; i<list.size(); i++) {
-//					//출력 row 생성
-//					row = sheet.createRow(i);
-//					//출력 cell 생성
-//					row.createCell(0).setCellValue(i);
-//					row.createCell(1).setCellValue(list.get(i).getBookName());
-//					row.createCell(2).setCellValue(list.get(i).getBookWriter());
-//					row.createCell(3).setCellValue(list.get(i).getBookPublisher());
-//					row.createCell(4).setCellValue(list.get(i).getBookCategory());
-//					row.createCell(5).setCellValue(list.get(i).getBookImg());
-//					row.createCell(6).setCellValue(list.get(i).getBookPubDate());
-//					row.createCell(7).setCellValue(list.get(i).getBookStatus());
-//					row.createCell(8).setCellValue(list.get(i).getBookContent());
-//					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
-//				}
+				for(int i=0; i<list.size(); i++) {
+					//출력 row 생성
+					row = sheet.createRow(i);
+					//출력 cell 생성
+					row.createCell(0).setCellValue(i);
+					row.createCell(1).setCellValue(list.get(i).getBookName());
+					row.createCell(2).setCellValue(list.get(i).getBookWriter());
+					row.createCell(3).setCellValue(list.get(i).getBookPublisher());
+					row.createCell(4).setCellValue(list.get(i).getBookCategory());
+					row.createCell(5).setCellValue(list.get(i).getBookImg());
+					row.createCell(6).setCellValue(list.get(i).getBookPubDate());
+					row.createCell(7).setCellValue(list.get(i).getBookStatus());
+					row.createCell(8).setCellValue(list.get(i).getBookContent());
+					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
+				}
 
 				// 출력 파일 위치및 파일명 설정
 
-//				FileOutputStream outFile;
+				FileOutputStream outFile;
 				try {
-//					outFile = new FileOutputStream("인기신간 다.xlsx");
-//					workbook.write(outFile);
-//					outFile.close();		
+					outFile = new FileOutputStream("인기신간 다.xlsx");
+					workbook.write(outFile);
+					outFile.close();		
 					System.out.println("파일생성 완료");
 					return new Gson().toJson(list);
 				} catch (Exception e) {

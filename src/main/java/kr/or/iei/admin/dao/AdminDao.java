@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.book.model.vo.Book;
-
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.member.model.vo.Member;
 
 import kr.or.iei.complain.model.vo.Complain;
@@ -168,24 +168,33 @@ public class AdminDao {
 		return sqlSession.update("book.cancelLostbookList",params);
 	}
 
-	  public int complainTotalCount1() { return
-	  sqlSession.selectOne("complain.ComplainTotalCount1"); }
-	  
-	  public List complainSelectList1(HashMap<String, Integer> map) { return
-	  sqlSession.selectList("complain.ComplainSelectList1",map); }
-	  
-	  public int complainTotalCount2() { return
-	  sqlSession.selectOne("complain.ComplainTotalCount2"); }
-	  
-	  public List complainSelectList2(HashMap<String, Integer> map) { return
-	  sqlSession.selectList("complain.ComplainSelectList2",map); }
-
+	/*
+	 * public int complainTotalCount1() { return
+	 * sqlSession.selectOne("complain.ComplainTotalCount1"); }
+	 * 
+	 * public List complainSelectList1(HashMap<String, Integer> map) { return
+	 * sqlSession.selectList("complain.ComplainSelectList1",map); }
+	 * 
+	 * public int complainTotalCount2() { return
+	 * sqlSession.selectOne("complain.ComplainTotalCount2"); }
+	 * 
+	 * public List complainSelectList2(HashMap<String, Integer> map) { return
+	 * sqlSession.selectList("complain.ComplainSelectList2",map); }
+	 */
 	public List selectExcelList(String memberId) {
 		return sqlSession.selectList("member.selectExcelList",memberId);
 	}
 
 	public int adminDeleteMember(String memberId) {
 		return sqlSession.delete("member.adminDeleteMember",memberId);
+	}
+
+	public Member login(Member m) {
+		return sqlSession.selectOne("member.login",m);
+	}
+
+	public List userLostBook(Member m) {
+		return sqlSession.selectList("book.userLostBook",m);
 	}
 
 	 

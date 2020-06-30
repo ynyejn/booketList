@@ -211,4 +211,9 @@
 			 #{arr}
 		</foreach>
 	</update>
+	<select id="userLostBook" parameterType="member" resultType="bookandrent">
+		select book.book_no as bookNo, book.book_name as bookName, book.book_writer as bookWriter, book.book_publisher as bookPublisher, 
+			book.book_category as bookCategory, book.book_img as bookImg, book.book_pub_date as bookPubDate, book.book_status as bookStatus, rent.member_id as memberId 
+		from book left join rent on book.book_no = rent.book_no where rent.member_id = #{memberId}
+	</select>
 </mapper>

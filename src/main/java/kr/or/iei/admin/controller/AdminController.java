@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
@@ -42,6 +43,7 @@ import kr.or.iei.admin.service.AdminService;
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.book.model.vo.BookAndRentPageData;
 import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.complain.model.vo.Complain;
@@ -56,7 +58,37 @@ public class AdminController {
 	@Autowired
 	@Qualifier("adminService")
 	private AdminService service;
-
+	
+	@RequestMapping(value="/login.do")
+	public String loginFrm() {
+		return "admin/loginFrm";
+	}
+	
+	@RequestMapping(value="/userLostBook.do")
+	public String userLostBook(HttpSession session,Model model) {
+		Member m = (Member)session.getAttribute("member");
+		System.out.println(m.getMemberId());
+		ArrayList<BookAndRent> list = (ArrayList<BookAndRent>)service.userLostBook(m);
+		System.out.println(list);
+		model.addAttribute("list", list);
+		return "admin/userLostBook";
+	}
+	
+	@RequestMapping(value="/logins.do")
+	public String login(String id, String pass, HttpSession session) {
+		Member m = new Member();
+		m.setMemberId(id);
+		m.setMemberPw(pass);
+		Member member = service.login(m);
+		if(member==null) {
+			return "admin/loginFrm";
+		}else {
+			session.setAttribute("member", member);
+			return "redirect:/";
+		}
+		
+	}
+	
 	@RequestMapping(value="/adminPage.do")
 	public String adminPageFrm() {
 		return "/admin/adminPage";
@@ -292,7 +324,7 @@ public class AdminController {
 		model.addAttribute("reqPage", reqPage);
 		return result;
 	}
-}
+
 
 	@RequestMapping(value = "/excelDown.do")
 	public void excelDown(HttpServletResponse response,String[]checkArr) throws Exception {
