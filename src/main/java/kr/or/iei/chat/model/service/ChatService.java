@@ -37,4 +37,9 @@ public int chatInsert(Chat c) {
 		return 0;
 	}
 }
+
+public int chatUpdate(String title) {
+	int result = dao.chatUpdate(title);
+	return result;
+}
 }

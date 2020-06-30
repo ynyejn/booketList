@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -25,7 +28,7 @@ public class OpenChatting extends TextWebSocketHandler {
 	private ChatDao dao;
 	private ArrayList<WebSocketSession> allSession;
 	private HashMap<String, HashMap<String, WebSocketSession>> map;
-
+	
 	public OpenChatting() {
 		allSession = new ArrayList<WebSocketSession>();
 		map = new HashMap<String, HashMap<String, WebSocketSession>>();
@@ -68,14 +71,14 @@ public class OpenChatting extends TextWebSocketHandler {
 				
 			
 						
-				int result = dao.chatUpdate(title);
-				if(result>0) {
+				
+				
 			for(String key : members.keySet()){//리절트에 해당하는 대화방의 저장되어있는 세션을 모두 순회
 					
 					WebSocketSession ws = members.get(key);
 					ws.sendMessage(new TextMessage(memberNickname+"님이 입장하셧습니다."));
 				}
-	        }
+	        
 
 		}else {
 			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();

@@ -55,8 +55,15 @@ public class ChatController {
 	}
 	@RequestMapping("/chatRoom.do")
 	public String chatRoom(String title,Model model) {
-		
-		model.addAttribute("title",title);
-		return "openChatting/chat";
+		int result = service.chatUpdate(title);
+		System.out.println("gdgd");
+		if(result>0) {
+			model.addAttribute("title",title);
+			System.out.println("gdgd");
+			return "openChatting/chat";	
+		}else {
+			System.out.println("gdgd");
+			return "openChatting/chatFull";
+		}
 	}
 }

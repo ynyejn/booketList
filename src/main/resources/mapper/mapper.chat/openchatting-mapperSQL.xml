@@ -14,7 +14,7 @@
  		insert into chat values(chat_seq.nextval,#{chatTitle},#{chatPeople},1,sysdate,#{memberNickname})
  	</insert>
  	<update id="chatUpdate" parameterType="string">
- 		update  chat set chat_personnel = chat_personnel+1 where chat_title=#{title }
+ 		update  chat set chat_personnel = chat_personnel+1 where chat_title=#{title } and chat_people != chat_personnel
  	</update>
  	<update id="chatUpdatedelete" parameterType="string">
  		update  chat set chat_personnel = chat_personnel-1 where chat_title=#{title }
