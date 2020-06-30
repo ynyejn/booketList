@@ -19,6 +19,7 @@ import kr.or.iei.admin.service.AdminService;
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndRentPageData;
 import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.complain.model.vo.ComplainPageData;
@@ -203,6 +204,35 @@ public class AdminController {
 		int result = service.detailComplainNo(ComplainNo);
 		model.addAttribute("reqPage", reqPage);
 		System.out.println("result : "+result);
+		return result;
+	}
+	
+	@RequestMapping(value="/adminLostBookList.do")
+	public String adminLostBookList(Model model, int reqPage, String search, String searchTitle) {
+			
+		BookAndRentPageData barpd = null;
+		
+		if(!(search == null || search.equals(""))) {
+			barpd = service.LostBookselectList3(reqPage,search,searchTitle);
+		}else {
+			barpd = service.LostBookselectList1(reqPage);
+		}
+		
+		model.addAttribute("list1",barpd.getList());
+		model.addAttribute("pageNavi1",barpd.getPageNavi());
+		model.addAttribute("reqPage", reqPage);
+		model.addAttribute("search", search);
+		model.addAttribute("searchTitle", searchTitle);
+		
+		return "admin/adminLostBookList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/cancelLostBookList.do")
+	public int cancelLostBookList(HttpServletRequest request,Model model, int reqPage) {
+		String[] params = request.getParameterValues("chBox");
+		int result = service.cancelLostBookList(params);
+		model.addAttribute("reqPage", reqPage);
 		return result;
 	}
 }

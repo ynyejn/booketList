@@ -139,7 +139,7 @@
 			type : "get",
 			data : {bookNo : no},
 			success : function(data) {
-				$("#Bookin").children("table").children().remove();
+				$("#bookin").children("table").children().remove();
 				html = "";
 				html += "<tr><th colspan='2'>" + data.bookName + "</th><tr>"
 				html += "<tr><th><img src='"+data.bookImg+"'></th>";
@@ -152,11 +152,10 @@
 				if (data.bookContent == null) {
 					html += "<tr><th colspan='2'></th><tr>"
 				} else {
-					html += "<tr><th colspan='2'>" + data.bookContent
-							+ "</th><tr>";
+					html += "<tr><th colspan='2'>" + data.bookContent+ "</th><tr>";
 				}
 
-				$("#Bookin").children("table").append(html);
+				$("#bookin").children("table").append(html);
 
 			},
 			error : function() {

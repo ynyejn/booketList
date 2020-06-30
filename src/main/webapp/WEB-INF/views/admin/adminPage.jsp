@@ -28,7 +28,7 @@
   
   <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-<link
+  <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -39,6 +39,7 @@
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 	
+<!-- End Channel Plugin -->
 </head>
 
 <body id="page-top">
@@ -126,16 +127,23 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 내역</h6>
             <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
-            <a class="collapse-item" href="#">도서신청내역</a>
+            <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=2&reqPage2=1">도서신청내역</a>
           </div>
         </div>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-cog"></i>
           <span>도서 분실 신고</span>
          </a>
+         <div id="LostcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">분실 내역</h6>
+            <a class="collapse-item" href="/userLostBook.do">분실 신고</a>
+            <a class="collapse-item" href="/adminLostBookList.do?reqPage=1">분실 내역</a>
+          </div>
+        </div>
       </li>
       <hr class="sidebar-divider">
 
@@ -163,7 +171,7 @@
            챗봇 관리
       </div>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="https://desk.channel.io/#/channels/26438/user_chats/5efaa02f4f8c7e541dda" target="_blank">
           <i class="fas fa-fw fa-cog"></i>
           <span>챗봇</span></a>
       </li>

@@ -64,6 +64,7 @@ public class AdminDao {
 	}
 
 	public Book selectOneBookList(int bookNoo) {
+		System.out.println(bookNoo);
 		return sqlSession.selectOne("book.selectOneBookList", bookNoo);
 	}
 
@@ -133,6 +134,26 @@ public class AdminDao {
 
 	public int detailComplainNo(int complainNo) {
 		return sqlSession.update("complain.detailComplainNo",complainNo);
+	}
+
+	public int LostbookTotalCount() {
+		return sqlSession.selectOne("book.LostBookTotalCount1");
+	}
+
+	public List LostBookselectList1(HashMap<String, Integer> map) {
+		return sqlSession.selectList("book.LostBookSelectList",map);
+	}
+
+	public int LostbookTotalCount3(HashMap<String, String> map2) {
+		return sqlSession.selectOne("book.LostBookTotalCount3",map2);
+	}
+
+	public List LostBookselectList3(HashMap<String, String> map2) {
+		return sqlSession.selectList("book.LostBookSelectList3",map2);
+	}
+
+	public int cancelLostbookList(String[] params) {
+		return sqlSession.update("book.cancelLostbookList",params);
 	}
 
 	

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
 <!DOCTYPE html>
 <html lang="en" style="font-size: 18px">
 <head>
@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>회원 신고 관리페이지</title>
+<title>도서 분실 관리</title>
 
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.3.1.js"></script>
@@ -50,218 +50,76 @@
 
 <script>
 	$(function() {
-		var check = '${check }';
-
-		if (check == '2') {
-			$('#tt2').addClass("active");
-			$('#tt1').removeClass("active");
-			$('#profile').addClass("active in");
-			$('#home').removeClass("active in");
-		} else {
-			$('#tt1').addClass("active");
-			$('#tt2').removeClass("active");
-			$('#home').addClass("active in");
-			$('#profile').removeClass("active in");
-		}
-
 		$(".searchList").click(function() {
 			var searchSelect = $(this).html();
 			$("#searchTitle").html("");
 			$("#searchTitle").html(searchSelect);
 		});
 
-		$('#myTab').children('a').click(function(e) {
-			e.preventDefault()
-			$(this).tab('show')
-		});
-		
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
+
 		$("#sear").click(function() {
 			var search = $("#search").val();
 			var searchTitle = $("#searchTitle").html();
 			alert(searchTitle);
-			location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+$("#searchTitle").html();
-
+			location.href = "/adminLostBookList.do?reqPage=" + ${reqPage} + "&search=" + search + "&searchTitle=" + $("#searchTitle").html();
 		});
+
 		$("#search").keydown(function(key) {
 			if (key.keyCode == 13) {
 				$("#sear").click();
 			}
 		});
 
+		$("#ck_all").click(function() {
+			if ($("#ck_all").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		});
+
+		$("#selDelete").click(function() {
+			if (confirm("선택 도서 분실을 취소 하시겠습니까?")) {
+				var checkArr = new Array();
+				var reqPages = ${reqPage};
+					
+				$(".checkRow:checked").each(function() {
+					checkArr.push($(this).val());	
+				});
+
+				$.ajax({
+					url : "/cancelLostBookList.do",
+					type : "get",
+					traditional : true,
+					data : {
+						chBox : checkArr,
+						reqPage : reqPages
+					},
+					success : function(result) {
+						console.log(result);
+						if (result > 0) {
+							alert("분실취소가 완료되었습니다.");
+							location.href = "/adminLostBookList.do?reqPage=" + ${reqPage};
+						} else {
+							alert("삭제가 실패 하였습니다.");
+						}
+					}
+
+					});
+				}
+				
+			 else {
+					return false;
+				}	
+				
+		});
+
 	});
-
-	function detail(no) {
-		$("#complainHoldNo").val(no);
-		$.ajax({
-			url : "/selectOneComplainList.do",
-			type : "get",
-			data : {ComplainNo : no},
-			success:function(data){
-				$("#ComplainHold").children("table").children().remove(); 
-				html = "";
-				html += "<tr><th>신고한 id</th>";
-				html += "<th>"+data.memberId+"</th></tr>";
-				html += "<tr><th>신고당한 id</th>";
-				html += "<th>"+data.attacker+"</th></tr>";
-				html += "<tr><th>신고 날짜</th>";
-				html += "<th>"+data.complainDate+"</th></tr>";
-				html += "<tr><th>신고 사유</th>";
-				html += "<th>"+data.complainContent+"</th></tr>";
-				$("#ComplainHold").children("table").append(html);
-				
-			},
-			error:function(){
-				console.log("ajax통신 실패");
-			}
-		});
-	}
-
-	function detail2(no) {
-		$("#complainCompleteNo").val(no);
-		$.ajax({
-			url : "/selectOneComplainList.do",
-			type : "get",
-			data : {ComplainNo : no},
-			success:function(data){
-				$("#ComplainHold2").children("table").children().remove(); 
-				html = "";
-				html += "<tr><th>신고한 id</th>";
-				html += "<th>"+data.memberId+"</th></tr>";
-				html += "<tr><th>신고당한 id</th>";
-				html += "<th>"+data.attacker+"</th></tr>";
-				html += "<tr><th>신고 날짜</th>";
-				html += "<th>"+data.complainDate+"</th></tr>";
-				html += "<tr><th>신고 사유</th>";
-				html += "<th>"+data.complainContent+"</th></tr>";
-				html += "<tr><th>신고 상태</th>";
-				html += "<th>"+data.complainStauts+"</th></tr>";
-				$("#detailUpdate1").hide();
-				$("#detailUpdate2").hide();
-				if(data.complainStauts == '2'){
-					$("#detailUpdate1").show();
-				
-				}else{
-					$("#detailUpdate2").show();
-				}
-				$("#ComplainHold2").children("table").append(html);
-				$("#complainStatus").val(data.complainStauts);
-				
-			},
-			error:function(){
-				console.log("ajax통신 실패");
-			}
-		});
-	}
-	
-	function updateComplainYesList(no){
-		
-		no = $("#complainHoldNo").val();
-		var reqPages = ${reqPage }
-		
-		if(confirm("신고 처리 하시겠습니까?")){
-			$.ajax({
-				url : "/detailComplainYes.do",
-				type : "get",
-				traditional : true,
-				data : {ComplainNo : no, reqPage : reqPages},
-				success : function(result){
-
-					if(result > 0){
-						alert("처리가 완료되었습니다.");
-						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=1&reqPage2=1";
-					}else{
-						alert("처리가 실패 하였습니다.");
-					}
-				}
-				
-			});
-		}else{
-			
-		}
-	}
-	
-	function updateComplainYesList2(no){
-		
-		no = $("#complainCompleteNo").val();
-		var reqPages = ${reqPage }
-		
-		if(confirm("신고 처리 하시겠습니까?")){
-			$.ajax({
-				url : "/detailComplainYes.do",
-				type : "get",
-				traditional : true,
-				data : {ComplainNo : no, reqPage : reqPages},
-				success : function(result){
-
-					if(result > 0){
-						alert("처리가 완료되었습니다.");
-						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=2&reqPage2=1";
-					}else{
-						alert("처리가 실패 하였습니다.");
-					}
-				}
-				
-			});
-		}else{
-			
-		}
-	}
-	
-	function updateComplainNoList(no){
-		no = $("#complainHoldNo").val();
-		var reqPages = ${reqPage }
-		
-		if(confirm("신고반려처리를 하시겠습니까?")){
-			$.ajax({
-				url : "/detailComplainNo.do",
-				type : "get",
-				traditional : true,
-				data : {ComplainNo : no, reqPage : reqPages},
-				success : function(result){
-
-					if(result > 0){
-						alert("처리가 완료되었습니다.");
-						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=1&reqPage2=1";
-					}else{
-						alert("처리가 실패 하였습니다.");
-					}
-				}
-				
-			});
-		}else{
-			
-		}
-	}
-	
-	function updateComplainNoList2(no){
-		no = $("#complainCompleteNo").val();
-		var reqPages = ${reqPage }
-		
-		if(confirm("신고반려처리를 하시겠습니까?")){
-			$.ajax({
-				url : "/detailComplainNo.do",
-				type : "get",
-				traditional : true,
-				data : {ComplainNo : no, reqPage : reqPages},
-				success : function(result){
-
-					if(result > 0){
-						alert("처리가 완료되었습니다.");
-						location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check=2&reqPage2=1";
-					}else{
-						alert("처리가 실패 하였습니다.");
-					}
-				}
-				
-			});
-		}else{
-			
-		}
-	}
 </script>
+
 </head>
 <body id="page-top">
 
@@ -582,34 +440,36 @@
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										<li id="tt1" role="presentation" class="active"><a
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
-											aria-controls="home" aria-expanded="true"><b>신고처리대기</b></a></li>
-										<li id="tt2" role="presentation" class=""><a
-											href="#profile" role="tab" id="profile-tab" data-toggle="tab"
-											aria-controls="profile" aria-expanded="false"><b>신고처리완료</b></a></li>
-									</ul>
+											aria-controls="home" aria-expanded="true"><b>도서 내역</b></a></li>
 
-									<!-- 신고내역 리스트 받아올 때 -->
+									</ul>
+									<!-- 도서내역 리스트 받아올 때 -->
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
 											<table class="table table-hover">
 												<thead>
 													<tr>
-														<th class="width2">번호</th>
-														<th class="width3">신고한 id</th>
-														<th class="width4">신고당한 id</th>
-														<th class="width5">신고날짜</th>
+														<th class="width1"><input type="checkbox" id="ck_all"></th>
+														<th class="width2">분실한 id</th>
+														<th class="width3">도서 이름</th>
+														<th class="width4">도서 출판사</th>
+														<th class="width5">도서 장르</th>
+
 													</tr>
 												</thead>
 												<tbody>
 													<c:forEach items="${list1 }" var="p" varStatus="i">
 														<tr class="move"
-															onclick="detail('${p.complainNo }','${reqPage }')"
+															onclick="detail('${p.bookNo }','${reqPage }')"
 															data-toggle="modal" data-target="#myModal">
-															<th class="width1">${(reqPage-1)*10 + i.count }</th>
-															<td class="width1">${p.memberId }</td>
-															<td class="width3">${p.attacker }</td>
-															<td class="width4">${p.complainDate }</td>
+															<th class="width1"><input type="checkbox"
+																class="checkRow" value="${p.bookNo }"></th>
+															<td class="width2">${p.memberId }</td>
+															<td class="width3">${p.bookName }</td>
+															<td class="width4">${p.bookPublisher }</td>
+															<td class="width5">${p.bookCategory }</td>
+
 														</tr>
 													</c:forEach>
 
@@ -618,116 +478,16 @@
 											<nav id="footNav2">
 												<ul class="pagination">${pageNavi1 }</ul>
 											</nav>
-											
-
-										</div>
-
-										<!-- 신고완료내역 리스트 받아올 때 -->
-										<div role="tabpanel" class="tab-pane fade" id="profile"
-											aria-labelledby="profile-tab">
-											<table class="table table-hover">
-												<thead>
-													<tr>
-														<th class="width1">번호</th>
-														<th class="width3">신고한 id</th>
-														<th class="width2">신고된 id</th>
-														<th class="width3">신고한 날짜</th>
-														<th class="width5">신고유무(Y/N)</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items="${list2 }" var="p" varStatus="i">
-														<tr class="move" id="move2"
-															onclick="detail2(${p.complainNo },${reqPage2 })"
-															data-toggle="modal" data-target="#myModal3">
-															<th scope="row">${(reqPage2-1)*10 + i.count }</th>
-															<td class="width1">${p.memberId }</td>
-															<td class="width2">${p.attacker }</td>
-															<td class="width3">${p.complainDate }</td>
-															<td><c:if test="${p.complainStauts == 1}">
-																Y
-															</c:if> <c:if test="${p.complainStauts == 2}">
-																N
-															</c:if></td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-											<nav id="footNav2">
-												<ul class="pagination">${pageNavi2 }</ul>
-											</nav>
-										</div>
-
-
-
-									</div>
-								</div>
-
-
-
-
-								<!-- 신고처리대기 상세보기 모달 -->
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h4 class="modal-title" id="myModalLabel">신고처리대기</h4>
-											</div>
-											<div class="modal-body" id="ComplainHold"
-												style="height: 500px">
-												<table class="table table-bordered">
-												</table>
+											<div id="sel">
+												<button type="button" class="btn btn-default" id="selDelete">분실철회</button>
 
 											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">돌아가기</button>
-												<input type="hidden" id="complainHoldNo">
 
-												<button type="button" class="btn btn-primary"
-													id="detailUpdateYes" onclick="updateComplainYesList(this)">신고등록</button>
-												<button type="button" class="btn btn-primary"
-													id="detailUpdateNo" onclick="updateComplainNoList(this)">신고반려</button>
-											</div>
 										</div>
 									</div>
 								</div>
 
 
-								<!-- 신고처리완료 상세보기 모달 -->
-								<div class="modal fade" id="myModal3" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h4 class="modal-title" id="myModalLabel">신고처리완료</h4>
-											</div>
-											<div class="modal-body" id="ComplainHold2"
-												style="height: 500px">
-												<table class="table table-bordered">
-												</table>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">돌아가기</button>
-												<input type="hidden" id="complainCompleteNo">
-												
-												
-													<button type="button" class="btn btn-primary"
-														id="detailUpdate1" onclick="updateComplainYesList2(this)">신고등록</button>
-												
-													<button type="button" class="btn btn-primary"
-														id="detailUpdate2" onclick="updateComplainNoList2(this)">신고철회</button>
-												
-
-
-
-											</div>
-										</div>
-									</div>
-								</div>
 
 								<!-- 검색 메뉴 드롭다운 -->
 								<div class="col-lg-6">
@@ -736,12 +496,14 @@
 											<button id="searchTitle"
 												class="btn btn-default dropdown-toggle" type="button"
 												data-toggle="dropdown" aria-expanded="false">
-												<c:if test="${empty searchTitle }">신고한id</c:if>
+												<c:if test="${empty searchTitle }">id</c:if>
 												<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
 											</button>
 											<ul class="dropdown-menu" role="menu">
-												<li><a class="searchList">신고한id</a></li>
-												<li><a class="searchList">신고당한id</a></li>
+												<li><a class="searchList">id</a></li>
+												<li><a class="searchList">도서이름</a></li>
+												<li><a class="searchList">작가</a></li>
+												<li><a class="searchList">출판사</a></li>
 											</ul>
 										</div>
 									</div>
@@ -762,6 +524,10 @@
 								<!-- /.col-lg-6 -->
 
 								<button type="button" class="btn btn-default" id="back">돌아가기</button>
+
+
+
+
 
 								<!-- /.container-fluid -->
 
@@ -837,4 +603,5 @@
 						<script src="/resources/adminBootstrap/js/demo/chart-area-demo.js"></script>
 						<script src="/resources/adminBootstrap/js/demo/chart-pie-demo.js"></script>
 </body>
+
 </html>
