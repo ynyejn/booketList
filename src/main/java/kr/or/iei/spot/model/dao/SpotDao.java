@@ -12,8 +12,8 @@ public class SpotDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	public int totalCount() {
-		return sqlSession.selectOne("spot.selectSpotCount");
+	public int totalCount(HashMap<String, String> map) {
+		return sqlSession.selectOne("spot.selectSpotCount",map);
 	}
 	
 	public List selectAllSpot(HashMap<String, String> map) {
