@@ -46,6 +46,12 @@
         border: 1px solid lightgray;
     }
 
+    .check {
+        width: 20px;
+        height: 20px;
+        vertical-align: -2px;
+    }
+
     /*--------------------------------------------------------------------------------------------------*/
 
     .notice {
@@ -56,27 +62,32 @@
         margin-top: 50px;
         overflow: hidden;
     }
-
+    
     .notice>div {
         float: left;
     }
     .imgBox{
         margin-left: 80px;
+        padding-top: 10px;
     }
     .text {
-        margin-left: 50px;
-        font-size: 18px;
+        margin-left:80px;
+        font-size: 17px;
         color: #666666;
     }
-    
-    .boardFrame{
+
+    .boardFrame {
         overflow: hidden;
         width: 100%;
         border: 1px solid #dddddd;
     }
-    .boardFrame>table{
-        border: 1px solid black;
+    .boardFrame>form>table{
+        width: 100%;
     }
+    .boardFrame>form td{
+        height: 50px;
+    }
+
 </style>
 
 <body style="line-height:normal;">
@@ -88,13 +99,39 @@
         <div class="content">
             <div class="notice">
                 <div class="imgBox"><img src="/resources/imgs/used_book.png"></div>
-                <div class="text"><strong>여러분의 참여를 기다립니다.</strong><br>
-                    당신의 서재에서 잠자고 있는 자료들이 <span style="color:#3cbcc7;">Booket List</span>를 통해 세상의 빛과 만나게 됩니다.<br>
-                    기증 및 판매를 원하는 개인은 글을 작성하신 후 판매자의 응답에 따라 기증 및 판매가 가능합니다.</div>
+                <div class="text">기증 및 판매 할 도서의 사진을 반드시 첨부해주세요. <br>
+                첨부사진이 충분하지 않아 상태판단에 어려움이 있을 시 추가자료가 요청 될 수 있습니다.<br>
+                판매 확정 시 금액은 정가의10% 이고, 책 도착 후 2-3일 내에 작성하신 계좌로 입금됩니다.<br>
+                기부 확정 시 기부도서에는 기부자명이 표기됩니다.</div>
+                
             </div>
             <div class="boardFrame">
-               <a href="/goBoardWrite.do">글작성</a>
-        </div>
+            <form action="#" method="get">
+            <table border="1">
+            <tr>
+            <td>분류</td>
+            <td><select name="usedType">
+                <option value="기증">기증</option>
+                <option value="판매">판매</option>
+                </select></td>
+            </tr>  
+            <tr>
+            <td>글제목</td>
+            <td><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." required></td>
+            </tr>
+            <tr>
+            <td colspan="2">내용</td>
+            </tr>
+            <tr>
+            <td colspan="2"><textarea></textarea></td>
+            </tr>
+            <tr>
+            <td>비밀번호</td>
+                <td><input type="password"></td>
+            </tr>
+            </table>
+            </form>
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>

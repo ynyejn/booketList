@@ -88,7 +88,7 @@
     /*--------------------공통*/
     .searchFrame {
         padding: 30px 20px;
-        width: 1000px;
+        width: 1100px;
         margin: 0 auto;
         margin-top: 5px;
         border-top: 2px solid #426f8f;
@@ -98,7 +98,7 @@
     .returnFrame,
     .delayFrame {
         padding: 20px;
-        width: 1000px;
+        width: 1100px;
         margin: 0 auto;
         border-bottom: 2px solid #426f8f;
         text-align: center;
@@ -106,7 +106,7 @@
 
     .returnFrame>span,
     .delayFrame>span {
-        font-size: 28px;
+        font-size: 30px;
     }
 
     .returnFrame>small,
@@ -120,17 +120,18 @@
         padding: 20px 50px;
         background-color: #f5f5f5;
         position: relative;
-        width: 960px;
+        width: 1060px;
     }
 
     /*--------------------검색창*/
     .searchBox {
-        padding: 35px 50px;
+        padding: 50px 50px;
+        font-size: 16px;
     }
 
     .searchBox>input {
         width: 100%;
-        height: 45px;
+        height: 50px;
         border: 1px solid #0066b3;
         outline: none;
         box-sizing: border-box;
@@ -138,7 +139,7 @@
 
     .bookList {
         position: absolute;
-        width: 860px;
+        width: 960px;
         overflow: hidden;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
@@ -148,12 +149,12 @@
     }
 
     .bookList>li {
-        text-indent: 10px;
+        text-indent: 20px;
         display: inline-block;
-        width: 860px;
-        height: 30px;
-        font-size: 15px;
-        line-height: 30px;
+        width: 960px;
+        height: 32px;
+        font-size: 16px;
+        line-height: 32px;
         background-color: white;
     }
 
@@ -171,7 +172,7 @@
         text-align: left;
         position: relative;
         border-bottom: 1px solid #dddddd;
-        padding: 15px 0;
+        padding: 22px 0;
         color: #535253;
         font-size: 15px;
     }
@@ -248,6 +249,8 @@
     .delayBox {
         text-align: left;
         overflow: hidden;
+        padding:30px 50px;
+        margin: 10px;
     }
 
     .delayBox>table {
