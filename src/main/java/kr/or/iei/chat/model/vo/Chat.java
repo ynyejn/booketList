@@ -7,11 +7,8 @@ import lombok.Data;
 public class Chat {
 	private int chatNo;
 	private String chatTitle;
-	private String chatFilepath;
 	private int chatPeople;
-	private String chatPw;
+	private int chatPersonnel;
 	private Date chatEnrollDate;
-	private String memberNickName;
-	
-	
+	private String memberNickname;
 }

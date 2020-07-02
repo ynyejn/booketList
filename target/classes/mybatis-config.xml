@@ -17,5 +17,7 @@
       <typeAlias type="kr.or.iei.complain.model.vo.Complain" alias="complain"/>
       <typeAlias type="kr.or.iei.book.model.vo.BookAndReview" alias="bookAndReview"/>
       <typeAlias type="kr.or.iei.book.model.vo.BookAndRent" alias="bookandrent"/>
+      <typeAlias type="kr.or.iei.review.model.vo.Review" alias="review"/> 
+
    </typeAliases>
 </configuration>
