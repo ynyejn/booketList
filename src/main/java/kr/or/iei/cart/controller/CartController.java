@@ -37,8 +37,6 @@ public class CartController {
 		CartPageData cartPageData = service.selectCartList(reqPage, member);
 		model.addAttribute("list", cartPageData.getList());
 		model.addAttribute("pageNavi", cartPageData.getPageNavi());
-		System.out.println(cartPageData.getList());
-		
 		return "book/myCart";
 	}
 	@ResponseBody

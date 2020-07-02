@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="rent">
+	<select id="userRentList" parameterType="member" resultType="rentAndCount">
+		select 
+			book_category as bookCategory, count(*) as cnt 
+		from rent 
+		where member_id = #{memberId} 
+		group by book_category 
+		order by cnt desc
+	</select>
+	<select id="userRentDateList" parameterType="member" resultType="rentAndCount">
+		SELECT rent_start_date as rentStartDate
+		FROM RENT
+		WHERE MEMBER_ID = #{memberId}
+	</select>
 </mapper>

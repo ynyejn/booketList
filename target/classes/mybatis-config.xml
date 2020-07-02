@@ -16,5 +16,8 @@
       <typeAlias type="kr.or.iei.spot.model.vo.Spot" alias="spot"/>
       <typeAlias type="kr.or.iei.complain.model.vo.Complain" alias="complain"/>
       <typeAlias type="kr.or.iei.book.model.vo.BookAndReview" alias="bookAndReview"/>
+      <typeAlias type="kr.or.iei.cart.model.vo.CartPageData" alias="CartPageData"/>
+      <typeAlias type="kr.or.iei.rent.model.vo.RentAndCount" alias="rentAndCount"/>
+      <typeAlias type="kr.or.iei.review.model.vo.Review" alias="review"/>
    </typeAliases>
 </configuration>

@@ -86,7 +86,20 @@
 					}else if(data[i].bookStatus == 6) {
 						html += "<td>분실중</td>";
 					}
-					html += "<td>"+data[i].bookPubDate+"</td></tr>";
+					if((data[i].bookPubDate).split(' ')[0].split('월')[0].length == 1) {						
+	 					var month = "0"+(data[i].bookPubDate).split(' ')[0].split('월')[0]; 
+					}else {
+	 					var month = (data[i].bookPubDate).split(' ')[0].split('월')[0]; 
+					}
+					if((data[i].bookPubDate).split(' ')[1].split(',')[0].length == 1) {
+						var day = "0"+(data[i].bookPubDate).split(' ')[1].split(',')[0]; 						
+					}else {
+						var day = (data[i].bookPubDate).split(' ')[1].split(',')[0]; 												
+					}
+ 					var year = (data[i].bookPubDate).split(' ')[2]; 					
+					var date = year +"-"+ month+"-"+ day
+					
+					html += "<td>"+date+"</td></tr>";
 				}
 				html += "</table>";
 				$(obj).parents().find("div#listDiv"+numb).append(html);
@@ -124,6 +137,22 @@
 				chk = 0;
 			}
 		});
+		$("#allSelect2").click(function () {
+			console.log($("input:checkbox[name=chkbox]"));
+			console.log($("input:checkbox[name=chkbox]").length);
+			if(chk==0) {			
+				for(var i=0; i < $("input:checkbox[name=chkbox]").length; i++) {
+					$("input:checkbox[name=chkbox]").eq(i).prop("checked", true);
+					
+				}
+				chk = 1;
+			}else {
+				for(var i=0; i < $("input:checkbox[name=chkbox]").length; i++) {
+					$("input:checkbox[name=chkbox]").eq(i).prop("checked", false);
+				}
+				chk = 0;
+			}
+		});		
 	});
 	
 	//카테고리 셀렉트 옵션 자동 선택
@@ -142,7 +171,7 @@
 		}		
 	})
 	$(function () {
-		//장바구니에 넣기
+		//장바구니에 넣기1
 		$("#insertCart").click(function () {
 			$("div.loader").css("display","block");
 			var chkArray = new Array();
@@ -166,16 +195,58 @@
 						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
 					}else {
 						var chkArraySize = chkArray.length;
-						alert(chkArraySize+"권 중에\n "+data+"권이 장바구니에 들어갔습니다.");
-						
+/* 						alert(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다."); */
+						var yesNo = confirm(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다.\n장바구니로 가시겠습니까?");
+						if(yesNo) {
+							location.href="/cart/goMyCart.do?reqPage=1";
+						}
 					}
 				}, error : function () {
 					console.log("아작스 실패");
 				}
 			});
 			$("div.loader").css("display","none");
-
 		});
+		
+		//장바구니에 넣기2
+		$("#insertCart2").click(function () {
+			$("div.loader").css("display","block");
+			var chkArray = new Array();
+			for(var i=0; i< $("input:checkbox[name=chkbox]").length ; i++) {
+				if($("input:checkbox[name=chkbox]").eq(i).is(":checked")) {
+					console.log($("input:checkbox[name=chkbox]").eq(i).val());	
+					chkArray.push($("input:checkbox[name=chkbox]").eq(i).val());
+				}
+			}
+			$.ajax({
+				url : "/rent/insertCart.do",
+				type : "get",
+				traditional : true,
+				data : {chkArray : chkArray},
+				success : function(data) {
+					console.log("return :"+data);
+					console.log("아작스 성공");
+					if(data == -1) {
+						alert("책을 선택해야만 합니다. ");
+					}else if(data == 0){
+						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
+					}else {
+						var chkArraySize = chkArray.length;
+/* 						alert(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다."); */
+						var yesNo = confirm(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다.\n장바구니로 가시겠습니까?");
+						if(yesNo) {
+							location.href="/cart/goMyCart.do?reqPage=1";
+						}
+					}
+				}, error : function () {
+					console.log("아작스 실패");
+				}
+			});
+			$("div.loader").css("display","none");
+		});		
+		
+		
+		
 		//예약하기
 		$("#reservationButton").click(function() {
 			$("div.loader").css("display","block");
@@ -250,9 +321,16 @@
 				</form>
 			</div>
 			<div id="searchDiv2">
+			<c:if test="${empty bookAttr}">
+				<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=book_name">이름순</a>
+				<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=avg_score">평점순</a>
+				<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=book_pub_date">최신작순</a>			
+			</c:if>
+			<c:if test="${not empty bookAttr}">	
 				<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=book_name">이름순</a>
 				<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=avg_score">평점순</a>
 				<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=book_pub_date">최신작순</a>
+			</c:if>
 			</div>
 			<div id="contentDiv">
 				contentDiv
@@ -278,7 +356,7 @@
 											</td>
 											<td rowspan="5"><img src='${n.bookImg }'></td>
 											<td> 
-												${n.bookName}  
+												${n.bookName}	/	평점 : ${n.avgScore }
 												<input type="hidden" name="${n.bookName }" value="${n.bookName }">
 												<c:if test="${n.cnt eq '0'}">
 													<button type="button" id="reservationButton">예약하기</button>
@@ -325,7 +403,7 @@
 										</tr>
 									</table>
 								</div>
-							</c:forEach>					
+							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<div id="listDivEmpty">
@@ -336,8 +414,8 @@
 				</div>
 			</div>
 			<div id="searchDiv2">
-				<button type="button" id="allSelect">전체 선택/취소</button>
-				<button type="button" id="insertCart">선택한 책 장바구니에 담기</button>
+				<button type="button" id="allSelect2">전체 선택/취소</button>
+				<button type="button" id="insertCart2">선택한 책 장바구니에 담기</button>
 			</div>
 			<div id="naviDiv">
 				${pageNavi}
