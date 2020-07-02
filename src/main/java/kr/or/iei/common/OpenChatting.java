@@ -114,11 +114,11 @@ public class OpenChatting extends TextWebSocketHandler {
             		members = map.get(title[1]);
             		if(members.isEmpty()) {
             			System.out.println(title[1]+"대화방 삭제");
-            			int result = service.titleDlelte(title[1]);
-            			if(result>0) {
+            			
+            			
             				
             				map.remove(title[1]);
-            			}
+            			
             			
             		}
             	}
