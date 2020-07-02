@@ -649,6 +649,12 @@ public class AdminService {
 	public List userLostBook(Member m) {
 		return dao.userLostBook(m);
 	}
+	public int userLostBookUpdate(String[] params) {
+		return dao.userLostBookUpdate(params);
+	}
+	public int userLostRentUpdate(String[] params) {
+		return dao.userLostRentUpdate(params);
+	}
 	
 	
 

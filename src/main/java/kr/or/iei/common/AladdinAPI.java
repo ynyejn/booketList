@@ -11,10 +11,10 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+//import org.apache.poi.xssf.usermodel.XSSFCell;
+//import org.apache.poi.xssf.usermodel.XSSFRow;
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -100,47 +100,47 @@ public class AladdinAPI {
 				}
 				
 				System.out.println("listSize : "+list.size()+"!!");
-				
+				return new Gson().toJson(list);				
 				////////////////////////
 				////////엑셀파일로 빼기//////
 				////////////////////////
-				XSSFRow row;
-				XSSFCell cell;
-				int countRow = 0;
-				int countCell = 0;
-				XSSFWorkbook workbook = new XSSFWorkbook();
-				
-				//Sheet명 설정
-				XSSFSheet sheet = workbook.createSheet("mySheet");
-				
-				for(int i=0; i<list.size(); i++) {
-					//출력 row 생성
-					row = sheet.createRow(i);
-					//출력 cell 생성
-					row.createCell(0).setCellValue(i);
-					row.createCell(1).setCellValue(list.get(i).getBookName());
-					row.createCell(2).setCellValue(list.get(i).getBookWriter());
-					row.createCell(3).setCellValue(list.get(i).getBookPublisher());
-					row.createCell(4).setCellValue(list.get(i).getBookCategory());
-					row.createCell(5).setCellValue(list.get(i).getBookImg());
-					row.createCell(6).setCellValue(list.get(i).getBookPubDate());
-					row.createCell(7).setCellValue(list.get(i).getBookStatus());
-					row.createCell(8).setCellValue(list.get(i).getBookContent());
-					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
-				}
-
-				// 출력 파일 위치및 파일명 설정
-
-				FileOutputStream outFile;
-				try {
-					outFile = new FileOutputStream("인기신간 다.xlsx");
-					workbook.write(outFile);
-					outFile.close();		
-					System.out.println("파일생성 완료");
-					return new Gson().toJson(list);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//				XSSFRow row;
+//				XSSFCell cell;
+//				int countRow = 0;
+//				int countCell = 0;
+//				XSSFWorkbook workbook = new XSSFWorkbook();
+//				
+//				//Sheet명 설정
+//				XSSFSheet sheet = workbook.createSheet("mySheet");
+//				
+//				for(int i=0; i<list.size(); i++) {
+//					//출력 row 생성
+//					row = sheet.createRow(i);
+//					//출력 cell 생성
+//					row.createCell(0).setCellValue(i);
+//					row.createCell(1).setCellValue(list.get(i).getBookName());
+//					row.createCell(2).setCellValue(list.get(i).getBookWriter());
+//					row.createCell(3).setCellValue(list.get(i).getBookPublisher());
+//					row.createCell(4).setCellValue(list.get(i).getBookCategory());
+//					row.createCell(5).setCellValue(list.get(i).getBookImg());
+//					row.createCell(6).setCellValue(list.get(i).getBookPubDate());
+//					row.createCell(7).setCellValue(list.get(i).getBookStatus());
+//					row.createCell(8).setCellValue(list.get(i).getBookContent());
+//					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
+//				}
+//
+//				// 출력 파일 위치및 파일명 설정
+//
+//				FileOutputStream outFile;
+//				try {
+//					outFile = new FileOutputStream("인기신간 다.xlsx");
+//					workbook.write(outFile);
+//					outFile.close();		
+//					System.out.println("파일생성 완료");
+//					return new Gson().toJson(list);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			} else {
 				
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());

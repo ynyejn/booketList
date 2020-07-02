@@ -197,6 +197,14 @@ public class AdminDao {
 		return sqlSession.selectList("book.userLostBook",m);
 	}
 
+	public int userLostBookUpdate(String[] params) {
+		return sqlSession.update("book.userLostBookUpdate", params);
+	}
+
+	public int userLostRentUpdate(String[] params) {
+		return sqlSession.update("rent.userLostRentUpdate",params);
+	}
+
 	 
 
 	

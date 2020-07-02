@@ -67,11 +67,24 @@ public class AdminController {
 	@RequestMapping(value="/userLostBook.do")
 	public String userLostBook(HttpSession session,Model model) {
 		Member m = (Member)session.getAttribute("member");
-		System.out.println(m.getMemberId());
+//		System.out.println(m.getMemberId());
 		ArrayList<BookAndRent> list = (ArrayList<BookAndRent>)service.userLostBook(m);
 		System.out.println(list);
 		model.addAttribute("list", list);
 		return "admin/userLostBook";
+	}
+	@ResponseBody
+	@RequestMapping(value="/userLostBookUpdate.do")
+	public int userLostBookUpdate(HttpServletRequest request) {
+		String[] params = request.getParameterValues("chBox");
+		int result = service.userLostBookUpdate(params);
+		System.out.println(result);
+		if(result>0) {
+			int result2 = service.userLostRentUpdate(params);
+			System.out.println(result2);
+			return result2;
+		}
+		return 0;
 	}
 	
 	@RequestMapping(value="/logins.do")
@@ -93,8 +106,8 @@ public class AdminController {
 	public String adminPageFrm() {
 		return "/admin/adminPage";
 	}
+	
 	@RequestMapping(value="/adminBookList.do")
-
 	public String adminBookList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
 		
 		model.addAttribute("check", check);
@@ -113,7 +126,7 @@ public class AdminController {
 		model.addAttribute("list1",bpd.getList());
 		model.addAttribute("pageNavi1",bpd.getPageNavi());
 		
-
+		model.addAttribute("reqPage", reqPage);
 		model.addAttribute("list2", apd.getList());
 		model.addAttribute("pageNavi2", apd.getPageNavi());
 		model.addAttribute("reqPage2", reqPage2);

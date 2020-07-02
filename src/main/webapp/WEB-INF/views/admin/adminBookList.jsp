@@ -831,6 +831,7 @@
                url : "/aladdin.do",
                data : { title:title },
                success : function(data){
+            	  console.log(data);
             	  $(".addBookList>tbody").children(".apply").remove();
                   html="";
                   for(var i=0;i<data.length;i++){
