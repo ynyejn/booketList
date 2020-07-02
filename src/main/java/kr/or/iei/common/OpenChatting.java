@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import kr.or.iei.chat.model.dao.ChatDao;
 import kr.or.iei.chat.model.service.ChatService;
+import kr.or.iei.chat.model.vo.Chat;
 
 
 @Component("openChatting")
@@ -27,8 +28,6 @@ public class OpenChatting extends TextWebSocketHandler {
 	@Autowired
 	@Qualifier("chatDao")
 	private ChatDao dao;
-	@Qualifier("chatService")
-	private ChatService service;
 	private ArrayList<WebSocketSession> allSession;
 	private HashMap<String, HashMap<String, WebSocketSession>> map;
 	
@@ -52,20 +51,32 @@ public class OpenChatting extends TextWebSocketHandler {
 			if(type.equals("register")){
 			String memberNickname = element.getAsJsonObject().get("memberNickname").getAsString();
 			String title = element.getAsJsonObject().get("title").getAsString();
+			String chatPeople = element.getAsJsonObject().get("chatPeople").getAsString();
 			members = map.get(title);
 			
 			if(members == null) {//대화방이 방제목에 해당하는 방이 없을 경우
-				members= new HashMap<String, WebSocketSession>();
-				map.put(title, members);
-				members.put(memberNickname, session);
-				System.out.println(memberNickname);
-				System.out.println(title);
-				for(String key : members.keySet()){
-					System.out.println(key);
+				Chat c = new Chat();
+				c.setMemberNickname(memberNickname);
+				c.setChatTitle(title);
+				c.setChatPeople(Integer.parseInt(chatPeople));
+				System.out.println(c.getChatPeople());
+				System.out.println(c.getChatTitle());
+				System.out.println(c.getMemberNickname());
+				int result = dao.chatInsert(c);
+				if(result>0) {
+					
+					members= new HashMap<String, WebSocketSession>();
+					map.put(title, members);
+					members.put(memberNickname, session);
 					System.out.println(memberNickname);
 					System.out.println(title);
-				WebSocketSession ws = members.get(key);
-				ws.sendMessage(new TextMessage(memberNickname+"님이"+title+"방을 생성 하였습니다."));
+					for(String key : members.keySet()){
+						System.out.println(key);
+						System.out.println(memberNickname);
+						System.out.println(title);
+						WebSocketSession ws = members.get(key);
+						ws.sendMessage(new TextMessage(memberNickname+"님이"+title+"방을 생성 하였습니다."));
+					}
 				}
 				
 			}
@@ -110,16 +121,13 @@ public class OpenChatting extends TextWebSocketHandler {
 		for(String key : members.keySet()){  
             if(key.equals(title[0])) {
             	members.remove(title[0]);
+            	int result = dao.chatUpdatedelete(title[1]);
             	for(String key1 : map.keySet()) {
             		members = map.get(title[1]);
             		if(members.isEmpty()) {
             			System.out.println(title[1]+"대화방 삭제");
-            			
-            			
-            				
+            				dao.titleDlelte(title[1]);
             				map.remove(title[1]);
-            			
-            			
             		}
             	}
             	
@@ -127,7 +135,7 @@ public class OpenChatting extends TextWebSocketHandler {
             }
         }
 		for(String key : members.keySet()){
-			int result = dao.chatUpdatedelete(title[1]);
+			
             WebSocketSession ws = members.get(key);
 			ws.sendMessage(new TextMessage(title[0]+"님이 퇴장 하였습니다."));
         }

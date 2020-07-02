@@ -20,7 +20,7 @@
 <body>
 	<h1>후기 작성</h1>
 	<form action="/review/reviewInsert.do" method="post" enctype="multipart/form-data" id="reviewInster">
-	닉네임 : <input type="text" name="memberNickName" value="동건"><br>
+	닉네임 : <input type="text" name="memberNickName" value="${m.memberNickname }"><br>
 	<div id="book"></div>
 	책 선택 : <select id="type" name="type"></select><br>
 	<p>평점 : <img class="sta" src="/resources/star/star3.jpg">

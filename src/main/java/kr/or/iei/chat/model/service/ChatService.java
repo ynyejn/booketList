@@ -29,7 +29,9 @@ public ArrayList<Chat> selectOpenChatting() {
 }
 
 public int chatInsert(Chat c) {
+	System.out.println(c.getChatTitle());
 	String title = dao.selectOnetitle(c.getChatTitle());
+	System.out.println(c.getChatTitle());
 	if(title==null) {
 		int result = dao.chatInsert(c);
 		return result;
@@ -39,8 +41,15 @@ public int chatInsert(Chat c) {
 }
 
 public int chatUpdate(String title) {
-	int result = dao.chatUpdate(title);
-	return result;
+	String titles = dao.selectOnetitle(title);
+	if(titles==null) {
+		
+		return 0;
+	}else {
+		int result = dao.chatUpdate(title);
+		return result;
+	}
+	
 }
 
 
