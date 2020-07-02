@@ -14,13 +14,13 @@
     .cTop {
         margin-top: 120px;
         width: 100%;
-        height: 150px;
+        height: 160px;
         background-image: url(/resources/imgs/spotPage.jpg);
         position: relative;
     }
 
     .black {
-        background-color: #3C5567;
+        background-color: #1B3A50;
         width: 100%;
         height: 100%;
         opacity: 40%;
@@ -33,7 +33,7 @@
         position: absolute;
         padding-left: 300px;
         padding-right: 30px;
-        top: 40px;
+        top: 45px;
         left: 0px;
         text-shadow: 1px 1px 2px black;
         border-bottom: 5px solid #dddddd;
@@ -48,7 +48,7 @@
     }
     
     .selectZone{
-        margin: 20px 0;
+        margin: 10px 0;
         margin-top: 50px;
         width: 100%;
         overflow: hidden;
@@ -60,6 +60,7 @@
         border: 1px solid lightgray;
         color: gray;
     }
+
     #nameList{
         text-indent: 10px;
         
@@ -89,18 +90,18 @@
         width: 150px;
         height: 50px;
         margin-right: 50px;
-        background-color: #353835;
+        background-color: #444444;
         border: none;
         font-size: 16px;
         
     }
     #submitBtn:hover{
-        background-color: #0066bc;
+        background-color: #222222;
     }
     /*------------------------------------------------------------spot정보*/
     .spotFrame {
         width: 100%;
-        height: 600px;
+        height: 600px; 
         border-top: 2px solid #353835;
         border-bottom: 2px solid #353835;
     }
@@ -120,19 +121,20 @@
     }
 
     .spotList>div:first-of-type {
-        border-top: 2px solid #1A6FBA;
+        border-top: 1px solid #dddddd;
     }
 
-    .spotList>div:last-of-type {
-        border-bottom: 2px solid #1A6FBA;
-    }
+
 
     .listBox {
         border-bottom: 1px solid #dddddd;
         height: 108px;
         padding: 20px 20px;
     }
-
+    
+    .listBox:hover{
+        background-color: #f3f4fa;
+    }
     .listBox>div {
         float: left;
     }
@@ -157,6 +159,7 @@
         border: 1px solid #cccccc;
         display: inline-block;
         font-size: 14px;
+        background-color: white;
         text-align: center;
         width: 130%;
         height: 28px;
@@ -172,13 +175,13 @@
         height: 35px;
         line-height: 35px;
         font-size: 20px;
-        color: #666666;
+        color: #a8adb5;
         display: inline-block;
 	}
     .selectPage{
-        color: #0066bc;
+        color: #222222;
         font-size: 25px;
-        text-decoration: underline;
+        border-bottom: 2px solid #222222;
     }
     .heading{
         width: 80px;
@@ -212,7 +215,7 @@
                 <div class="spotList">
                     <c:forEach items="${list }" var="s">
                         <div class="listBox">
-                            <div class="radioBtn"><input type="radio" name="spotName" value="${s.spotName}" style="width:22px; height:22px"></div>
+                            <div class="radioBtn"><input type="radio" name="spotName" value="${s.spotName}" style="width:22px; height:22px;"></div>
                             <div class="spotInfo">
                                 <div class="spotName">${s.spotName}</div>
                             </div>

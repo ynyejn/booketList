@@ -12,11 +12,12 @@
     <title>Booket List-반납신청</title>
 </head>
 <style>
+   
     .cTop {
         margin-top: 120px;
         width: 100%;
-        height: 150px;
-        background-image: url(/resources/imgs/returnbook.jpg);
+        height: 160px;
+        background-image: url(/resources/imgs/guillaume-techer-Fbr64OJNW6U-unsplash.jpg);
         position: relative;
     }
 
@@ -24,7 +25,7 @@
         background-color: #3C5567;
         width: 100%;
         height: 100%;
-        opacity: 65%;
+        opacity: 40%;
     }
 
     .cTop>span {
@@ -34,7 +35,7 @@
         position: absolute;
         padding-left: 300px;
         padding-right: 30px;
-        top: 40px;
+        top: 45px;
         left: 0px;
         text-shadow: 1px 1px 2px black;
         border-bottom: 5px solid #dddddd;
@@ -68,7 +69,7 @@
 
     .btnBox {
         text-align: right;
-        width: 82%;
+        width: 83%;
         height: 100%;
         display: inline-block;
     }
@@ -91,8 +92,8 @@
         width: 1100px;
         margin: 0 auto;
         margin-top: 5px;
-        border-top: 2px solid #426f8f;
-        border-bottom: 2px solid #426f8f;
+        border-top: 2px solid #585858;
+        border-bottom: 2px solid #585858;
     }
 
     .returnFrame,
@@ -100,7 +101,7 @@
         padding: 20px;
         width: 1100px;
         margin: 0 auto;
-        border-bottom: 2px solid #426f8f;
+        border-bottom: 2px solid #585858;
         text-align: center;
     }
 
@@ -118,7 +119,7 @@
     .returnBox,
     .delayBox {
         padding: 20px 50px;
-        background-color: #f5f5f5;
+        background-color: #ffffff;
         position: relative;
         width: 1060px;
     }
@@ -126,20 +127,22 @@
     /*--------------------검색창*/
     .searchBox {
         padding: 50px 50px;
-        font-size: 16px;
+        padding-left: 100px;
+        font-size: 17px;
+        border: 1px solid #e5e5e5;
     }
 
     .searchBox>input {
-        width: 100%;
+        width: 860px;
         height: 50px;
-        border: 1px solid #0066b3;
+        border: 1px solid #03166c;
         outline: none;
         box-sizing: border-box;
     }
 
     .bookList {
         position: absolute;
-        width: 960px;
+        width: 860px;
         overflow: hidden;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
@@ -151,7 +154,7 @@
     .bookList>li {
         text-indent: 20px;
         display: inline-block;
-        width: 960px;
+        width: 860px;
         height: 32px;
         font-size: 16px;
         line-height: 32px;
@@ -159,13 +162,15 @@
     }
 
     .bookList>li:hover {
-        background-color: #a0c5e8;
+        background-color: #ebedf4;
         cursor: default;
     }
 
     /*---------------반납책내역*/
     .returnBox {
+        padding: 9px 50px;
         background-color: white;
+        margin-top: 10px;
     }
 
     .returnBook {
@@ -177,14 +182,22 @@
         font-size: 15px;
     }
 
-    .returnBox>form>div:first-of-type {
-        border-top: 2px solid #1A6FBA;
-    }
-
     .returnBox>form>div:last-of-type {
-        border-bottom: 2px solid #1A6FBA;
+       border-bottom: none;
     }
-
+    .nobook{
+        width: 100%;
+        padding: 20px;
+        overflow: hidden;
+        text-align: center;
+        font-size: 30px;
+        font-weight: bolder;
+        opacity: 50%;
+    }
+    .nobook>img{
+        width: 250px;
+        height: 250px;
+    }
     .subDiv {
         width: 15px;
         height: 24px;
@@ -250,7 +263,7 @@
         text-align: left;
         overflow: hidden;
         padding:30px 50px;
-        margin: 10px;
+        margin-top: 10px;
     }
 
     .delayBox>table {
@@ -310,14 +323,14 @@
         border-radius: 5px;
         cursor: pointer;
     }
-    [name=returnBtn]:hover{
-        background-color: #0066b3;
+    [name=returnBtn]:hover, #payBtn:hover{
+        background-color: #222222;
     }
 
 </style>
 
 <body style="line-height: normal;">
-    <div class="wrapper">
+    <div class="wrapper" style="background-color:#f7f8f8;">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
         <div class="cTop">
             <div class="black"></div>
@@ -325,7 +338,7 @@
         </div>
         <div class="content">
             <div class="btnDiv">
-                <span><img src="/resources/imgs/bluecheck.png" class="check">대여중인
+                <span><img src="/resources/imgs/bookicon.png" class="check"> 대여중인
                     도서 : ${fn:length(list)}권</span>
                 <div class="btnBox">
                     <button class="allCheck" type="button">전체 도서 반납</button>
@@ -333,7 +346,7 @@
             </div>
             <div class="searchFrame">
                 <div class="searchBox">
-                    <img src="/resources/imgs/bluecheck.png" class="check">도서 제목
+                    <img src="/resources/imgs/bookicon.png" class="check"> 반납 도서 검색<br>
                     <input type="text" name="bookName" placeholder="도서명을 입력하세요">
                     <ul class="bookList">
                         <c:forEach items="${list }" var="r">
@@ -348,6 +361,8 @@
             <div class="returnFrame">
                 <span>반납도서</span> <small>반납 선택한 도서 목록입니다</small>
                 <div class="returnBox" status=0>
+                    <div class="nobook"><img src="/resources/imgs/books.png"><br>
+                    선택된 도서가 없습니다.</div>
                     <form action="/goSpotPage.do?reqPage=1" method="get" onsubmit="return nextFunc();">
                     	<input type="hidden" name="reqPage" value=1>
                         <input type='submit' id='goReturn' style='display: none;'>
@@ -419,6 +434,9 @@
                        } 
                     });
                     if(check==0){
+                    if($(".nobook").css("display")=="block"){
+                        $(".nobook").hide();
+                    }
                     var html = "";
                     var html2 = "";
                     html += "<div class='returnBook'>";
@@ -464,6 +482,9 @@
         
     //대여중인 도서 전체 반납
         $(".allCheck").click(function(){
+            if($(".nobook").css("display")=="block"){
+                        $(".nobook").hide();
+                    }
             $(".returnBook").each(function(){
                 $(this).children(".subDiv").click();
             });
@@ -496,6 +517,9 @@
         });
         $(btn).parent("div").remove();
         $(".returnBox").attr("status",Number($(".returnBox").attr("status"))-1);
+        if($(".returnBox").attr("status")==0){
+                        $(".nobook").show();          
+        }
     }
 
     // 결제

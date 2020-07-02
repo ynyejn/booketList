@@ -12,16 +12,16 @@
     .cTop {
         margin-top: 120px;
         width: 100%;
-        height: 150px;
+        height: 160px;
         background-image: url(/resources/imgs/bookStore3.jpg);
         position: relative;
     }
 
     .black {
-        background-color: #3C5567;
+        background-color: #1B3A50;
         width: 100%;
         height: 100%;
-        opacity: 40%;
+        opacity: 45%;
     }
 
     .cTop>span {
@@ -31,7 +31,7 @@
         position: absolute;
         padding-left: 300px;
         padding-right: 30px;
-        top: 40px;
+        top: 45px;
         left: 0px;
         text-shadow: 1px 1px 2px black;
         border-bottom: 5px solid #dddddd;
@@ -49,43 +49,57 @@
     /*--------------------------------------------------------------------------------------------------*/
 
     .notice {
-        border: 1px solid #dddddd;
         width: 1100px;
         padding: 25px 50px;
         margin: 0 auto;
         margin-top: 50px;
         overflow: hidden;
+        background-color: white;
     }
 
     .notice>div {
         float: left;
     }
 
+    .imgBox {
+        margin-left: 80px;
+    }
+
+    .imgBox>img {
+        width: 80px;
+        height: 80px;
+        opacity: 70%;
+    }
+
     .text {
         margin-left: 50px;
-        font-size: 18px;
+        padding-top: 5px;
+        font-size: 17px;
         color: #666666;
     }
 
     .boardFrame {
         overflow: hidden;
         width: 100%;
+        background-color: white;
         margin: 30px 0;
         text-align: center;
     }
 
     .boardFrame>table {
-        border-top: 2px solid #1A6FBA;
+        border-top: 2px solid #222222;
         width: 100%;
         color: #595959;
         text-align: center;
     }
-    .boardFrame>table th{
-        background-color: #f5f5f5;
+
+    .boardFrame>table th {
+        background-color: #ebedf4;
         border-bottom: 1px solid #dddddd;
         height: 50px;
     }
-    .boardFrame>table td{
+
+    .boardFrame>table td {
         height: 50px;
         border-bottom: 1px solid #dddddd;
         color: #595959;
@@ -94,15 +108,15 @@
 </style>
 
 <body style="line-height:normal;">
-    <div class="wrapper">
+    <div class="wrapper" style="background-color:#f7f8f8;">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
         <div class="cTop">
             <div class="black"></div><span>기증 / 판매</span>
         </div>
         <div class="content">
             <div class="notice">
-                <div class="imgBox"><img src="/resources/imgs/used_book.png"></div>
-                <div class="text"><strong>여러분의 참여를 기다립니다.</strong><br>
+                <div class="imgBox"><img src="/resources/imgs/bookicon.png"></div>
+                <div class="text"><strong  style="text-decoration:underline;">여러분의 참여를 기다립니다.</strong><br>
                     당신의 서재에서 잠자고 있는 자료들이 <span style="color:#3cbcc7;">Booket List</span>를 통해 세상의 빛과 만나게 됩니다.<br>
                     기증 및 판매를 원하는 개인은 글을 작성하신 후 판매자의 응답에 따라 기증 및 판매가 가능합니다.</div>
             </div>
@@ -128,7 +142,7 @@
                     </c:forEach>
                 </table>
                 <span>${pageNavi}</span>
-                     </div>
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
