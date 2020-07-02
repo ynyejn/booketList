@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.iei.common.SHA256Util;
 import kr.or.iei.member.model.dao.MemberDao;
 import kr.or.iei.member.model.vo.Member;
 
@@ -14,12 +15,39 @@ public class MemberService {
 	@Qualifier("memberDao")
 	private MemberDao dao;
 	
+	@Autowired
+	private SHA256Util enc;
+	
 	public MemberService() {
 		super();
 	}
+	
 	@Transactional
-	public int join(Member m) {
+	public int joinSuccess(Member member) {
+		try {
+			System.out.println(member.getMemberId());
+			member.setMemberPw(enc.encData(member.getMemberPw()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return dao.joinSuccess(member);
+	}
+	
+
+	public Member checkId(String memberId) {
 		
-		return dao.join(m);
+		return dao.checkId(memberId);
+	}
+
+	public Member checkNickname(String memberNickname) {
+		
+		return dao.checkNickname(memberNickname);
+	}
+
+	public Member selectOne(Member m) {
+		
+		return dao.selectOne(m);
 	}
 }

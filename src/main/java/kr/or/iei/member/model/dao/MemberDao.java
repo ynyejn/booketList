@@ -15,8 +15,27 @@ public class MemberDao {
 		super();
 	}
 
-	public int join(Member m) {
+	
+	public int joinSuccess(Member member) {
 		
-		return sql.insert("member.join",m);
+		return sql.insert("member.joinSuccess",member);
+	}
+
+
+	public Member checkId(String memberId) {
+		
+		return sql.selectOne("member.checkId",memberId);
+	}
+
+
+	public Member checkNickname(String memberNickname) {
+		
+		return sql.selectOne("member.checkNickname",memberNickname);
+	}
+
+
+	public Member selectOne(Member m) {
+		
+		return sql.selectOne("member.selectOneMember",m);
 	}
 }

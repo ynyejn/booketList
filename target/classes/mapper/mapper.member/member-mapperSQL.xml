@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
-	<select id="join" parameterType="member">
+	<select id="joinSuccess" parameterType="member">
 		insert into member values(member_seq.nextval,#{memberId},#{memberPw},#{memberName},#{memberEmail}
 		,#{memberPhone},#{memberCategory1},#{memberCategory2},#{memberCategory3}
 		,0,0,sysdate,#{memberNickname})
+	</select>
+	
+	<select id="checkId" parameterType="string" resultType="member">
+		select member_id as memberId from member where member_id =#{_parameter}
+	</select>
+	
+	<select id="checkNickname" parameterType="string" resultType="member">
+		select member_nickname as memberNickname from member where member_nickname =#{_parameter}
+	</select>
+	
+	<select id="selectOneMember" parameterType="member"	resultType="member">
+		select
+		member_no as memberNo,
+		member_id as memberId,
+		member_pw as memberPw,
+		member_name as memberName,
+		member_email as memberEmail,
+		member_phone as memberPhone,
+		member_category1 as memberCategory1,
+		member_category2 as memberCategory2,
+		member_category3 as memberCategory3,
+		delay_status as delayStatus,
+		complain_status as complainStatus,
+		member_nickname as memberNickname
+		from member
+		where member_id=#{memberId}
+		and member_pw=#{memberPw}
 	</select>
 </mapper>

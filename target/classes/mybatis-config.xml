@@ -13,5 +13,7 @@
       <typeAlias type="kr.or.iei.apply.model.vo.Apply" alias="apply"/>
       <typeAlias type="kr.or.iei.cart.model.vo.Cart" alias="cart"/>
       <typeAlias type="kr.or.iei.book.model.vo.Book" alias="book"/>
+      
+      
    </typeAliases>
 </configuration>

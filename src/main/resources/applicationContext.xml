@@ -60,6 +60,9 @@
 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
+	
+	
+	
 <context:component-scan base-package="kr.or.iei.common"/>
 <context:component-scan base-package="kr.or.iei.chat"/>	
 <context:component-scan base-package="kr.or.iei.cart"/>	
