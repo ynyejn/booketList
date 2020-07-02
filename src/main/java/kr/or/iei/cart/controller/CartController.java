@@ -29,7 +29,6 @@ public class CartController {
 	@RequestMapping("/goMyCart.do")
 	public String GoMyCart(int reqPage, Model model) {
 
-		
 //		가상멤버만들기
 		Member member = new Member();
 		member.setMemberId("user01");

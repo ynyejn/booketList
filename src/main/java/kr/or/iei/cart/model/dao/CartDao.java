@@ -24,10 +24,6 @@ public class CartDao {
 		return sql.selectOne("cart.dupChk", cart);
 	}
 
-//	public int insertCart(Book book) {
-//		return sql.insert("cart.insertCart", book);
-//	}
-
 	public int insertCart(Cart cart) {
 		return sql.insert("cart.insertCart", cart);
 	}
