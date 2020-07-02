@@ -12,7 +12,7 @@ SELECT book_no as bookNo,
 		book_name as bookName,
 		book_writer as bookWriter,
 		book_status as bookStatus
- FROM RENT JOIN BOOK USING(BOOK_NO) WHERE MEMBER_ID=#{_parameter} and rent_return=0
+ FROM RENT JOIN BOOK USING(BOOK_NO) WHERE MEMBER_ID=#{_parameter} and rent_return=0 and book_status in (2,4)
 </select>
 <update id="updateBookStatus">
 update book set book_status=4 where  book_no in 
@@ -25,5 +25,11 @@ update member set delay_status= delay_status+1 where member_id in
 <update id="reduceDelayStatus">
 update member set delay_status=delay_status-1 where member_id in 
 (select member_id from (select sum(decode(rent_return,0,1,0)) , member_id from rent group by member_id having  sum(decode(rent_return,0,1,0))=0)) and delay_status!=0
+</update>
+<insert id="insertTurnApply" parameterType="turnApply">
+insert into turnapply values(turnapply_seq.nextval,#{memberId},#{bookNo},#{spotName},sysdate)
+</insert>
+<update id="updateBookStatusTo3" parameterType="string">
+update book set book_status=3 where book_no = #{_parameter}
 </update>
 </mapper>

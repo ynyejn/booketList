@@ -7,6 +7,6 @@ public class TurnApply {
 	private int turnApply;
 	private String memberId;
 	private String bookNo;
-	private String spot_name;
-	private String turnapply_date;
+	private String spotName;
+	private String turnapplyDate;
 }

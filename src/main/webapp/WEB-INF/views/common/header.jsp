@@ -38,8 +38,8 @@
 		<ul>
 			<c:if test="${empty sessionScope.member }">
 				<!--로그인되어있지않을때 -->
-				<li><a href="/login.do">로그인</a></li>
-				<li><a href="/join.do">회원가입</a></li>
+				<li><a href="/member/loginFrm.do">로그인</a></li>
+				<li><a href="/member/join.do">회원가입</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
@@ -51,7 +51,7 @@
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="#">${sessionScope.member.memberName }님</a></li>
 				</c:if>
-				<li><a href="/logout.do">로그아웃</a></li>
+				<li><a href="/member/logout.do">로그아웃</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 			</c:if>
 		</ul>
@@ -68,7 +68,7 @@
 				<li><a href="#">공지사항</a></li>
 				<li><a href="/review/reviewList.do">후기 게시판</a></li>
 				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
-				<li><a href="#">도서기증 / 판매</a></li>
+				<li><a href="/goUsedBoard.do">도서기증 / 판매</a></li>
 			</ul>
 		</div>
 	</div>

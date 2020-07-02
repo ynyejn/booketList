@@ -1,6 +1,7 @@
 package kr.or.iei.common;
 
 import java.io.FileOutputStream;
+
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,10 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+//import org.apache.poi.xssf.usermodel.XSSFCell;
+//import org.apache.poi.xssf.usermodel.XSSFRow;
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -90,29 +91,35 @@ public class AladdinAPI {
 					b.setBookImg(resultJson2.get(i).getAsJsonObject().get("cover").getAsString());
 					b.setBookWriter(resultJson2.get(i).getAsJsonObject().get("author").getAsString());//작가
 					b.setBookPublisher(resultJson2.get(i).getAsJsonObject().get("publisher").getAsString());//출판사
-					b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);//카테코리
+					if(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().isEmpty()) {
+						b.setBookCategory(null);
+					}else {
+						b.setBookCategory(resultJson2.get(i).getAsJsonObject().get("categoryName").getAsString().split(">")[1]);//카테코리
+					}
 					java.sql.Date d = java.sql.Date.valueOf(resultJson2.get(i).getAsJsonObject().get("pubDate").getAsString());//출판일
+					
 					b.setBookPubDate(d);
 					int result = dao.selectCheck(b);
 					b.setSelectCheck(result);
+					System.out.println(result);
 					list.add(b);			
 					System.out.println(list.size());
 				}
 				
 				System.out.println("listSize : "+list.size()+"!!");
-				
+				return new Gson().toJson(list);				
 				////////////////////////
 				////////엑셀파일로 빼기//////
 				////////////////////////
-				XSSFRow row;
-				XSSFCell cell;
-				int countRow = 0;
-				int countCell = 0;
-				XSSFWorkbook workbook = new XSSFWorkbook();
-				
-				//Sheet명 설정
-				XSSFSheet sheet = workbook.createSheet("mySheet");
-				
+//				XSSFRow row;
+//				XSSFCell cell;
+//				int countRow = 0;
+//				int countCell = 0;
+//				XSSFWorkbook workbook = new XSSFWorkbook();
+//				
+//				//Sheet명 설정
+//				XSSFSheet sheet = workbook.createSheet("mySheet");
+
 //				for(int i=0; i<list.size(); i++) {
 //					//출력 row 생성
 //					row = sheet.createRow(i);
@@ -128,19 +135,19 @@ public class AladdinAPI {
 //					row.createCell(8).setCellValue(list.get(i).getBookContent());
 //					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
 //				}
-
-				// 출력 파일 위치및 파일명 설정
-
+//
+//				// 출력 파일 위치및 파일명 설정
+//
 //				FileOutputStream outFile;
-				try {
+//				try {
 //					outFile = new FileOutputStream("인기신간 다.xlsx");
 //					workbook.write(outFile);
 //					outFile.close();		
-					System.out.println("파일생성 완료");
-					return new Gson().toJson(list);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//					System.out.println("파일생성 완료");
+//					return new Gson().toJson(list);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			} else {
 				
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());

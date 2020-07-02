@@ -14,4 +14,11 @@
 		FROM RENT
 		WHERE MEMBER_ID = #{memberId}
 	</select>
+	<update id="userLostRentUpdate">
+		update rent set rent_return = 2, rent_end_date = to_date(20981231,'YYYYMMDD') where  
+		book_no in
+		<foreach collection="array" item="arr" separator="," open="(" close=")">
+			 #{arr}
+		</foreach>
+	</update>
 </mapper>

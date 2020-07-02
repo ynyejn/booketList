@@ -44,7 +44,6 @@
 					</choose>
 		        )n)where rnum BETWEEN #{map.start} and #{map.end}
 	</select>
-	
 	<select id="selectBookList" resultType="book" parameterType="String">
 		select 
 			book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
@@ -79,7 +78,6 @@
 	<select id="bookTotalCount" resultType="_int">
 		select count(*) as cnt from book
 	</select>
-	
 	<select id="bookTotalCount3" parameterType="map" resultType="_int">
 		select count(*) as cnt from book where 
 		<if test = "searchTitle.equals('도서이름')">
@@ -103,7 +101,6 @@
 				from book order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
-	
 	<select id="selectList3" parameterType="map" resultType="book">
 		select * from 
 			(select rownum as rnum, n.* from
@@ -165,9 +162,7 @@
 			WHERE BOOK_NAME = #{bookName} AND BOOK_PUBLISHER = #{bookPublisher}
 			 AND BOOK_WRITER = #{bookWriter} AND BOOK_STATUS = 0)
 		<![CDATA[ WHERE ROWNUM <= 1 ]]>
-	</select>
-	
-	
+	</select>	
 	<select id="userWriterList" parameterType="member" resultType="bookAndReview">
 		select book_writer as bookWriter, count(book_writer) as cnt
 		from book
@@ -177,7 +172,6 @@
 		group by book_writer
 		order by cnt desc
 	</select>
-	
 	<select id="userBookAndReviewList" parameterType="map" resultType="bookAndReview">
 	
 				select * from 
@@ -235,4 +229,70 @@
 			                GROUP BY BOOK_NAME)
 		            USING (BOOK_NAME))n)
 	</select>
+	<select id="LostBookTotalCount1" resultType="_int">
+		select count(*) as cnt from book where book_status=5
+	</select>
+	<select id="LostBookSelectList" parameterType="map" resultType="bookandrent">
+		 select * from 
+			(select rownum as rnum, n.* from
+				(select book.book_no as bookNo, book.book_name as bookName, book.book_writer as bookWriter, book.book_publisher as bookPublisher, 
+				book.book_category as bookCategory, book.book_img as bookImg, book.book_pub_date as bookPubDate, book.book_status as bookStatus, rent.member_id as memberId 
+				from book left join rent on book.book_no = rent.book_no where book.book_status = 5 order by book.book_no desc)n)
+		 where rnum between #{start} and #{end}
+	</select>
+	<select id="LostBookTotalCount3" parameterType="map" resultType="_int">
+		select count(*) as cnt from book left join rent on book.book_no = rent.book_no where book_status=5 and 
+		<if test = "searchTitle.equals('도서이름')">
+			book.book_name like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('작가')">
+			book.book_writer like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('출판사')">
+			book.book_publisher like '%' || #{search} || '%'
+		</if>
+		<if test = "searchTitle.equals('id')">
+			rent.member_id like '%' || #{search} || '%'
+		</if>
+	</select>
+	<select id="LostBookSelectList3" parameterType="map" resultType="bookandrent">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select book.book_no as bookNo, book.book_name as bookName, book.book_writer as bookWriter, book.book_publisher as bookPublisher, 
+				book.book_category as bookCategory, book.book_img as bookImg, book.book_pub_date as bookPubDate, book.book_status as bookStatus, rent.member_id as memberId 
+				from book left join rent on book.book_no = rent.book_no where book.book_status = 5 and 
+				<if test = "searchTitle.equals('도서이름')">
+					book.book_name like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('작가')">
+					book.book_writer like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('출판사')">
+					book.book_publisher like '%' || #{search} || '%'
+				</if>
+				<if test = "searchTitle.equals('id')">
+					rent.member_id like '%' || #{search} || '%'
+				</if>
+				order by book.book_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	<update id="cancelLostbookList">
+		update book set book_status= 0 where 
+		book_no in
+		<foreach collection="array" item="arr" separator="," open="(" close=")">
+			 #{arr}
+		</foreach>
+	</update>
+	<select id="userLostBook" parameterType="member" resultType="bookandrent">
+		select book.book_no as bookNo, book.book_name as bookName, book.book_writer as bookWriter, book.book_publisher as bookPublisher, 
+			book.book_category as bookCategory, book.book_img as bookImg, book.book_pub_date as bookPubDate, book.book_status as bookStatus, rent.member_id as memberId 
+		from book left join rent on book.book_no = rent.book_no where rent.member_id = #{memberId} and rent.rent_return != 2
+	</select>
+	<update id="userLostBookUpdate">
+		update book set book_status = 5 where
+		book_no in
+		<foreach collection="array" item="arr" separator="," open="(" close=")">
+			 #{arr}
+		</foreach>
+	</update>
 </mapper>
