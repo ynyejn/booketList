@@ -10,7 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.book.model.vo.Book;
+
+import kr.or.iei.member.model.vo.Member;
+
 import kr.or.iei.complain.model.vo.Complain;
+
 
 
 @Repository("adminDao")
@@ -76,6 +80,15 @@ public class AdminDao {
 		return sqlSession.selectOne("apply.selectOneApplyList",applyNoo);
 	}
 
+	public int selectMemberTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("member.selectMemberTotalCount",map);
+	}
+
+	public List selectMemberList(HashMap<String, Object> map) {
+		return sqlSession.selectList("member.selectMemberList",map);
+	}
+
+
 	public int detailOneApplyNo(int applyNo) {
 		return sqlSession.update("apply.detailOneApplyNo",applyNo);
 	}
@@ -104,7 +117,17 @@ public class AdminDao {
 	  
 	  public List complainSelectList2(HashMap<String, Integer> map) { return
 	  sqlSession.selectList("complain.ComplainSelectList2",map); }
+
+	public List selectExcelList(String memberId) {
+		return sqlSession.selectList("member.selectExcelList",memberId);
+	}
+
+	public int adminDeleteMember(String memberId) {
+		return sqlSession.delete("member.adminDeleteMember",memberId);
+	}
+
 	 
 
 	
+
 }

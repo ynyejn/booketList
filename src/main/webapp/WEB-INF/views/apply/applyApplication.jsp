@@ -29,11 +29,11 @@
 			<input type="hidden" name="memberId" value="${sessionScope.member.memberId }">
 				<table>
 					<tr>
-						<th>도서이름<th>
+						<th>도서이름</th>
 						<th>
 						<input type="text" id="bookName" name="bookName" value="">
 						</th>
-					<tr>
+					</tr>
 					<tr>
 						<th>출판일</th>
 						<th>
@@ -61,7 +61,7 @@
 					<tr>
 						<th>이미지</th>
 						<td><img id="bookImg1"name="bookImg1" width="300px" height="150px" >
-						<input type="text" id="bookImg2" name="bookImg2">
+						<input type="text" id="bookImg" name="bookImg">
 						</td>
 					</tr>
 					<tr>
