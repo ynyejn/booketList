@@ -49,7 +49,7 @@
     
     .selectZone{
         margin: 20px 0;
-        margin-top: 40px;
+        margin-top: 50px;
         width: 100%;
         overflow: hidden;
     }
@@ -95,7 +95,7 @@
         
     }
     #submitBtn:hover{
-        background-color: #00a3e0;
+        background-color: #0066bc;
     }
     /*------------------------------------------------------------spot정보*/
     .spotFrame {
@@ -265,6 +265,14 @@
             location.href="/goSpotPage.do?reqPage=1&keyword="+keyword+"&localName="+localName+str; 
         });
         
+        $("input[name=keyword]").keydown(function(event){
+           if(event.keyCode==13){//키가 13이면 실행 (엔터는 13)
+            event.preventDefault();
+            $("#searchBtn").click();
+           }
+        });
+                                
+                    
         //--------------------------------------------지도------------------------------
             var xx;
             var yy;
