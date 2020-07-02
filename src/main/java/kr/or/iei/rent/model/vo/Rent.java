@@ -14,7 +14,8 @@ public class Rent {
 	private int rentReturn;
 	private String bookCategory;
 	private String bookName;
-	
+	private String bookWriter;
+	private int bookStatus;
 	
 	
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spot">
+	<select id="selectSpotCount" resultType="_int">
+		select count(*) from spot
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="localName != null and !localName.equals('')">
+				local_name=#{localName}
+			</if>
+			<if test="keyword != null and !keyword.equals('')">
+				and spot_name like '%'||#{keyword}||'%'
+			</if>
+		</trim>
+	</select>
+	<select id="selectAllSpot" parameterType="map" resultType="spot">
+		select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from
+		(select ROWNUM as rnum, n.* from
+		(select * from spot order by spot_name)n
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="localName !=null and !localName.equals('')">
+				local_name=#{localName}
+			</if>
+			<if test="keyword !=null and !keyword.equals('')">
+				and spot_name like '%'||#{keyword}||'%'
+			</if>
+		</trim>
+		)
+		where rnum between #{start} and #{end}
+
+	</select>
+	<select id="selectAllLocalName" resultType="string">
+		select local_name as localName from spot group by local_name order by
+		local_name
+	</select>
+</mapper>
