@@ -78,16 +78,38 @@
 
     .boardFrame {
         overflow: hidden;
-        width: 100%;
-        border: 1px solid #dddddd;
+        width: 900px;
+        margin: 0 auto;
+        margin-top: 50px;
+
     }
     .boardFrame>form>table{
         width: 100%;
+        border-top: 2px solid #426f8f;
+         border-bottom: 2px solid #426f8f;
+    }
+    .boardFrame>form tr{
+        border-bottom: 1px solid #dddddd;
     }
     .boardFrame>form td{
         height: 50px;
+        font-size: 18px;
+        color: #595959;
+        border-right: 1px solid #dddddd;
     }
-
+    .boardFrame>form tr>td:first-of-type{
+        background-color: #f5f5f5;
+    }
+    .boardFrame>form tr>td:last-of-type{
+        padding-left: 30px;
+    }
+    .boardFrame>form input{
+        border: 1px solid lightgray;
+        height: 35px;
+    }
+    .boardFrame>form input[type=text]{
+        width: 95%;
+    }
 </style>
 
 <body style="line-height:normal;">
@@ -107,10 +129,10 @@
             </div>
             <div class="boardFrame">
             <form action="#" method="get">
-            <table border="1">
+            <table>
             <tr>
             <td>분류</td>
-            <td><select name="usedType">
+            <td><select name="usedType" style="width:200px; height:35px;">
                 <option value="기증">기증</option>
                 <option value="판매">판매</option>
                 </select></td>
@@ -123,7 +145,7 @@
             <td colspan="2">내용</td>
             </tr>
             <tr>
-            <td colspan="2"><textarea></textarea></td>
+            <td colspan="2" style="background-color:white;"><textarea></textarea></td>
             </tr>
             <tr>
             <td>비밀번호</td>
