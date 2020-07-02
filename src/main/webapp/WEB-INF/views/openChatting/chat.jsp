@@ -9,7 +9,9 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
 <body>
-<input type="hidden" id="title"value="${title }">
+<input type="hidden" id="title"value="${c.chatPeople }">
+<input type="hidden" id="title"value="${c.chatTitle }">
+<input type="hidden" id="title"value="${c.memberNickname }">
 <textarea rows="5" cols="30" id="msgArea"></textarea>
 	<br>
 	메세지 : <input type="text" id="chatMsg"><br>

@@ -77,4 +77,16 @@
 	<delete id="adminDeleteMember" parameterType="String">
 		delete from member where member_id=#{memberId}
 	</delete>
+	<select id="selectMemberOne" parameterType="string" resultType="member">
+	select member_no as memberNo,
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			member_email as memberEmail,
+			member_phone as memberPhone,
+			enroll_date as enrollDate,
+			member_nickname as memberNickname
+			
+		from member where member_id = #{memberId} and member_pw = #{memberPw}
+	</select>
 </mapper>

@@ -29,6 +29,7 @@ public class ChatController {
 	@RequestMapping("makingRoomFrm.do")
 	public String makingRoomFrm(HttpSession session, Model model) {
 		Member m = (Member) session.getAttribute("member");
+		System.out.println(m.getMemberNickname());
 		model.addAttribute("m", m);
 		return "openChatting/makingRoom";
 	}
@@ -44,10 +45,10 @@ public class ChatController {
 	public String chat(Chat c, Model model, String memberNickname,HttpSession session) {
 		System.out.println(c.getChatPeople());
 		System.out.println(c.getChatTitle());
-		System.out.println(memberNickname);
+		System.out.println(c.getMemberNickname());
 		int result = service.chatInsert(c);
 		if(result>0) {
-			model.addAttribute("title", c.getChatTitle());
+			model.addAttribute("c", c);
 			return "openChatting/chat";
 		}else {
 			return "redirect:/chat/chatRoom.do?title="+c.getChatTitle();
