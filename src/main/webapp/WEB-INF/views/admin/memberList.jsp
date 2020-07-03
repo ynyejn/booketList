@@ -95,7 +95,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -158,7 +159,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 														 + ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -222,13 +224,18 @@
 		$("#allCheck").prop("checked", false);
 		var smc = $("#selectMemberCount option:selected").val();
 		smc = parseInt(smc);
+		var ajaxReqPage = $("#ajaxReqPage").val();
+		ajaxReqPage = parseInt(ajaxReqPage);
 		var reqPage;
 		if ($(obj).html() == "<span>»</span>") {
-			reqPage = 6;
+			reqPage = (parseInt((ajaxReqPage-1)/5)*5+1)+5;
+			console.log(reqPage);
 		} else if ($(obj).html() == "<span>«</span>") {
-			reqPage = 1;
+			reqPage = (parseInt((ajaxReqPage-1)/5)*5+1)-5;
+			console.log(reqPage);
 		} else {
 			reqPage = parseInt($(obj).html());
+			console.log(reqPage);
 		}
 		var selectColumn = $("#selectColumn option:selected").val();
 		var search = $("#search").val();
@@ -249,7 +256,8 @@
 				$("#tbody").html("");
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
-					resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 							+ ((data.reqPage - 1) * data.selectCount + i + 1)
 							+ "</th>";
 					resultText += "<td class=th2>" + data.list[i].memberId
@@ -276,14 +284,14 @@
 
 	}
 	function deleteMember(obj){
-		console.log($(obj).attr("data-memberId"));
-			var memberId = $(obj).attr("data-memberId");
-			var result = confirm("탈퇴 시키시겠습니까?");
-			if(result){
-				location.href = "/adminDeleteMember.do?memberId="+memberId;	
-			}else{
+		var memberId = $(obj).attr("data-memberId");
+		console.log(memberId);
+		var result = confirm("탈퇴시키시겠습니가?");
+		if(result){
+			location.href="/adminDeleteMember.do?memberId="+memberId;
+		}else{
 			
-			}
+		}
 	}
 </script>
 </head>
@@ -322,7 +330,7 @@
 			<div class="sidebar-heading">회원 관리</div>
 			<!-- Nav Item - Pages Collapse Menu -->
 			<li class="nav-item"><a class="nav-link"
-				href="/memberList.do?reqPage=1"> <i class="fas fa-fw fa-table"></i>
+				href="/memberList.do?reqPage=1&selectCount=10"> <i class="fas fa-fw fa-table"></i>
 					<span>회원 목록</span></a></li>
 			<li class="nav-item"><a class="nav-link" href="#"> <i
 					class="fas fa-fw fa-cog"></i> <span>회원 신고 관리</span></a></li>
@@ -344,7 +352,7 @@
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">도서 대여</h6>
-						<a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
+						<a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서대여현황</a>
 						<a class="collapse-item" href="#">도서예약내역</a>
 					</div>
 				</div></li>
@@ -646,6 +654,7 @@ padding-top:3px;
 													<tbody id="tbody">
 														<c:forEach items="${list }" var="l" varStatus="i">
 															<tr>
+																<input type="hidden" id="ajaxReqPage" value="${reqPage }">
 																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-memberId="${l.memberId }">${(reqPage-1)*selectCount + i.count }</th>
 																<td class="th2">${l.memberId }</td>
 																<td class="th2">${l.memberName }</td>
