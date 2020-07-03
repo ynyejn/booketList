@@ -10,13 +10,42 @@
 
 </head>
 <style>
-        .content {
-            width: 1200px;
-            overflow: hidden;
-            margin: 120px auto 0 auto;
-            /* height: 900px; */
-            background-color: aliceblue;
-        }
+        .cTop {
+        margin-top: 120px;
+        width: 100%;
+        height: 160px;
+        background-image: url(/resources/imgs/title.jpg);
+        position: relative;
+    }
+
+    .black {
+        background-color: #1B3A50;
+        width: 100%;
+        height: 100%;
+        opacity: 35%;
+    }
+
+    .cTop>span {
+        color: #eeeeee;
+        font-size: 40px;
+        font-weight: bolder;
+        position: absolute;
+        padding-left: 300px;
+        padding-right: 30px;
+        top: 45px;
+        left: 0px;
+        text-shadow: 1px 1px 2px black;
+        border-bottom: 5px solid #dddddd;
+        box-shadow: 0px 1px 0px black;
+    }
+
+    .content {
+        width: 1200px;
+        overflow: hidden;
+        margin: 0 auto;
+        padding-bottom: 200px;
+        border: 1px solid lightgray;
+    }
 
 </style>
 	<!-- 로딩 -->
@@ -195,7 +224,6 @@
 						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
 					}else {
 						var chkArraySize = chkArray.length;
-/* 						alert(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다."); */
 						var yesNo = confirm(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다.\n장바구니로 가시겠습니까?");
 						if(yesNo) {
 							location.href="/cart/goMyCart.do?reqPage=1";
@@ -207,7 +235,6 @@
 			});
 			$("div.loader").css("display","none");
 		});
-		
 		//장바구니에 넣기2
 		$("#insertCart2").click(function () {
 			$("div.loader").css("display","block");
@@ -232,7 +259,6 @@
 						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
 					}else {
 						var chkArraySize = chkArray.length;
-/* 						alert(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다."); */
 						var yesNo = confirm(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다.\n장바구니로 가시겠습니까?");
 						if(yesNo) {
 							location.href="/cart/goMyCart.do?reqPage=1";
@@ -244,9 +270,7 @@
 			});
 			$("div.loader").css("display","none");
 		});		
-		
-		
-		
+
 		//예약하기
 		$("#reservationButton").click(function() {
 			$("div.loader").css("display","block");
@@ -268,14 +292,15 @@
 			});
 			$("div.loader").css("display","none");
 		});
-		
 	});
-	
 </script>
 
 <body>
-<div class="wrapper">
+<div class="wrapper" style="background-color : #f7f8f8;">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+		<div class="cTop">
+			<div class="black"></div><span>도서 검색</span>
+		</div>
 		<div class="content">
 			<div id="searchDiv">
 				<form action = "/rent/searchBookDetail.do" method="get">
@@ -424,8 +449,8 @@
 		<!-- 로딩로딩 -->
 		<!-- 로딩 페이지 -->
 	<div class="loader" style='display:none;'></div>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </div>
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 
 </html>

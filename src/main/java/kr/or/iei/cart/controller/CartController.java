@@ -27,11 +27,9 @@ public class CartController {
 	private CartService service;
 	
 	@RequestMapping("/goMyCart.do")
-	public String GoMyCart(int reqPage, Model model) {
+	public String GoMyCart(int reqPage, Model model, HttpSession session) {
 
-//		가상멤버만들기
-		Member member = new Member();
-		member.setMemberId("user01");
+		Member member = (Member)session.getAttribute("member");
 
 		CartPageData cartPageData = service.selectCartList(reqPage, member);
 		model.addAttribute("list", cartPageData.getList());
@@ -43,13 +41,9 @@ public class CartController {
 	public int insertCart(HttpServletRequest request, HttpSession session) {
 		if(request.getParameter("chkArray") != null) {			
 			String[] param = request.getParameterValues("chkArray");
-			//로그인 된 아이디 받기
-			//		Member member = session.getAttribute("member");
-			
-			//임시//
-			Member member = new Member();
-			member.setMemberId("user01");
-			///////
+
+			Member member = (Member)session.getAttribute("member");
+
 			int result = 0;
 			ArrayList<Cart> cartList = new ArrayList<Cart>();
 			for(int i=0; i<param.length; i++) {

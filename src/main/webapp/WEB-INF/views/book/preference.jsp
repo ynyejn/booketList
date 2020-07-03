@@ -50,9 +50,16 @@
 			data.addColumn("string", 'GENRE');
 			data.addColumn("number", '3');
 			data.addColumn({ type: 'string', role: 'style' });
-			for(var i=0; i<rentListLength; i++) {
-				data.addRow([${rentList}[i]["bookCategory"], ${rentList}[i]["cnt"], sett]);
-			}    
+			
+			if(rentListLength>=1) {
+				for(var i=0; i<rentListLength; i++) {
+					data.addRow([${rentList}[i]["bookCategory"], ${rentList}[i]["cnt"], sett]);
+				}    				
+			}else {
+				var html = "<H3>구독한 책이 한 권도 없습니다. </H3><H3>아래의 책들은 어떠신가요 ? </H3>"
+				$("#chartDiv").children().remove();
+				$("#chartDiv").append(html);				
+			}
 			var options = {
 				title: '읽은 책들의 장르 비율',
 				animation: {
@@ -107,7 +114,6 @@
 			}else if(reviewListLength == 1) {
 				data.addRow([${reviewList}[0]["bookCategory"], ${reviewList}[0]["reviewScore"], sett1]);      				
 			}else {
-/* 				data.addRow(["noData", , sett1]); */
 				data.addRow([, , sett1]);
 				var html = "<H3>취향 분석 데이터가 부족해 분석할 수 없습니다. </H3><H3>아래의 책들은 어떠신가요 ? </H3>"
 				$("#chartDiv").children().remove();

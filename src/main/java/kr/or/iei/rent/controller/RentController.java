@@ -75,13 +75,8 @@ public class RentController {
 	public int insertCart(HttpServletRequest request, HttpSession session) {
 		if(request.getParameter("chkArray") != null) {			
 			String[] param = request.getParameterValues("chkArray");
-			//로그인 된 아이디 받기
-			//		Member member = session.getAttribute("member");
-			
-			//임시//
-			Member member = new Member();
-			member.setMemberId("user01");
-			///////
+			Member member = (Member)session.getAttribute("member");
+
 			int result = 0;
 			ArrayList<Cart> cartList = new ArrayList<Cart>();
 			for(int i=0; i<param.length; i++) {
@@ -108,12 +103,7 @@ public class RentController {
 		if(request.getParameter("chkArray") != null) {			
 			String[] param = request.getParameterValues("chkArray");
 			//로그인 된 아이디 받기
-			//Member member = session.getAttribute("member");
-			
-			//임시//
-			Member member = new Member();
-			member.setMemberId("user01");
-			///////
+			Member member = (Member)session.getAttribute("member");
 			ArrayList<Cart> cartList = new ArrayList<Cart>();
 			for(int i=0; i<param.length; i++) {
 				Cart c = new Cart();
@@ -125,7 +115,7 @@ public class RentController {
 			}
 			ArrayList<Integer> bookNoList = new ArrayList<Integer>();
 			bookNoList = service.selectBookNo(cartList);
-			model.addAttribute("bookNo", bookNoList);
+			model.addAttribute("bookNo", new Gson().toJson(bookNoList));
 			return bookNoList;
 		}else {
 			return null;			
@@ -133,10 +123,10 @@ public class RentController {
 	}
 
 	@RequestMapping(value="/goSpotPage.do")
-	public String goSpotPage(int[] bookNoList, Model model) {
-		ArrayList<Integer> bookNo = new ArrayList<Integer>();
+	public String goSpotPage(String[] bookNoList, Model model) {
+		String [] bookNo = new String[bookNoList.length]; 
 		for(int i=0; i<bookNoList.length; i++) {
-			bookNo.add(bookNoList[i]);
+			bookNo[i]=bookNoList[i];
 		}
 		model.addAttribute("bookNo", bookNo);		
 		return "/book/spotPage";
@@ -146,13 +136,7 @@ public class RentController {
 	public String GoPreference(Model model, HttpSession session) {
 		//review엔 member_nickname 조회
 		//rent엔 member_id 조회
-		Member member = new Member();
-		member.setMemberId("user06");
-		member.setMemberNickname("현준");
-//		member.setMemberCategory1("소설/시/희곡");
-//		member.setMemberCategory2("과학");
-//		member.setMemberCategory3("경제경영");
-		session.setAttribute("member", member);
+		Member member = (Member)session.getAttribute("member");
 		
 		PreferencePageData ppd = service.userPreferencePageData(member);
 		
@@ -192,8 +176,6 @@ public class RentController {
 		model.addAttribute("writerList", new Gson().toJson(writerList));
 		model.addAttribute("rentDateList", new Gson().toJson(rentDateList));
 		model.addAttribute("bookAndReviewList", bookAndReviewList);
-		
-		System.out.println("사이즈:"+rentDateList.size());
 		
 		session.setAttribute("preferCategory", ppd.getPreferCategory());
 		session.setAttribute("type", ppd.getType());
