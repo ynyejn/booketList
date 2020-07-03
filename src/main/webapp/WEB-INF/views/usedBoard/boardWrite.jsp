@@ -88,7 +88,7 @@
         width: 1100px;
         background-color: white;
         margin: 0 auto;
-        margin-top: 50px;
+        margin-top: 30px;
 
     }
     .boardFrame>form>table{

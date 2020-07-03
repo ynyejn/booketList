@@ -19,8 +19,9 @@ public class SpotController {
 	private SpotService service;
 	
 	@RequestMapping("/goSpotPage.do")
-	public String goSpotPage(HttpServletRequest request,Model model,int reqPage,String localName,String keyword) {
+	public String goSpotPage(HttpServletRequest request,Model model,int reqPage,String localName,String keyword, String[] bookNoList) {
 		//책번호넘기기
+		//String[] bookNoList2 = bookNoList;
 		String[] bookNo=request.getParameterValues("bookNo");
 		model.addAttribute("bookNo",bookNo);
 		//spot정보들
