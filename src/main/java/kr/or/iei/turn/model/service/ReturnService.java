@@ -2,15 +2,15 @@ package kr.or.iei.turn.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.rent.model.vo.Rent;
-import kr.or.iei.spot.model.vo.Spot;
-import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.turn.model.dao.ReturnDao;
+import kr.or.iei.turn.model.vo.TurnApply;
 
 @Service
 public class ReturnService {
@@ -41,6 +41,18 @@ public class ReturnService {
 			sum+=result[i];
 		}
 		return sum;
+	}
+	@Transactional
+	public int insertTurnApply(TurnApply turn) {
+		int result = 0;
+		StringTokenizer st = new StringTokenizer(turn.getBookNo(),",");
+		while(st.hasMoreTokens()) {
+			turn.setBookNo(st.nextToken());
+			System.out.println(turn.getBookNo());
+			result += dao.insertTurnApply(turn);
+			dao.updateBookStatusTo3(turn.getBookNo());
+		}
+		return result;
 	}
 
 

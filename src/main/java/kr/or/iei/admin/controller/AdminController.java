@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,10 +43,13 @@ import kr.or.iei.admin.service.AdminService;
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndRent;
+import kr.or.iei.book.model.vo.BookAndRentPageData;
 import kr.or.iei.book.model.vo.BookPageData;
 import kr.or.iei.book.model.vo.BookRentalStatus;
 import kr.or.iei.book.model.vo.BookRentalStatusPage;
 import kr.or.iei.book.model.vo.BookRentalStatusSearchPage;
+import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
@@ -56,13 +61,56 @@ public class AdminController {
 	@Autowired
 	@Qualifier("adminService")
 	private AdminService service;
-
+	
+	@RequestMapping(value="/login.do")
+	public String loginFrm() {
+		return "admin/loginFrm";
+	}
+	
+	@RequestMapping(value="/userLostBook.do")
+	public String userLostBook(HttpSession session,Model model) {
+		Member m = (Member)session.getAttribute("member");
+//		System.out.println(m.getMemberId());
+		ArrayList<BookAndRent> list = (ArrayList<BookAndRent>)service.userLostBook(m);
+		System.out.println(list);
+		model.addAttribute("list", list);
+		return "admin/userLostBook";
+	}
+	@ResponseBody
+	@RequestMapping(value="/userLostBookUpdate.do")
+	public int userLostBookUpdate(HttpServletRequest request) {
+		String[] params = request.getParameterValues("chBox");
+		int result = service.userLostBookUpdate(params);
+		System.out.println(result);
+		if(result>0) {
+			int result2 = service.userLostRentUpdate(params);
+			System.out.println(result2);
+			return result2;
+		}
+		return 0;
+	}
+	
+	@RequestMapping(value="/logins.do")
+	public String login(String id, String pass, HttpSession session) {
+		Member m = new Member();
+		m.setMemberId(id);
+		m.setMemberPw(pass);
+		Member member = service.login(m);
+		if(member==null) {
+			return "admin/loginFrm";
+		}else {
+			session.setAttribute("member", member);
+			return "redirect:/";
+		}
+		
+	}
+	
 	@RequestMapping(value="/adminPage.do")
 	public String adminPageFrm() {
 		return "/admin/adminPage";
 	}
+	
 	@RequestMapping(value="/adminBookList.do")
-
 	public String adminBookList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
 		
 		model.addAttribute("check", check);
@@ -81,7 +129,7 @@ public class AdminController {
 		model.addAttribute("list1",bpd.getList());
 		model.addAttribute("pageNavi1",bpd.getPageNavi());
 		
-
+		model.addAttribute("reqPage", reqPage);
 		model.addAttribute("list2", apd.getList());
 		model.addAttribute("pageNavi2", apd.getPageNavi());
 		model.addAttribute("reqPage2", reqPage2);
@@ -235,6 +283,65 @@ public class AdminController {
 		
 	}
 	
+
+	@ResponseBody
+	@RequestMapping(value="/selectOneComplainList.do",produces = "application/json;charset=utf-8")
+	public String selectOneComplainList(int ComplainNo) {
+		System.out.println(ComplainNo);
+		Complain complain = service.selectOneComplainList(ComplainNo);
+		return new Gson().toJson(complain);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detailComplainYes.do")
+	public int detailComplainYes(Model model, int reqPage, int ComplainNo) {
+		System.out.println(ComplainNo);
+		int result = service.detailComplainYes(ComplainNo);
+		
+		model.addAttribute("reqPage", reqPage);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detailComplainNo.do")
+	public int detailComplainNo(Model model, int reqPage, int ComplainNo) {
+		int result = service.detailComplainNo(ComplainNo);
+		model.addAttribute("reqPage", reqPage);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
+	@RequestMapping(value="/adminLostBookList.do")
+	public String adminLostBookList(Model model, int reqPage, String search, String searchTitle) {
+			
+		BookAndRentPageData barpd = null;
+		
+		if(!(search == null || search.equals(""))) {
+			barpd = service.LostBookselectList3(reqPage,search,searchTitle);
+		}else {
+			barpd = service.LostBookselectList1(reqPage);
+		}
+		
+		model.addAttribute("list1",barpd.getList());
+		model.addAttribute("pageNavi1",barpd.getPageNavi());
+		model.addAttribute("reqPage", reqPage);
+		model.addAttribute("search", search);
+		model.addAttribute("searchTitle", searchTitle);
+		
+		return "admin/adminLostBookList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/cancelLostBookList.do")
+	public int cancelLostBookList(HttpServletRequest request,Model model, int reqPage) {
+		String[] params = request.getParameterValues("chBox");
+		int result = service.cancelLostBookList(params);
+		model.addAttribute("reqPage", reqPage);
+		return result;
+	}
+
+
 	@RequestMapping(value = "/excelDown.do")
 	public void excelDown(HttpServletResponse response,String[]checkArr) throws Exception {
 	    ArrayList<Member> list = new ArrayList<Member>();
@@ -559,4 +666,5 @@ public class AdminController {
 		
 		}
 }
+
 

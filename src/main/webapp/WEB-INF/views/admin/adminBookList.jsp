@@ -16,10 +16,9 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>BooketList</title>
+<title>도서 관리페이지</title>
 
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
@@ -139,28 +138,27 @@
 			url : "/selectOneBookList.do",
 			type : "get",
 			data : {bookNo : no},
-			success:function(data){
-				$("#Bookin").children("table").children().remove(); 
+			success : function(data) {
+				$("#bookin").children("table").children().remove();
 				html = "";
-				html += "<tr><th colspan='2'>"+data.bookName+"</th><tr>"
+				html += "<tr><th colspan='2'>" + data.bookName + "</th><tr>"
 				html += "<tr><th><img src='"+data.bookImg+"'></th>";
 				html += "<th>";
-				html += "<span>- 작가 : "+data.bookWriter+"</span><br>";
-				html += "<span>- 출판사 : "+data.bookPublisher+"</span><br>";
-				html += "<span>- 장르 : "+data.bookCategory+"</span><br>";
-				html += "<span>- 출판일 : "+data.bookPubDate+"</span><br>";
+				html += "<span>- 작가 : " + data.bookWriter + "</span><br>";
+				html += "<span>- 출판사 : " + data.bookPublisher + "</span><br>";
+				html += "<span>- 장르 : " + data.bookCategory + "</span><br>";
+				html += "<span>- 출판일 : " + data.bookPubDate + "</span><br>";
 				html += "</th></tr>";
-				if(data.bookContent==null){
+				if (data.bookContent == null) {
 					html += "<tr><th colspan='2'></th><tr>"
-				}else{
-					html += "<tr><th colspan='2'>"+data.bookContent+"</th><tr>";
+				} else {
+					html += "<tr><th colspan='2'>" + data.bookContent+ "</th><tr>";
 				}
-				
-				
-				$("#Bookin").children("table").append(html);
-				
+
+				$("#bookin").children("table").append(html);
+
 			},
-			error:function(){
+			error : function() {
 				console.log("ajax통신 실패");
 			}
 		});
@@ -703,7 +701,7 @@
 											<div class="modal-header">
 												<h4 class="modal-title" id="myModalLabel">도서 상세보기</h4>
 											</div>
-											<div class="modal-body" id="Bookin" style="height: 500px">
+											<div class="modal-body" id="bookin" style="height: 500px">
 												<table class="table table-bordered">
 												</table>
 
@@ -833,6 +831,7 @@
                url : "/aladdin.do",
                data : { title:title },
                success : function(data){
+            	  console.log(data);
             	  $(".addBookList>tbody").children(".apply").remove();
                   html="";
                   for(var i=0;i<data.length;i++){
