@@ -155,9 +155,9 @@
         text-indent: 20px;
         display: inline-block;
         width: 860px;
-        height: 35px;
+        height: 38px;
         font-size: 16px;
-        line-height: 35px;
+        line-height: 38px;
         background-color: white;
     }
 
