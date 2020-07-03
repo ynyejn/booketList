@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.book.model.vo.Book;
-
+import kr.or.iei.book.model.vo.BookRentalStatus;
 import kr.or.iei.member.model.vo.Member;
 
 import kr.or.iei.complain.model.vo.Complain;
@@ -126,8 +126,25 @@ public class AdminDao {
 		return sqlSession.delete("member.adminDeleteMember",memberId);
 	}
 
-	 
+	public List bookRentalStatusList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("book.bookRentalStatusList",map);
+	}
 
-	
+	public List bookSearchRentalStatusList(HashMap<String, Object> map) {
+		return sqlSession.selectList("book.bookSearchRentalStatusList",map);
+	}
+
+	public int selectRentTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("book.selectRentTotalCount",map);
+	}
+
+	public int rentTotalCount() {
+		return sqlSession.selectOne("book.rentTotalCount");
+	}
+
+	public List selectExcelRentList(int rentNo) {
+		return sqlSession.selectList("book.selectExcelRentList",rentNo);
+	}
+
 
 }

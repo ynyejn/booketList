@@ -42,6 +42,9 @@ import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.apply.model.vo.ApplyPageData;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookPageData;
+import kr.or.iei.book.model.vo.BookRentalStatus;
+import kr.or.iei.book.model.vo.BookRentalStatusPage;
+import kr.or.iei.book.model.vo.BookRentalStatusSearchPage;
 import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
@@ -365,6 +368,137 @@ public class AdminController {
 	    wb.close();
 	    
 	}
+	@RequestMapping(value = "/excelRentDown.do")
+	public void excelRentDown(HttpServletResponse response,int[]checkArr) throws Exception {
+	    ArrayList<BookRentalStatus> list = new ArrayList<BookRentalStatus>();
+	    ArrayList<BookRentalStatus> selList = new ArrayList<BookRentalStatus>();
+	    System.out.println("컨트롤러");
+	    for(int rentNo : checkArr) {
+	    	// 게시판 목록조회
+	    	selList=(ArrayList<BookRentalStatus>)service.selectExcelRentList(rentNo);
+	    	int excelRentNo = selList.get(0).getRentNo();
+	    	int excelBookNo = selList.get(0).getBookNo();
+	    	String excelMemberId = selList.get(0).getMemberId();
+	    	String excelBookName = selList.get(0).getBookName();
+	    	Date excelRentStartDate = selList.get(0).getRentStartDate();
+	    	Date excelRentEndDate = selList.get(0).getRentEndDate();
+	    	int excelRentReturn = selList.get(0).getRentReturn();
+	    	
+	    	BookRentalStatus excelRent = new BookRentalStatus();
+	    	excelRent.setRentNo(excelRentNo);
+	    	excelRent.setBookNo(excelBookNo);
+	    	excelRent.setMemberId(excelMemberId);
+	    	excelRent.setBookName(excelBookName);
+	    	excelRent.setRentStartDate(excelRentStartDate);
+	    	excelRent.setRentEndDate(excelRentEndDate);
+	    	excelRent.setRentReturn(excelRentReturn);
+	    	list.add(excelRent);
+	    }
+	    System.out.println(list.size());
+	    // 워크북 생성
+	    Workbook wb = new HSSFWorkbook();
+	    Sheet sheet = wb.createSheet("게시판");
+	    Row row = null;
+	    Cell cell = null;
+	    int rowNo = 0;
+	    // 테이블 헤더용 스타일
+	    CellStyle headStyle = wb.createCellStyle();
+	    // 가는 경계선을 가집니다.
+	    headStyle.setBorderTop(BorderStyle.THIN);
+	    headStyle.setBorderBottom(BorderStyle.THIN);
+	    headStyle.setBorderLeft(BorderStyle.THIN);
+	    headStyle.setBorderRight(BorderStyle.THIN);
+	    // 배경색은 노란색입니다.
+	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	    // 데이터는 가운데 정렬합니다.
+	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+	    // 데이터용 경계 스타일 테두리만 지정
+	    CellStyle bodyStyle = wb.createCellStyle();
+	    bodyStyle.setBorderTop(BorderStyle.THIN);
+	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    // 헤더 생성
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("대여 번호");
+	    
+	    cell = row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("도서 번호");
+	    
+	    cell = row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("아이디");
+	    
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("도서 제목");
+	    
+	    cell = row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("대여일");
+	    
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("반납 예정일");
+	    
+	    cell = row.createCell(6);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("대여 상태");
+	    
+	    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    // 데이터 부분 생성
+	    for(BookRentalStatus vo : list) {
+	        row = sheet.createRow(rowNo++);
+	        cell = row.createCell(0);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getRentNo());
+	        
+	        cell = row.createCell(1);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getBookNo());
+	        
+	        cell = row.createCell(2);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getMemberId());
+	        
+	        cell = row.createCell(3);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(vo.getBookName());
+	        
+	        String strRentDate = sdFormat.format(vo.getRentStartDate());
+	        cell = row.createCell(4);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(strRentDate);
+	        
+	        String endRentDate = sdFormat.format(vo.getRentEndDate());
+	        cell = row.createCell(5);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(endRentDate);
+	        
+	        if(vo.getRentReturn() ==0) {
+	        	cell = row.createCell(6);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue("대여중");
+	        }else {
+	        	cell = row.createCell(6);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue("반납완료");
+	        }
+	        
+
+	    }
+	    response.setContentType("application/vnd.ms-excel");
+
+	    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+	    // 엑셀 출력
+	    wb.write(response.getOutputStream());
+	    wb.close();
+	    
+	}
 	@RequestMapping("/adminDeleteMember.do")
 	public String adminDeleteMember(String memberId) {
 		int result = service.adminDeleteMember(memberId);
@@ -376,5 +510,53 @@ public class AdminController {
 		}
 		
 	}
+	@RequestMapping("/adminBookRentalStatusList.do")
+	public String adminBookRentalStatusList(Model model, int reqPage, int selectCount){
+		
+		BookRentalStatusPage brsp= service.bookList(reqPage,selectCount);
+		for(int i=0;i<brsp.getList().size();i++) {
+			brsp.getList().get(i).getBookNo();
+		}
+		model.addAttribute("list",brsp.getList());
+		model.addAttribute("pageNavi",brsp.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
+		model.addAttribute("selectCount",selectCount);
+		return "admin/adminBookRentalStatusList";
+	}
+		
+		@ResponseBody
+		@RequestMapping(value="/bookSearchRentalStatusList.do", produces="application/json;charset=utf-8")
+		public String BookSearchRentalList(HttpServletRequest request) {
+			int aReqPage = (Integer.parseInt(request.getParameter("reqPage")));
+			System.out.println("페이징 reqPage : "+aReqPage);
+			String selectColumn = request.getParameter("selectColumn");
+			String search = request.getParameter("search");
+			int selectCount = Integer.parseInt(request.getParameter("selectCount"));
+			System.out.println("선택한 컬럼 : "+selectColumn);
+			System.out.println("찾고자 하는 검색어 : "+search);
+			BookRentalStatusPage brsp = service.bookSearchRentalStatusList(selectColumn,search,aReqPage,selectCount);
+			
+			ArrayList<BookRentalStatus> list = brsp.getList();
+			String pageNavi = brsp.getPageNavi();
+			DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String [] arrRentStartDate = new String[list.size()];
+			String [] arrRentEndDate = new String[list.size()];
+			for(int i=0;i<list.size();i++) {
+				Date startDate = brsp.getList().get(i).getRentStartDate();
+				Date endDate = brsp.getList().get(i).getRentEndDate();
+				if(startDate == null && endDate == null) {
+					arrRentStartDate[i] = null;
+					arrRentEndDate[i] = null;
+				}else {
+					String strStartDate = sdFormat.format(startDate);
+					String strEndDate = sdFormat.format(endDate);
+					arrRentStartDate[i] = strStartDate;
+					arrRentEndDate[i] = strEndDate;
+				}
+			}
+			BookRentalStatusSearchPage brssp = new BookRentalStatusSearchPage(list, pageNavi, arrRentStartDate,arrRentEndDate, aReqPage,selectCount);
+			return new Gson().toJson(brssp);
+		
+		}
 }
 
