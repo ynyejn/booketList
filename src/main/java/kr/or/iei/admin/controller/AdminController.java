@@ -336,9 +336,14 @@ public class AdminController {
 	@RequestMapping(value="/cancelLostBookList.do")
 	public int cancelLostBookList(HttpServletRequest request,Model model, int reqPage) {
 		String[] params = request.getParameterValues("chBox");
-		int result = service.cancelLostBookList(params);
 		model.addAttribute("reqPage", reqPage);
-		return result;
+		int result = service.cancelLostBookList(params); // book_status 5에서 0 으로
+		if(result>0) {
+			int result2 = service.cancelLostBookList2(params); // rent table의 반납일자와 상태를 반납완료로 바꿈
+			return result2;
+		}
+		
+		return 0;
 	}
 
 
