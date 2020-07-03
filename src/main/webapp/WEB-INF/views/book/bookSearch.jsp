@@ -46,6 +46,16 @@
         padding-bottom: 200px;
         border: 1px solid lightgray;
     }
+    #searchDiv {
+    	width : 1100px;
+    	margin : 0 auto;
+    	background-color : white;
+    }
+    #searchDiv2 {
+    	width : 1100px;
+    	margin : 0 auto;
+    	background-color : white;
+    }
 
 </style>
 	<!-- 로딩 -->
@@ -303,47 +313,49 @@
 		</div>
 		<div class="content">
 			<div id="searchDiv">
-				<form action = "/rent/searchBookDetail.do" method="get">
-					<select name="categorySelect">
-						<option value="">카테고리</option>
-						<option value="가정/요리/뷰티">가정/요리/뷰티</option>
-						<option value="건강/취미/레저">건강/취미/레저</option>
-						<option value="경제경영">경제경영</option>
-						<option value="과학">과학</option>
-						<option value="달력/기타">달력/기타</option>
-						<option value="만화">만화</option>
-						<option value="사회과학">사회과학</option>
-						<option value="소설/시/희곡">소설/시/희곡</option>
-						<option value="수험서/자격증">수험서/자격증</option>
-						<option value="어린이">어린이</option>
-						<option value="에세이">에세이</option>
-						<option value="여행">여행</option>
-						<option value="역사">역사</option>
-						<option value="예술/대중문화">예술/대중문화</option>
-						<option value="외국어">외국어</option>
-						<option value="유아">유아</option>
-						<option value="인문학">인문학</option>
-						<option value="자기계발">자기계발</option>
-						<option value="잡지">잡지</option>
-						<option value="전집/중고전집">전집/중고전집</option>
-						<option value="종교/역학">종교/역학</option>
-						<option value="좋은부모">좋은부모</option>
-						<option value="청소년">청소년</option>
-						<option value="초등학교참고서">초등학교참고서</option>
-						<option value="중학교참고서">중학교참고서</option>
-						<option value="고등학교참고서">고등학교참고서</option>
-						<option value="대학교재/전문서적">대학교재/전문서적</option>
-						<option value="컴퓨터/모바일">컴퓨터/모바일</option>
-					</select>
-					<select name="bookAttr">
-						<option value="book_name">책이름</option>
-						<option value="book_content">내용</option>
-						<option value="book_writer">작가</option>
-					</select>
-					<input type="hidden" name="reqPage" value="1">
-					<input type="hidden" name="sort" value="book_name">
-					<input type="text" name="inputText" value="${inputText }"><input type="submit" value="검색">
-				</form>
+				<div id="searchDiv2">
+					<form action = "/rent/searchBookDetail.do" method="get">
+						<select name="categorySelect">
+							<option value="">카테고리</option>
+							<option value="가정/요리/뷰티">가정/요리/뷰티</option>
+							<option value="건강/취미/레저">건강/취미/레저</option>
+							<option value="경제경영">경제경영</option>
+							<option value="과학">과학</option>
+							<option value="달력/기타">달력/기타</option>
+							<option value="만화">만화</option>
+							<option value="사회과학">사회과학</option>
+							<option value="소설/시/희곡">소설/시/희곡</option>
+							<option value="수험서/자격증">수험서/자격증</option>
+							<option value="어린이">어린이</option>
+							<option value="에세이">에세이</option>
+							<option value="여행">여행</option>
+							<option value="역사">역사</option>
+							<option value="예술/대중문화">예술/대중문화</option>
+							<option value="외국어">외국어</option>
+							<option value="유아">유아</option>
+							<option value="인문학">인문학</option>
+							<option value="자기계발">자기계발</option>
+							<option value="잡지">잡지</option>
+							<option value="전집/중고전집">전집/중고전집</option>
+							<option value="종교/역학">종교/역학</option>
+							<option value="좋은부모">좋은부모</option>
+							<option value="청소년">청소년</option>
+							<option value="초등학교참고서">초등학교참고서</option>
+							<option value="중학교참고서">중학교참고서</option>
+							<option value="고등학교참고서">고등학교참고서</option>
+							<option value="대학교재/전문서적">대학교재/전문서적</option>
+							<option value="컴퓨터/모바일">컴퓨터/모바일</option>
+						</select>
+						<select name="bookAttr">
+							<option value="book_name">책이름</option>
+							<option value="book_content">내용</option>
+							<option value="book_writer">작가</option>
+						</select>
+						<input type="hidden" name="reqPage" value="1">
+						<input type="hidden" name="sort" value="book_name">
+						<input type="text" name="inputText" value="${inputText }"><input type="submit" value="검색">
+					</form>
+				</div>
 			</div>
 			<div id="searchDiv2">
 			<c:if test="${empty bookAttr}">
