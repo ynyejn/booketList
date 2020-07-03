@@ -61,13 +61,13 @@ public class RentService {
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
 		//페이지 네비 [이전] [현재] [다음]
 		if(pageNo != 1) {
-			pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
+			pageNavi += "<div class='prevNavi'><a href='/rent/goBookSearch.do?reqPage="+(pageNo-1)+"'>&lt;</a></div>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage == pageNo) {
-				pageNavi += "<span>"+pageNo+"</span>";
+				pageNavi += "<div style='background-color: rgb(0, 102, 179);' class='numberNavi1'><span>"+pageNo+"</span></div>";
 			}else {
-				pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+				pageNavi += "<div class='numberNavi2'><a href='/rent/goBookSearch.do?reqPage="+pageNo+"'>"+pageNo+"</a></div>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -75,7 +75,7 @@ public class RentService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/rent/goBookSearch.do?reqPage="+pageNo+"'>[다음]</a>";
+			pageNavi += "<div class='nextNavi'><a href='/rent/goBookSearch.do?reqPage="+pageNo+"'>&gt;</a></div>";
 		}
 		
 		BookAndReviewPageData bd = new BookAndReviewPageData((ArrayList<BookAndReview>)list, pageNavi);
@@ -122,13 +122,13 @@ public class RentService {
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
 		//페이지 네비 [이전] [현재] [다음]
 		if(pageNo != 1) {
-			pageNavi += "<a href='/rent/searchBookDetail.do?reqPage="+(pageNo-1)+"&categorySelect="+categorySelect+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>[이전]</a>";
+			pageNavi += "<div class='prevNavi'><a href='/rent/searchBookDetail.do?reqPage="+(pageNo-1)+"&categorySelect="+categorySelect+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>&lt;</a></div>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage == pageNo) {
-				pageNavi += "<span>"+pageNo+"</span>";
+				pageNavi += "<div style='background-color: rgb(0, 102, 179);' class='numberNavi1'><span>"+pageNo+"</span></div>";
 			}else {
-				pageNavi += "<a href='/rent/searchBookDetail.do?reqPage="+(pageNo)+"&categorySelect="+categorySelect+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>"+pageNo+"</a>";
+				pageNavi += "<div class='numberNavi2'><a href='/rent/searchBookDetail.do?reqPage="+(pageNo)+"&categorySelect="+categorySelect+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>"+pageNo+"</a></div>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -136,7 +136,7 @@ public class RentService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/rent/searchBookDetail.do?reqPage="+(pageNo)+"&categorySelect="+categorySelect+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>[다음]</a>";
+			pageNavi += "<div class='nextNavi'><a href='/rent/searchBookDetail.do?reqPage="+(pageNo)+"&categorySelect="+categorySelect+"&bookAttr="+bookAttr+"&inputText="+inputText+"&sort="+sort+"'>&gt;</a></div>";
 		}
 		
 		BookAndReviewPageData bd = new BookAndReviewPageData((ArrayList<BookAndReview>)list, pageNavi);
