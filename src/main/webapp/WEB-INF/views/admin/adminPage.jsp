@@ -112,7 +112,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
-            <a class="collapse-item" href="/adminBookRentListFrm.do">도서대여현황</a>
+            <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서대여현황</a>
             <a class="collapse-item" href="#">도서예약내역</a>
           </div>
         </div>

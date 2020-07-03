@@ -49,6 +49,24 @@
 			member_nickname like '%' || #{search} || '%'
 		</if>
 	</select>
+	<select id="memberTotalCount" resultType="_int">
+		select count(*) as cnt from member
+	</select>
+	<select id="selectMember" resultType="member">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select
+			member_no as memberNo,
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			member_email as memberEmail,
+			member_phone as memberPhone,
+			enroll_date as enrollDate,
+			member_nickname as memberNickname
+		from member order by member_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
 	<select id="selectMemberList" parameterType="map" resultType="member">
 		select * from 
 			(select rownum as rnum, n.* from
