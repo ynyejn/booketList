@@ -24,7 +24,7 @@
 		<div class="content">
 			
 				<form action="/member/login.do" method="post">
-					아이디 : <input type="text" name="memberId"><br> 
+					회원아이디 : <input type="text" name="memberId"><br> 
 					비밀번호 : <input type="password" name="memberPw"><br> 
 					<input type="submit" value="로그인">
 			</form>

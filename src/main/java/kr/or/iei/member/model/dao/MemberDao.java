@@ -34,8 +34,9 @@ public class MemberDao {
 	}
 
 
-	public Member selectOne(Member m) {
+	public Member selectOneMember(Member m) {
 		
 		return sql.selectOne("member.selectOneMember",m);
 	}
+	
 }

@@ -41,7 +41,7 @@ td {
 	//도서취향 체크박스(0개 선택,1개 선택,2개 선택,3개 선택)
 
 	$(function() {
-		/* $('#memberId').on("blur", function(event) {
+		$('#memberId').on("blur", function(event) {
 			if (!id.test($('#memberId').val())) {
 				$('#id_check').text('아이디는 영소문자,숫자 포함 5자 이상 20자 이하입니다.');
 				$('#id_check').css('color', 'red');
@@ -54,9 +54,7 @@ td {
 					var memberId = $('#memberId').val();
 					$.ajax({
 						type : 'POST',
-						data : {
-							memberId : memberId
-						},
+						data : {memberId : memberId},
 						url : '/member/checkId.do',
 						success : function(data) {
 							if (data == "1") {
@@ -93,11 +91,11 @@ td {
 		$('#memberName').on("blur", function(event) {
 			if (!name.test($('#memberName').val())) {
 				$('#name_check').text('한글 2~4자 이내로 입력하세요.(특수기호,공백 사용불가)');
-				$('#pw_check').css('color', 'red');
+				$('#name_check').css('color', 'red');
 				$("#memberName").val("");
 			} else {
 				$('#name_check').text('이름 형식에 맞습니다.');
-				$('#pw_check').css('color', '#666666');
+				$('#name_check').css('color', '#666666');
 			}
 		});
 		
@@ -125,11 +123,10 @@ td {
 								$("#memberJoin").attr("disabled");
 							}
 						}
-					}
-				);
-			});
-		}
-			
+					})
+				})
+			}
+		})	
 		$('#memberPhone').on("blur", function(event) {
 			if (!phone.test($('#memberPhone').val())) {
 				$('#phone_check').text('휴대폰 번호에 숫자만 입력해주세요');
@@ -148,20 +145,18 @@ td {
 				$('#email_check').css('color', 'red');
 				$("#memberEmail").val("");
 			} else {
-				$('#email_check').text('맞는 이메일 형식입니다. ');
+				$('#email_check').text('맞는 이메일 형식입니다.');
 				$('#email_check').css('color', '#666666');
 			}
 		});
- */
+ 
 		var mailCode="";
 		$("#mailBtn").click(function(){
 			var mail =$("#mail").val();
 			$.ajax({
 				url : "/member/sendMail.do",
 				type : "post",
-				data : {
-					mail:mail
-				},
+				data : {mail:mail},
 				success : function(data){
 					mailCode = data;
 					$("#mailCode").show();
@@ -190,8 +185,7 @@ td {
 		}
 
 		if ($('#memberPw').val() == '') {
-			$('#pw_check').text(
-					'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+			$('#pw_check').text('비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
 			$('#pw_check').css('color', 'red');
 			return;
 		}

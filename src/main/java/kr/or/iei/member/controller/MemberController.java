@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,8 +43,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="/join.do")
 	public String join(Member m) {
-
-		
+	
 		return "member/join";
 	}
 	@RequestMapping(value="/joinSuccess.do")
@@ -94,22 +94,32 @@ public class MemberController {
 	public String loginMember(HttpSession session, Member m) {
 		System.out.println(m.getMemberId());
 		System.out.println(m.getMemberPw());
-		Member member = service.selectOne(m);
+		Member member = service.selectOneMember(m);
+		
 		if (member != null) {
+			System.out.println();
 			session.setAttribute("member", member);
-			return "redirect:/";
+			return "member/mypage";
 		} else {
 			return "member/loginFailed";
 		}
 	}
-		@RequestMapping(value = "/loginFrm.do")
-		public String loginMember() {
-			
-				return "member/login";
-			
+	@RequestMapping(value = "/loginFrm.do")
+	public String loginMember() {
+		
+		return "member/login";	
+	}
+	@RequestMapping(value="/logout.do")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 	
+	@RequestMapping(value="/mypage.do")
+	public String mypage(HttpSession session, Model model) {
+		Member m = (Member) session.getAttribute("model");
+		model.addAttribute("m",m);
+		return "member/mypage";
+	}
 	
-	
-
 }

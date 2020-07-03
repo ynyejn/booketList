@@ -1,6 +1,7 @@
 package kr.or.iei.common;
 
 import java.io.FileOutputStream;
+
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,10 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+//import org.apache.poi.xssf.usermodel.XSSFCell;
+//import org.apache.poi.xssf.usermodel.XSSFRow;
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -104,15 +105,15 @@ public class AladdinAPI {
 				////////////////////////
 				////////엑셀파일로 빼기//////
 				////////////////////////
-				XSSFRow row;
-				XSSFCell cell;
-				int countRow = 0;
-				int countCell = 0;
-				XSSFWorkbook workbook = new XSSFWorkbook();
-				
-				//Sheet명 설정
-				XSSFSheet sheet = workbook.createSheet("mySheet");
-				
+//				XSSFRow row;
+//				XSSFCell cell;
+//				int countRow = 0;
+//				int countCell = 0;
+//				XSSFWorkbook workbook = new XSSFWorkbook();
+//				
+//				//Sheet명 설정
+//				XSSFSheet sheet = workbook.createSheet("mySheet");
+//				
 //				for(int i=0; i<list.size(); i++) {
 //					//출력 row 생성
 //					row = sheet.createRow(i);

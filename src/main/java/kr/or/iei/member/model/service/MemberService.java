@@ -46,8 +46,10 @@ public class MemberService {
 		return dao.checkNickname(memberNickname);
 	}
 
-	public Member selectOne(Member m) {
+	public Member selectOneMember(Member m) throws IllegalArgumentException{
 		
-		return dao.selectOne(m);
+		return dao.selectOneMember(m);
 	}
+
+	
 }

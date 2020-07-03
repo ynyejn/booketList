@@ -28,7 +28,8 @@
 		member_category3 as memberCategory3,
 		delay_status as delayStatus,
 		complain_status as complainStatus,
-		member_nickname as memberNickname
+		member_nickname as memberNickname,
+		enroll_date as enrollDate
 		from member
 		where member_id=#{memberId}
 		and member_pw=#{memberPw}
