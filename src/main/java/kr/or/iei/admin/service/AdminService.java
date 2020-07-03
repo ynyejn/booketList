@@ -655,6 +655,9 @@ public class AdminService {
 	public int userLostRentUpdate(String[] params) {
 		return dao.userLostRentUpdate(params);
 	}
+	public int cancelLostBookList2(String[] params) {
+		return dao.cancelLostbookList2(params);
+	}
 	
 	
 

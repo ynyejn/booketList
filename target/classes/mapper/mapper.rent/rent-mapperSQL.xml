@@ -8,4 +8,11 @@
 			 #{arr}
 		</foreach>
 	</update>
+	<update id="cancelLostbookList2">
+		update rent set rent_return = 1, rent_end_date = sysdate where  
+		book_no in
+		<foreach collection="array" item="arr" separator="," open="(" close=")">
+			 #{arr}
+		</foreach>
+	</update>
 </mapper>
