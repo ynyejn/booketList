@@ -1,18 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="book">
+<!-- 
+	<select id="searchBookDetailTotalCount" resultType="_int"
+		parameterType="map">
+		select count(*) as cnt
+		from
+		(SELECT *
+		FROM (SELECT * from book where rowid in (select max(rowid) from book group
+		by book_name))
+		JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP
+		BY BOOK_NAME) USING (BOOK_NAME))
+		where
+		${bookAttr} like '%' ||#{inputText}||'%'
+		<if test="categorySelect != null and categorySelect!='' ">
+			and book_category = #{categorySelect}
+		</if>
+	</select> -->
+	
+<!-- 	<select id="searchBookDetail" resultType="bookAndReview"
+		parameterType="map">
+		select * from
+		(select rownum as rnum, n.* from
+		(SELECT
+		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
+		book_status as bookStatus,
+		book_content as bookContent, avg_score as avgScore, cnt
+		FROM
+		(SELECT * from book where rowid in (select max(rowid) from book group by
+		book_name) order by BOOK_NO desc)
+		JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE,
+		SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
+		LEFT JOIN REVIEW USING (BOOK_NAME)
+		GROUP BY BOOK_NAME)
+		USING (BOOK_NAME)
+		WHERE ${map2.bookAttr} LIKE '%'||#{map2.inputText}||'%'
+		<if
+			test="map2.categorySelect != null and map2.categorySelect !='' ">
+			and book_category = #{map2.categorySelect}
+		</if>
+		<choose>
+			<when test="map2.sort.equals('book_writer')">
+				order by ${map2.sort} desc
+			</when>
+			<when test="map2.sort.equals('book_name')">
+				order by ${map2.sort} asc
+			</when>
+			<when test="map2.sort.equals('book_pub_date')">
+				order by ${map2.sort} desc
+			</when>
+		</choose>
+		)n)where rnum BETWEEN #{map.start} and #{map.end}
+	</select> -->
+
+<!-- 	<select id="selectBookList" resultType="book"
+		parameterType="String">
+		select
+		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
+		book_status as bookStatus,
+		book_content as bookContent
+		from book
+	</select>
+	 -->
 	<select id="searchBookDetailTotalCount" resultType="_int" parameterType="map">
 		select count(*) as cnt 
 		from 
 			(SELECT *
-			FROM (SELECT * from book where rowid in (select max(rowid) from book group by book_name)) 
-			JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME))
-		where 
-			${bookAttr} like '%' ||#{inputText}||'%'
+			FROM (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
+			JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME)
+			)
+			
+		where ${bookAttr} like '%' ||#{inputText}||'%'
 		<if test = "categorySelect != null and categorySelect!='' ">
 			and book_category = #{categorySelect}
 		</if>
 	</select>
+	
 	<select id="searchBookDetail" resultType="bookAndReview" parameterType="map">
 		select * from 
 		    (select rownum as rnum, n.* from 
@@ -31,7 +98,7 @@
 						and book_category = #{map2.categorySelect}
 					</if>
 					<choose>
-						<when test="map2.sort.equals('book_writer')">
+						<when test="map2.sort.equals('avg_score')">
 							order by ${map2.sort} desc
 						</when>
 						<when test="map2.sort.equals('book_name')">
@@ -50,113 +117,280 @@
         	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
         	book_content as bookContent
 		from book 
-		where book_name = #{_param}	
+		where book_name = #{_param}
+	</select>
+
+	<select id="selectBookAllPage" resultType="bookAndReview"
+		parameterType="map">
+		select * from
+		(select rownum as rnum, n.* from
+		(SELECT
+		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
+		book_status as bookStatus,
+		book_content as bookContent, avg_score as avgScore, cnt
+		FROM
+		(SELECT * from book where rowid in (select max(rowid) from book group by
+		book_name) order by BOOK_NO desc)
+		JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE,
+		SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
+		LEFT JOIN REVIEW USING (BOOK_NAME)
+		GROUP BY BOOK_NAME)
+		USING (BOOK_NAME))n)
+		where rnum BETWEEN #{start} and #{end}
 	</select>
 	
-	<select id="selectBookAllPage" resultType="bookAndReview" parameterType="map">
-		select * from 
-	    (select rownum as rnum, n.* from 
-	        (SELECT 
-	        	book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
-	        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
-	        	book_content as bookContent, avg_score as avgScore, cnt	
-	        FROM 
-	            (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
-	            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
-	                LEFT JOIN REVIEW USING (BOOK_NAME)
-	                GROUP BY BOOK_NAME)
-            USING (BOOK_NAME))n)
-        where rnum BETWEEN #{start} and #{end}
-	</select>
 	<select id="totalCountBook" resultType="_int">
-		select count(*) as cnt 
-		from 
-			(SELECT *
-			FROM (SELECT * from book where rowid in (select max(rowid) from book group by book_name)) 
-			JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP BY BOOK_NAME) USING (BOOK_NAME))
-	</select>
-	<select id="bookTotalCount" resultType="_int">
-		select count(*) as cnt from book
+		select count(*) as cnt
+		from
+		(SELECT *
+		FROM (SELECT * from book where rowid in (select max(rowid) from book group
+		by book_name))
+		JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP
+		BY BOOK_NAME) USING (BOOK_NAME))
 	</select>
 	
+	<select id="bookTotalCount" resultType="_int">
+		select count(*) as cnt
+		from book
+	</select>
+
 	<select id="bookTotalCount3" parameterType="map" resultType="_int">
 		select count(*) as cnt from book where 
 		<if test = "searchTitle.equals('도서이름')">
 			book_name like '%' || #{search} || '%'
 		</if>
-		<if test = "searchTitle.equals('작가')">
+		<if test="searchTitle.equals('작가')">
 			book_writer like '%' || #{search} || '%'
 		</if>
-		<if test = "searchTitle.equals('출판사')">
+		<if test="searchTitle.equals('출판사')">
 			book_publisher like '%' || #{search} || '%'
 		</if>
-		<if test = "searchTitle.equals('장르')">
+		<if test="searchTitle.equals('장르')">
 			book_category like '%' || #{search} || '%'
 		</if>
 	</select>
 	<select id="selectList1" parameterType="map" resultType="book">
-		select * from 
-			(select rownum as rnum, n.* from
-				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
-				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
-				from book order by book_no desc)n)
+		select *
+		from
+		(select rownum as rnum, n.* from
+		(select book_no as bookNo, book_name as bookName, book_writer as bookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
+		book_status as bookStatus, book_content as bookContent
+		from book order by book_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+
+
+
+	<select id="selectList3" parameterType="map" resultType="book">
+		select * from
+		(select rownum as rnum, n.* from
+		(select book_no as bookNo, book_name as bookName, book_writer as bookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
+		book_status as bookStatus, book_content as bookContent
+		from book where
+		<if test="searchTitle.equals('도서이름')">
+			book_name like '%' || #{search} || '%'
+		</if>
+		<if test="searchTitle.equals('작가')">
+			book_writer like '%' || #{search} || '%'
+		</if>
+		<if test="searchTitle.equals('출판사')">
+			book_publisher like '%' || #{search} || '%'
+		</if>
+		<if test="searchTitle.equals('장르')">
+			book_category like '%' || #{search} || '%'
+		</if>
+		order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
 	
-	<select id="selectList3" parameterType="map" resultType="book">
-		select * from 
-			(select rownum as rnum, n.* from
-				(select book_no as bookNo, book_name as bookName, book_writer as bookWriter, book_publisher as bookPublisher, 
-				book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus, book_content as bookContent
-				from book where 
-				<if test = "searchTitle.equals('도서이름')">
-					book_name like '%' || #{search} || '%'
-				</if>
-				<if test = "searchTitle.equals('작가')">
-					book_writer like '%' || #{search} || '%'
-				</if>
-				<if test = "searchTitle.equals('출판사')">
-					book_publisher like '%' || #{search} || '%'
-				</if>
-				<if test = "searchTitle.equals('장르')">
-					book_category like '%' || #{search} || '%'
-				</if>
-				order by book_no desc)n)
-		where rnum between #{start} and #{end}
-	</select>
 	<delete id="deleteBookList">
-		delete from book where 
+		delete from book where
 		book_no in
-		<foreach collection="array" item="arr" separator="," open="(" close=")">
-			 #{arr}
+		<foreach collection="array" item="arr" separator="," open="("
+			close=")">
+			#{arr}
 		</foreach>
 	</delete>
-	<select id="selectOneBookList" parameterType="_int" resultType="book">
+	
+	<select id="selectOneBookList" parameterType="_int"
+		resultType="book">
 		select book_no as bookNo,
-			book_name as bookName,
-			book_writer as bookWriter,
-			book_publisher as bookPublisher,
-			book_category as bookCategory,
-			book_img as bookImg,
-			book_pub_date as bookPubDate,
-			book_status as bookStatus,
-			book_content as bookContent
-		from book 
+		book_name as bookName,
+		book_writer as bookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory,
+		book_img as bookImg,
+		book_pub_date as bookPubDate,
+		book_status as bookStatus,
+		book_content as bookContent
+		from book
 		where book_no = #{bookNoo}
 	</select>
+	
 	<delete id="selectOneBookDelete" parameterType="_int">
-		delete from book where book_no = #{bookNo}
+		delete from book
+		where book_no = #{bookNo}
 	</delete>
-	<select id="checkBookList" parameterType="String" resultType="book">
-		select book_name as bookName from book where book_name = #{string}
+	
+	<select id="checkBookList" parameterType="String"
+		resultType="book">
+		select book_name as bookName from book where book_name =
+		#{string}
 	</select>
+	
 	<insert id="insertBookList">
-		insert into book(book_name, book_writer, book_publisher, book_category, book_img, book_pub_date, book_content, book_status, book_no) 
-			values <foreach collection="array" item="arr" separator="," open="(" close=", ">
-			 			#{arr}
-				   </foreach>
-				  default, book_seq.nextval) 
+		insert into book(book_name, book_writer, book_publisher,
+		book_category, book_img, book_pub_date, book_content, book_status,
+		book_no)
+		values
+		<foreach collection="array" item="arr" separator="," open="("
+			close=", ">
+			#{arr}
+		</foreach>
+		default, book_seq.nextval)
 	</insert>
+
+	
+	<select id="bookRentalStatusList" parameterType="map"
+		resultType="bookRentalStatus">
+		select * from
+		(select rownum as rnum, n.* from
+		(select rent_no as rentNo, book_no as bookNo, member_id as memberId, book_name as bookName
+		,rent_start_date as rentStartDate
+		,rent_end_date as rentEndDate, rent_return as rentReturn
+		from rent
+		left join book using(book_no) order by rent_no desc)n)
+		where rnum between
+		#{start} and #{end}
+	</select>
+	
+	<select id="rentTotalCount" resultType="_int">
+		select count(*) as cnt
+		from rent
+	</select>
+
+	<select id="selectRentTotalCount" parameterType="map" resultType="_int">
+		select count(*) as cnt
+		from rent left join book using(book_no)
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+		</trim>
+	</select>
+	
+	<select id="bookSearchRentalStatusList" parameterType="map"
+		resultType="bookRentalStatus">
+		select * from
+		(select rownum as rnum, n.* from
+		(select rent_no as rentNo, book_no as bookNo, member_id as memberId, book_name as bookName
+		,rent_start_date as rentStartDate
+		,rent_end_date as rentEndDate
+		,rent_return as rentReturn
+		from rent left join book using(book_no)
+		<trim prefix="where">
+		<if test="selectColumn.equals('아이디') and search != ''">
+			member_id like '%' || #{search} || '%'
+		</if>
+		<if test="selectColumn.equals('책 제목') and search != ''">
+			book_name like '%' || #{search} || '%'
+		</if>
+		</trim>
+		order by rent_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="selectExcelRentList" parameterType="_int" resultType="bookRentalStatus">
+		select rent_no as rentNo, book_no as bookNo, member_id as memberId, book_name as bookName
+		,rent_start_date as rentStartDate
+		,rent_end_date as rentEndDate
+		,rent_return as rentReturn
+		from rent left join book using(book_no) where rent_no=#{rentNo}
+	</select>
+
+	<select id="searchBookNo" parameterType="Cart" resultType="_int">
+		SELECT BOOK_NO as bookNo
+		FROM(SELECT *
+			FROM BOOK 
+			WHERE BOOK_NAME = #{bookName} AND BOOK_PUBLISHER = #{bookPublisher}
+			 AND BOOK_WRITER = #{bookWriter} AND BOOK_STATUS = 0)
+		<![CDATA[ WHERE ROWNUM <= 1 ]]>
+	</select>	
+	<select id="userWriterList" parameterType="member" resultType="bookAndReview">
+		select book_writer as bookWriter, count(book_writer) as cnt
+		from book
+		where book_no in (select book_no 
+							from rent 
+							where member_id = #{memberId})
+		group by book_writer
+		order by cnt desc
+	</select>
+	<select id="userBookAndReviewList" parameterType="map" resultType="bookAndReview">
+	
+				select * from 
+			    (select rownum as rnum, n.* from 
+			        (SELECT 
+			        	book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
+			        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
+			        	book_content as bookContent, avg_score as avgScore, cnt	
+			        FROM 
+				<choose>
+					<when test="preferCategory1 != null and preferCategory2 != null and preferCategory3 != null">
+					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}, #{preferCategory2}, #{preferCategory3}) group by book_name) order by BOOK_NO desc) 
+					</when>
+					<when test="preferCategory1 != null and preferCategory2 != null and preferCategory3 == null">
+					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}, #{preferCategory2}) group by book_name) order by BOOK_NO desc) 
+					</when>
+					<when test="preferCategory1 != null and preferCategory2 == null and preferCategory3 == null">
+					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}) group by book_name) order by BOOK_NO desc) 
+					</when>
+					<when test="preferCategory1 == null and preferCategory2 == null and preferCategory3 == null">
+					            (SELECT * from book where rowid in (select max(rowid) from book group by book_name)) 
+					</when>
+				</choose>
+			            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
+			                LEFT JOIN REVIEW USING (BOOK_NAME)
+			                GROUP BY BOOK_NAME)
+		            USING (BOOK_NAME))n)
+		        where rnum BETWEEN 1 and 10					
+	</select>
+	<select id="refreshBookList"  parameterType="map" resultType="bookAndReview">
+	
+				select * from 
+			    (select rownum as rnum, n.* from 
+			        (SELECT 
+			        	book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
+			        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
+			        	book_content as bookContent, avg_score as avgScore, cnt	
+			        FROM 
+				<choose>
+					<when test="preferCategory1 != null and preferCategory2 != null and preferCategory3 != null">
+					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}, #{preferCategory2}, #{preferCategory3}) group by book_name) order by BOOK_NO desc) 
+					</when>
+					<when test="preferCategory1 != null and preferCategory2 != null and preferCategory3 == null">
+					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}, #{preferCategory2}) group by book_name) order by BOOK_NO desc) 
+					</when>
+					<when test="preferCategory1 != null and preferCategory2 == null and preferCategory3 == null">
+					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}) group by book_name) order by BOOK_NO desc) 
+					</when>
+					<when test="preferCategory1 == null and preferCategory2 == null and preferCategory3 == null">
+					            (SELECT * from book where rowid in (select max(rowid) from book) group by book_name) order by BOOK_NO desc) 
+					</when>
+				</choose>
+			            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
+			                LEFT JOIN REVIEW USING (BOOK_NAME)
+			                GROUP BY BOOK_NAME)
+		            USING (BOOK_NAME))n)
+	</select>
 	<select id="LostBookTotalCount1" resultType="_int">
 		select count(*) as cnt from book where book_status=5
 	</select>
@@ -223,4 +457,5 @@
 			 #{arr}
 		</foreach>
 	</update>
+
 </mapper>

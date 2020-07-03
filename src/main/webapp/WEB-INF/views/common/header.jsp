@@ -23,10 +23,14 @@
 	</div>
 	<div class="headermiddle">
 		<label for="keyword">
-			<form action="/" method="get">
-				<label for="search"><img src="/resources/imgs/fDot.png"></label> <input
-					type="text" placeholder="필요한 도서정보에 대해 검색해보세요~!" id="keyword"><input
-					type="submit" id="search"> <img src="/resources/imgs/x.png" id="x">
+			<form action="/rent/searchBookDetail.do" method="get">
+				<label for="search"><img src="/resources/imgs/fDot.png"></label>
+					<input type="text" placeholder="필요한 도서정보에 대해 검색해보세요~!" id="keyword"  name="inputText" value="${inputText }">
+					<input type="submit" id="search"> <img src="/resources/imgs/x.png" id="x">
+					<input type="hidden" name="categorySelect" value="">
+					<input type="hidden" name="bookAttr" value="book_name">
+					<input type="hidden" name="reqPage" value="1">
+					<input type="hidden" name="sort" value="book_name">
 			</form>
 		</label>
 	</div>
@@ -36,7 +40,7 @@
 				<!--로그인되어있지않을때 -->
 				<li><a href="/member/loginFrm.do">로그인</a></li>
 				<li><a href="/member/join.do">회원가입</a></li>
-				<li><a href="#">장바구니</a></li>
+				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
@@ -48,7 +52,7 @@
 				<li><a href="#">${sessionScope.member.memberName }님</a></li>
 				</c:if>
 				<li><a href="/member/logout.do">로그아웃</a></li>
-				<li><a href="#">장바구니</a></li>
+				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 			</c:if>
 		</ul>
 	</div>
@@ -58,7 +62,7 @@
 				<li><a href="/rent/goBookSearch.do?reqPage=1">도서 검색</a></li>
 				<li><a href="/goBookReturn.do">도서 반납</a></li>
 				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
-				<li><a href="#" data-toggle="tooltip" title="Try it!">취향분석</a></li>
+				<li><a href="/rent/goPreference.do" data-toggle="tooltip" title="Try it!">취향분석</a></li>
 			</ul>
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>

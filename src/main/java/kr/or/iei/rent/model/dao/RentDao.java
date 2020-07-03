@@ -1,5 +1,6 @@
 package kr.or.iei.rent.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndReview;
 import kr.or.iei.book.model.vo.BookData;
+import kr.or.iei.cart.model.vo.Cart;
+import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.rent.model.vo.RentAndCount;
 
 @Repository("rentDao")
 public class RentDao {
@@ -38,6 +44,32 @@ public class RentDao {
 	public List searchBookDetail(HashMap<?,?> map3) {
 		return sql.selectList("book.searchBookDetail", map3);
 	}
+
+	public int selectBookNo(Cart cart) {
+		return sql.selectOne("book.searchBookNo", cart);
+	}
+
+	public List userRentList(Member member) {
+		return sql.selectList("rent.userRentList",member);
+	}
+
+	public List userWriterList(Member member) {
+		return sql.selectList("book.userWriterList", member);
+	}
+
+	public List userRentDateList(Member member) {
+		return sql.selectList("rent.userRentDateList", member);
+	}
+
+	public List userBookAndReviewList(HashMap<String, String> preferCategory) {
+		return sql.selectList("book.userBookAndReviewList", preferCategory);
+	}
+
+	public List refreshBookList(HashMap<String, String> preferCategory) {
+		return sql.selectList("book.refreshBookList", preferCategory);
+	}
+
+
 
 
 }
