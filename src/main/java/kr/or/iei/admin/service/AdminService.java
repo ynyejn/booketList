@@ -76,7 +76,7 @@ public class AdminService {
 		return mpd;
 
 	}
-	public MemberPageData MemberSearchList(String selectColumn, String search, int reqPage, int selectCount) {
+	public MemberPageData MemberSearchList(String selectColumn, String search, int reqPage, int selectCount, String alignTitle, String alignStatus) {
 		int numPerPage = selectCount;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("selectColumn", selectColumn);
@@ -95,6 +95,8 @@ public class AdminService {
 		System.out.println("끝번호 : "+end);
 		map.put("start", start);
 		map.put("end", end);
+		map.put("alignTitle",alignTitle);
+		map.put("alignStatus",alignStatus);
 		ArrayList<Member> list = (ArrayList<Member>)dao.selectMemberList(map);
 		System.out.println("리스트 사이즈 : "+list.size());
 		
@@ -589,7 +591,7 @@ public class AdminService {
 		return brsp;
 
 	}
-	public BookRentalStatusPage bookSearchRentalStatusList(String selectColumn, String search, int reqPage, int selectCount) {
+	public BookRentalStatusPage bookSearchRentalStatusList(String selectColumn, String search, int reqPage, int selectCount, String alignTitle, String alignStatus) {
 		int numPerPage = selectCount;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("selectColumn", selectColumn);
@@ -608,6 +610,10 @@ public class AdminService {
 		System.out.println("끝번호 : "+end);
 		map.put("start", start);
 		map.put("end", end);
+		map.put("alignTitle",alignTitle);
+		map.put("alignStatus",alignStatus);
+		System.out.println("service alignTitle: "+alignTitle);
+		System.out.println("service alignStatus: "+alignStatus);
 		ArrayList<BookRentalStatus> list = (ArrayList<BookRentalStatus>)dao.bookSearchRentalStatusList(map);
 		
 		System.out.println("리스트 사이즈 : "+list.size());
