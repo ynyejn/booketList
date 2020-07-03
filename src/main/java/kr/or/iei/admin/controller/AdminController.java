@@ -240,7 +240,9 @@ public class AdminController {
 		int selectCount = Integer.parseInt(request.getParameter("selectCount"));
 		System.out.println("선택한 컬럼 : "+selectColumn);
 		System.out.println("찾고자 하는 검색어 : "+search);
-		MemberPageData mpd = service.MemberSearchList(selectColumn,search,reqPage,selectCount);
+		String alignTitle  = request.getParameter("alignTitle");
+		String alignStatus = request.getParameter("alignStatus");
+		MemberPageData mpd = service.MemberSearchList(selectColumn,search,reqPage,selectCount,alignTitle,alignStatus);
 		ArrayList<Member> list = mpd.getList();
 		String pageNavi = mpd.getPageNavi();
 		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -336,9 +338,14 @@ public class AdminController {
 	@RequestMapping(value="/cancelLostBookList.do")
 	public int cancelLostBookList(HttpServletRequest request,Model model, int reqPage) {
 		String[] params = request.getParameterValues("chBox");
-		int result = service.cancelLostBookList(params);
 		model.addAttribute("reqPage", reqPage);
-		return result;
+		int result = service.cancelLostBookList(params); // book_status 5에서 0 으로
+		if(result>0) {
+			int result2 = service.cancelLostBookList2(params); // rent table의 반납일자와 상태를 반납완료로 바꿈
+			return result2;
+		}
+		
+		return 0;
 	}
 
 
@@ -642,7 +649,11 @@ public class AdminController {
 			int selectCount = Integer.parseInt(request.getParameter("selectCount"));
 			System.out.println("선택한 컬럼 : "+selectColumn);
 			System.out.println("찾고자 하는 검색어 : "+search);
-			BookRentalStatusPage brsp = service.bookSearchRentalStatusList(selectColumn,search,aReqPage,selectCount);
+			String alignTitle  = request.getParameter("alignTitle");
+			String alignStatus = request.getParameter("alignStatus");
+			System.out.println("선택한 배열 제목 : "+alignTitle);
+			System.out.println("선택한 배열 상태 : "+alignStatus);
+			BookRentalStatusPage brsp = service.bookSearchRentalStatusList(selectColumn,search,aReqPage,selectCount,alignTitle,alignStatus);
 			
 			ArrayList<BookRentalStatus> list = brsp.getList();
 			String pageNavi = brsp.getPageNavi();

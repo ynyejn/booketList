@@ -230,6 +230,10 @@ public class AdminDao {
 		return sqlSession.update("rent.userLostRentUpdate",params);
 	}
 
+	public int cancelLostbookList2(String[] params) {
+		return sqlSession.update("rent.cancelLostbookList2",params);
+	}
+
 	 
 
 
