@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="book">
-
+<!-- 
 	<select id="searchBookDetailTotalCount" resultType="_int"
 		parameterType="map">
 		select count(*) as cnt
@@ -16,8 +16,9 @@
 		<if test="categorySelect != null and categorySelect!='' ">
 			and book_category = #{categorySelect}
 		</if>
-	</select>
-	<select id="searchBookDetail" resultType="bookAndReview"
+	</select> -->
+	
+<!-- 	<select id="searchBookDetail" resultType="bookAndReview"
 		parameterType="map">
 		select * from
 		(select rownum as rnum, n.* from
@@ -52,9 +53,9 @@
 			</when>
 		</choose>
 		)n)where rnum BETWEEN #{map.start} and #{map.end}
-	</select>
+	</select> -->
 
-	<select id="selectBookList" resultType="book"
+<!-- 	<select id="selectBookList" resultType="book"
 		parameterType="String">
 		select
 		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
@@ -63,7 +64,8 @@
 		book_status as bookStatus,
 		book_content as bookContent
 		from book
-
+	</select>
+	 -->
 	<select id="searchBookDetailTotalCount" resultType="_int" parameterType="map">
 		select count(*) as cnt 
 		from 
@@ -77,6 +79,7 @@
 			and book_category = #{categorySelect}
 		</if>
 	</select>
+	
 	<select id="searchBookDetail" resultType="bookAndReview" parameterType="map">
 		select * from 
 		    (select rownum as rnum, n.* from 
@@ -107,13 +110,13 @@
 					</choose>
 		        )n)where rnum BETWEEN #{map.start} and #{map.end}
 	</select>
+	
 	<select id="selectBookList" resultType="book" parameterType="String">
 		select 
 			book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
         	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
         	book_content as bookContent
 		from book 
-
 		where book_name = #{_param}
 	</select>
 
@@ -137,6 +140,7 @@
 		USING (BOOK_NAME))n)
 		where rnum BETWEEN #{start} and #{end}
 	</select>
+	
 	<select id="totalCountBook" resultType="_int">
 		select count(*) as cnt
 		from
@@ -146,16 +150,11 @@
 		JOIN (SELECT BOOK_NAME FROM BOOK LEFT JOIN REVIEW USING (BOOK_NAME) GROUP
 		BY BOOK_NAME) USING (BOOK_NAME))
 	</select>
+	
 	<select id="bookTotalCount" resultType="_int">
 		select count(*) as cnt
 		from book
 	</select>
-
-
-	<select id="bookTotalCount3" parameterType="map"
-		resultType="_int">
-		select count(*) as cnt from book where
-		<if test="searchTitle.equals('도서이름')">
 
 	<select id="bookTotalCount3" parameterType="map" resultType="_int">
 		select count(*) as cnt from book where 
@@ -209,6 +208,7 @@
 		order by book_no desc)n)
 		where rnum between #{start} and #{end}
 	</select>
+	
 	<delete id="deleteBookList">
 		delete from book where
 		book_no in
@@ -217,6 +217,7 @@
 			#{arr}
 		</foreach>
 	</delete>
+	
 	<select id="selectOneBookList" parameterType="_int"
 		resultType="book">
 		select book_no as bookNo,
@@ -231,15 +232,18 @@
 		from book
 		where book_no = #{bookNoo}
 	</select>
+	
 	<delete id="selectOneBookDelete" parameterType="_int">
 		delete from book
 		where book_no = #{bookNo}
 	</delete>
+	
 	<select id="checkBookList" parameterType="String"
 		resultType="book">
 		select book_name as bookName from book where book_name =
 		#{string}
 	</select>
+	
 	<insert id="insertBookList">
 		insert into book(book_name, book_writer, book_publisher,
 		book_category, book_img, book_pub_date, book_content, book_status,

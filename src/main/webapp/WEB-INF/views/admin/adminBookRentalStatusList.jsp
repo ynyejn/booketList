@@ -195,7 +195,7 @@
 				checkArr.push($(this).attr("data-rentNo"));
 			});
 			console.log(checkArr);
-			location.href="/excelRentDown.do?checkArr="+checkArr;
+			location.href="/excelRentDown.do?checkArr="+checkArr
 
 		});
 

@@ -283,7 +283,16 @@
 		});
 
 	}
-	
+	function deleteMember(obj){
+		var memberId = $(obj).attr("data-memberId");
+		console.log(memberId);
+		var result = confirm("탈퇴시키시겠습니가?");
+		if(result){
+			location.href="/adminDeleteMember.do?memberId="+memberId;
+		}else{
+			
+		}
+	}
 </script>
 </head>
 

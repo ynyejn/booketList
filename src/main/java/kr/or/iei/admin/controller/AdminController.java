@@ -608,6 +608,7 @@ public class AdminController {
 	}
 	@RequestMapping("/adminDeleteMember.do")
 	public String adminDeleteMember(String memberId) {
+		System.out.println(memberId);
 		int result = service.adminDeleteMember(memberId);
 		System.out.println(result);
 		if(result > 0) {
@@ -661,6 +662,7 @@ public class AdminController {
 					arrRentEndDate[i] = strEndDate;
 				}
 			}
+			System.out.println("pageNavi : "+pageNavi);
 			BookRentalStatusSearchPage brssp = new BookRentalStatusSearchPage(list, pageNavi, arrRentStartDate,arrRentEndDate, aReqPage,selectCount);
 			return new Gson().toJson(brssp);
 		

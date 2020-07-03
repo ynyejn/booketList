@@ -618,8 +618,27 @@ public class AdminService {
 		if (pageNo != 1) {
 			pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'><span>«</span></a></li>";
 		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+			
+				pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
 		
-
+		if (pageNo <= totalPage) {
+			
+			pageNavi += "<li><a aria-label='Next' href='javascript:void(0)' onclick='searchPageNavi(this)'><span>»</span></a></li>";
+		}
+		BookRentalStatusPage brsp = new BookRentalStatusPage(list,pageNavi);
+		return brsp;
+	}
+	
 	public int detailComplainNo(int complainNo) {
 		return dao.detailComplainNo(complainNo);
 	}
@@ -671,8 +690,8 @@ public class AdminService {
 			pageNavi += "<li><a aria-label='Next' href='javascript:void(0)' onclick='searchPageNavi(this)'><span>»</span></a></li>";
 		}
 		
-		BookRentalStatusPage brsp = new BookRentalStatusPage(list,pageNavi);
-		return brsp;
+//		BookRentalStatusPage brsp = new BookRentalStatusPage(list,pageNavi);
+//		return brsp;
 
 		if (pageNo <= totalPage) {
 			pageNavi += "<li><a aria-label='Next' href='/adminLostBookList.do?reqPage=" + pageNo + "'><span>»</span></a></li>";
@@ -745,10 +764,6 @@ public class AdminService {
 		return dao.userLostRentUpdate(params);
 	}
 	
-	
-
-
-	}
 	public List selectExcelRentList(int rentNo) {
 		return dao.selectExcelRentList(rentNo);
 	}
