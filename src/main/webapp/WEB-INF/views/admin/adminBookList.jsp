@@ -16,10 +16,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>BooketList</title>
+<title>도서 관리페이지</title>
 
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
@@ -68,12 +68,6 @@
 			$('#profile').removeClass("active in");
 		}
 		
-		$(".searchList").click(function(){
-			var searchSelect = $(this).html();
-			$("#searchTitle").html("");
-			$("#searchTitle").html(searchSelect); 
-		});
-		
 		$('#myTab').children('a').click(function(e) {
 			e.preventDefault()
 			$(this).tab('show')
@@ -83,9 +77,9 @@
 		});
 	    $("#sear").click(function() {
 			var search = $("#search").val();
-			var searchTitle = $("#searchTitle").html();
+			var searchTitle = $("#searchTitle").find("option:selected").html();
 			alert(searchTitle);
-			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+$("#searchTitle").html();
+			location.href = "/adminBookList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+searchTitle;
 		}); 
 		$("#search").keydown(function(key){
 			if(key.keyCode == 13){
@@ -139,28 +133,27 @@
 			url : "/selectOneBookList.do",
 			type : "get",
 			data : {bookNo : no},
-			success:function(data){
-				$("#Bookin").children("table").children().remove(); 
+			success : function(data) {
+				$("#bookin").children("table").children().remove();
 				html = "";
-				html += "<tr><th colspan='2'>"+data.bookName+"</th><tr>"
+				html += "<tr><th colspan='2'>" + data.bookName + "</th><tr>"
 				html += "<tr><th><img src='"+data.bookImg+"'></th>";
 				html += "<th>";
-				html += "<span>- 작가 : "+data.bookWriter+"</span><br>";
-				html += "<span>- 출판사 : "+data.bookPublisher+"</span><br>";
-				html += "<span>- 장르 : "+data.bookCategory+"</span><br>";
-				html += "<span>- 출판일 : "+data.bookPubDate+"</span><br>";
+				html += "<span>- 작가 : " + data.bookWriter + "</span><br>";
+				html += "<span>- 출판사 : " + data.bookPublisher + "</span><br>";
+				html += "<span>- 장르 : " + data.bookCategory + "</span><br>";
+				html += "<span>- 출판일 : " + data.bookPubDate + "</span><br>";
 				html += "</th></tr>";
-				if(data.bookContent==null){
+				if (data.bookContent == null) {
 					html += "<tr><th colspan='2'></th><tr>"
-				}else{
-					html += "<tr><th colspan='2'>"+data.bookContent+"</th><tr>";
+				} else {
+					html += "<tr><th colspan='2'>" + data.bookContent+ "</th><tr>";
 				}
-				
-				
-				$("#Bookin").children("table").append(html);
-				
+
+				$("#bookin").children("table").append(html);
+
 			},
-			error:function(){
+			error : function() {
 				console.log("ajax통신 실패");
 			}
 		});
@@ -607,6 +600,57 @@
 										<li id="tt2" role="presentation" class=""><a
 											href="#profile" role="tab" id="profile-tab" data-toggle="tab"
 											aria-controls="profile" aria-expanded="false"><b>도서신청내역</b></a></li>
+										<li id="searchbar">
+											<div class="col-lg-6">
+												<div class="input-group" style="width: 350px;">
+													<div class="input-group-btn">
+
+														<select class="form-control"
+															style="width: 120px; height: 35px; margin-left: 10px;"
+															id="searchTitle" name="selectColumn">
+															<c:if test="${empty searchTitle }">
+																<option value="도서이름" selected>도서이름</option>
+																<option value="작가">작가</option>
+																<option value="출판사">출판사</option>
+																<option value="장르">장르</option>
+															</c:if>
+															<c:if test="${not empty searchTitle }">
+																<option value="도서이름"
+																	<c:if test="${searchTitle eq '도서이름' }">selected</c:if>>도서이름</option>
+																<option value="작가"
+																	<c:if test="${searchTitle eq '작가' }">selected</c:if>>작가</option>
+																<option value="출판사"
+																	<c:if test="${searchTitle eq '출판사' }">selected</c:if>>출판사</option>
+																<option value="장르"
+																	<c:if test="${searchTitle eq '장르' }">selected</c:if>>장르</option>
+															</c:if>
+
+														</select>
+
+
+													</div>
+													<!-- 검색창, 검색모양 -->
+													<c:if test="${not empty search }">
+														<input type="text" class="form-control" aria-label="..."
+															id="search" value="${search }"
+															style="width: 180px; float: left;">
+														<span class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+													</c:if>
+													<c:if test="${empty search }">
+														<input type="text" class="form-control " aria-label="..."
+															style="width: 180px; float: left;" id="search">
+														<span class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+													</c:if>
+												</div>
+											</div>
+
+										</li>
+										<!-- 검색 메뉴 드롭다운 -->
+
+
+
 									</ul>
 									<!-- 도서내역 리스트 받아올 때 -->
 									<div id="myTabContent" class="tab-content">
@@ -640,14 +684,21 @@
 
 												</tbody>
 											</table>
-											<nav id="footNav2">
+											<nav id="footNav2" style="text-align: center;">
+												<div style="margin-top: 20px; float: left;">
+													<button type="button" class="btn btn-default"
+														id="selDelete" >선택삭제</button>
+													<button type="button" class="btn btn-default"
+														id="insertBook" data-toggle="modal"
+														data-target="#myModal2"
+														>도서등록</button>
+												</div>
+												<div id="sel" style="float: right; margin-top: 20px;">
+													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												</div>
 												<ul class="pagination">${pageNavi1 }</ul>
 											</nav>
-											<div id="sel">
-												<button type="button" class="btn btn-default" id="selDelete">선택삭제</button>
-												<button type="button" class="btn btn-default"
-													id="insertBook" data-toggle="modal" data-target="#myModal2">도서등록</button>
-											</div>
+
 
 										</div>
 
@@ -668,7 +719,8 @@
 												<tbody>
 													<c:forEach items="${list2 }" var="p" varStatus="i">
 														<tr class="move" id="move2"
-															onclick="detail2(${p.applyNo },${reqPage2 })" data-toggle="modal" data-target="#myModal3">
+															onclick="detail2(${p.applyNo },${reqPage2 })"
+															data-toggle="modal" data-target="#myModal3">
 															<th scope="row">${(reqPage2-1)*10 + i.count }</th>
 															<td class="width1">${p.memberId }</td>
 															<td class="width2">${p.bookName }</td>
@@ -685,7 +737,10 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<nav id="footNav2">
+											<nav id="footNav2" style="text-align: center;">
+												<div id="sel" style="float: right; margin-top: 20px;">
+													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												</div>
 												<ul class="pagination">${pageNavi2 }</ul>
 											</nav>
 										</div>
@@ -703,7 +758,7 @@
 											<div class="modal-header">
 												<h4 class="modal-title" id="myModalLabel">도서 상세보기</h4>
 											</div>
-											<div class="modal-body" id="Bookin" style="height: 500px">
+											<div class="modal-body" id="bookin" style="height: 500px">
 												<table class="table table-bordered">
 												</table>
 
@@ -722,8 +777,8 @@
 
 
 								<!-- 도서신청 상세보기 모달 -->
-								<div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal fade" id="myModal3" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -737,10 +792,11 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">돌아가기</button>
-												
+
 												<input type="hidden" id="selectApply">
 												<button type="button" class="btn btn-primary"
-													id="detailUpdate1" onclick="updateBookList1(this)">도서 등록</button>
+													id="detailUpdate1" onclick="updateBookList1(this)">도서
+													등록</button>
 												<button type="button" class="btn btn-primary"
 													id="detailUpdate2" onclick="updateBookList2(this)">반려</button>
 
@@ -748,7 +804,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<!-- 도서등록 모달 -->
 								<div class="modal fade" id="myModal2" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -773,7 +829,7 @@
 														<th class="width1">선택</th>
 													</tr>
 												</table>
-												
+
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
@@ -783,128 +839,117 @@
 									</div>
 								</div>
 
-								<!-- 검색 메뉴 드롭다운 -->
-								<div class="col-lg-6">
-									<div class="input-group">
-										<div class="input-group-btn">
-											<button id="searchTitle"
-												class="btn btn-default dropdown-toggle" type="button"
-												data-toggle="dropdown" aria-expanded="false">
-												<c:if test="${empty searchTitle }">도서이름</c:if>
-												<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
-											</button>
-											<ul class="dropdown-menu" role="menu">
-												<li><a class="searchList">도서이름</a></li>
-												<li><a class="searchList">작가</a></li>
-												<li><a class="searchList">출판사</a></li>
-												<li><a class="searchList">장르</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								
-								<!-- 검색창, 검색모양 -->
-								<c:if test="${not empty search }">
-									<input type="text" class="form-control" aria-label="..."
-										id="search" value="${search }" style="witdh: 300px">
-									<span class="glyphicon glyphicon-search" id="sear"></span>
-								</c:if>
-								<c:if test="${empty search }">
-									<input type="text" class="form-control " aria-label="..."
-										id="search">
-									<span class="glyphicon glyphicon-search" id="sear"></span>
-								</c:if>
+
 
 								<!-- /.col-lg-6 -->
 
-								<button type="button" class="btn btn-default" id="back">돌아가기</button>
-
-<script type="text/javascript">
+								<script type="text/javascript">
    //function setParentText(){
        // opener.document.getElementById("bookName").innerHTML = document.getElementsByClassName(".bookName").innerHTML;
        // console.log(document.getElementsByClassName(".bookName").innerHTML+"dd");
    //}
+   var reqPage = 1;
+   var start = 1;
    var apply = "";
+   var title = "";
       $(function() {
          $(".searchAl").click(function() {
-            var title = $("#searchcontent").val();
+            title = $("#searchcontent").val();
+            reqPage = 1;
+            start = 1;
+            $(".addBookList>tbody").children(".apply").remove();
+            insertSearchBook(1);
             
-            $.ajax({
-               url : "/aladdin.do",
-               data : { title:title },
-               success : function(data){
-            	  $(".addBookList>tbody").children(".apply").remove();
-                  html="";
-                  for(var i=0;i<data.length;i++){
-                     html+="<tr class='apply'><td><input type='hidden' class='bookImg'value='"+data[i].bookImg+"'><img src='"+data[i].bookImg+"'></td>";
-                     html+="<td class='bookName'>"+data[i].bookName+"</td>";
-                     html+="<td class='bookPubDate'>"+data[i].bookPubDate+"</td>";
-                     html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
-                     html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
-                     html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
-                     if(data[i].bookContent==""){
-                        html+="<td class='bookContent'>내용 없음</td>";
-                     }else{
-                        html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
-                     }
-                     if(data[i].selectCheck==0){
-                        html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
-                     }else{
-                        html+="<td>이미 책이 있습니다.</td></tr>";
-                     }
-                     
-                     
-                  }
-                  $(".addBookList>tbody").append(html);
-                  
-                  $(".reqBook").click(function () {
-                	  var checkArr = new Array();
-                	  checkArr.push($(this).parent().parent().find(".bookName").html());
-                	  checkArr.push($(this).parent().parent().find(".bookWriter").html());
-                	  checkArr.push($(this).parent().parent().find(".bookPublisher").html());
-                	  checkArr.push($(this).parent().parent().find(".bookCategory").html());
-                	  checkArr.push($(this).parent().parent().find(".bookImg").val());
-                	  var bookPubDate = $(this).parent().parent().find(".bookPubDate").html();
-                	  var array = bookPubDate.split(",");
-                      var aa = array[0].split("월 ");
-                      var apply = array[1]+"-"+aa[0]+"-"+aa[1]; 
-                      
-                      alert(apply);
-
-                	  checkArr.push(apply);
-                	  checkArr.push($(this).parent().parent().find(".bookContent").html());
-                	  
-                	  
-                	  if(confirm("선택 도서를 등록 하시겠습니까?")){
-          					
-          					$.ajax({
-          						url : "/insertBookList.do",
-          						type : "get",
-          						traditional : true,
-          						data : {insertContent : checkArr},
-          						success : function(result){
-          							
-          							if(result > 0){
-          								alert("도서 등록이 완료되었습니다.");
-          								location.href = "/adminBookList.do?reqPage=1&check=1&reqPage2=1";
-          							}else{
-          								alert("도서가 이미 존재합니다.");
-          							}
-          						}
-          						
-          					});
-          			}else{
-          				return false;
-          			}
-                	  
-                  });
-               },
-               error : function(){
-                  console.log("ajax통신 실패")
-               }
-            });
          })
       })
+      
+      function insertSearchBook(reqPage){
+    	  
+    	  if(reqPage != 1){
+    		  start += 10;
+    	  }
+    	  reqPage += 1;
+    	  $(".newPlus").remove();
+    	  $.ajax({
+              url : "/aladdin.do",
+              data : { title:title, start:start },
+              success : function(data){
+           	  console.log(data);
+                 html="";
+                 for(var i=0;i<data.length;i++){
+                    html+="<tr class='apply'><td><input type='hidden' class='bookImg'value='"+data[i].bookImg+"'><img src='"+data[i].bookImg+"'></td>";
+                    html+="<td class='bookName'>"+data[i].bookName+"</td>";
+                    html+="<td class='bookPubDate'>"+data[i].bookPubDate+"</td>";
+                    html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
+                    html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
+                    html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
+                    if(data[i].bookContent==""){
+                       html+="<td class='bookContent'>내용 없음</td>";
+                    }else{
+                       html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
+                    }
+                    if(data[i].selectCheck==0){
+                       html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
+                    }else{
+                       html+="<td>이미 책이 있습니다.</td></tr>";
+                    }
+                    
+                    
+                 }
+                 
+                 
+                 $(".addBookList>tbody").append(html);
+                 
+                 $(".addBookList>tbody").append("<tr class='newPlus' colspan='8' onclick='insertSearchBook("+reqPage+")'><th><a>더 보기</a></th></tr>");
+                 
+                 
+                 $(".reqBook").click(function () {
+               	  var checkArr = new Array();
+               	  checkArr.push($(this).parent().parent().find(".bookName").html());
+               	  checkArr.push($(this).parent().parent().find(".bookWriter").html());
+               	  checkArr.push($(this).parent().parent().find(".bookPublisher").html());
+               	  checkArr.push($(this).parent().parent().find(".bookCategory").html());
+               	  checkArr.push($(this).parent().parent().find(".bookImg").val());
+               	  var bookPubDate = $(this).parent().parent().find(".bookPubDate").html();
+               	  var array = bookPubDate.split(",");
+                     var aa = array[0].split("월 ");
+                     var apply = array[1]+"-"+aa[0]+"-"+aa[1]; 
+                     
+                     alert(apply);
+
+               	  checkArr.push(apply);
+               	  checkArr.push($(this).parent().parent().find(".bookContent").html());
+               	  
+               	  
+               	  if(confirm("선택 도서를 등록 하시겠습니까?")){
+         					
+         					$.ajax({
+         						url : "/insertBookList.do",
+         						type : "get",
+         						traditional : true,
+         						data : {insertContent : checkArr},
+         						success : function(result){
+         							
+         							if(result > 0){
+         								alert("도서 등록이 완료되었습니다.");
+         								location.href = "/adminBookList.do?reqPage=1&check=1&reqPage2=1";
+         							}else{
+         								alert("도서가 이미 존재합니다.");
+         							}
+         						}
+         						
+         					});
+         			}else{
+         				return false;
+         			}
+               	  
+                 });
+              },
+              error : function(){
+                 console.log("ajax통신 실패")
+              }
+           });
+      }
 </script>
 
 

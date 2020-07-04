@@ -3,6 +3,7 @@ package kr.or.iei.common;
 import java.io.FileOutputStream;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +32,7 @@ import kr.or.iei.apply.model.dao.ApplyDao;
 import kr.or.iei.apply.model.service.ApplyService;
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookPageData;
 
 //import kr.or.iei.member.model.vo.Book;
 
@@ -41,13 +43,14 @@ public class AladdinAPI {
 	private ApplyDao dao;
 	@ResponseBody
 	@RequestMapping(value="/aladdin.do", produces = "application/json; charset=utf-8")
-	public String aladdin(String title, HttpServletRequest request) {
-
+	public String aladdin(String title, HttpServletRequest request, int start) {
 		System.out.println("title:"+title);
+		System.out.println("start"+start);
+		
 		String BASE_URL ="";
 		//20070901 20131101
 		//베스트셀러
-		BASE_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbbang82550812001&Query="+title+"&QueryType=Bestseller&MaxResults=100&start=1&SearchTarget=Book&output=js&Version=20070901";
+		BASE_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbbang82550812001&Query="+title+"&QueryType=Bestseller&MaxResults=10&start="+start+"&SearchTarget=Book&output=js&Version=20070901";
 		//편집자 추천
 //		BASE_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbbang82550812001&Query="+title+"&QueryType=ItemEditorChoice&MaxResults=100&start=1&SearchTarget=Book&output=js&Version=20070901";
 		//인기 신간
@@ -82,7 +85,10 @@ public class AladdinAPI {
 				System.out.println(resultJson2.get(0).getAsJsonObject().get("pubDate").getClass().getName());
 				System.out.println(resultJson2.get(0).getAsJsonObject().get("pubDate").getAsString().getClass().getName());
 				
+				
+				
 				ArrayList<Book> list = new ArrayList<Book>();
+				
 				System.out.println(resultJson2.size());
 				for(int i=0; i<resultJson2.size(); i++) {
 					Book b = new Book();
@@ -108,6 +114,8 @@ public class AladdinAPI {
 				
 				System.out.println("listSize : "+list.size()+"!!");
 				
+				
+				return new Gson().toJson(list);				
 				////////////////////////
 				////////엑셀파일로 빼기//////
 				////////////////////////
@@ -119,7 +127,7 @@ public class AladdinAPI {
 //				
 //				//Sheet명 설정
 //				XSSFSheet sheet = workbook.createSheet("mySheet");
-				
+
 //				for(int i=0; i<list.size(); i++) {
 //					//출력 row 생성
 //					row = sheet.createRow(i);
@@ -135,19 +143,19 @@ public class AladdinAPI {
 //					row.createCell(8).setCellValue(list.get(i).getBookContent());
 //					row.createCell(9).setCellValue(list.get(i).getSelectCheck());
 //				}
-
-				// 출력 파일 위치및 파일명 설정
-
+//
+//				// 출력 파일 위치및 파일명 설정
+//
 //				FileOutputStream outFile;
-				try {
+//				try {
 //					outFile = new FileOutputStream("인기신간 다.xlsx");
 //					workbook.write(outFile);
 //					outFile.close();		
-					System.out.println("파일생성 완료");
-					return new Gson().toJson(list);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//					System.out.println("파일생성 완료");
+//					return new Gson().toJson(list);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			} else {
 				
 				System.out.println("response is error : " + response.getStatusLine().getStatusCode());

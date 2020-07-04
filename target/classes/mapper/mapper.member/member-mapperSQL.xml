@@ -33,6 +33,7 @@
 		where member_id=#{memberId}
 		and member_pw=#{memberPw}
 	</select>
+	
 	<select id="selectMemberTotalCount" parameterType="map" resultType="_int">	
 	select count(*) as cnt from member where
 		<if test = "selectColumn.equals('member_id')">
@@ -48,6 +49,24 @@
 			member_nickname like '%' || #{search} || '%'
 		</if>
 	</select>
+	<select id="memberTotalCount" resultType="_int">
+		select count(*) as cnt from member
+	</select>
+	<select id="selectMember" resultType="member">
+		select * from 
+			(select rownum as rnum, n.* from
+				(select
+			member_no as memberNo,
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			member_email as memberEmail,
+			member_phone as memberPhone,
+			enroll_date as enrollDate,
+			member_nickname as memberNickname
+		from member order by member_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
 	<select id="selectMemberList" parameterType="map" resultType="member">
 		select * from 
 			(select rownum as rnum, n.* from
@@ -60,20 +79,65 @@
 			member_phone as memberPhone,
 			enroll_date as enrollDate,
 			member_nickname as memberNickname
-		from member where
-		<if test = "selectColumn.equals('member_id')">
-			member_id like '%' || #{search} || '%'
-		</if>
-		<if test = "selectColumn.equals('member_name')">
-			member_name like '%' || #{search} || '%'
-		</if>
-		<if test = "selectColumn.equals('member_email')">
-			member_email like '%' || #{search} || '%'
-		</if>
-		<if test = "selectColumn.equals('member_nickname')">
-			member_nickname like '%' || #{search} || '%'
-		</if>
-		order by member_no desc)n)
+		from member
+		<trim prefix="where">
+			<if test="selectColumn.equals('member_id') and search != null">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('member_name') and search != null">
+				member_name like '%' || #{search} || '%'
+			</if>
+			<if test = "selectColumn.equals('member_email') and search != null">
+				member_email like '%' || #{search} || '%'
+			</if>
+			<if test = "selectColumn.equals('member_nickname') and search != null">
+				member_nickname like '%' || #{search} || '%'
+			</if>
+		</trim>	
+		<choose>
+			<when test="alignTitle=='' and alignStatus==''">
+			order by member_no desc)n)
+			</when>
+			<when test="alignTitle==null and alignStatus==null">
+			order by member_no desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="0"'>
+			order by member_id desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="1"'>
+			order by member_id asc)n)
+			</when>
+			<when test='alignTitle.equals("이름") and alignStatus=="0"'>
+			order by member_name desc)n)
+			</when>
+			<when test='alignTitle.equals("이름") and alignStatus=="1"'>
+			order by member_name asc)n)
+			</when>
+			<when test='alignTitle.equals("이메일") and alignStatus=="0"'>
+			order by member_email desc)n)
+			</when>
+			<when test='alignTitle.equals("이메일") and alignStatus=="1"'>
+			order by member_email asc)n)
+			</when>
+			<when test='alignTitle.equals("전화번호") and alignStatus=="0"'>
+			order by member_phone desc)n)
+			</when>
+			<when test='alignTitle.equals("전화번호") and alignStatus=="1"'>
+			order by member_phone asc)n)
+			</when>
+			<when test='alignTitle.equals("닉네임") and alignStatus=="0"'>
+			order by member_nickname asc)n)
+			</when>
+			<when test='alignTitle.equals("닉네임") and alignStatus=="1"'>
+			order by member_nickname desc)n)
+			</when>
+			<when test='alignTitle.equals("가입일") and alignStatus=="0"'>
+			order by enroll_date asc)n)
+			</when>
+			<when test='alignTitle.equals("가입일") and alignStatus=="1"'>
+			order by enroll_date desc)n)
+			</when>
+		</choose>
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="selectExcelList" parameterType="String" resultType="member">

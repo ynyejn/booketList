@@ -77,32 +77,28 @@
 	#back{
 		background-color: black;
 		color : white;
-		width: 90px;
-		height: 40px;
-		float : right;
-		margin-top : 20px;
+		
+		
 	}
 	#back:hover{
 		background-color: #E2E2E2;
 		color : black;
 	}
-	#search{
-		width: 200px;
-	}
-	#footNav2{
+	
+	/* #footNav2{
 		border-bottom: none;
 		width : 300px;
 		float : left;
 		padding-top: none;
 		margin-right: 200px;
-	}
-	#footNav{
+	} */
+	/* #footNav{
 		border-bottom: none;
 		width : 300px;
 		float : left;
 		padding-top: none;
 		margin-right: 200px;
-	}
+	} */
 	#sear{
 		font-size: 25px;
 		margin-top: 5px;
@@ -122,11 +118,19 @@
 		float:left;
 	}
 	
-	#sel{
-		float : right;
-		width: 300px;
-	}
+	
 	.modal-body{
 		overflow: scroll;
 	}
+	#searchbar {
+	position: absolute;
+	right: 0px;
+}
+#mytab {
+	position: relative;
+}
+
+#mytab>li {
+	display: inline-block;
+}
 	

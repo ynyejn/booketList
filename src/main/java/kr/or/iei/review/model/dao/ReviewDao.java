@@ -1,11 +1,13 @@
 package kr.or.iei.review.model.dao;
 
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.review.model.vo.Review;
 
@@ -19,18 +21,20 @@ public class ReviewDao {
 		// TODO Auto-generated constructor stub
 	}
 
+	public List userReviewList(Member member) {
+		return sql.selectList("review.userReviewList", member);
+	}
+
 	public List selectReview() {
 		
 		return sql.selectList("review.selectReview");
 	}
 
 	public List reviewSelectBook(String memberId) {
-		
 		return sql.selectList("review.reviewSelectBook",memberId);
 	}
 
-	public int reviewInsert(Review review) {
-	
+	public int reviewInsert(Review review) {	
 		return sql.insert("review.reviewInsert",review);
 	}
 

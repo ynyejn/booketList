@@ -40,6 +40,7 @@ public class MemberController {
 	public MemberController() {
 		super();
 	}
+
 	@RequestMapping(value="/join.do")
 	public String join(Member m) {
 
@@ -111,5 +112,6 @@ public class MemberController {
 	
 	
 	
+
 
 }
