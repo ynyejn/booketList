@@ -31,7 +31,7 @@
 	console.log(memberNickname);
 	
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.28/openChatting.do?memberNickname="+memberNickname+" "+title);
+		ws = new WebSocket("ws://192.168.219.101/openChatting.do?memberNickname="+memberNickname+" "+title);
 		
 		ws.onopen = function () {
 			console.log("웹소켓 연결 생성");

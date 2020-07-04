@@ -2,6 +2,7 @@ package kr.or.iei.apply.model.vo;
 
 import java.sql.Date;
 
+
 import lombok.Data;
 @Data
 public class Apply {

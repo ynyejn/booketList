@@ -2,6 +2,7 @@ package kr.or.iei.spot.model.vo;
 
 import java.util.ArrayList;
 
+
 import lombok.Data;
 @Data
 public class SpotPageData {
