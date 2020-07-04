@@ -162,7 +162,7 @@
     }
 
     .bookList>li:hover {
-        background-color: #ebedf4;
+        background-color: #C8DDF0;
         cursor: default;
     }
 
@@ -171,6 +171,7 @@
         padding: 9px 50px;
         background-color: white;
         margin-top: 10px;
+        border: 1px solid #e5e5e5;
     }
 
     .returnBook {

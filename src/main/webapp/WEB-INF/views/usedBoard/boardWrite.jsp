@@ -44,7 +44,6 @@
         overflow: hidden;
         margin: 0 auto;
         padding-bottom: 200px;
-        border: 1px solid lightgray;
     }
 
     .check {
@@ -91,11 +90,23 @@
         background-color: white;
         margin: 0 auto;
         margin-top: 30px;
+        padding-bottom: 70px;
+        border: 1px solid #e5e5e5;
+        text-align: center;
+    }
+    .boardFrame>span{
+        float: right;
+        font-size: 14px;
+        margin-right: 50px;
+        margin-top: 30px;
+        color: #495057;
     }
 
     .boardFrame>form>table {
+        text-align: left;
         width: 1000px;
-        margin: 30px auto;
+        margin: 0px auto;
+        margin-top: 30px;
         border-top: 1px solid #585858;
         border-bottom: 1px solid #585858;
     }
@@ -122,12 +133,24 @@
 
     .boardFrame>form input {
         border: 1px solid lightgray;
-        width: 95%;
+        width: 250px;
         height: 35px;
     }
-
-    .boardFrame>form input[type=text] {
-        width: 95%;
+    .boardFrame button {
+        width: 115px;
+        height: 40px;
+        margin: 5px;
+        margin-top: 40px;
+        border: 1px solid #666666;
+        border-radius: 5px;
+        font-size: 15px;
+        color: #495057;
+        background-color: white;
+    }
+    .boardFrame button[type=submit]{
+        background-color: #222222;
+        color: white;
+        border: none;
     }
 
 </style>
@@ -152,35 +175,35 @@
 
             </div>
             <div class="boardFrame">
-                <form action="#" method="get">
+                <span><span style="color: #fc3f3f;">*</span> 필수 입력 사항</span>
+                <form action="/insertBoard.do" method="get" onsubmit="return checkFunc();">
                     <table>
                         <tr>
                             <td>분류</td>
-                            <td><select name="usedType" style="width: 200px; height: 35px; border: 1px solid lightgray;">
+                            <td><select name="usedType" style=" width:200px; height: 35px; border: 1px solid lightgray;">
                                     <option value="기증">기증</option>
                                     <option value="판매">판매</option>
                                 </select></td>
                         </tr>
                         <tr>
                             <td>글제목<span style="color: #fc3f3f;">*</span></td>
-                            <td><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." required></td>
+                            <td><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." style="width:100%;" required></td>
                         </tr>
                         <tr>
                             <td>내용<span style="color: #fc3f3f;">*</span></td>
-                            <td><textarea class="form-control" id="p_content"></textarea>
+                            <td><textarea class="form-control" id="p_content" name="usedContent"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>비밀번호<span style="color: #fc3f3f;">*</span></td>
-                            <td><input type="password" required></td>
+                            <td><input type="password" name="usedPw" placeholder="ex ) 1234" required></td>
                         </tr>
-                        <tr>
-                        <td>계좌번호</td>
-                        <td><select name="bank" style='width: 100px; height: 35px; border: 1px solid lightgray;'>
-                            <option value='국민은행'>국민은행</option>
-                            </select><input type='text' name='usedInfo' style='width:200px; margin-left:5px;'></td>
+                        <tr class='infoTr'>
+                            <td>기증자 명</td>
+                            <td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td>
                         </tr>
                     </table>
+                    <button type="submit">등록</button><button type="button" onclick="location.href='/goUsedBoard.do'">취소</button>
                 </form>
             </div>
         </div>
@@ -190,17 +213,30 @@
 <script>
     //ck에디터
     CKEDITOR.replace('p_content', {
-        height: 500
+        height: 400
     });
-    $("select").change(function() {
-        var html = "";
-        if ($(this).val() == '기증') {
-            html += "<tr><td>기증자 명</td><td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td></tr>";
-        } else {
-
-        }
+    $(function() {
+        $("select").change(function() {
+            var html = "";
+            if ($(this).val() == '기증') {
+                html += "<tr class='infoTr'><td>기증자 명</td><td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td></tr>";
+            } else {
+                html += "<tr class='infoTr'><td >계좌번호<span style='color: #fc3f3f;'>*</span></td><td><select name='bank' style='width: 100px; height: 35px; border: 1px solid lightgray;'>";
+                html += "<option value='국민은행'>국민은행</option><option value='우리은행'>우리은행</option><option value='신한은행'>신한은행</option><option value='기업은행'>기업은행</option><option value='하나은행'>하나은행</option><option value='외환은행'>외환은행</option><option value='농협'>농협</option><option value='카카오뱅크'>카카오뱅크</option></select><input type='text' name='usedInfo' style='width:200px; margin-left:5px;'></td></tr>";
+            }
+            $(".infoTr").remove();
+            $(".boardFrame tbody").append(html);
+        });
     });
 
+    function checkFunc(){
+        var pw = $("input[name=usedPw]").val();
+        var regExp = /^[0-9]{4}$/;
+                if (!regExp.test(pw)) {
+                    alert("비밀번호는 숫자4글자로 입력해주세요.")
+                    return false;
+                } 
+    }
 </script>
 
 </html>
