@@ -16,7 +16,8 @@
 <input type="hidden" id="memberNickname"value="${c.memberNickname }">
 <input type="file" name="file" id="file">
 </form>
-<textarea rows="5" cols="30" id="msgArea"></textarea>
+<div id="msgArea"></div>
+
 	<br>
 	메세지 : <input type="text" id="chatMsg"><br>
 	
@@ -48,8 +49,8 @@
 		
 		ws.onmessage = function (e) {
 			var msg = e.data;
-			var chat = $("#msgArea").val()+"\n상대방 :"+msg;
-			$("#msgArea").val(chat);
+			var chat = $("#msgArea").html()+"\n상대방 :"+msg;
+			$("#msgArea").html(chat);
 		}
 		
 		ws.onclose = function () {
@@ -67,9 +68,9 @@
 	        var form = $("#ajaxFrom")[0];
 	        var formData = new FormData(form);
 	        var fileName = "";
-	        formData.append("message", "ajax로 파일 전송하기");
 	        formData.append("file", $("#file")[0].files[0]);
-
+			if($("#file")[0].files[0]!=null){
+				
 	        $.ajax({
 	              url : "/chat/ajaxFormReceive.do"
 	            , type : "POST"
@@ -80,9 +81,10 @@
 	            	console.log(data);
 	               fileName = data;
 	               console.log(fileName);
-	   			var chat = $("#chatMsg").val();
-	   			var msg = $("#msgArea").val()+"\n나 : "+chat;
-	   			$("#msgArea").val(msg);
+	   			var chat = "<div><img id='img-view' width='350' src='"+fileName+"'></div>";
+	   			var msg = $("#msgArea").html()+"\n나 : "+chat;
+	   			$("#file").val("");
+	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
 	   			var sendMsg = {
 	   					type : "chat",
@@ -95,6 +97,20 @@
 	            }
 	              
 	        });
+			}else{
+				var chat = "<div>"+$("#chatMsg").val()+"</div>";
+	   			var msg = $("#msgArea").html()+"\n나 : "+chat;
+	   			$("#msgArea").html(msg);
+	   			$("#chatMsg").val("");
+	   			var sendMsg = {
+	   					type : "chat",
+	   					msg : chat,
+	   					title : title,
+	   					memberNickname : memberNickname
+	   			};
+	   			var socketMsg = JSON.stringify(sendMsg);
+	   			ws.send(socketMsg);
+			}
 	        
 		});
 	});

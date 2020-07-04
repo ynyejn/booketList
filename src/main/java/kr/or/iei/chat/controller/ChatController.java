@@ -82,6 +82,8 @@ public class ChatController {
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 			String filepath =  onlyFilename+"_"+extension;
 			String fullpath = savePath+filepath;
+			String fileName = "/resources/chat/"+filepath;
+			System.out.println(fileName);
 			System.out.println(savePath);
 			System.out.println(originalFileName);
 			System.out.println(onlyFilename);
@@ -99,7 +101,7 @@ public class ChatController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return new Gson().toJson(fullpath);
+			return new Gson().toJson(fileName);
 		}else {
 			return new Gson().toJson("0");
 		}
