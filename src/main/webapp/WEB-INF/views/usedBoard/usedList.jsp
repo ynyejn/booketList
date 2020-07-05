@@ -105,7 +105,7 @@
         line-height: 30px;
         background-color: #e5e5e5;
     }
-
+    
     .boardList {
         margin-top: 40px;
     }
@@ -172,11 +172,36 @@
     .sec3>span:last-of-type {
         border: none;
     }
+    .check {
+        width: 20px;
+        height: 20px;
+        vertical-align: -2px;
+        opacity: 60%;
+    }
+    .modal-footer{
+        text-align: center;
+        margin-right: 130px;
+        padding-top: 0px;
+        padding-bottom: 30px;
+    }
+    .modal-footer>button{
+        background-color: #e5e5e5; color:#222222; border:none;
+        width: 80px;
+        height: 30px;
+    }
+    .modal-footer>button:first-of-type:hover{
+         background-color:#222222;
+        color: white;
+    }
+    .modal-footer>button:last-of-type:hover{
+         background-color:#666666;
+        color: white;
+    }
 
 </style>
 
 <body style="line-height:normal;">
-    <div class="wrapper" style="background-color:#f7f8f8;">
+    <div class="wrapper" style="background-color:#f3f5f7;">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
         <div class="cTop">
             <div class="black"></div><span>기증 / 판매</span>
@@ -193,7 +218,7 @@
                 <div class="boardList">
                     <c:forEach items="${list }" var="l">
                         <div class="boardBox">
-                            <a href="#">
+                            <a href="javascript:void(0)" onclick="openModal(${l.usedNo},${l.usedPw});">
                                 <div style="padding:24px 0;">
                                     <div class='sec1' style='width:246px; height:52px;'>
                                         도서${l.usedType}
@@ -219,6 +244,7 @@
                                         <span>${l.memberId}</span>
                                         <span>${l.usedDate}</span>
                                         <span>조회 ${l.readCount}</span>
+                                        <input type="hidden" id="usedPw" value="${l.usedPw}">
                                     </div>
                                 </div>
                             </a>
@@ -230,8 +256,43 @@
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
 </body>
+  <div class="modal fade" id="myModal" style="top:200px;">
+    <div class="modal-dialog">
+      <div class="modal-content" style="padding-left:96px; padding-top:45px; background-color: #f3f5f7; height:200px; font-size:18px; border:1px solid #222222;">
+          
+     <!-- Modal body -->
+        <div class="modal-body" style="padding:0px;">
+          <img src="/resources/imgs/bookicon.png" class="check">비밀번호를 입력하세요.<br>
+            <input type="password" id="ans" style="width:300px; height:38px; border: 1px solid #dddddd; margin-top:10px;">
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer" style="border-top:none; padding-top:0px;">
+            <button type="button" class="btn" id="goBtn">확인</button>
+          <button type="button" class="btn" data-dismiss="modal" >닫기</button>
+        </div>
+        <input type="hidden" id="modalUsedNo">
+          <input type="hidden" id="modalUsedPw">
+      </div>
+    </div>
+  </div>
 <script>
-
+function openModal(usedNo,usedPw){
+    $("#myModal").modal();
+    $("#ans").val("");
+    $("#modalUsedNo").val(usedNo);
+    $("#modalUsedPw").val(usedPw);
+    $("#goBtn").attr("onclick","return goBoardView("+usedNo+","+usedPw+");")
+    
+}
+function goBoardView(usedNo, usedPw){
+    if($("#ans").val()!=usedPw){
+        alert("비밀번호를 확인해주세요.");
+        $("#ans").val("");
+        return false;
+    }
+    location.href="/goBoardView.do?usedNo="+usedNo;
+}
 </script>
 
 </html>

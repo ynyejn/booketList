@@ -63,4 +63,9 @@ public class UsedBoardController {
 		int result = service.insertBoard(ub);
 		return "redirect:/goUsedBoard.do";
 	}
+	
+	@RequestMapping("/goBoardView.do")
+	private String goBoardView(int usedNo) {
+		return "usedBoard/boardView";
+	}
 }
