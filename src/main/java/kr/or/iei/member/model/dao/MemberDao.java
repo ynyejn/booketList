@@ -17,7 +17,6 @@ public class MemberDao {
 
 	
 	public int joinSuccess(Member member) {
-		
 		return sql.insert("member.joinSuccess",member);
 	}
 
@@ -29,14 +28,21 @@ public class MemberDao {
 
 
 	public Member checkNickname(String memberNickname) {
-		
 		return sql.selectOne("member.checkNickname",memberNickname);
 	}
 
 
 	public Member selectOneMember(Member m) {
-		
 		return sql.selectOne("member.selectOneMember",m);
+	}
+
+
+	public int update(Member m) {	
+		return sql.update("member.update", m);
+	}
+
+	public int delete(String memberId) {
+		return sql.delete("member.delete", memberId);
 	}
 	
 }

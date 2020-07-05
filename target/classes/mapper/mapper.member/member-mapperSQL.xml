@@ -35,6 +35,21 @@
 		and member_pw=#{memberPw}
 	</select>
 	
+	<update id="update" parameterType="member">
+		update 
+		member set 
+		member_name =#{memberName},
+		member_nickname =#{memberNickname},
+		member_phone =#{memberPhone},
+		member_email =#{memberEmail},
+		member_category1=#{memberCategory1},
+		member_category2=#{memberCategory2},
+		member_category3=#{memberCategory3}
+		where member_id=#{memberId}
+	</update>
+	<delete id="delete" parameterType="String">
+		delete from member where member_id = #{memberId}
+	</delete>
 	<select id="selectMemberTotalCount" parameterType="map" resultType="_int">	
 	select count(*) as cnt from member where
 		<if test = "selectColumn.equals('member_id')">
@@ -123,4 +138,5 @@
 			
 		from member where member_id = #{memberId} and member_pw = #{memberPw}
 	</select>
+	
 </mapper>

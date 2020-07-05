@@ -41,33 +41,50 @@ td {
 				<div class="col-lg-3">
 					<h2 class="my-4">마이페이지</h2>
 					<div class="list-group">
-						<a href="#" class="list-group-item active">내 정보 수정</a> 
-						<a href="#" class="list-group-item">도서 목록</a> 
-						<a href="#"	class="list-group-item">도서 예약신청목록</a>
-						<a href="#"	class="list-group-item">내가 작성한 후기</a>
+						<a href="#" class="list-group-item active">내 정보 수정</a> <a href="#"
+							class="list-group-item">도서 목록</a> <a href="#"
+							class="list-group-item">도서 예약신청목록</a> <a href="#"
+							class="list-group-item">내가 작성한 후기</a>
 					</div>
 				</div>
 				<!-- /.col-lg-3 -->
 
-			<div class="col-lg-9">
-				<div class="card mt-4">
-					<img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+				<div class="col-lg-9">
+					<div class="card mt-4">
+						<img class="card-img-top img-fluid"
+							src="http://placehold.it/900x400" alt="">
 						<div class="card-body">
 							<h3 class="card-title">내정보 수정</h3>
-								<form action="/mUpdate.do" method="post">
-								<p>아이디 : ${sessionScope.member.memberId }</p>
-								이름 : <input type="text" name="memberName" value="${sessionScope.member.memberName }"><br>
-								닉네임 : <input type="text" name="memberNickname" value="${sessionScope.member.memberNickname }"><br>
-								휴대폰 번호 : <input type="text" name="memberPhone" value="${sessionScope.member.memberPhone }"><br>
-								이메일 : <input type="text" name="memberEmail" value="${sessionScope.member.memberEmail }"><br>
-								도서취향 1: <input type="text" name="memberCategory1" value="${sessionScope.member.memberCategory1 }"><br>
-								도서취향 2: <input type="text" name="memberCategory2" value="${sessionScope.member.memberCategory2 }"><br>
-								도서취향 3: <input type="text" name="memberCategory3" value="${sessionScope.member.memberCategory3 }"><br>
-								가입일 : ${sessionScope.member.enrollDate }<br>
+							<form action="/member/mUpdate.do" method="post">
+								아이디 : <input type="text" name="memberId"
+									value="${sessionScope.member.memberId }" readonly><br>
+								이름 : <input type="text" name="memberName"
+									value="${sessionScope.member.memberName }"><br>
+								닉네임 : <input type="text" name="memberNickname"
+									value="${sessionScope.member.memberNickname }" readonly><br>
+								휴대폰 번호 : <input type="text" name="memberPhone"
+									value="${sessionScope.member.memberPhone }"><br>
+								이메일 : <input type="text" name="memberEmail"
+									value="${sessionScope.member.memberEmail }"><br>
+								도서취향 1: <input type="text" name="memberCategory1"
+									value="${sessionScope.member.memberCategory1 }"><br>
+								도서취향 2: <input type="text" name="memberCategory2"
+									value="${sessionScope.member.memberCategory2 }"><br>
+								도서취향 3: <input type="text" name="memberCategory3"
+									value="${sessionScope.member.memberCategory3 }"><br>
+								가입일 : <input type="text" name="enrollDate"
+									value="${sessionScope.member.enrollDate }" readonly><br>
 								<input type="submit" value="정보수정">
 							</form>
+							<c:if test="${not empty sessionScope.member }">
+								<form action="/member/delete.do" method="post">
+									<input type="submit" value="회원탈퇴">
+
+								</form>
+							</c:if>
+							
 						</div>
-				</div>
+					</div>
 					<!-- /.card -->
 					<div class="card card-outline-secondary my-4">
 						<div class="card-header">Product Reviews</div>

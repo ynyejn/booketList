@@ -104,6 +104,19 @@ public class MemberController {
 			return "member/loginFailed";
 		}
 	}
+	@RequestMapping(value="/mUpdate.do",method = RequestMethod.POST)
+	public String update(HttpSession session,Member m) {
+		int result = service.update(m);
+		if(result>0) {
+			session.setAttribute("member", m);
+			System.out.println("회원정보가 수정되었습니다.");
+			return "redirect:/";
+			
+		}else {
+			System.out.println("회원정보가 수정되지 않았습니다.");
+			return "member/mypage";
+		}
+	}
 	@RequestMapping(value = "/loginFrm.do")
 	public String loginMember() {
 		
@@ -120,6 +133,18 @@ public class MemberController {
 		Member m = (Member) session.getAttribute("model");
 		model.addAttribute("m",m);
 		return "member/mypage";
+	}
+	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	public String delete(HttpSession session) {
+		Member m = (Member)session.getAttribute("member");
+		int result = service.delete(m.getMemberId());
+		if(result>0) {
+			
+			session.invalidate();
+			return "redirect:/";
+		}else {
+			return "member/mypage";
+		}
 	}
 	
 }

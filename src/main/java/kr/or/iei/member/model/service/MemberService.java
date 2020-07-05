@@ -50,6 +50,17 @@ public class MemberService {
 		
 		return dao.selectOneMember(m);
 	}
+	
+	@Transactional
+	public int update(Member m) {
+		
+		return dao.update(m);
+	}
+	@Transactional
+	public int delete(String memberId) {
+		
+		return dao.delete(memberId);
+	}
 
 	
 }
