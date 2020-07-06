@@ -152,6 +152,6 @@ from member where member_id=#{memberId}
 	delete from reservation where book_name=#{bookName} and book_publisher=#{bookPublisher} and book_writer=#{bookWriter} 
 </delete>
 <update id="updateBookTurnApply" parameterType="_int">
-	update book set book_no=#{bookNo} 
+	update book set book_no=#{bookNo} where book_status=0 
 </update>
 </mapper>

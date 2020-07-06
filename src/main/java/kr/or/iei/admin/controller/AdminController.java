@@ -834,11 +834,16 @@ public class AdminController {
 				int reservationResult = service.deleteReservationTurnApply(bookList.getBookName(),bookList.getBookPublisher(),bookList.getBookWriter());
 					if(reservationResult>0) {
 						int updateResult = service.updateBookTurnApply(selectTurnApplyOneList.getBookNo());
+							if(updateResult>0) {
+								return null;
+							}else {
+								return null;
+							}
 					}else {
-						
+						return null;
 					}
 			}else {
-				
+				return null;
 			}
 			
 			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
