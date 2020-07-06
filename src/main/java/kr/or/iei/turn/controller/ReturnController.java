@@ -39,8 +39,7 @@ public class ReturnController {
 	@RequestMapping("/goBookReturn.do")
 	public String goBookReturn(HttpSession session,Model model) {
 		Member m = (Member)session.getAttribute("member");
-		//String memberId = m.getMemberId();
-		String memberId="user01";
+		String memberId = m.getMemberId();
 		ArrayList<Rent> list = service.selectAllRent(memberId);
 		model.addAttribute("list",list);
 		return "book/returnBook";
@@ -49,8 +48,7 @@ public class ReturnController {
 	@RequestMapping("/returnBook.do")
 	public String goBookReturn(HttpSession session, TurnApply turn) {
 		Member m = (Member)session.getAttribute("member");
-		//String memberId = m.getMemberId();
-		String memberId="user01";
+		String memberId = m.getMemberId();
 		turn.setMemberId(memberId);
 		System.out.println(turn.getBookNo()+"/"+turn.getSpotName());
 		int result = service.insertTurnApply(turn);
