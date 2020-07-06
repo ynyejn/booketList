@@ -257,6 +257,7 @@ public class AdminController {
 
 	@RequestMapping(value="/adminComplainList.do")
 	public String adminComplainList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
+		
 		model.addAttribute("check", check);
 		ComplainPageData cpd = null;
 		ComplainPageData cpd2 = null;
