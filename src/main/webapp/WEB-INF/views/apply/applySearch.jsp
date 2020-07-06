@@ -18,11 +18,8 @@
 		<tr>
 			<th>이미지</th>
 			<th>도서이름</th>
-			<th>출판일</th>
 			<th>작가</th>
 			<th>출판사</th>
-			<th>카테 고리</th>
-			<th>도서내용</th>
 			<th>선택</th>
 		</tr>
 	</table>
@@ -44,16 +41,14 @@
 						html="";
 						for(var i=0;i<data.length;i++){
 							html+="<tr class='apply'><td><input type='hidden' class='bookImg'value='"+data[i].bookImg+"'><img src='"+data[i].bookImg+"'></td>";
-							html+="<td class='bookName'>"+data[i].bookName+"</td>";
-							html+="<td class='bookPubDate'>"+data[i].bookPubDate+"</td>";
-							html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
-							html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
-							html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
-							if(data[i].bookContent==""){
-								html+="<td class='bookContent'>내용 없음</td>";
-							}else{
-								html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
+							html+="<td class='bookName'>"+data[i].bookName+"<input type='hidden' class='bookPubDate' value='"+data[i].bookPubDate+"'></td>";
+							html+="<td class='bookWriter'>"+data[i].bookWriter;
+							if(data[i].bookContent!=""){
+								html+="<input type='hidden' class='bookContent' value='"+data[i].bookContent+"'>";
 							}
+							html+= "</td>";
+							html+="<td class='bookPublisher'>"+data[i].bookPublisher+"<input type='hidden' class='bookCategory' value='"+data[i].bookCategory+"'></td>";
+							
 							if(data[i].selectCheck==0){
 								html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
 							}else{
