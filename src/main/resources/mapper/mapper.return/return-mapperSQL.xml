@@ -32,4 +32,126 @@ insert into turnapply values(turnapply_seq.nextval,#{memberId},#{bookNo},#{spotN
 <update id="updateBookStatusTo3" parameterType="string">
 update book set book_status=3 where book_no = #{_parameter}
 </update>
+<select id="turnApplyTotalCount" resultType="_int">
+	select count(*) as cnt from turnapply
+</select>
+<select id="bookTurnApplyList" parameterType="map" resultType="turnApply">
+		select * from
+		(select rownum as rnum, n.* from
+		(select turnapply as turnApply, member_id as memberId, book_no as bookNo, book_name as bookName
+		,spot_name as spotName
+        ,turnapply_date as turnapplyDate
+		from turnapply
+		left join book using(book_no) order by turnapply desc)n)
+		where rnum between
+		#{start} and #{end}
+</select>
+<select id="selectTurnApplyTotalCount" parameterType="map" resultType="_int">
+	select count(*) as cnt
+		from turnapply left join book using(book_no)
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('반납 장소') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+		</trim>
+</select>
+<select id="bookSearchTurnApplyList" parameterType="map" resultType="turnApply">
+	select * from
+		(select rownum as rnum, n.* from
+		(select turnapply as turnApply, member_id as memberId, book_no as bookNo,book_name as bookName
+		,spot_name as spotName
+        ,turnapply_date as turnapplyDate
+		from turnapply
+		left join book using(book_no)
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('반납 장소') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+		</trim>	
+		<choose>
+			<when test="alignTitle=='' and alignStatus==''">
+			order by turnapply desc)n)
+			</when>
+			<when test="alignTitle==null and alignStatus==null">
+			order by turnapply desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="0"'>
+			order by member_id desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="1"'>
+			order by member_id asc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="0"'>
+			order by book_name desc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="1"'>
+			order by book_name asc)n)
+			</when>
+			<when test='alignTitle.equals("반납 장소") and alignStatus=="0"'>
+			order by spot_name desc)n)
+			</when>
+			<when test='alignTitle.equals("반납 장소") and alignStatus=="1"'>
+			order by spot_name asc)n)
+			</when>
+			<when test='alignTitle.equals("반납신청날짜") and alignStatus=="0"'>
+			order by turnapply_date desc)n)
+			</when>
+			<when test='alignTitle.equals("반납신청날짜") and alignStatus=="1"'>
+			order by turnapply_date asc)n)
+			</when>
+		</choose>
+		where rnum between #{start} and #{end}
+</select>
+<select id="selectTurnApplyOneList" parameterType="_int" resultType="turnApply">
+	select turnapply as turnApply, member_id as memberId, book_no as bookNo
+		,spot_name as spotName
+        ,turnapply_date as turnapplyDate
+		from turnapply where turnapply=#{turnApply}
+</select>
+<select id="selectBookListTurnApply" parameterType="_int" resultType="book">
+	select
+		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
+		book_publisher as bookPublisher,
+		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
+		book_status as bookStatus,
+		book_content as bookContent
+		from book where book_no =#{bookNo}
+</select>
+<select id="selectReservationListTurnApply" parameterType="map" resultType="reservation">
+	select
+		reserve_no as reserveNo,
+		member_id as memberId,
+		book_name as bookName,
+		book_publisher as bookPublisher,
+		book_writer as bookWriter,
+		reserve_date as reserveDate,
+		book_category as bookCategory
+		from reservation where book_name=#{bookName} and book_publisher=#{bookPublisher} and book_writer=#{bookWriter}
+</select>
+<select id="selectMemberEmailTurnApply" parameterType="String" resultType="String">
+select
+	member_email as memberEmail
+from member where member_id=#{memberId}
+</select>
+<delete id="deleteTurnApply" parameterType="_int">
+	delete from turnapply where turnapply=#{turnApply}
+</delete>
+<delete id="deleteReservationTurnApply" parameterType="map">
+	delete from reservation where book_name=#{bookName} and book_publisher=#{bookPublisher} and book_writer=#{bookWriter} 
+</delete>
+<update id="updateBookTurnApply" parameterType="_int">
+	update book set book_no=#{bookNo} where book_status=0 
+</update>
 </mapper>

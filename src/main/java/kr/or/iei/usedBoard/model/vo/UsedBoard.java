@@ -11,4 +11,7 @@ public class UsedBoard {
 	private String usedContent;
 	private String usedDate;
 	private int usedStatus;
+	private String usedInfo;
+	private int usedPw;
+	private int readCount;
 }

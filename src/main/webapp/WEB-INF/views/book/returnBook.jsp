@@ -155,14 +155,14 @@
         text-indent: 20px;
         display: inline-block;
         width: 860px;
-        height: 35px;
+        height: 38px;
         font-size: 16px;
-        line-height: 35px;
+        line-height: 38px;
         background-color: white;
     }
 
     .bookList>li:hover {
-        background-color: #ebedf4;
+        background-color: #C8DDF0;
         cursor: default;
     }
 
@@ -171,6 +171,7 @@
         padding: 9px 50px;
         background-color: white;
         margin-top: 10px;
+        border: 1px solid #e5e5e5;
     }
 
     .returnBook {
@@ -330,7 +331,7 @@
 </style>
 
 <body style="line-height: normal;">
-    <div class="wrapper" style="background-color:#f7f8f8;">
+    <div class="wrapper" style="background-color:#f3f5f7;">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
         <div class="cTop">
             <div class="black"></div>

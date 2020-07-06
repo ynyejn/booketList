@@ -135,6 +135,11 @@
     .listBox:hover{
         background-color: #f3f4fa;
     }
+    .listBox:hover .spotName{
+           border:1px solid #30353a;
+    box-shadow: 5px 8.7px 5px rgba(0,0,0,.05);
+    
+    }
     .listBox>div {
         float: left;
     }
@@ -165,6 +170,7 @@
         height: 28px;
         color: #111111;
         line-height: 28px;
+
     }
     .navi{
         text-align: center;

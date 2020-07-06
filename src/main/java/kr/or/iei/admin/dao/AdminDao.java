@@ -16,7 +16,9 @@ import kr.or.iei.book.model.vo.BookRentalStatus;
 import kr.or.iei.book.model.vo.BookAndRent;
 
 import kr.or.iei.member.model.vo.Member;
-
+import kr.or.iei.rent.model.vo.RentApply;
+import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.turn.model.vo.TurnApply;
 import kr.or.iei.complain.model.vo.Complain;
 
 @Repository("adminDao")
@@ -232,6 +234,77 @@ public class AdminDao {
 
 	public int cancelLostbookList2(String[] params) {
 		return sqlSession.update("rent.cancelLostbookList2",params);
+	}
+	public int rentApplyTotalCount() {
+			return sqlSession.selectOne("rent.rentApplyTotalCount");
+	}
+
+	public List bookRentalApplyList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("rent.bookRentalApplyList",map);
+	}
+
+	public int selectRentApplyTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("rent.selectRentApplyTotalCount",map);
+	}
+
+	public List bookSearchRentalApplyList(HashMap<String, Object> map) {
+		return sqlSession.selectList("rent.bookSearchRentalApplyList",map);
+	}
+
+	public RentApply selectOneRentApply(int rentApply) {
+		return sqlSession.selectOne("rent.selectOneRentApply",rentApply);
+	}
+
+	public int insertAgreeRentApply(RentApply selectRentApply) {
+		return sqlSession.insert("rent.insertAgreeRentApply",selectRentApply);
+	}
+
+	public int deleteAgreeRentApply(int rentApply) {
+		return sqlSession.delete("rent.deleteAgreeRentApply",rentApply);
+	}
+
+	public int turnApplyTotalCount() {
+		return sqlSession.selectOne("return.turnApplyTotalCount");
+	}
+
+	public List bookTurnApplyList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("return.bookTurnApplyList",map);
+	}
+
+	public int selectTurnApplyTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("return.selectTurnApplyTotalCount",map);
+	}
+
+	public List bookSearchTurnApplyList(HashMap<String, Object> map) {
+		return sqlSession.selectList("return.bookSearchTurnApplyList",map);
+	}
+
+	public TurnApply selectTurnApplyOneList(int turnApply) {
+		return sqlSession.selectOne("return.selectTurnApplyOneList",turnApply);
+	}
+
+	public Book selectBookListTurnApply(int bookNo) {
+		return sqlSession.selectOne("return.selectBookListTurnApply",bookNo);
+	}
+
+	public List selectReservationListTurnApply(HashMap<String, String> map) {
+		return sqlSession.selectList("return.selectReservationListTurnApply",map);
+	}
+
+	public String selectMemberEmailTurnApply(String memberId) {
+		return sqlSession.selectOne("return.selectMemberEmailTurnApply",memberId);
+	}
+
+	public int deleteTurnApply(int turnApply) {
+		return sqlSession.delete("return.deleteTurnApply",turnApply);
+	}
+
+	public int deleteReservationTurnApply(HashMap<String, String> map) {
+		return sqlSession.delete("return.deleteReservationTurnApply",map);
+	}
+
+	public int updateBookTurnApply(int bookNo) {
+		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
 	 

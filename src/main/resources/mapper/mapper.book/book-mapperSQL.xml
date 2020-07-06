@@ -298,14 +298,51 @@
 		,rent_return as rentReturn
 		from rent left join book using(book_no)
 		<trim prefix="where">
-		<if test="selectColumn.equals('아이디') and search != ''">
+		<if test="selectColumn.equals('아이디') and search != null">
 			member_id like '%' || #{search} || '%'
 		</if>
-		<if test="selectColumn.equals('책 제목') and search != ''">
+		<if test="selectColumn.equals('책 제목') and search != null">
 			book_name like '%' || #{search} || '%'
 		</if>
-		</trim>
-		order by rent_no desc)n)
+		</trim>		
+		<choose>
+			<when test="alignTitle=='' and alignStatus==''">
+			order by rent_no desc)n)
+			</when>
+			<when test="alignTitle==null and alignStatus==null">
+			order by rent_no desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="0"'>
+			order by member_id desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="1"'>
+			order by member_id asc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="0"'>
+			order by book_name desc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="1"'>
+			order by book_name asc)n)
+			</when>
+			<when test='alignTitle.equals("대여일자") and alignStatus=="0"'>
+			order by rent_start_date desc)n)
+			</when>
+			<when test='alignTitle.equals("대여일자") and alignStatus=="1"'>
+			order by rent_start_date asc)n)
+			</when>
+			<when test='alignTitle.equals("반납예정일자") and alignStatus=="0"'>
+			order by rent_end_date desc)n)
+			</when>
+			<when test='alignTitle.equals("반납예정일자") and alignStatus=="1"'>
+			order by rent_end_date asc)n)
+			</when>
+			<when test='alignTitle.equals("대여상태") and alignStatus=="0"'>
+			order by rent_return asc)n)
+			</when>
+			<when test='alignTitle.equals("대여상태") and alignStatus=="1"'>
+			order by rent_return desc)n)
+			</when>
+		</choose>
 		where rnum between #{start} and #{end}
 	</select>
 	
@@ -457,5 +494,5 @@
 			 #{arr}
 		</foreach>
 	</update>
-
+	
 </mapper>
