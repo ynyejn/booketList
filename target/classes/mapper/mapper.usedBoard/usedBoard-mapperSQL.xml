@@ -12,11 +12,17 @@ select count(*) from used_board
 		used_title as usedTitle,
 		used_content as usedContent,
 		used_date as usedDate,
-		used_status as usedStatus
+		used_status as usedStatus,
+		used_info as usedInfo,
+		used_pw as usedPw,
+		read_count as readCount
 		 from
 		(select ROWNUM as rnum, u.* from
 		(select * from used_board order by used_no desc)u
 		)
 		where rnum between #{start} and #{end}
 </select>
+<insert id="insertBoard" parameterType="usedBoard">
+insert into used_board values(used_board_seq.nextval,#{memberId},#{usedType},#{usedTitle},#{usedContent},default,default,#{usedInfo},#{usedPw},default)
+</insert>
 </mapper>
