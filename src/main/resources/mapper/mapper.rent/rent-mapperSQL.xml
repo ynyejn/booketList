@@ -28,4 +28,97 @@
 			 #{arr}
 		</foreach>
 	</update>
+	<select id="rentApplyTotalCount" resultType="_int">
+		select count(*) as cnt from rentapply
+	</select>
+	<select id="bookRentalApplyList" parameterType="map" resultType="rentApply">
+		select * from
+		(select rownum as rnum, n.* from
+		(select rentapply as rentApply, member_id as memberId, book_no as bookNo,book_name as bookName
+		,spot_name as spotName
+        ,rentapply_date as rentApplyDate
+		from rentapply
+		left join book using(book_no) order by rentapply desc)n)
+		where rnum between
+		#{start} and #{end}
+	</select>
+	<select id="selectRentApplyTotalCount" parameterType="map" resultType="_int">
+		select count(*) as cnt
+		from rentapply left join book using(book_no)
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('대여 장소') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+		</trim>
+	</select>
+	<select id="bookSearchRentalApplyList" parameterType="map"
+		resultType="rentApply">
+		select * from
+		(select rownum as rnum, n.* from
+		(select rentapply as rentApply, member_id as memberId, book_no as bookNo,book_name as bookName
+		,spot_name as spotName
+        ,rentapply_date as rentApplyDate
+		from rentapply
+		left join book using(book_no)
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('대여 장소') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+		</trim>	
+		<choose>
+			<when test="alignTitle=='' and alignStatus==''">
+			order by rentapply desc)n)
+			</when>
+			<when test="alignTitle==null and alignStatus==null">
+			order by rentapply desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="0"'>
+			order by member_id desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="1"'>
+			order by member_id asc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="0"'>
+			order by book_name desc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="1"'>
+			order by book_name asc)n)
+			</when>
+			<when test='alignTitle.equals("대여 장소") and alignStatus=="0"'>
+			order by spot_name desc)n)
+			</when>
+			<when test='alignTitle.equals("대여 장소") and alignStatus=="1"'>
+			order by spot_name asc)n)
+			</when>
+			<when test='alignTitle.equals("대여신청날짜") and alignStatus=="0"'>
+			order by rentapply_date desc)n)
+			</when>
+			<when test='alignTitle.equals("대여신청날짜") and alignStatus=="1"'>
+			order by rentapply_date asc)n)
+			</when>
+		</choose>
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectOneRentApply" parameterType="_int" resultType="rentApply">
+		select rentapply as rentApply, member_id as memberId, book_no as bookNo, book_name as bookName, spot_name as spotName, rentapply_date, rentApply_date
+		from rentapply left join book using(book_no) where rentapply=#{rentApply}
+	</select>
+	<insert id="insertAgreeRentApply" parameterType="rentApply">
+		insert into rent values(rent_seq.nextval,#{memberId},#{bookNo},#{spotName},sysdate,sysdate+8,0,(select book_category from book where book_no=#{bookNo}))
+	</insert>
+	<delete id="deleteAgreeRentApply" parameterType="_int">
+		delete from rentapply where rentapply=#{rentApply}
+	</delete>
 </mapper>
