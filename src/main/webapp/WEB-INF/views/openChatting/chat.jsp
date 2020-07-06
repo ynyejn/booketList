@@ -28,11 +28,8 @@
 	var memberNickname = '${sessionScope.member.memberNickname}';
 	var	title = $("#chatTitle").val();
 	var	chatPeople = $("#chatPeople").val();
-	console.log(title);
-	console.log(memberNickname);
-	
 	function connect() {
-		ws = new WebSocket("ws://192.168.219.101/openChatting.do?memberNickname="+memberNickname+" "+title);
+		ws = new WebSocket("ws://localhost/openChatting.do?memberNickname="+memberNickname+" "+title);
 		
 		ws.onopen = function () {
 			console.log("웹소켓 연결 생성");
@@ -49,7 +46,7 @@
 		
 		ws.onmessage = function (e) {
 			var msg = e.data;
-			var chat = $("#msgArea").html()+"\n상대방 :"+msg;
+			var chat = $("#msgArea").html()+msg+"<br>";
 			$("#msgArea").html(chat);
 		}
 		
@@ -63,6 +60,9 @@
 	}
 	$(function() {
 		connect();
+		let today = new Date();
+	    let hours = today.getHours()<10?"0"+today.getHours():today.getHours(); // 시
+	    let minutes = today.getMinutes()<10?"0"+today.getMinutes():today.getMinutes();  // 분
 		var	title = $("#chatTitle").val();
 		$("#sendBtn").click(function () {
 	        var form = $("#ajaxFrom")[0];
@@ -81,8 +81,8 @@
 	            	console.log(data);
 	               fileName = data;
 	               console.log(fileName);
-	   			var chat = "<div><img id='img-view' width='350' src='"+fileName+"'></div>";
-	   			var msg = $("#msgArea").html()+"\n나 : "+chat;
+	   			var chat = "<div>"+memberNickname+":<img id='img-view' width='200' src='"+fileName+"'><br>"+hours+"시"+minutes+"분</div>";
+	   			var msg = $("#msgArea").html()+chat;
 	   			$("#file").val("");
 	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
@@ -98,8 +98,8 @@
 	              
 	        });
 			}else{
-				var chat = "<div>"+$("#chatMsg").val()+"</div>";
-	   			var msg = $("#msgArea").html()+"\n나 : "+chat;
+				var chat = "<div>"+memberNickname+":"+$("#chatMsg").val()+"<br>"+hours+"시"+minutes+"분</div>";
+	   			var msg = $("#msgArea").html()+chat;
 	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
 	   			var sendMsg = {
