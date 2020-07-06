@@ -1,15 +1,15 @@
-package kr.or.iei.turn.model.vo;
+package kr.or.iei.rent.model.vo;
 
 import java.sql.Date;
 
 import lombok.Data;
 
 @Data
-public class TurnApply {
-	private int turnApply;
+public class RentApply {
+	private int rentApply;
 	private String memberId;
 	private int bookNo;
 	private String bookName;
 	private String spotName;
-	private Date turnapplyDate;
+	private Date rentApplyDate; 
 }
