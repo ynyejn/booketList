@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
+	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" src="/resources/ckeditor4/ckeditor.js"></script>
     <title>Booket List-기증/판매 게시판</title>
 </head>
 <style>
@@ -43,7 +44,6 @@
         overflow: hidden;
         margin: 0 auto;
         padding-bottom: 200px;
-        border: 1px solid lightgray;
     }
 
     .check {
@@ -53,7 +53,6 @@
     }
 
     /*--------------------------------------------------------------------------------------------------*/
-
     .notice {
         width: 1100px;
         padding: 20px 50px;
@@ -61,12 +60,14 @@
         margin-top: 50px;
         overflow: hidden;
         background-color: white;
+        border: 1px solid #e5e5e5;
     }
-    
+
     .notice>div {
         float: left;
     }
-     .imgBox {
+
+    .imgBox {
         margin-left: 80px;
     }
 
@@ -78,7 +79,7 @@
     }
 
     .text {
-        margin-left:80px;
+        margin-left: 80px;
         font-size: 16px;
         color: #666666;
     }
@@ -89,83 +90,153 @@
         background-color: white;
         margin: 0 auto;
         margin-top: 30px;
+        padding-bottom: 70px;
+        border: 1px solid #e5e5e5;
+        text-align: center;
+    }
+    .boardFrame>span{
+        float: right;
+        font-size: 14px;
+        margin-right: 50px;
+        margin-top: 30px;
+        color: #495057;
+    }
 
-    }
-    .boardFrame>form>table{
+    .boardFrame>form>table {
+        text-align: left;
         width: 1000px;
-        margin: 30px auto;
+        margin: 0px auto;
+        margin-top: 30px;
         border-top: 1px solid #585858;
-         border-bottom: 1px solid #585858;
+        border-bottom: 1px solid #585858;
     }
-    .boardFrame>form tr{
+
+    .boardFrame>form tr {
         border-bottom: 1px solid #dddddd;
     }
-    .boardFrame>form td{
+
+    .boardFrame>form td {
         height: 50px;
         font-size: 15px;
-        text-indent: 10px;
         color: #595959;
     }
-    .boardFrame>form tr>td:first-of-type{
+
+    .boardFrame>form tr>td:first-of-type {
         background-color: #f8f9f9;
         width: 18%;
     }
-    .boardFrame>form tr>td:last-of-type{
-        padding-left: 30px;
+
+    .boardFrame>form tr>td:last-of-type {
+        /*padding-left: 30px;*/
+
     }
-    .boardFrame>form input{
+
+    .boardFrame>form input {
         border: 1px solid lightgray;
-        width: 95%;
+        width: 250px;
         height: 35px;
     }
-    .boardFrame>form input[type=text]{
-        width: 95%;
+    .boardFrame button {
+        width: 115px;
+        height: 40px;
+        margin: 5px;
+        margin-top: 40px;
+        border: 1px solid #666666;
+        border-radius: 5px;
+        font-size: 15px;
+        color: #495057;
+        background-color: white;
     }
+    .boardFrame button[type=submit]{
+        background-color: #222222;
+        color: white;
+        border: none;
+    }
+
 </style>
 
-<body style="line-height:normal;">
-    <div class="wrapper" style="background-color:#f7f8f8;">
+<body style="line-height: normal;">
+    <div class="wrapper" style="background-color: #f3f5f7;">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
         <div class="cTop">
-            <div class="black"></div><span>기증 / 판매</span>
+            <div class="black"></div>
+            <span>도서기증 / 판매</span>
         </div>
         <div class="content">
             <div class="notice">
-                <div class="imgBox"><img src="/resources/imgs/bookicon.png"></div>
-                <div class="text">기증 및 판매 할 도서의 사진을 반드시 첨부해주세요. <br>
-                첨부사진이 충분하지 않아 상태판단에 어려움이 있을 시 추가자료가 요청 될 수 있습니다.<br>
-                판매 확정 시 금액은 정가의10% 이고, 책 도착 후 2-3일 내에 작성하신 계좌로 입금됩니다.<br>
-                기부 확정 시 기부도서에는 기부자명이 표기됩니다.</div>
-                
+                <div class="imgBox">
+                    <img src="/resources/imgs/bookicon.png">
+                </div>
+                <div class="text">
+                    기증 및 판매 할 도서의 사진을 반드시 첨부해주세요. <br> 첨부사진이 충분하지 않아 상태판단에 어려움이 있을
+                    시 추가자료가 요청 될 수 있습니다.<br> 판매 확정 시 금액은 정가의10% 이고, 책 도착 후 2-3일 내에
+                    작성하신 계좌로 입금됩니다.<br> 기부 확정 시 기부도서에는 기부자명이 표기됩니다.
+                </div>
+
             </div>
             <div class="boardFrame">
-            <form action="#" method="get">
-            <table>
-            <tr>
-            <td>분류</td>
-            <td><select name="usedType" style="width:200px; height:35px; border:1px solid lightgray;">
-                <option value="기증">기증</option>
-                <option value="판매">판매</option>
-                </select></td>
-            </tr>  
-            <tr>
-            <td>글제목<span style="color:#fc3f3f;">*</span></td>
-            <td><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." required></td>
-            </tr>
-            <tr>
-            <td>내용<span style="color:#fc3f3f;">*</span></td>
-            <td><textarea></textarea></td>
-            </tr>
-            <tr>
-            <td>비밀번호<span style="color:#fc3f3f;">*</span></td>
-                <td><input type="password"></td>
-            </tr>
-            </table>
-            </form>
+                <span><span style="color: #fc3f3f;">*</span> 필수 입력 사항</span>
+                <form action="/insertBoard.do" method="get" onsubmit="return checkFunc();">
+                    <table>
+                        <tr>
+                            <td>분류</td>
+                            <td><select name="usedType" style=" width:200px; height: 35px; border: 1px solid lightgray;">
+                                    <option value="기증">기증</option>
+                                    <option value="판매">판매</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td>글제목<span style="color: #fc3f3f;">*</span></td>
+                            <td><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." style="width:100%;" required></td>
+                        </tr>
+                        <tr>
+                            <td>내용<span style="color: #fc3f3f;">*</span></td>
+                            <td><textarea class="form-control" id="p_content" name="usedContent"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호<span style="color: #fc3f3f;">*</span></td>
+                            <td><input type="password" name="usedPw" placeholder="ex ) 1234" required></td>
+                        </tr>
+                        <tr class='infoTr'>
+                            <td>기증자 명</td>
+                            <td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td>
+                        </tr>
+                    </table>
+                    <button type="submit">등록</button><button type="button" onclick="location.href='/goUsedBoard.do'">취소</button>
+                </form>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
 </body>
+<script>
+    //ck에디터
+    CKEDITOR.replace('p_content', {
+        height: 400
+    });
+    $(function() {
+        $("select").change(function() {
+            var html = "";
+            if ($(this).val() == '기증') {
+                html += "<tr class='infoTr'><td>기증자 명</td><td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td></tr>";
+            } else {
+                html += "<tr class='infoTr'><td >계좌번호<span style='color: #fc3f3f;'>*</span></td><td><select name='bank' style='width: 100px; height: 35px; border: 1px solid lightgray;'>";
+                html += "<option value='국민은행'>국민은행</option><option value='우리은행'>우리은행</option><option value='신한은행'>신한은행</option><option value='기업은행'>기업은행</option><option value='하나은행'>하나은행</option><option value='외환은행'>외환은행</option><option value='농협'>농협</option><option value='카카오뱅크'>카카오뱅크</option></select><input type='text' name='usedInfo' style='width:200px; margin-left:5px;'></td></tr>";
+            }
+            $(".infoTr").remove();
+            $(".boardFrame tbody").append(html);
+        });
+    });
+
+    function checkFunc(){
+        var pw = $("input[name=usedPw]").val();
+        var regExp = /^[0-9]{4}$/;
+                if (!regExp.test(pw)) {
+                    alert("비밀번호는 숫자4글자로 입력해주세요.")
+                    return false;
+                } 
+    }
+</script>
 
 </html>

@@ -73,11 +73,15 @@
 							var search = $("#search").val();
 							var smc = $("#selectBookCount option:selected").val();
 							smc = parseInt(smc);
+							var alignTitle = $("#alignStatus").find("span").html();
+							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
 										url : "/bookSearchRentalStatusList.do",
 										type : "post",
 										dataType : "json",
 										data : {
+											alignTitle : alignTitle,
+											alignStatus : alignStatus,
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
@@ -129,11 +133,15 @@
 							$(".pagination").html("");
 							var selectColumn = $("#selectColumn option:selected").val();
 							var search = $("#search").val();
+							var alignTitle = $("#alignStatus").find("span").html();
+							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
 										url : "/bookSearchRentalStatusList.do",
 										type : "post",
 										dataType : "json",
 										data : {
+											alignTitle : alignTitle,
+											alignStatus : alignStatus,
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
@@ -203,6 +211,10 @@
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
 		console.log("searchPageNavi 클릭");
+		var alignTitle = $("#alignStatus").find("span").html();
+		var alignStatus = $("#alignStatus").find("input").val();
+		console.log("페이지 네비 클릭 : "+alignTitle);
+		console.log("페이지 네비 클릭 : "+alignStatus);
 		$(".chBox").prop("checked", false);
 		$("#allCheck").prop("checked", false);
 		var smc = $("#selectBookCount option:selected").val();
@@ -228,6 +240,8 @@
 			type : "post",
 			dataType : "json",
 			data : {
+				alignTitle : alignTitle,
+				alignStatus : alignStatus,
 				selectCount : smc,
 				reqPage : reqPage,
 				selectColumn : selectColumn,
@@ -272,6 +286,83 @@
 
 	}
 	
+	function clickAlign(obj){
+		console.log($(obj).find("span").html());
+		console.log($(obj).find("input").val());
+		var aTitle = $(obj).find("span").html();
+		var aStatus = $(obj).find("input").val();
+		$(".chBox").prop("checked", false);
+		$("#allCheck").prop("checked", false);
+		var smc = $("#selectBookCount option:selected").val();
+		smc = parseInt(smc);
+		var ajaxReqPage = $("#ajaxReqPage").val();
+		ajaxReqPage = parseInt(ajaxReqPage);
+		console.log(ajaxReqPage);
+		var selectColumn = $("#selectColumn option:selected").val();
+		var search = $("#search").val();
+		$("#alignStatus").find("span").html(aTitle);
+		if(aStatus=="0"){
+			$(obj).find("input").val("1");
+			$("#alignStatus").find("input").val("1");
+		}else{
+			$(obj).find("input").val("0");
+			$("#alignStatus").find("input").val("0");
+		}
+		var alignTitle = $("#alignStatus").find("span").html();
+		var alignStatus = $("#alignStatus").find("input").val();
+		$.ajax({
+			url : "/bookSearchRentalStatusList.do",
+			type : "post",
+			dataType : "json",
+			data : {
+				selectCount : smc,
+				reqPage : ajaxReqPage,
+				selectColumn : selectColumn,
+				search : search,
+				alignTitle : alignTitle,
+				alignStatus : alignStatus
+			},
+			success : function(data){
+				$(".pagination").html("");
+				$("#tbody").html("");
+				var resultText = "";
+				for (var i = 0; i < data.list.length; i++) {
+					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
+							 + ((data.reqPage - 1)
+									* data.selectCount
+									+ i + 1)
+							+ "</th>";
+					resultText += "<td class=th2>"
+							+ data.list[i].memberId
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.list[i].bookName
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.arrRentStartDate[i]
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.arrRentEndDate[i]
+							+ "</td>";
+					if(data.list[i].rentReturn == 0){
+						resultText += "<td class=th2>대여중</td></tr>";
+					}else if(data.list[i].rentReturn == 1){
+						resultText += "<td class=th2>반납완료</td></tr>";
+					}
+				}
+				$("#tbody").html(resultText);
+				$(".pagination").html(data.pageNavi);
+				
+				
+				console.log("변경된 대여상태 : "+$("#alignStatus").find("input").val());
+				
+			},
+			error : function(){
+				
+			}
+		});
+	}
 </script>
 </head>
 
@@ -613,26 +704,17 @@ padding-top:3px;
 											</div>
 										</li>
 									</ul>
-									<script>
-									function clickAlign(obj){
-										console.log($(obj).find("span").html());
-										console.log($(obj).find("input").val());
-										var title = $(obj).find("span").html();
-										var alignStatus = $(obj).find("input").val();
-										$.ajax({
-											url : 
-										});
-									}
-									</script>
+								
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
+												<div id="alignStatus"><input type="hidden"><span style="display:none"></span></div>
 												<table class="table table-hover">
 													<thead>
 														<tr>
 															<th class="num" style="width:10%"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
-															<th class="th2" style="width:10%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></span></th>
-															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></span></th>
+															<th class="th2" style="width:10%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></th>
+															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여일자</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납예정일자</span></th>
 															<th class="th2" style="width:20%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여상태</span></th>

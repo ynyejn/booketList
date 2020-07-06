@@ -64,9 +64,7 @@
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
-		$("#sear")
-				.click(
-						function() {
+		$("#sear").click(function() {
 							$(".chBox").prop("checked", false);
 							$("#allCheck").prop("checked", false);
 							$("#tbody").html("");
@@ -75,11 +73,11 @@
 							var selectColumn = $(
 									"#selectColumn option:selected").val();
 							var search = $("#search").val();
-							var smc = $("#selectMemberCount option:selected")
-									.val();
+							var smc = $("#selectMemberCount option:selected").val();
 							smc = parseInt(smc);
-							$
-									.ajax({
+							var alignTitle = $("#alignStatus").find("span").html();
+							var alignStatus = $("#alignStatus").find("input").val();
+							$.ajax({
 										url : "/memberSearchList.do",
 										type : "post",
 										dataType : "json",
@@ -87,7 +85,9 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search
+											search : search,
+											alignTitle : alignTitle,
+											alignStatus : alignStatus
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -142,8 +142,9 @@
 							var selectColumn = $(
 									"#selectColumn option:selected").val();
 							var search = $("#search").val();
-							$
-									.ajax({
+							var alignTitle = $("#alignStatus").find("span").html();
+							var alignStatus = $("#alignStatus").find("input").val();
+							$.ajax({
 										url : "/memberSearchList.do",
 										type : "post",
 										dataType : "json",
@@ -151,7 +152,9 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search
+											search : search,
+											alignTitle : alignTitle,
+											alignStatus : alignStatus
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -239,6 +242,8 @@
 		}
 		var selectColumn = $("#selectColumn option:selected").val();
 		var search = $("#search").val();
+		var alignTitle = $("#alignStatus").find("span").html();
+		var alignStatus = $("#alignStatus").find("input").val();
 		$.ajax({
 			url : "/memberSearchList.do",
 			type : "post",
@@ -248,7 +253,9 @@
 				selectCount : smc,
 				reqPage : reqPage,
 				selectColumn : selectColumn,
-				search : search
+				search : search,
+				alignTitle : alignTitle,
+				alignStatus : alignStatus
 			},
 			success : function(data) {
 				console.log(data.list[0].enrollDate);
@@ -283,6 +290,78 @@
 		});
 
 	}
+	
+	function clickAlign(obj){
+		console.log($(obj).find("span").html());
+		console.log($(obj).find("input").val());
+		var aTitle = $(obj).find("span").html();
+		var aStatus = $(obj).find("input").val();
+		$(".chBox").prop("checked", false);
+		$("#allCheck").prop("checked", false);
+		var smc = $("#selectMemberCount option:selected").val();
+		smc = parseInt(smc);
+		var ajaxReqPage = $("#ajaxReqPage").val();
+		ajaxReqPage = parseInt(ajaxReqPage);
+		console.log(ajaxReqPage);
+		var selectColumn = $("#selectColumn option:selected").val();
+		var search = $("#search").val();
+		$("#alignStatus").find("span").html(aTitle);
+		if(aStatus=="0"){
+			$(obj).find("input").val("1");
+			$("#alignStatus").find("input").val("1");
+		}else{
+			$(obj).find("input").val("0");
+			$("#alignStatus").find("input").val("0");
+		}
+		var alignTitle = $("#alignStatus").find("span").html();
+		var alignStatus = $("#alignStatus").find("input").val();
+		$.ajax({
+			url : "/memberSearchList.do",
+			type : "post",
+			dataType : "json",
+			data : {
+				selectCount : smc,
+				reqPage : ajaxReqPage,
+				selectColumn : selectColumn,
+				search : search,
+				alignTitle : alignTitle,
+				alignStatus : alignStatus
+			},
+			success : function(data){
+				$(".pagination").html("");
+				$("#tbody").html("");
+				var resultText = "";
+				for (var i = 0; i < data.list.length; i++) {
+					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+							+ ((data.reqPage - 1) * data.selectCount + i + 1)
+							+ "</th>";
+					resultText += "<td class=th2>" + data.list[i].memberId
+							+ "</td>";
+					resultText += "<td class=th2>" + data.list[i].memberName
+							+ "</td>";
+					resultText += "<td class=th2>" + data.list[i].memberEmail
+							+ "</td>";
+					resultText += "<td class=th2>" + data.list[i].memberPhone
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.list[i].memberNickname + "</td>";
+					resultText += "<td class=th2>" + data.arrEnrollDate[i]
+							+ "</td>";
+					resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+				}
+				$("#tbody").html(resultText);
+				$(".pagination").html(data.pageNavi);
+				
+				console.log("변경된 대여상태 : "+$("#alignStatus").find("input").val());
+				
+			},
+			error : function(){
+				
+			}
+		});
+	}
+	
 	function deleteMember(obj){
 		var memberId = $(obj).attr("data-memberId");
 		console.log(memberId);
@@ -639,16 +718,17 @@ padding-top:3px;
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
+											<div id="alignStatus"><input type="hidden"><span style="display:none"></span></div>
 												<table class="table table-hover">
 													<thead>
 														<tr>
 															<th class="num"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
-															<th class="th2">아이디</th>
-															<th class="th2">이름</th>
-															<th class="th2">이메일</th>
-															<th class="th2">전화번호</th>
-															<th class="th2">닉네임</th>
-															<th class="th2">가입일</th>
+															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></th>
+															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>이름</span></th>
+															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>이메일</span></th>
+															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>전화번호</span></th>
+															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>닉네임</span></th>
+															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>가입일</span></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
