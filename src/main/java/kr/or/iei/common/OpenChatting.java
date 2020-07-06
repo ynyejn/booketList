@@ -121,6 +121,7 @@ public class OpenChatting extends TextWebSocketHandler {
 		for(String key : members.keySet()){  
             if(key.equals(title[0])) {
             	members.remove(title[0]);
+            	System.out.println(title[0]);
             	int result = dao.chatUpdatedelete(title[1]);
             	for(String key1 : map.keySet()) {
             		members = map.get(title[1]);
@@ -131,7 +132,7 @@ public class OpenChatting extends TextWebSocketHandler {
             		}
             	}
             	
-            	break;
+            	
             }
         }
 		for(String key : members.keySet()){

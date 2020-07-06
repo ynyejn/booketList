@@ -43,9 +43,10 @@ public int chatInsert(Chat c) {
 public int chatUpdate(String title) {
 	String titles = dao.selectOnetitle(title);
 	if(titles==null) {
-		
+		System.out.println("djqtdj");
 		return 0;
 	}else {
+		System.out.println("방있어");
 		int result = dao.chatUpdate(title);
 		return result;
 	}
