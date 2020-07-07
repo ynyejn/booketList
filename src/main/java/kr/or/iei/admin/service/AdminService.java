@@ -22,6 +22,11 @@ import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
+import kr.or.iei.rent.model.vo.BookRentalApplyPage;
+import kr.or.iei.rent.model.vo.RentApply;
+import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.turn.model.vo.BookTurnApplyPage;
+import kr.or.iei.turn.model.vo.TurnApply;
 
 
 @Service("adminService")
@@ -547,7 +552,7 @@ public class AdminService {
 	public int adminDeleteMember(String memberId) {
 		return dao.adminDeleteMember(memberId);
 	}
-	public BookRentalStatusPage bookList(int reqPage, int selectCount) {
+	public BookRentalStatusPage bookRentalStatusList(int reqPage, int selectCount) {
 		int numPerPage = selectCount;
 		int totalCount = dao.rentTotalCount();
 		System.out.println(totalCount);
@@ -775,6 +780,237 @@ public class AdminService {
 	
 	public List selectExcelRentList(int rentNo) {
 		return dao.selectExcelRentList(rentNo);
+	}
+	public BookRentalApplyPage bookRentalApplyList(int reqPage, int selectCount) {
+		int numPerPage = selectCount;
+		int totalCount = dao.rentApplyTotalCount();
+		System.out.println(totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println(start);
+		int end = reqPage*numPerPage;
+		System.out.println(end);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		ArrayList<RentApply> list = (ArrayList<RentApply>)dao.bookRentalApplyList(map);
+		System.out.println(list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='/adminBookRentalApplyList.do?reqPage=" + (pageNo - pageNaviSize) + "&selectCount="+selectCount+"'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+				pageNavi += "<li><a href='/adminBookRentalApplyList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li><a aria-label='Next' href='/adminBookRentalApplyList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'><span>»</span></a></li>";
+		}
+		
+		BookRentalApplyPage brap = new BookRentalApplyPage(list,pageNavi);
+		return brap;
+	}
+	public BookRentalApplyPage bookSearchRentalApplyList(String selectColumn, String search, int reqPage, int selectCount, String alignTitle, String alignStatus) {
+		int numPerPage = selectCount;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("selectColumn", selectColumn);
+		map.put("search", search);
+		int totalCount = dao.selectRentApplyTotalCount(map);
+		System.out.println("서치북리스트개수 : "+totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println("시작번호 : "+start);
+		int end = reqPage*numPerPage;
+		System.out.println("끝번호 : "+end);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("alignTitle",alignTitle);
+		map.put("alignStatus",alignStatus);
+		System.out.println("service alignTitle: "+alignTitle);
+		System.out.println("service alignStatus: "+alignStatus);
+		ArrayList<RentApply> list = (ArrayList<RentApply>)dao.bookSearchRentalApplyList(map);
+		
+		System.out.println("리스트 사이즈 : "+list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+			
+				pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		
+		if (pageNo <= totalPage) {
+			
+			pageNavi += "<li><a aria-label='Next' href='javascript:void(0)' onclick='searchPageNavi(this)'><span>»</span></a></li>";
+		}
+		BookRentalApplyPage brap = new BookRentalApplyPage(list,pageNavi);
+		return brap;
+	}
+	public RentApply selectOneRentApply(int rentApply) {
+		return dao.selectOneRentApply(rentApply);
+	}
+	public int insertAgreeRentApply(RentApply selectRentApply) {
+		return dao.insertAgreeRentApply(selectRentApply);
+	}
+	public int deleteAgreeRentApply(int rentApply) {
+		return dao.deleteAgreeRentApply(rentApply);
+	}
+	public BookTurnApplyPage bookTurnApplyList(int reqPage, int selectCount) {
+		int numPerPage = selectCount;
+		int totalCount = dao.turnApplyTotalCount();
+		System.out.println(totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println(start);
+		int end = reqPage*numPerPage;
+		System.out.println(end);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		ArrayList<TurnApply> list = (ArrayList<TurnApply>)dao.bookTurnApplyList(map);
+		System.out.println(list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='/adminBookTurnApplyList.do?reqPage=" + (pageNo - pageNaviSize) + "&selectCount="+selectCount+"'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+				pageNavi += "<li><a href='/adminBookTurnApplyList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li><a aria-label='Next' href='/adminBookTurnApplyList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'><span>»</span></a></li>";
+		}
+		
+		BookTurnApplyPage btap = new BookTurnApplyPage(list,pageNavi);
+		return btap;
+	}
+	public BookTurnApplyPage bookSearchTurnApplyList(String selectColumn, String search, int reqPage, int selectCount,
+			String alignTitle, String alignStatus) {
+		int numPerPage = selectCount;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("selectColumn", selectColumn);
+		map.put("search", search);
+		int totalCount = dao.selectTurnApplyTotalCount(map);
+		System.out.println("서치북리스트개수 : "+totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println("시작번호 : "+start);
+		int end = reqPage*numPerPage;
+		System.out.println("끝번호 : "+end);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("alignTitle",alignTitle);
+		map.put("alignStatus",alignStatus);
+		System.out.println("service alignTitle: "+alignTitle);
+		System.out.println("service alignStatus: "+alignStatus);
+		ArrayList<TurnApply> list = (ArrayList<TurnApply>)dao.bookSearchTurnApplyList(map);
+		
+		System.out.println("리스트 사이즈 : "+list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+			
+				pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		
+		if (pageNo <= totalPage) {
+			
+			pageNavi += "<li><a aria-label='Next' href='javascript:void(0)' onclick='searchPageNavi(this)'><span>»</span></a></li>";
+		}
+		BookTurnApplyPage btap = new BookTurnApplyPage(list,pageNavi);
+		return btap;
+	}
+	public TurnApply selectTurnApplyOneList(int turnApply) {
+		return dao.selectTurnApplyOneList(turnApply);
+	}
+	public Book selectBookListTurnApply(String bookNo) {
+		return dao.selectBookListTurnApply(bookNo);
+	}
+	public List selectReservationListTurnApply(String bookName, String bookPublisher, String bookWriter) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("bookName", bookName);
+		map.put("bookPublisher", bookPublisher);
+		map.put("bookWriter", bookWriter);
+		return dao.selectReservationListTurnApply(map);
+	}
+	public String selectMemberEmailTurnApply(String memberId) {
+		return dao.selectMemberEmailTurnApply(memberId);
+	}
+	public int deleteTurnApply(int turnApply) {
+		return dao.deleteTurnApply(turnApply);
+	}
+	public int deleteReservationTurnApply(String bookName, String bookPublisher, String bookWriter) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("bookName", bookName);
+		map.put("bookPublisher", bookPublisher);
+		map.put("bookWriter", bookWriter);
+		return dao.deleteReservationTurnApply(map);
+	}
+	public int updateBookTurnApply(String bookNo) {
+		return dao.updateBookTurnApply(bookNo);
 	}
 
 }

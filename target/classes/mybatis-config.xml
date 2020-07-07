@@ -13,18 +13,18 @@
       <typeAlias type="kr.or.iei.apply.model.vo.Apply" alias="apply"/>
       <typeAlias type="kr.or.iei.cart.model.vo.Cart" alias="cart"/>
       <typeAlias type="kr.or.iei.book.model.vo.Book" alias="book"/>
-      <typeAlias type="kr.or.iei.spot.model.vo.Spot" alias="spot"/>
       <typeAlias type="kr.or.iei.complain.model.vo.Complain" alias="complain"/>
       <typeAlias type="kr.or.iei.book.model.vo.BookAndReview" alias="bookAndReview"/>
-
+      
       <typeAlias type="kr.or.iei.book.model.vo.BookRentalStatus" alias="bookRentalStatus"/>
-
+      <typeAlias type="kr.or.iei.spot.model.vo.Spot" alias="spot"/>
       <typeAlias type="kr.or.iei.cart.model.vo.CartPageData" alias="CartPageData"/>
       <typeAlias type="kr.or.iei.rent.model.vo.RentAndCount" alias="rentAndCount"/>
       <typeAlias type="kr.or.iei.book.model.vo.BookAndRent" alias="bookAndRent"/>
       <typeAlias type="kr.or.iei.turn.model.vo.TurnApply" alias="turnApply"/>
       <typeAlias type="kr.or.iei.usedBoard.model.vo.UsedBoard" alias="usedBoard"/>
       <typeAlias type="kr.or.iei.review.model.vo.Review" alias="review"/> 
-
+      <typeAlias type="kr.or.iei.rent.model.vo.RentApply" alias="rentApply"/>
+      <typeAlias type="kr.or.iei.turn.model.vo.TurnApply" alias="turnApply"/>
    </typeAliases>
 </configuration>

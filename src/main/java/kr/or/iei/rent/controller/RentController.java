@@ -1,6 +1,7 @@
 package kr.or.iei.rent.controller;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
-import javafx.application.Application;
+//import javafx.application.Application;
 import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookAndReview;
 import kr.or.iei.book.model.vo.BookAndReviewPageData;

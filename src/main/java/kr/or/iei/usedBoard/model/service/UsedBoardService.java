@@ -77,4 +77,18 @@ public class UsedBoardService {
 	public int insertBoard(UsedBoard ub) {
 		return dao.insertBoard(ub);
 	}
+
+	public UsedBoard checkUsedPw(UsedBoard ub) {
+		return dao.checkUsedPw(ub);
+	}
+
+	@Transactional
+	public UsedBoard selectOneBoard(int usedNo) {
+		dao.updateReadCount(usedNo);
+		return dao.selectOneBoard(usedNo);
+	}
+	@Transactional
+	public int deleteBoard(int usedNo) {
+		return dao.deleteBoard(usedNo);
+	}
 }

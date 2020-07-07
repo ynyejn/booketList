@@ -203,7 +203,7 @@
                             <td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td>
                         </tr>
                     </table>
-                    <button type="submit">등록</button><button type="button" onclick="location.href='/goUsedBoard.do'">취소</button>
+                    <button type="submit">등록</button><button type="button" onclick="location.href='/goUsedBoard.do?reqPage=1'">취소</button>
                 </form>
             </div>
         </div>

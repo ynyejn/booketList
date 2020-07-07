@@ -60,7 +60,7 @@
 		<div class="naviFrame">
 			<ul class="hNavi1">
 				<li><a href="/rent/goBookSearch.do?reqPage=1">도서 검색</a></li>
-				<li><a href="/goBookReturn.do">도서 반납</a></li>
+				<li><a href="javascript:void(0);" onclick="returnFunc('${sessionScope.member.memberId}');">도서 반납</a></li>
 				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
 			<c:if test="${not empty sessionScope.member }">
 			<!-- 로그인이 되어있을 때 -->
@@ -75,13 +75,21 @@
 				<li><a href="#">공지사항</a></li>
 				<li><a href="/review/reviewList.do">후기 게시판</a></li>
 				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
-				<li><a href="/goUsedBoard.do">도서기증 / 판매</a></li>
+				<li><a href="/goUsedBoard.do?reqPage=1">도서기증 / 판매</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
 <script>
+	function returnFunc(memberId){
+		if(memberId==""){
+			alert("로그인이 필요합니다");
+			location.href="/member/loginFrm.do";
+		}else{
+			location.href="/goBookReturn.do";
+		}
+	}
 	function up() {
 		window.scrollTo(0, 0);
 	}

@@ -1,131 +1,135 @@
 @charset "UTF-8";
 
-	h2{
-		font-size : 30px;
-		margin-top: 30px;
-		margin-bottom: 30px;
-	}
-	 .width1{
-		width: 10%;
-		height : 30px;
-		text-align: center;
-	}
-	 .width2{
-		width: 40%;
-		height : 30px;
-		text-align: center;
-		overflow: hidden;
-	}
-	 .width3{
-		width: 15%;
-		text-align: center;
-	}
-	 .width4{
-		width: 15%;
-		text-align: center;
-	}
-	 .width5{
-		width: 10%;
-		text-align: center;
-	}
-	.width6{
-		width: 10%;
-		text-align: center;
-	}
+h2 {
+	font-size: 30px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.width1 {
+	width:10%;
+	text-align: center;
+}
+.width2{
+	width:15%;
+	text-align: center;
+}
+.width3{
+	width:75%;
+}
+.width4{
+	width:50%;
+}
+.width5{
+	width:20%;
+	text-align: center;
+}
+.width6{
+	width:30%;
+	text-align: center;
+}
+
+.title {
+	width: 40%;
+	text-align: center;
+}
+
+.insertdate {
+	width: 20%;
+	text-align: center;
+}
+
+.delete {
+	width: 10%;
+}
+
+.move {
+	cursor: pointer;
 	
-	.title{
-		width: 40%;
-		text-align: center;
-	}
-	.insertdate{
-		width: 20%;
-		text-align: center;
-	}
-	.delete{
-		width : 10%;
-		
-	}
-	.move{
-		cursor:pointer;
-	}
-	
-	.PHJbtn{
-		text-align: center;
-	}
-	
-	.table>tbody>tr>th{
-		height: 40px;
-		line-height: 40px;
-	}
-	.table>thead>tr>th{
-		height: 40px;
-		line-height: 40px;
-	}
-	
-	.table>tbody>tr>td{
-		height: 40px;
-		line-height: 40px;
-		text-align: center;
-	}
-	.table{
-		font-size: 15px;
-	}
-	.delete>button{
-		height: 30px;
-		line-height: 30px;
-	}
-	#back{
-		background-color: black;
-		color : white;
-		
-		
-	}
-	#back:hover{
-		background-color: #E2E2E2;
-		color : black;
-	}
-	
-	/* #footNav2{
-		border-bottom: none;
-		width : 300px;
-		float : left;
-		padding-top: none;
-		margin-right: 200px;
-	} */
-	/* #footNav{
-		border-bottom: none;
-		width : 300px;
-		float : left;
-		padding-top: none;
-		margin-right: 200px;
-	} */
-	#sear{
-		font-size: 25px;
-		margin-top: 5px;
-		color:gray;
-		cursor: pointer;
-	}
-	.row{
-		width: 600px;
-		float : left;
-		padding-top: 20px;
-	}
-	.col-lg-6{
-		width: 400px;
-	}
-	.input-group{
-		width: 500px;
-		float:left;
-	}
-	
-	
-	.modal-body{
-		overflow: scroll;
-	}
-	#searchbar {
+}
+
+.PHJbtn {
+	text-align: center;
+}
+
+.table>tbody>tr>th {
+	height: 30px;
+	line-height: 30px;
+}
+
+.table>thead>tr>th {
+	height: 30px;
+	line-height: 30px;
+}
+
+.table>tbody>tr>td {
+	height: 40px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.table {
+	font-size: 15px;
+}
+
+.delete>button {
+	height: 30px;
+	line-height: 30px;
+}
+
+#back {
+	background-color: black;
+	color: white;
+}
+
+#back:hover {
+	background-color: #E2E2E2;
+	color: black;
+}
+
+#sear {
+	font-size: 25px;
+	margin-top: 5px;
+	color: gray;
+	cursor: pointer;
+}
+
+.row {
+	width: 600px;
+	float: left;
+	padding-top: 20px;
+}
+
+.col-lg-6 {
+	width: 400px;
+}
+
+.input-group {
+	width: 500px;
+	float: left;
+}
+.insertBtn:hover>a{
+	border-radius:50px;
+	background-color:#0044b2;
+}
+.insertBtn>a{
+	display:block;
+	color: white;
+	font-weight:bold;
+	text-decoration: none;
+	border-radius:50%
+}
+
+
+.modal-body {
+	overflow: scroll;
+}
+
+#searchbar {
 	position: absolute;
 	right: 0px;
 }
+
 #mytab {
 	position: relative;
 }
@@ -133,4 +137,11 @@
 #mytab>li {
 	display: inline-block;
 }
-	
+#inputText {
+   	width : 800px;
+   	height : 50px;
+   	border: 1px solid #03166c;
+    outline: none;
+   	box-sizing: border-box;
+   	margin : 0;
+}
