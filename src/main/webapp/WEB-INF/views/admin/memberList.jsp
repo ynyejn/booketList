@@ -406,51 +406,82 @@
 			<hr class="sidebar-divider">
 
 			<!-- Heading -->
-			<div class="sidebar-heading">회원 관리</div>
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link"
-				href="/memberList.do?reqPage=1&selectCount=10"> <i class="fas fa-fw fa-table"></i>
-					<span>회원 목록</span></a></li>
-			<li class="nav-item"><a class="nav-link" href="#"> <i
-					class="fas fa-fw fa-cog"></i> <span>회원 신고 관리</span></a></li>
+      <div class="sidebar-heading">
+           회원 관리
+      </div>
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="/memberList.do?reqPage=1&selectCount=10">
+          <i class="fas fa-fw fa-table"></i>
+          <span>회원 목록</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#complaincollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-cog"></i>    
+          <span>회원 신고 관리</span>
+        </a>
+         <div id="complaincollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">회원 신고 관리</h6>
+            <a class="collapse-item" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">신고처리대기</a>
+            <a class="collapse-item" href="/adminComplainList.do?reqPage=1&check=2&reqPage2=1">신고처리완료</a>
+          </div>
+        </div> 
+      </li>
 
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">도서 관리</div>
-
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-					class="fas fa-fw fa-folder"></i> <span>도서 대여</span>
-			</a>
-				<div id="collapsePages" class="collapse"
-					aria-labelledby="headingPages" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">도서 대여</h6>
-						<a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서대여현황</a>
-						<a class="collapse-item" href="#">도서예약내역</a>
-					</div>
-				</div></li>
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#bookcollapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-					class="fas fa-fw fa-folder"></i> <span>도서 내역</span>
-			</a>
-				<div id="bookcollapsePages" class="collapse"
-					aria-labelledby="headingPages" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">도서 내역</h6>
-						<a class="collapse-item"
-							href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a> <a
-							class="collapse-item" href="#">도서신청내역</a>
-					</div>
-				</div></li>
-			<li class="nav-item"><a class="nav-link" href="#"> <i
-					class="fas fa-fw fa-cog"></i> <span>도서 분실 신고</span></a></li>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+           도서 관리
+      </div>
+      
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>도서 대여</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">도서 대여</h6>
+            <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
+            <a class="collapse-item" href="/adminBookRentalApplyList.do?reqPage=1&selectCount=10">도서 대여 신청 목록</a>
+            <a class="collapse-item" href="/adminBookTurnApplyList.do?reqPage=1&selectCount=10">도서 반납 신청 목록</a>
+            <a class="collapse-item" href="#">도서예약내역</a>
+          </div>
+        </div>
+      </li>
+      
+     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bookcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>도서 내역</span>
+        </a>
+        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">도서 내역</h6>
+            <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
+            <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=2&reqPage2=1">도서신청내역</a>
+          </div>
+        </div>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>도서 분실 신고</span>
+         </a>
+         <div id="LostcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">분실 내역</h6>
+            <a class="collapse-item" href="/userLostBook.do">분실 신고</a>
+            <a class="collapse-item" href="/adminLostBookList.do?reqPage=1">분실 내역</a>
+          </div>
+        </div>
+      </li>
 			<hr class="sidebar-divider">
 
 			<!-- Heading -->

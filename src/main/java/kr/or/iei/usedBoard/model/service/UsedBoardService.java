@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.spot.model.vo.SpotPageData;
@@ -21,9 +22,9 @@ public class UsedBoardService {
 	public UsedBoardPageData selectAllUsedList(int reqPage) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		int numPerPage=5; //한페이지당 게시물 수
+		int numPerPage=10; //한페이지당 게시물 수
 		int totalCount = dao.totalCount();//총 게시물 수를 구해오는 dao호출
-		System.out.println("총스팟수: "+totalCount);
+		System.out.println("총게시글수: "+totalCount);
 		//총 페이지 수를 연산
 		int totalPage= 0;
 		if(totalCount%numPerPage==0) { //딱떨어지면
@@ -70,5 +71,24 @@ public class UsedBoardService {
 		//받아온게시물리스트와 작성한 페이지 네비를 객체에 함께 담아 전달
 		UsedBoardPageData upd = new UsedBoardPageData(list2, pageNavi);
 		return upd;
+	}
+
+	@Transactional
+	public int insertBoard(UsedBoard ub) {
+		return dao.insertBoard(ub);
+	}
+
+	public UsedBoard checkUsedPw(UsedBoard ub) {
+		return dao.checkUsedPw(ub);
+	}
+
+	@Transactional
+	public UsedBoard selectOneBoard(int usedNo) {
+		dao.updateReadCount(usedNo);
+		return dao.selectOneBoard(usedNo);
+	}
+	@Transactional
+	public int deleteBoard(int usedNo) {
+		return dao.deleteBoard(usedNo);
 	}
 }

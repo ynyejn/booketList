@@ -64,11 +64,11 @@
 			$('#profile').removeClass("active in");
 		}
 
-		$(".searchList").click(function() {
+		/* $(".searchList").click(function() {
 			var searchSelect = $(this).html();
 			$("#searchTitle").html("");
 			$("#searchTitle").html(searchSelect);
-		});
+		}); */
 
 		$('#myTab').children('a').click(function(e) {
 			e.preventDefault()
@@ -80,11 +80,11 @@
 		});
 		$("#sear").click(function() {
 			var search = $("#search").val();
-			var searchTitle = $("#searchTitle").html();
-			alert(searchTitle);
-			location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+$("#searchTitle").html();
-
+			var searchTitle = $("#searchTitle").find("option:selected").html();
+			location.href = "/adminComplainList.do?reqPage="+${reqPage }+"&check="+${check }+"&reqPage2="+${reqPage2 }+"&search="+search+"&searchTitle="+searchTitle;
 		});
+		
+		
 		$("#search").keydown(function(key) {
 			if (key.keyCode == 13) {
 				$("#sear").click();
@@ -566,7 +566,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">도서 목록</h1>
+					<h1 class="h3 mb-2 text-gray-800">회원신고관리</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -586,6 +586,46 @@
 										<li id="tt2" role="presentation" class=""><a
 											href="#profile" role="tab" id="profile-tab" data-toggle="tab"
 											aria-controls="profile" aria-expanded="false"><b>신고처리완료</b></a></li>
+										<!-- 검색 메뉴 드롭다운 -->
+										<li id="searchbar">
+											<div class="col-lg-6">
+												<div class="input-group" style="width: 350px;">
+													<div class="input-group-btn">
+
+														<select class="form-control"
+															style="width: 120px; height: 35px; margin-left: 10px;"
+															id="searchTitle" name="selectColumn">
+															<c:if test="${empty searchTitle }">
+																<option value="신고한id" selected>신고한id</option>
+																<option value="신고당한id">신고당한id</option>
+															</c:if>
+															<c:if test="${not empty searchTitle }">
+																<option value="신고한id"
+																	<c:if test="${searchTitle eq '신고한id' }">selected</c:if>>신고한id</option>
+																<option value="신고당한id"
+																	<c:if test="${searchTitle eq '신고당한id' }">selected</c:if>>신고당한id</option>
+
+															</c:if>
+														</select>
+													</div>
+													<!-- 검색창, 검색모양 -->
+													<c:if test="${not empty search }">
+														<input type="text" class="form-control" aria-label="..."
+															id="search" value="${search }"
+															style="width: 180px; float: left;">
+														<span class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+													</c:if>
+													<c:if test="${empty search }">
+														<input type="text" class="form-control " aria-label="..."
+															style="width: 180px; float: left;" id="search">
+														<span class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+													</c:if>
+												</div>
+											</div>
+
+										</li>
 									</ul>
 
 									<!-- 신고내역 리스트 받아올 때 -->
@@ -595,10 +635,10 @@
 											<table class="table table-hover">
 												<thead>
 													<tr>
-														<th class="width2">번호</th>
-														<th class="width3">신고한 id</th>
-														<th class="width4">신고당한 id</th>
-														<th class="width5">신고날짜</th>
+														<td class="width1"><b>번호</b></td>
+														<td class="width6"><b>신고한 id</b></td>
+														<td class="width6"><b>신고당한 id</b></td>
+														<td class="width6"><b>신고날짜</b></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -606,19 +646,23 @@
 														<tr class="move"
 															onclick="detail('${p.complainNo }','${reqPage }')"
 															data-toggle="modal" data-target="#myModal">
-															<th class="width1">${(reqPage-1)*10 + i.count }</th>
-															<td class="width1">${p.memberId }</td>
-															<td class="width3">${p.attacker }</td>
-															<td class="width4">${p.complainDate }</td>
+															<td class="width1">${(reqPage-1)*10 + i.count }</td>
+															<td class="width6">${p.memberId }</td>
+															<td class="width6">${p.attacker }</td>
+															<td class="width6">${p.complainDate }</td>
 														</tr>
 													</c:forEach>
 
 												</tbody>
 											</table>
-											<nav id="footNav2">
+											<nav id="footNav2" style="text-align: center;">
+												
+												<div id="sel" style="float: right; margin-top: 20px;">
+													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												</div>
 												<ul class="pagination">${pageNavi1 }</ul>
 											</nav>
-											
+
 
 										</div>
 
@@ -628,11 +672,11 @@
 											<table class="table table-hover">
 												<thead>
 													<tr>
-														<th class="width1">번호</th>
-														<th class="width3">신고한 id</th>
-														<th class="width2">신고된 id</th>
-														<th class="width3">신고한 날짜</th>
-														<th class="width5">신고유무(Y/N)</th>
+														<td class="width1"><b>번호</b></td>
+														<td class="width5"><b>신고한 id</b></td>
+														<td class="width5"><b>신고당한 id</b></td>
+														<td class="width6"><b>신고한 날짜</b></td>
+														<td class="width5"><b>신고유무(Y/N)</b></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -640,11 +684,11 @@
 														<tr class="move" id="move2"
 															onclick="detail2(${p.complainNo },${reqPage2 })"
 															data-toggle="modal" data-target="#myModal3">
-															<th scope="row">${(reqPage2-1)*10 + i.count }</th>
-															<td class="width1">${p.memberId }</td>
-															<td class="width2">${p.attacker }</td>
-															<td class="width3">${p.complainDate }</td>
-															<td><c:if test="${p.complainStauts == 1}">
+															<td class="width1" scope="row">${(reqPage2-1)*10 + i.count }</td>
+															<td class="width5">${p.memberId }</td>
+															<td class="width5">${p.attacker }</td>
+															<td class="width6">${p.complainDate }</td>
+															<td class="width5"><c:if test="${p.complainStauts == 1}">
 																Y
 															</c:if> <c:if test="${p.complainStauts == 2}">
 																N
@@ -653,7 +697,11 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<nav id="footNav2">
+											<nav id="footNav2" style="text-align: center;">
+												
+												<div id="sel" style="float: right; margin-top: 20px;">
+													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												</div>
 												<ul class="pagination">${pageNavi2 }</ul>
 											</nav>
 										</div>
@@ -694,7 +742,6 @@
 									</div>
 								</div>
 
-
 								<!-- 신고처리완료 상세보기 모달 -->
 								<div class="modal fade" id="myModal3" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -713,56 +760,17 @@
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">돌아가기</button>
 												<input type="hidden" id="complainCompleteNo">
-												
-												
-													<button type="button" class="btn btn-primary"
-														id="detailUpdate1" onclick="updateComplainYesList2(this)">신고등록</button>
-												
-													<button type="button" class="btn btn-primary"
-														id="detailUpdate2" onclick="updateComplainNoList2(this)">신고철회</button>
-												
 
 
+												<button type="button" class="btn btn-primary"
+													id="detailUpdate1" onclick="updateComplainYesList2(this)">신고등록</button>
 
+												<button type="button" class="btn btn-primary"
+													id="detailUpdate2" onclick="updateComplainNoList2(this)">신고철회</button>
 											</div>
 										</div>
 									</div>
 								</div>
-
-								<!-- 검색 메뉴 드롭다운 -->
-								<div class="col-lg-6">
-									<div class="input-group">
-										<div class="input-group-btn">
-											<button id="searchTitle"
-												class="btn btn-default dropdown-toggle" type="button"
-												data-toggle="dropdown" aria-expanded="false">
-												<c:if test="${empty searchTitle }">신고한id</c:if>
-												<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
-											</button>
-											<ul class="dropdown-menu" role="menu">
-												<li><a class="searchList">신고한id</a></li>
-												<li><a class="searchList">신고당한id</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-
-								<!-- 검색창, 검색모양 -->
-								<c:if test="${not empty search }">
-									<input type="text" class="form-control" aria-label="..."
-										id="search" value="${search }" style="witdh: 300px">
-									<span class="glyphicon glyphicon-search" id="sear"></span>
-								</c:if>
-								<c:if test="${empty search }">
-									<input type="text" class="form-control " aria-label="..."
-										id="search">
-									<span class="glyphicon glyphicon-search" id="sear"></span>
-								</c:if>
-
-								<!-- /.col-lg-6 -->
-
-								<button type="button" class="btn btn-default" id="back">돌아가기</button>
-
 								<!-- /.container-fluid -->
 
 							</div>
