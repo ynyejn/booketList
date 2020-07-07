@@ -25,4 +25,21 @@ public class UsedBoardDao {
 	public int insertBoard(UsedBoard ub) {
 		return sqlSession.insert("usedBoard.insertBoard",ub);
 	}
+
+	public UsedBoard checkUsedPw(UsedBoard ub) {
+		return sqlSession.selectOne("usedBoard.checkUsedPw", ub);
+	}
+
+	public UsedBoard selectOneBoard(int usedNo) {
+		return sqlSession.selectOne("usedBoard.selectOneBoard", usedNo);
+	}
+
+	public void updateReadCount(int usedNo) {
+		sqlSession.update("usedBoard.updateReadCount",usedNo);
+		
+	}
+
+	public int deleteBoard(int usedNo) {
+		return sqlSession.delete("usedBoard.deleteBoard",usedNo);
+	}
 }

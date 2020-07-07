@@ -5,8 +5,8 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,20 +21,13 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -54,6 +47,13 @@ import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
 import kr.or.iei.member.model.vo.MemberPageSearchData;
+import kr.or.iei.rent.model.vo.BookRentalApplyPage;
+import kr.or.iei.rent.model.vo.BookRentalApplySearchPage;
+import kr.or.iei.rent.model.vo.RentApply;
+import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.turn.model.vo.BookTurnApplyPage;
+import kr.or.iei.turn.model.vo.BookTurnApplySearchPage;
+import kr.or.iei.turn.model.vo.TurnApply;
 
 @Controller
 public class AdminController {
@@ -61,6 +61,7 @@ public class AdminController {
 	@Autowired
 	@Qualifier("adminService")
 	private AdminService service;
+	private JavaMailSender mailSender;
 	
 	@RequestMapping(value="/login.do")
 	public String loginFrm() {
@@ -259,6 +260,7 @@ public class AdminController {
 
 	@RequestMapping(value="/adminComplainList.do")
 	public String adminComplainList(Model model, int reqPage, int check, int reqPage2, String search, String searchTitle) {
+		
 		model.addAttribute("check", check);
 		ComplainPageData cpd = null;
 		ComplainPageData cpd2 = null;
@@ -628,7 +630,7 @@ public class AdminController {
 	@RequestMapping("/adminBookRentalStatusList.do")
 	public String adminBookRentalStatusList(Model model, int reqPage, int selectCount){
 		
-		BookRentalStatusPage brsp= service.bookList(reqPage,selectCount);
+		BookRentalStatusPage brsp= service.bookRentalStatusList(reqPage,selectCount);
 		for(int i=0;i<brsp.getList().size();i++) {
 			brsp.getList().get(i).getBookNo();
 		}
@@ -677,6 +679,175 @@ public class AdminController {
 			BookRentalStatusSearchPage brssp = new BookRentalStatusSearchPage(list, pageNavi, arrRentStartDate,arrRentEndDate, aReqPage,selectCount);
 			return new Gson().toJson(brssp);
 		
+		}
+		
+		@RequestMapping("/adminBookRentalApplyList.do")
+		public String adminBookRentalApplyList(Model model, int reqPage, int selectCount){
+			
+			BookRentalApplyPage brap= service.bookRentalApplyList(reqPage,selectCount);
+			
+			model.addAttribute("list",brap.getList());
+			model.addAttribute("pageNavi",brap.getPageNavi());
+			model.addAttribute("reqPage",reqPage);
+			model.addAttribute("selectCount",selectCount);
+			return "admin/adminBookRentalApplyList";
+		}
+		@ResponseBody
+		@RequestMapping(value="/bookSearchRentalApplyList.do", produces="application/json;charset=utf-8")
+		public String BookSearchRentalApplyList(HttpServletRequest request) {
+			int aReqPage = (Integer.parseInt(request.getParameter("reqPage")));
+			System.out.println("페이징 reqPage : "+aReqPage);
+			String selectColumn = request.getParameter("selectColumn");
+			String search = request.getParameter("search");
+			int selectCount = Integer.parseInt(request.getParameter("selectCount"));
+			System.out.println("선택한 컬럼 : "+selectColumn);
+			System.out.println("찾고자 하는 검색어 : "+search);
+			String alignTitle  = request.getParameter("alignTitle");
+			String alignStatus = request.getParameter("alignStatus");
+			System.out.println("선택한 배열 제목 : "+alignTitle);
+			System.out.println("선택한 배열 상태 : "+alignStatus);
+			BookRentalApplyPage brap = service.bookSearchRentalApplyList(selectColumn,search,aReqPage,selectCount,alignTitle,alignStatus);
+			
+			ArrayList<RentApply> list = brap.getList();
+			String pageNavi = brap.getPageNavi();
+			DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String [] arrRentApplyDate = new String[list.size()];
+			for(int i=0;i<list.size();i++) {
+				Date rentApplyDate = brap.getList().get(i).getRentApplyDate();
+					String strRentApplyDate = sdFormat.format(rentApplyDate);
+					arrRentApplyDate[i] = strRentApplyDate;
+			}
+			System.out.println("pageNavi : "+pageNavi);
+			BookRentalApplySearchPage brasp = new BookRentalApplySearchPage(list, pageNavi, arrRentApplyDate, aReqPage,selectCount);
+			return new Gson().toJson(brasp);
+		
+		}
+		
+		@RequestMapping(value="/agreeRentApply.do")
+		public String AgreeRentApply(HttpServletRequest request) {
+			int rentApply = Integer.parseInt(request.getParameter("rentApply"));
+			RentApply selectRentApply = service.selectOneRentApply(rentApply);
+			int insertResult = service.insertAgreeRentApply(selectRentApply);
+			if(insertResult>0) {
+				int deleteResult = service.deleteAgreeRentApply(rentApply);
+					if(deleteResult>0) {
+						System.out.println("insert,delete성공");
+						return "redirect:/adminBookRentalApplyList.do?reqPage=1&selectCount=10";
+					}else {
+						System.out.println("delete실패");
+						return "redirect:/adminBookRentalApplyList.do?reqPage=1&selectCount=10";
+					}
+			}else {
+				System.out.println("insert실패");
+				return "redirect:/adminBookRentalApplyList.do?reqPage=1&selectCount=10";
+			}
+		}
+		@RequestMapping("/adminBookTurnApplyList.do")
+		public String adminBookturnApplyList(Model model, int reqPage, int selectCount){
+			
+			BookTurnApplyPage brap= service.bookTurnApplyList(reqPage,selectCount);
+			
+			model.addAttribute("list",brap.getList());
+			model.addAttribute("pageNavi",brap.getPageNavi());
+			model.addAttribute("reqPage",reqPage);
+			model.addAttribute("selectCount",selectCount);
+			return "admin/adminBookTurnApplyList";
+		}
+		
+		@ResponseBody
+		@RequestMapping(value="/bookSearchTurnApplyList.do", produces="application/json;charset=utf-8")
+		public String BookSearchTurnApplyList(HttpServletRequest request) {
+			int aReqPage = (Integer.parseInt(request.getParameter("reqPage")));
+			System.out.println("페이징 reqPage : "+aReqPage);
+			String selectColumn = request.getParameter("selectColumn");
+			String search = request.getParameter("search");
+			int selectCount = Integer.parseInt(request.getParameter("selectCount"));
+			System.out.println("선택한 컬럼 : "+selectColumn);
+			System.out.println("찾고자 하는 검색어 : "+search);
+			String alignTitle  = request.getParameter("alignTitle");
+			String alignStatus = request.getParameter("alignStatus");
+			System.out.println("선택한 배열 제목 : "+alignTitle);
+			System.out.println("선택한 배열 상태 : "+alignStatus);
+			BookTurnApplyPage btap = service.bookSearchTurnApplyList(selectColumn,search,aReqPage,selectCount,alignTitle,alignStatus);
+			
+			ArrayList<TurnApply> list = btap.getList();
+			String pageNavi = btap.getPageNavi();
+			DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String [] arrTurnApplyDate = new String[list.size()];
+			for(int i=0;i<list.size();i++) {
+				Date turnApplyDate = btap.getList().get(i).getTurnapplyDate();
+					String strTurnApplyDate = sdFormat.format(turnApplyDate);
+					arrTurnApplyDate[i] = strTurnApplyDate;
+			}
+			System.out.println("pageNavi : "+pageNavi);
+			BookTurnApplySearchPage brasp = new BookTurnApplySearchPage(list, pageNavi, arrTurnApplyDate, aReqPage,selectCount);
+			return new Gson().toJson(brasp);
+		
+		}
+		
+		@RequestMapping(value="/agreeTurnApply.do")
+		public String agreeTurnApply(HttpServletRequest request) {
+			int turnApply = Integer.parseInt(request.getParameter("turnApply"));
+			//반납신청테이블에서 반납신청번호로 정보조회해오기
+			TurnApply selectTurnApplyOneList = service.selectTurnApplyOneList(turnApply);
+			//반납신청테이블에서 불러온 목록에 책넘버로 도서테이블에서 책목록 가져오기
+			Book bookList = service.selectBookListTurnApply(selectTurnApplyOneList.getBookNo());
+			//bookList에 도서제목,도서출판사,도서 작가를 예약테이블에 보내줘서 해당하는 리스트 불러오기
+			ArrayList<Reservation> reservationList = (ArrayList<Reservation>)service.selectReservationListTurnApply(bookList.getBookName(),bookList.getBookPublisher(),bookList.getBookWriter());
+			//예약테이블에서 불러온 리스트중에서 member_id값으로 멤버테이블에 해당 멤버이메일들을 불러오기
+			String[] memberEmail = new String[reservationList.size()];
+			for(int i=0;i<reservationList.size();i++) {
+				String memberId = reservationList.get(i).getMemberId();
+				String Email = service.selectMemberEmailTurnApply(memberId);
+				memberEmail[i]=Email;
+			}
+			String setfrom = "pjyub1297@gmail.com";
+			String title =  "[BooketList]예약하신 도서("+bookList.getBookName()+")가 대여가능 합니다";
+			
+			MimeMessage message = mailSender.createMimeMessage();
+			try {
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+				messageHelper.setFrom(setfrom);
+				messageHelper.setTo(memberEmail);
+				messageHelper.setSubject(title);
+				messageHelper.setText("", "<h1>예약도서<h1>"
+						+ "<a href='http://192.168.10.155/rent/goBookSearch.do?reqPage=1' style='font-size:10pt'>도서대여 페이지로 이동</a>"
+						+"<table border=1>"
+						+"<tr>"
+						+"<th>제목</th>"
+						+"<th>내용</th>"
+						+"</tr>"
+						+"<tr>"
+						+"<td>제목111</td>"
+						+"<td>내용111</td>"
+						+"</tr>"
+						+ "</table>");
+				
+				mailSender.send(message);				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			//반납신청테이블에서 승인버튼을 눌러준것만 지워주고
+			//메일을 보내준 멤버 예약테이블에서 지워주고 
+			//도서 테이블에서 해당 도서넘버에 해당하는 도서상태 대여가능으로 바꿔주기
+			int result = service.deleteTurnApply(turnApply);
+			if(result>0) {
+				int reservationResult = service.deleteReservationTurnApply(bookList.getBookName(),bookList.getBookPublisher(),bookList.getBookWriter());
+					if(reservationResult>0) {
+						int updateResult = service.updateBookTurnApply(selectTurnApplyOneList.getBookNo());
+							if(updateResult>0) {
+								return null;
+							}else {
+								return null;
+							}
+					}else {
+						return null;
+					}
+			}else {
+				return null;
+			}
+			
+			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
 		}
 }
 

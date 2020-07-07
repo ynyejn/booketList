@@ -69,25 +69,23 @@
 							$("#allCheck").prop("checked", false);
 							$("#tbody").html("");
 							$(".pagination").html("");
-							var reqPage = $("#reqPage").val();
-							var selectColumn = $(
-									"#selectColumn option:selected").val();
+							var selectColumn = $("#selectColumn option:selected").val();
 							var search = $("#search").val();
-							var smc = $("#selectMemberCount option:selected").val();
+							var smc = $("#selectBookCount option:selected").val();
 							smc = parseInt(smc);
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
-										url : "/memberSearchList.do",
+										url : "/bookSearchRentalApplyList.do",
 										type : "post",
 										dataType : "json",
 										data : {
+											alignTitle : alignTitle,
+											alignStatus : alignStatus,
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search,
-											alignTitle : alignTitle,
-											alignStatus : alignStatus
+											search : search
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -96,7 +94,7 @@
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
 												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentApply="+data.list[i].rentApply+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -105,56 +103,47 @@
 														+ data.list[i].memberId
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberName
+														+ data.list[i].bookName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberEmail
+														+ data.list[i].spotName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberPhone
+														+ data.arrRentApplyDate[i]
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberNickname
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrEnrollDate[i]
-														+ "</td>";
-														
-												resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+												+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+												+ "</td></tr>";
 											}
 											$("#tbody").html(resultText);
-											$(".pagination")
-													.html(data.pageNavi);
+											$(".pagination").html(data.pageNavi);
 										},
 										error : function() {
 
 										}
 									});
 						});
-		$("#selectMemberCount").change(function() {
+		$("#selectBookCount").change(function() {
 			$(".chBox").prop("checked", false);
 			$("#allCheck").prop("checked", false);
-							var smc = $("#selectMemberCount option:selected")
-									.val();
-							smc = parseInt(smc);
+						var smc = $("#selectBookCount option:selected").val();
 							$("#tbody").html("");
 							$(".pagination").html("");
-							var selectColumn = $(
-									"#selectColumn option:selected").val();
+							var selectColumn = $("#selectColumn option:selected").val();
 							var search = $("#search").val();
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
-										url : "/memberSearchList.do",
+										url : "/bookSearchRentalApplyList.do",
 										type : "post",
 										dataType : "json",
 										data : {
+											alignTitle : alignTitle,
+											alignStatus : alignStatus,
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search,
-											alignTitle : alignTitle,
-											alignStatus : alignStatus
+											search : search
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -163,8 +152,8 @@
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
 												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
-														 + ((data.reqPage - 1)
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentApply="+data.list[i].rentApply+">"
+														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
 														+ "</th>";
@@ -172,25 +161,20 @@
 														+ data.list[i].memberId
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberName
+														+ data.list[i].bookName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberEmail
+														+ data.list[i].spotName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberPhone
+														+ data.arrRentApplyDate[i]
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberNickname
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrEnrollDate[i]
-														+ "</td>";
-												resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+												+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+												+ "</td></tr>";
 											}
 											$("#tbody").html(resultText);
-											$(".pagination")
-													.html(data.pageNavi);
+											$(".pagination").html(data.pageNavi);
 										},
 										error : function() {
 
@@ -212,10 +196,10 @@
 			console.log("엑셀다운로드");
 			var checkArr = new Array();
 			$("input[class='chBox']:checked").each(function(){
-				checkArr.push($(this).attr("data-memberId"));
+				checkArr.push($(this).attr("data-rentApply"));
 			});
 			console.log(checkArr);
-			location.href="/excelDown.do?checkArr="+checkArr;
+			location.href="/excelRentApplyDown.do?checkArr="+checkArr
 
 		});
 
@@ -223,12 +207,17 @@
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
 		console.log("searchPageNavi 클릭");
+		var alignTitle = $("#alignStatus").find("span").html();
+		var alignStatus = $("#alignStatus").find("input").val();
+		console.log("페이지 네비 클릭 : "+alignTitle);
+		console.log("페이지 네비 클릭 : "+alignStatus);
 		$(".chBox").prop("checked", false);
 		$("#allCheck").prop("checked", false);
-		var smc = $("#selectMemberCount option:selected").val();
+		var smc = $("#selectBookCount option:selected").val();
 		smc = parseInt(smc);
 		var ajaxReqPage = $("#ajaxReqPage").val();
 		ajaxReqPage = parseInt(ajaxReqPage);
+		console.log(ajaxReqPage);
 		var reqPage;
 		if ($(obj).html() == "<span>»</span>") {
 			reqPage = (parseInt((ajaxReqPage-1)/5)*5+1)+5;
@@ -242,44 +231,44 @@
 		}
 		var selectColumn = $("#selectColumn option:selected").val();
 		var search = $("#search").val();
-		var alignTitle = $("#alignStatus").find("span").html();
-		var alignStatus = $("#alignStatus").find("input").val();
 		$.ajax({
-			url : "/memberSearchList.do",
+			url : "/bookSearchRentalApplyList.do",
 			type : "post",
 			dataType : "json",
 			data : {
-
+				alignTitle : alignTitle,
+				alignStatus : alignStatus,
 				selectCount : smc,
 				reqPage : reqPage,
 				selectColumn : selectColumn,
-				search : search,
-				alignTitle : alignTitle,
-				alignStatus : alignStatus
+				search : search
 			},
 			success : function(data) {
-				console.log(data.list[0].enrollDate);
 				$(".pagination").html("");
 				$("#tbody").html("");
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
 					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
-							+ ((data.reqPage - 1) * data.selectCount + i + 1)
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentApply="+data.list[i].rentApply+">"
+							+ ((data.reqPage - 1)
+									* data.selectCount
+									+ i + 1)
 							+ "</th>";
-					resultText += "<td class=th2>" + data.list[i].memberId
-							+ "</td>";
-					resultText += "<td class=th2>" + data.list[i].memberName
-							+ "</td>";
-					resultText += "<td class=th2>" + data.list[i].memberEmail
-							+ "</td>";
-					resultText += "<td class=th2>" + data.list[i].memberPhone
+					resultText += "<td class=th2>"
+							+ data.list[i].memberId
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.list[i].memberNickname + "</td>";
-					resultText += "<td class=th2>" + data.arrEnrollDate[i]
+							+ data.list[i].bookName
 							+ "</td>";
-					resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+					resultText += "<td class=th2>"
+							+ data.list[i].spotName
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.arrRentApplyDate[i]
+							+ "</td>";
+					resultText += "<td class=th2>"
+					+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+					+ "</td></tr>";
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -298,7 +287,7 @@
 		var aStatus = $(obj).find("input").val();
 		$(".chBox").prop("checked", false);
 		$("#allCheck").prop("checked", false);
-		var smc = $("#selectMemberCount option:selected").val();
+		var smc = $("#selectBookCount option:selected").val();
 		smc = parseInt(smc);
 		var ajaxReqPage = $("#ajaxReqPage").val();
 		ajaxReqPage = parseInt(ajaxReqPage);
@@ -316,7 +305,7 @@
 		var alignTitle = $("#alignStatus").find("span").html();
 		var alignStatus = $("#alignStatus").find("input").val();
 		$.ajax({
-			url : "/memberSearchList.do",
+			url : "/bookSearchRentalApplyList.do",
 			type : "post",
 			dataType : "json",
 			data : {
@@ -333,25 +322,30 @@
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
 					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
-							+ ((data.reqPage - 1) * data.selectCount + i + 1)
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentApply="+data.list[i].rentApply+">"
+							+ ((data.reqPage - 1)
+									* data.selectCount
+									+ i + 1)
 							+ "</th>";
-					resultText += "<td class=th2>" + data.list[i].memberId
-							+ "</td>";
-					resultText += "<td class=th2>" + data.list[i].memberName
-							+ "</td>";
-					resultText += "<td class=th2>" + data.list[i].memberEmail
-							+ "</td>";
-					resultText += "<td class=th2>" + data.list[i].memberPhone
+					resultText += "<td class=th2>"
+							+ data.list[i].memberId
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.list[i].memberNickname + "</td>";
-					resultText += "<td class=th2>" + data.arrEnrollDate[i]
+							+ data.list[i].bookName
 							+ "</td>";
-					resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+">탈퇴</button></td></tr>";
+					resultText += "<td class=th2>"
+							+ data.list[i].spotName
+							+ "</td>";
+					resultText += "<td class=th2>"
+							+ data.arrRentApplyDate[i]
+							+ "</td>";
+					resultText += "<td class=th2>"
+					+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+					+ "</td></tr>";
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
+				
 				
 				console.log("변경된 대여상태 : "+$("#alignStatus").find("input").val());
 				
@@ -362,16 +356,12 @@
 		});
 	}
 	
-	function deleteMember(obj){
-		var memberId = $(obj).attr("data-memberId");
-		console.log(memberId);
-		var result = confirm("탈퇴시키시겠습니가?");
-		if(result){
-			location.href="/adminDeleteMember.do?memberId="+memberId;
-		}else{
-			
-		}
-	}
+	function agreeRentApply(obj){
+		var rentApply = $(obj).attr("data-rentApply");
+		console.log(rentApply);
+		location.href="/agreeRentApply.do?rentApply="+rentApply;
+		
+	};
 </script>
 </head>
 
@@ -642,7 +632,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
+					<h1 class="h3 mb-2 text-gray-800">도서 대여 신청 목록</h1>
 
 					<style>
 .tableTop {
@@ -699,42 +689,43 @@ padding-top:3px;
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										<li id="tt1" role="presentation" class="active"><a
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
-											aria-controls="home" aria-expanded="true"><b>회원목록</b></a></li>
-										<li><select class="form-control"
-											style="width: 80px; height: 40px; margin-left: 10px;"
-											id="selectMemberCount" name="selectMemberCount">
-												<option value="10"
-													<c:if test="${selectCount eq 10 }">selected</c:if>>10</option>
-												<option value="25"
-													<c:if test="${selectCount eq 25}">selected</c:if>>25</option>
-												<option value="50"
-													<c:if test="${selectCount eq 50}">selected</c:if>>50</option>
-												<option value="100"
-													<c:if test="${selectCount eq 100}">selected</c:if>>100</option>
-										</select></li>
+											aria-controls="home" aria-expanded="true"><b>도서 대여 신청 목록</b></a></li>
+										<li>
+											<select class="form-control"
+												style="width: 80px; height: 40px; float:left; margin-left: 10px;"
+												id="selectBookCount" name="selectBookCount">
+													<option value="10"
+														<c:if test="${selectCount eq 10 }">selected</c:if>>10</option>
+													<option value="25"
+														<c:if test="${selectCount eq 25}">selected</c:if>>25</option>
+													<option value="50"
+														<c:if test="${selectCount eq 50}">selected</c:if>>50</option>
+													<option value="100"
+														<c:if test="${selectCount eq 100}">selected</c:if>>100</option>
+											</select>
+											
+										</li>
 										<li id="searchbar">
 											<div class="row">
 												<div class="col-lg-6">
 													<div class="input-group" style="width: 350px;">
 														<div class="input-group-btn">
-															<input type="hidden" id="reqPage" value=${reqPage }>
+												
 															<select class="form-control"
-																style="width: 90px; height: 35px; margin-left: 10px;"
+																style="width: 120px; height: 35px; margin-left: 10px;"
 																id="selectColumn" name="selectColumn">
-																<option value="member_id"
+																<option value="아이디"
 																	<c:if test="${selectColumn eq memberId }">selected</c:if>>ID</option>
-																<option value="member_name"
-																	<c:if test="${selectColumn eq membeName}">selected</c:if>>이름</option>
-																<option value="member_email"
-																	<c:if test="${selectColumn eq email}">selected</c:if>>이메일</option>
-																<option value="member_nickname"
-																	<c:if test="${selectColumn eq nickName}">selected</c:if>>닉네임</option>
+																<option value="책 제목"
+																	<c:if test="${selectColumn eq bookName}">selected</c:if>>책 제목</option>
+																	<option value="대여 장소"
+																	<c:if test="${selectColumn eq spotName}">selected</c:if>>대여 장소</option>
 															</select>
 
 														</div>
 														<!-- /btn-group -->
 														<input type="text" class="form-control" aria-label="..."
-															id="search" style="width: 200px; float: left;"> <span
+															id="search" style="width: 180px; float: left;"> <span
 															class="glyphicon glyphicon-search" id="sear"
 															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
 													</div>
@@ -745,35 +736,33 @@ padding-top:3px;
 											</div>
 										</li>
 									</ul>
-
+								
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
-											<div id="alignStatus"><input type="hidden"><span style="display:none"></span></div>
+												<div id="alignStatus"><input type="hidden"><span style="display:none"></span></div>
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th class="num"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
-															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></th>
-															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>이름</span></th>
-															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>이메일</span></th>
-															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>전화번호</span></th>
-															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>닉네임</span></th>
-															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>가입일</span></th>
+															<th class="num" style="width:10%"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
+															<th class="th2" style="width:10%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></th>
+															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
+															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여 장소</span></th>
+															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여신청날짜</span></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
 														<c:forEach items="${list }" var="l" varStatus="i">
 															<tr>
 																<input type="hidden" id="ajaxReqPage" value="${reqPage }">
-																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-memberId="${l.memberId }">${(reqPage-1)*selectCount + i.count }</th>
+																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-rentApply="${l.rentApply }">${(reqPage-1)*selectCount + i.count }</th>
 																<td class="th2">${l.memberId }</td>
-																<td class="th2">${l.memberName }</td>
-																<td class="th2">${l.memberEmail }</td>
-																<td class="th2">${l.memberPhone }</td>
-																<td class="th2">${l.memberNickname }</td>
-																<td class="th2">${l.enrollDate }</td>
-																<td class="th2"><button class="btn btn-danger" data-memberId="${l.memberId }" onclick="deleteMember(this)">탈퇴</button></td>
+																<td class="th2">${l.bookName }</td>
+																<td class="th2">${l.spotName }</td>
+																<td class="th2">${l.rentApplyDate }</td>
+																<td class="th2">
+																	<button class="btn btn-danger" data-rentApply="${l.rentApply }" onclick="agreeRentApply(this)">승인</button>
+																</td>
 															</tr>
 														</c:forEach>
 													</tbody>

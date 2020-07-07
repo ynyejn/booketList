@@ -197,6 +197,28 @@
          background-color:#666666;
         color: white;
     }
+    .nFrame{
+        width: 100%;
+        margin-top: 14px;
+        overflow: hidden;
+        text-align: center;
+    }
+    .naviBtn, .selectPage, .heading{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 20px;
+        color: #a8adb5;
+        display: inline-block;
+	}
+    .selectPage{
+        color: #222222;
+        font-size: 25px;
+        border-bottom: 2px solid #222222;
+    }
+    .heading{
+        width: 80px;
+    }
 
 </style>
 
@@ -218,8 +240,8 @@
                 <div class="boardList">
                     <c:forEach items="${list }" var="l">
                         <div class="boardBox">
-                            <a href="javascript:void(0)" onclick="openModal(${l.usedNo},${l.usedPw});">
-                                <div style="padding:24px 0;">
+                            <a href="javascript:void(0)" onclick="openModal(${l.usedNo});">
+                              <div style="padding:24px 0;">
                                     <div class='sec1' style='width:246px; height:52px;'>
                                         도서${l.usedType}
                                     </div>
@@ -244,13 +266,13 @@
                                         <span>${l.memberId}</span>
                                         <span>${l.usedDate}</span>
                                         <span>조회 ${l.readCount}</span>
-                                        <input type="hidden" id="usedPw" value="${l.usedPw}">
                                     </div>
                                 </div>
                             </a>
                         </div>
                     </c:forEach>
                 </div>
+                <div class="nFrame">${pageNavi}</div>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -272,26 +294,36 @@
           <button type="button" class="btn" data-dismiss="modal" >닫기</button>
         </div>
         <input type="hidden" id="modalUsedNo">
-          <input type="hidden" id="modalUsedPw">
       </div>
     </div>
   </div>
 <script>
-function openModal(usedNo,usedPw){
+//모달열기
+function openModal(usedNo){
     $("#myModal").modal();
     $("#ans").val("");
     $("#modalUsedNo").val(usedNo);
-    $("#modalUsedPw").val(usedPw);
-    $("#goBtn").attr("onclick","return goBoardView("+usedNo+","+usedPw+");")
+    $("#goBtn").attr("onclick","return goBoardView("+usedNo+");");
     
 }
-function goBoardView(usedNo, usedPw){
-    if($("#ans").val()!=usedPw){
-        alert("비밀번호를 확인해주세요.");
-        $("#ans").val("");
-        return false;
-    }
-    location.href="/goBoardView.do?usedNo="+usedNo;
+//비밀번호확인
+function goBoardView(usedNo){
+    var usedPw=$("#ans").val();
+    $.ajax({
+		  url:"/checkUsedPw.do",
+		  data : {usedNo:usedNo,usedPw:usedPw},
+		  type:"post",
+		  success:function(data){
+			  if (data == "0") {
+				  alert("비밀번호를 확인해주세요.");
+				  $("#ans").val("");
+			        return false;
+               } else {
+            	   location.href="/goBoardView.do?usedNo="+usedNo;
+               }
+		  }
+	  })
+
 }
 </script>
 
