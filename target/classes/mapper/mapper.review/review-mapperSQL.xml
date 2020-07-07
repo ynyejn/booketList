@@ -19,6 +19,7 @@
 		book_name as bookName,
 		book_publisher as bookPublisher,
 		book_writer as bookWriter,
+		review_date as reviewDate
 		book_category as bookCategory from review
 	</select>
 	<select id="reviewSelectBook" parameterType="string" resultType="book">
