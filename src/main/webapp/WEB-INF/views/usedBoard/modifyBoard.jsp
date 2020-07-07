@@ -128,6 +128,7 @@
 
     .boardFrame>form tr>td:last-of-type {
         /*padding-left: 30px;*/
+        text-indent:10px;
 
     }
 
@@ -180,30 +181,19 @@
                     <table>
                         <tr>
                             <td>분류</td>
-                            <td><select name="usedType" style=" width:200px; height: 35px; border: 1px solid lightgray;">
-                                    <option value="기증">기증</option>
-                                    <option value="판매">판매</option>
-                                </select></td>
+                            <td>${ub.usedType} </td>
                         </tr>
                         <tr>
                             <td>글제목<span style="color: #fc3f3f;">*</span></td>
-                            <td><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." style="width:100%;" required></td>
+                            <td style="text-indent:0px;"><input type="text" name="usedTitle" placeholder="글제목을 입력하세요." style="width:100%;" value="${ub.usedTitle}" required></td>
                         </tr>
                         <tr>
                             <td>내용<span style="color: #fc3f3f;">*</span></td>
-                            <td><textarea class="form-control" id="p_content" name="usedContent"></textarea>
+                            <td><textarea class="form-control" id="p_content" name="usedContent">${ub.usedContent }</textarea>
                             </td>
                         </tr>
-                        <tr>
-                            <td>비밀번호<span style="color: #fc3f3f;">*</span></td>
-                            <td><input type="password" name="usedPw" placeholder="ex ) 1234" required></td>
-                        </tr>
-                        <tr class='infoTr'>
-                            <td>기증자 명</td>
-                            <td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td>
-                        </tr>
                     </table>
-                    <button type="submit">등록</button><button type="button" onclick="location.href='/goUsedBoard.do?reqPage=1'">취소</button>
+                    <button type="submit">등록</button><button type="button" onclick="location.href='/goBoardView.do?usedNo=${ub.usedNo}'">취소</button>
                 </form>
             </div>
         </div>
@@ -216,17 +206,15 @@
         height: 400
     });
     $(function() {
-        $("select").change(function() {
             var html = "";
-            if ($(this).val() == '기증') {
-                html += "<tr class='infoTr'><td>기증자 명</td><td><input type='text' name='usedInfo' placeholder='미입력시 이름으로 지정됩니다.'></td></tr>";
+            if ('${ud.usedType}' == '기증') {
+                html += "<tr class='infoTr'><td>기증자 명</td><td>${ub.usedInfo}</td></tr>";
             } else {
-                html += "<tr class='infoTr'><td >계좌번호<span style='color: #fc3f3f;'>*</span></td><td><select name='bank' style='width: 100px; height: 35px; border: 1px solid lightgray;'>";
-                html += "<option value='국민은행'>국민은행</option><option value='우리은행'>우리은행</option><option value='신한은행'>신한은행</option><option value='기업은행'>기업은행</option><option value='하나은행'>하나은행</option><option value='외환은행'>외환은행</option><option value='농협'>농협</option><option value='카카오뱅크'>카카오뱅크</option></select><input type='text' name='usedInfo' style='width:200px; margin-left:5px;'></td></tr>";
+                html += "<tr class='infoTr'><td >계좌번호</td><td>";
+                html += "${ub.usedInfo}</td></tr>";
             }
-            $(".infoTr").remove();
             $(".boardFrame tbody").append(html);
-        });
+ 
     });
 
     function checkFunc(){

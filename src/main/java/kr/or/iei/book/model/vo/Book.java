@@ -2,9 +2,8 @@ package kr.or.iei.book.model.vo;
 
 import java.sql.Date;
 
-
-
 import lombok.Data;
+
 @Data
 public class Book {
 	private int bookNo;
