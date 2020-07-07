@@ -63,10 +63,6 @@ public class AdminController {
 	private AdminService service;
 	private JavaMailSender mailSender;
 	
-	@RequestMapping(value="/login.do")
-	public String loginFrm() {
-		return "admin/loginFrm";
-	}
 	
 	@RequestMapping(value="/userLostBook.do")
 	public String userLostBook(HttpSession session,Model model) {
@@ -89,21 +85,6 @@ public class AdminController {
 			return result2;
 		}
 		return 0;
-	}
-	
-	@RequestMapping(value="/logins.do")
-	public String login(String id, String pass, HttpSession session) {
-		Member m = new Member();
-		m.setMemberId(id);
-		m.setMemberPw(pass);
-		Member member = service.login(m);
-		if(member==null) {
-			return "admin/loginFrm";
-		}else {
-			session.setAttribute("member", member);
-			return "redirect:/";
-		}
-		
 	}
 	
 	@RequestMapping(value="/adminPage.do")
@@ -342,8 +323,10 @@ public class AdminController {
 		String[] params = request.getParameterValues("chBox");
 		model.addAttribute("reqPage", reqPage);
 		int result = service.cancelLostBookList(params); // book_status 5에서 0 으로
+		System.out.println(result);
 		if(result>0) {
 			int result2 = service.cancelLostBookList2(params); // rent table의 반납일자와 상태를 반납완료로 바꿈
+			System.out.println(result2);
 			return result2;
 		}
 		

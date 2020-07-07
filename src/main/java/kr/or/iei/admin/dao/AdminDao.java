@@ -216,10 +216,6 @@ public class AdminDao {
 		return sqlSession.selectList("book.selectExcelRentList",rentNo);
 	}
 
-	public Member login(Member m) {
-		return sqlSession.selectOne("member.login",m);
-	}
-
 	public List userLostBook(Member m) {
 		return sqlSession.selectList("book.userLostBook",m);
 	}

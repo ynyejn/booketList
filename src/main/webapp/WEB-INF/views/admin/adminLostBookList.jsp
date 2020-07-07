@@ -64,10 +64,7 @@
 			var search = $("#search").val();
 			var searchTitle = $("#searchTitle").find("option:selected").html();
 			alert(searchTitle);
-			location.href = "/adminLostBookList.do?reqPage=" + $
-			{
-				reqPage
-			}
+			location.href = "/adminLostBookList.do?reqPage=" + ${reqPage}
 			+"&search=" + search + "&searchTitle=" + $("#searchTitle").html();
 		});
 
@@ -85,40 +82,29 @@
 			}
 		});
 
-		$("#selDelete")
-				.click(
-						function() {
+		$("#selDelete").click(function() {
+			
 							if (confirm("선택 도서 분실을 취소 하시겠습니까?")) {
 								var checkArr = new Array();
-								var reqPages = $
-								{
-									reqPage
-								}
-								;
+								var reqPage = ${reqPage};
 
 								$(".checkRow:checked").each(function() {
 									checkArr.push($(this).val());
 								});
 
-								$
-										.ajax({
+								$.ajax({
 											url : "/cancelLostBookList.do",
 											type : "get",
 											traditional : true,
 											data : {
 												chBox : checkArr,
-												reqPage : reqPages
+												reqPage : reqPage
 											},
 											success : function(result) {
 												console.log(result);
 												if (result > 0) {
 													alert("분실취소가 완료되었습니다.");
-													location.href = "/adminLostBookList.do?reqPage="
-															+ $
-													{
-														reqPage
-													}
-													;
+													location.href = "/adminLostBookList.do?reqPage="+ ${reqPage};
 												} else {
 													alert("삭제가 실패 하였습니다.");
 												}
@@ -521,9 +507,7 @@
 												</thead>
 												<tbody>
 													<c:forEach items="${list1 }" var="p" varStatus="i">
-														<tr class="move"
-															onclick="detail('${p.bookNo }','${reqPage }')"
-															data-toggle="modal" data-target="#myModal">
+														<tr class="move">
 															<th class="width5"><input type="checkbox"
 																class="checkRow" value="${p.bookNo }"></th>
 															<td class="width5">${p.memberId }</td>
