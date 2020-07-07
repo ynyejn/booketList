@@ -22,6 +22,18 @@ td {
 	border: 1px solid #eeeeee;
 	border-collapse: collapse;
 }
+
+.join1 {
+	margin: 0 auto;
+	overflow: hidden;
+	width: 600px;
+}
+
+#form_join {
+	margin: 0 auto;
+	overflow: hidden;
+	width: 500px;
+}
 </style>
 <script>
 	//모든 공백 체크 정규식
@@ -54,7 +66,9 @@ td {
 					var memberId = $('#memberId').val();
 					$.ajax({
 						type : 'POST',
-						data : {memberId : memberId},
+						data : {
+							memberId : memberId
+						},
 						url : '/member/checkId.do',
 						success : function(data) {
 							if (data == "1") {
@@ -69,24 +83,30 @@ td {
 				});
 			}
 		});
-		
-		$('#memberPw2').on("blur", function(event) {
-			if (!pw.test($('#memberPw').val())) {
-				$('#pw_check').text('비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
-				$('#pw_check').css('color', 'red');
-				$("#memberPw").val("");
-			} else {
-				if ($('#memberPw').val() != $('#memberPw2').val()) {
-					$('#pw_check').text('비밀번호 확인을 다시 해주세요.');
-					$('#pw_check').css('color', 'red');
-					$("#memberPw").val("");
-					$("#memberPw2").val("");
-				} else {
-					$('#pw_check').text('비밀번호 형식에 맞습니다.');
-					$('#pw_check').css('color', '#666666');
-				}
-			}
-		});
+
+		$('#memberPw2')
+				.on(
+						"blur",
+						function(event) {
+							if (!pw.test($('#memberPw').val())) {
+								$('#pw_check')
+										.text(
+												'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+								$('#pw_check').css('color', 'red');
+								$("#memberPw").val("");
+							} else {
+								if ($('#memberPw').val() != $('#memberPw2')
+										.val()) {
+									$('#pw_check').text('비밀번호 확인을 다시 해주세요.');
+									$('#pw_check').css('color', 'red');
+									$("#memberPw").val("");
+									$("#memberPw2").val("");
+								} else {
+									$('#pw_check').text('비밀번호 형식에 맞습니다.');
+									$('#pw_check').css('color', '#666666');
+								}
+							}
+						});
 
 		$('#memberName').on("blur", function(event) {
 			if (!name.test($('#memberName').val())) {
@@ -98,35 +118,54 @@ td {
 				$('#name_check').css('color', '#666666');
 			}
 		});
-		
-		$('#memberNickname').on("blur",	function(event) {
-			if (!nickname.test($('#memberNickname').val())) {
-				$('#nickname_check').text('2~10자의 영문 대소문자,한글,숫자,특수문자 사용 가능합니다.');
-				$('#nickname_check').css('color', 'red');
-				$("#memberNickname").val("");
-			} else {
-				$('#nickname_check').text('중복체크 버튼을 눌러주세요');
-				$('#nickname_check').css('color', '#666666');
-				//닉네임 중복확인	
-				$("#doubleNick").click(function() {
-					var memberNickname = $('#memberNickname').val();
-					$.ajax({
-						type : 'POST',
-						data : {memberNickname : memberNickname},
-						url : '/member/checkNickname.do',
-						success : function(data) {
-							if (data == "1") {
-								alert("중복닉네임입니다.");
-								$("#memberJoin").attr("disabled","disabled");
+
+		$('#memberNickname')
+				.on(
+						"blur",
+						function(event) {
+							if (!nickname.test($('#memberNickname').val())) {
+								$('#nickname_check').text(
+										'2~10자의 영문 대소문자,한글,숫자,특수문자 사용 가능합니다.');
+								$('#nickname_check').css('color', 'red');
+								$("#memberNickname").val("");
 							} else {
-								alert("닉네임사용가능합니다.");
-								$("#memberJoin").attr("disabled");
+								$('#nickname_check').text('중복체크 버튼을 눌러주세요');
+								$('#nickname_check').css('color', '#666666');
+								//닉네임 중복확인	
+								$("#doubleNick")
+										.click(
+												function() {
+													var memberNickname = $(
+															'#memberNickname')
+															.val();
+													$
+															.ajax({
+																type : 'POST',
+																data : {
+																	memberNickname : memberNickname
+																},
+																url : '/member/checkNickname.do',
+																success : function(
+																		data) {
+																	if (data == "1") {
+																		alert("중복닉네임입니다.");
+																		$(
+																				"#memberJoin")
+																				.attr(
+																						"disabled",
+																						"disabled");
+																	} else {
+																		alert("닉네임사용가능합니다.");
+																		$(
+																				"#memberJoin")
+																				.attr(
+																						"disabled");
+																	}
+																}
+															})
+												})
 							}
-						}
-					})
-				})
-			}
-		})	
+						})
 		$('#memberPhone').on("blur", function(event) {
 			if (!phone.test($('#memberPhone').val())) {
 				$('#phone_check').text('휴대폰 번호에 숫자만 입력해주세요');
@@ -138,7 +177,7 @@ td {
 
 			}
 		});
-		
+
 		$('#memberEmail').on("blur", function(event) {
 			if (!email.test($('#memberEmail').val())) {
 				$('#email_check').text('이메일은 @ 포함하여 입력해주세요 ');
@@ -147,35 +186,37 @@ td {
 			} else {
 				$('#email_check').text('맞는 이메일 형식입니다.');
 				$('#email_check').css('color', '#666666');
+				var mailCode = "";
+				$("#mailBtn").click(function() {
+					var mail = $("#memberEmail").val();
+					$.ajax({
+						url : "/member/sendMail.do",
+						type : "post",
+						data : {
+							mail : mail
+						},
+						success : function(data) {
+							mailCode = data;
+							$("#mailCode").show();
+							$("#mailResult").show();
+						}
+					});
+				});
+
+				$("#mailResult").click(function() {
+					if ($("#mailCode").val() == mailCode) {
+						$("#mailMsg").html('인증성공');
+						$("#mailMsg").css('color', 'green');
+					} else {
+						$("#mailMsg").html('인증실패');
+						$("#mailMsg").css('color', 'red');
+					}
+				});
 			}
 		});
- 
-		var mailCode="";
-		$("#mailBtn").click(function(){
-			var mail =$("#mail").val();
-			$.ajax({
-				url : "/member/sendMail.do",
-				type : "post",
-				data : {mail:mail},
-				success : function(data){
-					mailCode = data;
-					$("#mailCode").show();
-					$("#mailResult").show();
-				}
-			});
-		});
-		
-		$("#mailResult").click(function(){
-			if($("#mailCode").val() == mailCode){
-				$("#mailMsg").html('인증성공');
-				$("#mailMsg").css('color','green');
-			} else {
-				$("#mailMsg").html('인증실패');
-				$("#mailMsg").css('color','red');
-			}
-		});
+
 	});
-		
+
 	function member_join() {
 
 		if ($('#memberId').val() == '') {
@@ -185,7 +226,8 @@ td {
 		}
 
 		if ($('#memberPw').val() == '') {
-			$('#pw_check').text('비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+			$('#pw_check').text(
+					'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
 			$('#pw_check').css('color', 'red');
 			return;
 		}
@@ -261,6 +303,7 @@ td {
 			"memberCategory3" : choice3,
 			"memberNickname" : $('#memberNickname').val()
 		}
+
 		$.ajax({
 			url : '/member/joinSuccess.do',
 			type : 'post',
@@ -268,65 +311,69 @@ td {
 			contentType : "application/json; charset=UTF-8",
 			data : JSON.stringify(member)
 		});
+
 	}
 </script>
 <body>
 	<div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
-			<div class="col-md-6 col-md-offset-3">
-				<h2>회원가입</h2>
+			<div class="join1">
+
 				<form id="form_join" action="/member/joinSuccess.do" method="post">
+					<h2>회원가입</h2>
 					<div class="form-group">
 						<label for="id">아이디</label> <input type="text"
 							class="form-control" id="memberId" name="memberId"
-							placeholder="ID"><br>
+							placeholder="ID" style="width: 430px;"><br>
 						<button type="button" id="doubleId">중복 체크</button>
 						<div class="check_font" id="id_check"></div>
 					</div>
 					<div class="form-group">
 						<label for="pw">비밀번호</label> <input type="password"
 							class="form-control" id="memberPw" name="memberPw"
-							placeholder="PASSWORD">
+							placeholder="PASSWORD" style="width: 430px;">
 						<div class="check_font" id="pw_check"></div>
 					</div>
 					<div class="form-group">
 						<label for="pw">비밀번호 확인</label> <input type="password"
 							class="form-control" id="memberPw2" name="memberPw2"
-							placeholder="PASSWORD CHECK">
+							placeholder="PASSWORD CHECK" style="width: 430px;">
 						<div class="check_font" id="pw2_check"></div>
 					</div>
 					<div class="form-group">
 						<label for="name">이름</label> <input type="text"
 							class="form-control" id="memberName" name="memberName"
-							placeholder="Name">
+							placeholder="Name" style="width: 430px;">
 						<div class="check_font" id="name_check"></div>
 					</div>
 					<div class="form-group">
 						<label for="nickname">닉네임</label> <input type="text"
 							class="form-control" id="memberNickname" name="memberNickname"
-							placeholder="Nickname"><br>
+							placeholder="Nickname" style="width: 430px;"><br>
 						<button type="button" id="doubleNick">중복 체크</button>
 						<div class="check_font" id="nickname_check"></div>
 					</div>
 					<div class="form-group">
 						<label for="phone">휴대폰 번호</label> <input type="text"
 							class="form-control" id="memberPhone" name="memberPhone"
-							placeholder="Phone Number">
+							placeholder="Phone Number" style="width: 430px;">
 						<div class="check_font" id="phone_check"></div>
 					</div>
 					<div class="form-group">
 						<label for="email">이메일</label> <input type="text"
 							class="form-control" id="memberEmail" name="memberEmail"
-							placeholder="Email">
-						<div class="check_font" id="email_check"></div>
+							placeholder="Email" style="width: 430px;">
+						<button type="button" id="mailBtn" class="btn btn-primary">메일전송</button>
+						<input type="text" id="mailCode" style="display: none;">
+						<button id="mailResult" type="button" class="btn btn-primary"
+							style="display: none;">메일확인</button>
+						<span id="mailMsg">
+							<div class="check_font" id="email_check"></div>
 					</div>
-					<input type="text" id="mail">
-						<button type="button" id ="mailBtn" class="btn btn-primary">메일전송</button>
-						<input type="text" id="mailCode" style="display:none;">
-						<button id="mailResult" class="btn btn-primary" style="display:none;">메일확인</button>
-						<span id="mailMsg"></span>
-					
+
+
+
 					<h2>카톡 api</h2>
 					<h2>네이버 api</h2>
 					<h2>도서선호장르 최대3개까지 체크가능(선택)</h2>
@@ -366,9 +413,9 @@ td {
 							type="checkbox" id="bookcheck" name="bookcheck" value="건강/취미/레저" />건강/취미/레저
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="달력/기타" />달력/기타<br>
-						<!-- <input type="submit" id="join" value="회원가입"> -->
+
 						<button type="button" onclick="member_join()" id="memberJoin"
-							disabled="disabled">회원가입</button>
+							disabled="disabled" style="width: 430px;">회원가입</button>
 					</div>
 			</div>
 		</div>

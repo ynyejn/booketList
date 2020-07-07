@@ -1,6 +1,7 @@
 package kr.or.iei.member.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -27,9 +28,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.mail.util.MailSend;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.review.model.vo.Review;
 
 @Controller
 @RequestMapping("/member")
@@ -146,5 +151,39 @@ public class MemberController {
 			return "member/mypage";
 		}
 	}
+	@RequestMapping(value = "/mypageReviewFrm.do")
+	public String reviewList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+		System.out.println(reviewList.size());
+		model.addAttribute("list", reviewList);
+		return "member/mypageReview";
+	}
+	@RequestMapping(value = "/mypageApplyFrm.do")
+	public String applyList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Apply> applyList = service.applyList(m.getMemberId());
+		System.out.println(applyList.size());
+		model.addAttribute("list", applyList);
+		return "member/mypageApply";
+	}
+	@RequestMapping(value = "/mypageReservationFrm.do")
+	public String reservationList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Reservation> reservationList = service.reservationList(m.getMemberId());
+		System.out.println(reservationList.size());
+		model.addAttribute("list", reservationList);
+		return "member/mypageReservation";
+	}
+	@RequestMapping(value = "/mypageRentFrm.do")
+	public String rentList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Rent> rentList = service.rentList(m.getMemberId());
+		System.out.println(rentList.size());
+		model.addAttribute("list", rentList);
+		return "member/mypageRent";
+	}
+	
 	
 }
+

@@ -50,6 +50,9 @@
 	<delete id="delete" parameterType="String">
 		delete from member where member_id = #{memberId}
 	</delete>
+	
+	
+	
 	<select id="selectMemberTotalCount" parameterType="map" resultType="_int">	
 	select count(*) as cnt from member where
 		<if test = "selectColumn.equals('member_id')">
