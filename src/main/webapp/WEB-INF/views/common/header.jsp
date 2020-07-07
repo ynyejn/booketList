@@ -68,7 +68,12 @@
 				<li><a href="#">공지사항</a></li>
 				<li><a href="/review/reviewList.do">후기 게시판</a></li>
 				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
+				<c:if test="${sessionScope.member.memberId eq 'admin' }">
+				<li><a href="/goAdminUsedBoard.do">도서기증 / 판매</a></li>
+				</c:if>
+				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="/goUsedBoard.do?reqPage=1">도서기증 / 판매</a></li>
+				</c:if>
 			</ul>
 		</div>
 	</div>
