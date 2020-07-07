@@ -13,6 +13,7 @@ import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.usedBoard.model.dao.UsedBoardDao;
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
 import kr.or.iei.usedBoard.model.vo.UsedBoardPageData;
+import kr.or.iei.usedBoard.model.vo.UsedComment;
 
 @Service
 public class UsedBoardService {
@@ -90,5 +91,10 @@ public class UsedBoardService {
 	@Transactional
 	public int deleteBoard(int usedNo) {
 		return dao.deleteBoard(usedNo);
+	}
+	
+	@Transactional
+	public int insertComment(UsedComment uc) {
+		return dao.insertComment(uc);
 	}
 }

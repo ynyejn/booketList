@@ -196,21 +196,12 @@
                 
                 <div class="comment-write">
 		<!-- 작성자, 게시글번호, 댓글레벨, 댓글번호 보내줘야함-->
-		<form action="/usedCommentInsert.do" method="post">
+		<form action="/usedCommentInsert.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="commentWriter" value="${sessionScope.member.memberId }">
-		<input type="hidden" name="noticeRef" value="${n.noticeNo}"><!-- 댓글써지는 글번호 -->
-		<input type="hidden" name="noticeCommentLevel" value="1"><!-- 직접댓글이니까 1 -->
-		<input type="hidden" name="noticeCommentRef" value="0"><!-- 대댓글일경우 참조하는댓글번호 -->
-			<table class="table">
-				<tr>
-					<td width="85%">
-						<input type="text" class="form-control" name="noticeCommentContent">
-					</td>
-					<td width="15%">
-						<button type="submit" class="btn btn-primary">등록</button>
-					</td>
-				</tr>
-			</table>
+		<input type="hidden" name="usedNo" value="${ub.usedNo}"> <!-- 댓글써지는 글번호 -->
+			<div><textarea name="commentContent"></textarea></div>
+			<input type="file" name="files" multiple="multiple">
+            <input type="submit" value="등록">
 		</form>
 	</div>
                 <div class="commentFrame"></div>

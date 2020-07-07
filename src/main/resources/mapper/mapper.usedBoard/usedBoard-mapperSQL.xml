@@ -50,4 +50,7 @@ update used_board set read_count = read_count+1 where used_no=#{_parameter}
 <delete id="deleteBoard" parameterType="_int">
 delete from used_board where used_no=#{_parameter}
 </delete>
+<insert id="insertComment" parameterType="usedComment">
+insert into used_comment values(comment_seq.nextval,#{usedNo},#{commentContent},#{commentWriter},sysdate)
+</insert>
 </mapper>

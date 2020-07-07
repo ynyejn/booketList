@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
+import kr.or.iei.usedBoard.model.vo.UsedComment;
 
 @Repository
 public class UsedBoardDao {
@@ -41,5 +42,9 @@ public class UsedBoardDao {
 
 	public int deleteBoard(int usedNo) {
 		return sqlSession.delete("usedBoard.deleteBoard",usedNo);
+	}
+
+	public int insertComment(UsedComment uc) {
+		return sqlSession.insert("usedBoard.insertComment",uc);
 	}
 }
