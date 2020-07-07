@@ -15,6 +15,7 @@
         overflow: hidden;
         margin: 0 auto;
         padding-bottom: 100px;
+        background-color: aliceblue;
     }
         .black {
         background-color: #1B3A50;
