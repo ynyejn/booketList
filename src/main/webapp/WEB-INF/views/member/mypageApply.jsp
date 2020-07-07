@@ -44,7 +44,7 @@ td {
 						<a href="/member/mypage.do" class="list-group-item active">내 정보 수정</a> 
 						<a href="/member/mypageRentFrm.do"class="list-group-item">도서 목록</a> 
 						<a href="/member/mypageReservationFrm.do"class="list-group-item">도서 예약신청목록</a>
-						<a href="/member/mypageApplyFrm.do"class="list-group-item">도서 입고신청</a>  
+						<a href="/member/mypageApplyFrm.do"class="list-group-item">도서 입고신청</a> 
 						<a href="/member/mypageReviewFrm.do" class="list-group-item">내가 작성한 후기</a>
 					</div>
 				</div>
@@ -55,37 +55,36 @@ td {
 						<img class="card-img-top img-fluid"
 							src="http://placehold.it/900x400" alt="">
 						<div class="card-body">
-							<h3 class="card-title">내정보 수정</h3>
-							<form action="/member/mUpdate.do" method="post">
-								아이디 : <input type="text" name="memberId"
-									value="${sessionScope.member.memberId }" readonly><br>
-								이름 : <input type="text" name="memberName"
-									value="${sessionScope.member.memberName }"><br>
-								닉네임 : <input type="text" name="memberNickname"
-									value="${sessionScope.member.memberNickname }" readonly><br>
-								휴대폰 번호 : <input type="text" name="memberPhone"
-									value="${sessionScope.member.memberPhone }"><br>
-								이메일 : <input type="text" name="memberEmail"
-									value="${sessionScope.member.memberEmail }"><br>
-								도서취향 1: <input type="text" name="memberCategory1"
-									value="${sessionScope.member.memberCategory1 }"><br>
-								도서취향 2: <input type="text" name="memberCategory2"
-									value="${sessionScope.member.memberCategory2 }"><br>
-								도서취향 3: <input type="text" name="memberCategory3"
-									value="${sessionScope.member.memberCategory3 }"><br>
-								가입일 : <input type="text" name="enrollDate"
-									value="${sessionScope.member.enrollDate }" readonly><br>
-								<input type="submit" value="정보수정">
-							</form>
-							<c:if test="${not empty sessionScope.member }">
-								<form action="/member/delete.do" method="post">
-									<input type="submit" value="회원탈퇴">
-
-								</form>
-							</c:if>
+							<h3 class="card-title"></h3>
+							
 							
 						</div>
 					</div>
+					<!-- /.card -->
+					<div class="card card-outline-secondary my-4">
+						<div class="card-header">도서 입고신청</div>
+						<div class="card-body">
+						
+						<table class="applyList">
+							<tr>
+							<th>도서이름</th>
+							<th>신청일</th>
+							<th>상태</th>
+							<th>신청사유</th>
+							
+							  </tr>
+							 <c:forEach items="${list }" var="a">
+							 
+                        <tr>
+                            <td>${a.bookName}</td>
+                            <td>${a.applyDate}</td>
+                            <td>${a.applyStatus}</td>
+                            <td>${a.applyContent}</td>
+                            
+
+                        </tr>
+                    </c:forEach>
+						</table>	
 						
 							<hr>
 							<a href="#" class="btn btn-success">위로가기</a>

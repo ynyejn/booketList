@@ -51,6 +51,7 @@
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="#">${sessionScope.member.memberName }님</a></li>
 				</c:if>
+				<li><a href="/member/mypage.do">마이페이지</a></li>
 				<li><a href="/member/logout.do">로그아웃</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 			</c:if>
@@ -134,9 +135,7 @@
 									"border-top", "1px solid #eeeeee");
 							$(".hNavi1>li>a").css("color", "#0066b3");
 							$(".hNavi2>li>a").css("color", "gray");
-							$(".header")
-									.css("box-shadow",
-											"0 4px 12px rgba(0, 0, 0, .08), 0 0 1px rgba(1, 0, 0, .1)");
+							$(".header").css("box-shadow","0 4px 12px rgba(0, 0, 0, .08), 0 0 1px rgba(1, 0, 0, .1)");
 						} else {
 							$(".header3").css("opacity", "100%").css(
 									"border-top", "1px solid #0066b3").css(

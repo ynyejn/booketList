@@ -1,13 +1,23 @@
 package kr.or.iei.member.model.service;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.common.SHA256Util;
 import kr.or.iei.member.model.dao.MemberDao;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.review.model.vo.Review;
 
 @Service("memberService")
 public class MemberService {
@@ -46,8 +56,45 @@ public class MemberService {
 		return dao.checkNickname(memberNickname);
 	}
 
-	public Member selectOne(Member m) {
+	public Member selectOneMember(Member m) throws IllegalArgumentException{
 		
-		return dao.selectOne(m);
+		return dao.selectOneMember(m);
 	}
+	
+	@Transactional
+	public int update(Member m) {
+		
+		return dao.update(m);
+	}
+	@Transactional
+	public int delete(String memberId) {
+		
+		return dao.delete(memberId);
+	}
+
+	public ArrayList<Review> reviewList(String memberNickname) {
+		List reviewList = dao.reviewList(memberNickname);
+		return (ArrayList<Review>)reviewList;
+		
+	}
+
+	public ArrayList<Apply> applyList(String memberId) {
+		List applyList = dao.applyList(memberId);
+		return (ArrayList<Apply>)applyList;
+		
+	}
+
+	public ArrayList<Reservation> reservationList(String memberId) {
+		List reservationList = dao.reservationList(memberId);
+		return (ArrayList<Reservation>)reservationList;
+	}
+
+	public ArrayList<Rent> rentList(String memberId) {
+		List rentList = dao.rentList(memberId);
+		return (ArrayList<Rent>)rentList;
+	}
+	
+	
+	
+	
 }
