@@ -283,7 +283,7 @@ public class AdminDao {
 		return sqlSession.selectOne("return.selectTurnApplyOneList",turnApply);
 	}
 
-	public Book selectBookListTurnApply(int bookNo) {
+	public Book selectBookListTurnApply(String bookNo) {
 		return sqlSession.selectOne("return.selectBookListTurnApply",bookNo);
 	}
 
@@ -303,7 +303,7 @@ public class AdminDao {
 		return sqlSession.delete("return.deleteReservationTurnApply",map);
 	}
 
-	public int updateBookTurnApply(int bookNo) {
+	public int updateBookTurnApply(String bookNo) {
 		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
