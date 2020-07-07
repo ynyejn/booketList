@@ -26,8 +26,8 @@
     .cTop {
         margin-top: 120px;
         width: 100%;
-        height: 160px;
-        background-image: url(/resources/imgs/title.jpg);
+        height: 200px;
+        background-image: url(/resources/imgs/applBook.jpg);
         position: relative;
     }
 	  .cTop>span {
@@ -37,7 +37,7 @@
         position: absolute;
         padding-left: 300px;
         padding-right: 30px;
-        top: 45px;
+        top: 55px;
         left: 0px;
         text-shadow: 1px 1px 2px black;
         border-bottom: 5px solid #dddddd;
