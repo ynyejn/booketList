@@ -16,6 +16,8 @@
         height: 160px;
         background-image: url(/resources/imgs/cart2.png);
         position: relative;
+                	background-size : cover;
+        
     }
 
     .black {

@@ -17,7 +17,7 @@
 <!-- css 여기있어야함 -->
 <link rel="stylesheet" href="/resources/css/header/hStyle.css">
 
-<div class="header">
+<div class="header" style='z-index:5000;'>
 	<div class="header1">
 		<a href="/"><img src="/resources/imgs/bluelogo.png"></a>
 	</div>

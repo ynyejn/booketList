@@ -16,6 +16,7 @@
         height: 160px;
         background-image: url(/resources/imgs/title.jpg);
         position: relative;
+                	background-size : cover;
     }
 
     .black {
@@ -66,7 +67,6 @@
     	border: 1px solid #03166c;
 	    outline: none;
     	box-sizing: border-box;
-    
     	margin : 0;
     }
     #select1, #select2 {

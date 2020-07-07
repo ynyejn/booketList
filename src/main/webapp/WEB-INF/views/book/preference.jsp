@@ -24,11 +24,12 @@
 	        opacity: 65%;
         }
         .mainImgDiv {
-        	width : 1280px;
+        	width : 100%;
         	margin-top : 120px;
         	height : 360px;
         	z-index : 50;
-        	background-color : rgba(27, 58, 80, 1);
+        	background-size : cover;
+        	text-align :center;
         }
         .userNameSpan, .userCategorySpan {
         	color : #eeeeee;
@@ -39,12 +40,12 @@
 	        z-index : 1000;
         }
         .userNameSpan {
-         	margin-top : -250px;
-        	margin-left : 350px; 
+           	margin-top : -250px;
+         	margin-left : -300px;    
         }
         .userCategorySpan {
-        	margin-top : -210px;
-        	margin-left : 460px;
+          	margin-top : -210px;
+         	margin-left : -200px;   
         }
         .listDiv {
 	 	    width : 1060px;
@@ -134,16 +135,16 @@
          .spanDiv>div>span{
         	font-size : 30px;
          }
-         #refreshButton {  
+         #refreshButton{  
          	float : right;
-         	margin-top : 7px;
     	    border: none;
-		    background-color: #666666;
-		    color: white;
-		    width: 115px;
-		    height: 35px;
-		    font-size: 14px;
-		    border-radius: 2px;
+		    width: 50px;
+		    height: 50px;
+         }
+         #refreshButton:hover {
+         	cursor : pointer;
+         	transition: all ease 1s;
+         	transform: rotate(360deg);
          }
         
         
@@ -300,22 +301,191 @@
 <body style="line-height:normal;">
 <div class="wrapper"  style="background-color : #f3f5f7;">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
- <!-- 로맨스 	<div class='mainImgDiv' style="background-image: url('/resources/imgs/romance3.jpg');">
-			<div class="black" style="opacity:0%;"></div> -->
-		
-<!-- 만화 	<div class='mainImgDiv' style="background-image: url('/resources/imgs/marvel.png');">
-		<div class="black"  style="opacity:65%;"></div> -->
+		<c:choose>
+			<c:when test="${userCategory eq '사회과학'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/social.png');">
+					<div class="black"  style="opacity:30%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>
+			<c:when test="${userCategory eq '초등학교참고서'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/elementary.jpg');">
+					<div class="black"  style="opacity:60%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '잡지'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/magazine.jpg');">
+					<div class="black"  style="opacity:60%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '달력/기타'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/calendar.jpg');">
+					<div class="black"  style="opacity:60%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>					
+			<c:when test="${userCategory eq '에세이'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/essay.jpg');">
+					<div class="black"  style="opacity:20%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>			
+			<c:when test="${userCategory eq '만화'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/marvel.png');">
+					<div class="black"  style="opacity:65%;"></div>		
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>
+			<c:when test="${userCategory eq '좋은부모'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/family.jpg');">
+					<div class="black"  style="opacity:30%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>			
+			<c:when test="${userCategory eq '과학'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/science.png');">
+					<div class="black"  style="opacity:40%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>
+			<c:when test="${userCategory eq '컴퓨터/모바일'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/computer.png');">
+					<div class="black"  style="opacity:10%;"></div>		
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>			
+			<c:when test="${userCategory eq '예술/대중문화'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/art.jpg');">
+					<div class="black" style="opacity:40%;"></div>	
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '고등학교참고서'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/analysis.png');">
+					<div class="black"  style="opacity:50%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '전집/중고전집'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/antique.jpg');">
+					<div class="black"  style="opacity:30%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+			</div>
+			</c:when>			
+			<c:when test="${userCategory eq '인문학'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/study.jpg');">
+					<div class="black"  style="opacity:20%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>				
+			<c:when test="${userCategory eq '종교/역학'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/religion.jpg');">
+					<div class="black"  style="opacity:30%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '어린이'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/family.jpg');">
+					<div class="black"  style="opacity:30%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '중학교참고서'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/analysis.png');">
+					<div class="black"  style="opacity:50%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '외국어'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/english.jpg');">
+					<div class="black"  style="opacity:40%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:when test="${userCategory eq '대학교재/전문서적'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/study2.png');">
+					<div class="black"  style="opacity:35%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>			
+			<c:when test="${userCategory eq '수험서/자격증'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/study.jpg');">
+				<div class="black"  style="opacity:20%;"></div>
+				<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+				<span class="userCategorySpan">[${userCategory}]입니다.</span>
+			</div>
+			</c:when>
+			<c:when test="${userCategory eq '소설/시/희곡'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/essay.jpg');">
+					<div class="black"  style="opacity:20%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>
+			<c:when test="${userCategory eq '건강/취미/레저'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/leisure.jpg');">
+					<div class="black"  style="opacity:20%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>		
+			<c:when test="${userCategory eq '여행'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/travel.png');">
+					<div class="black"  style="opacity:20%;"></div>	
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>			
 
-<!-- 분석 	<div class='mainImgDiv' style="background-image: url('/resources/imgs/analysis.png');">
-		<div class="black"  style="opacity:50%;"></div> -->
-		
-		<!-- 역사 -->
-		<div class='mainImgDiv' style="background-image: url('/resources/imgs/history.png');">
-		<div class="black"  style="opacity:35%;"></div>
-		
-		<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
-		<span class="userCategorySpan">[${userCategory}]입니다.</span>
-	</div>
+			<c:when test="${userCategory eq '청소년'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/elementary.jpg');">
+					<div class="black"  style="opacity:60%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>
+			<c:when test="${userCategory eq '유아'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/family.jpg');">
+					<div class="black"  style="opacity:30%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>		
+			<c:when test="${userCategory eq '가정/요리/뷰티'}">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/home.png');">
+					<div class="black"  style="opacity:40%;"></div>
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:when>	
+			<c:otherwise>
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/analysis.png');">
+					<div class="black"  style="opacity:50%;"></div>		
+					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
+					<span class="userCategorySpan">[${userCategory}]입니다.</span>
+				</div>
+			</c:otherwise>
+		</c:choose>
 	<div class="content">
 		<div id="chartDiv">
 			<div id="spanDivSpan">
@@ -336,7 +506,7 @@
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">				
 			</div>
 			<div class="spanDiv3">
-				<button id="refreshButton" type="button" onclick='refresh();'>새로 추천 받기</button>					
+				<img id="refreshButton" onclick='refresh();' src="/resources/imgs/rotate_icon.png">
 			</div>
 		</div>
 		<div class="contentList">
