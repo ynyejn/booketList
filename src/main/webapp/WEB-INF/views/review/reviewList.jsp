@@ -11,7 +11,7 @@
         .content {
             width: 1200px;
             overflow: hidden;
-            margin:  0 auto;
+            margin:  120px auto 0 auto;
             height: 100%;
             background-color: aliceblue;
         }
@@ -43,7 +43,7 @@
 		$("button").click(function () {
 			window.name="apply"
 			var url = "/review/reviewWriting.do";
-			var title = "도서 검색";
+			var title = "후기";
 			var style = "width=400,height=400,top=100,left=400";
 			window.open(url,title,style);
 		});
