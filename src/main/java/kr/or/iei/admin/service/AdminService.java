@@ -986,7 +986,7 @@ public class AdminService {
 	public TurnApply selectTurnApplyOneList(int turnApply) {
 		return dao.selectTurnApplyOneList(turnApply);
 	}
-	public Book selectBookListTurnApply(int bookNo) {
+	public Book selectBookListTurnApply(String bookNo) {
 		return dao.selectBookListTurnApply(bookNo);
 	}
 	public List selectReservationListTurnApply(String bookName, String bookPublisher, String bookWriter) {
@@ -1009,7 +1009,7 @@ public class AdminService {
 		map.put("bookWriter", bookWriter);
 		return dao.deleteReservationTurnApply(map);
 	}
-	public int updateBookTurnApply(int bookNo) {
+	public int updateBookTurnApply(String bookNo) {
 		return dao.updateBookTurnApply(bookNo);
 	}
 
