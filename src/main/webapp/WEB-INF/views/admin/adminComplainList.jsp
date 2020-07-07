@@ -137,12 +137,17 @@
 				html += "<tr><th>신고 사유</th>";
 				html += "<th>"+data.complainContent+"</th></tr>";
 				html += "<tr><th>신고 상태</th>";
-				html += "<th>"+data.complainStauts+"</th></tr>";
+				
+				if(data.complainStauts == 1){
+					html += "<th>신고처리</th></tr>";	
+				}else if(data.complainStauts == 2){
+					html += "<th>신고반려</th></tr>";
+				}
+				
 				$("#detailUpdate1").hide();
 				$("#detailUpdate2").hide();
 				if(data.complainStauts == '2'){
 					$("#detailUpdate1").show();
-				
 				}else{
 					$("#detailUpdate2").show();
 				}
