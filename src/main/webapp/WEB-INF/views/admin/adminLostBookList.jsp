@@ -62,9 +62,13 @@
 
 		$("#sear").click(function() {
 			var search = $("#search").val();
-			var searchTitle = $("#searchTitle").html();
+			var searchTitle = $("#searchTitle").find("option:selected").html();
 			alert(searchTitle);
-			location.href = "/adminLostBookList.do?reqPage=" + ${reqPage} + "&search=" + search + "&searchTitle=" + $("#searchTitle").html();
+			location.href = "/adminLostBookList.do?reqPage=" + $
+			{
+				reqPage
+			}
+			+"&search=" + search + "&searchTitle=" + $("#searchTitle").html();
 		});
 
 		$("#search").keydown(function(key) {
@@ -81,41 +85,53 @@
 			}
 		});
 
-		$("#selDelete").click(function() {
-			if (confirm("선택 도서 분실을 취소 하시겠습니까?")) {
-				var checkArr = new Array();
-				var reqPages = ${reqPage};
-					
-				$(".checkRow:checked").each(function() {
-					checkArr.push($(this).val());	
-				});
+		$("#selDelete")
+				.click(
+						function() {
+							if (confirm("선택 도서 분실을 취소 하시겠습니까?")) {
+								var checkArr = new Array();
+								var reqPages = $
+								{
+									reqPage
+								}
+								;
 
-				$.ajax({
-					url : "/cancelLostBookList.do",
-					type : "get",
-					traditional : true,
-					data : {
-						chBox : checkArr,
-						reqPage : reqPages
-					},
-					success : function(result) {
-						console.log(result);
-						if (result > 0) {
-							alert("분실취소가 완료되었습니다.");
-							location.href = "/adminLostBookList.do?reqPage=" + ${reqPage};
-						} else {
-							alert("삭제가 실패 하였습니다.");
-						}
-					}
+								$(".checkRow:checked").each(function() {
+									checkArr.push($(this).val());
+								});
 
-					});
-				}
-				
-			 else {
-					return false;
-				}	
-				
-		});
+								$
+										.ajax({
+											url : "/cancelLostBookList.do",
+											type : "get",
+											traditional : true,
+											data : {
+												chBox : checkArr,
+												reqPage : reqPages
+											},
+											success : function(result) {
+												console.log(result);
+												if (result > 0) {
+													alert("분실취소가 완료되었습니다.");
+													location.href = "/adminLostBookList.do?reqPage="
+															+ $
+													{
+														reqPage
+													}
+													;
+												} else {
+													alert("삭제가 실패 하였습니다.");
+												}
+											}
+
+										});
+							}
+
+							else {
+								return false;
+							}
+
+						});
 
 	});
 </script>
@@ -441,7 +457,52 @@
 										<li id="tt1" role="presentation" class="active"><a
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
 											aria-controls="home" aria-expanded="true"><b>도서 내역</b></a></li>
+										<li id="searchbar">
+											<div class="col-lg-6">
+												<div class="input-group" style="width: 350px;">
+													<div class="input-group-btn">
 
+														<select class="form-control"
+															style="width: 120px; height: 35px; margin-left: 10px;"
+															id="searchTitle" name="selectColumn">
+															<c:if test="${empty searchTitle }">
+																<option value="id" selected>id</option>
+																<option value="도서이름">도서이름</option>
+																<option value="작가">작가</option>
+																<option value="출판사">출판사</option>
+															</c:if>
+															<c:if test="${not empty searchTitle }">
+																<option value="id"
+																	<c:if test="${searchTitle eq 'id' }">selected</c:if>>id</option>
+																<option value="도서이름"
+																	<c:if test="${searchTitle eq '도서이름' }">selected</c:if>>도서이름</option>
+																<option value="작가"
+																	<c:if test="${searchTitle eq '작가' }">selected</c:if>>작가</option>
+																<option value="출판사"
+																	<c:if test="${searchTitle eq '출판사' }">selected</c:if>>출판사</option>
+															</c:if>
+														</select>
+
+
+													</div>
+													<!-- 검색창, 검색모양 -->
+													<c:if test="${not empty search }">
+														<input type="text" class="form-control" aria-label="..."
+															id="search" value="${search }"
+															style="width: 180px; float: left;">
+														<span class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+													</c:if>
+													<c:if test="${empty search }">
+														<input type="text" class="form-control " aria-label="..."
+															style="width: 180px; float: left;" id="search">
+														<span class="glyphicon glyphicon-search" id="sear"
+															style="font-size: 20pt; margin-left: 3px; margin-top: 2px; float: left;"></span>
+													</c:if>
+												</div>
+											</div>
+
+										</li>
 									</ul>
 									<!-- 도서내역 리스트 받아올 때 -->
 									<div id="myTabContent" class="tab-content">
@@ -450,10 +511,10 @@
 											<table class="table table-hover">
 												<thead>
 													<tr>
-														<th class="width1"><input type="checkbox" id="ck_all"></th>
-														<th class="width2">분실한 id</th>
-														<th class="width3">도서 이름</th>
-														<th class="width4">도서 출판사</th>
+														<th class="width5"><input type="checkbox" id="ck_all"></th>
+														<th class="width5">분실한 id</th>
+														<th class="width5">도서 이름</th>
+														<th class="width5">도서 출판사</th>
 														<th class="width5">도서 장르</th>
 
 													</tr>
@@ -463,11 +524,11 @@
 														<tr class="move"
 															onclick="detail('${p.bookNo }','${reqPage }')"
 															data-toggle="modal" data-target="#myModal">
-															<th class="width1"><input type="checkbox"
+															<th class="width5"><input type="checkbox"
 																class="checkRow" value="${p.bookNo }"></th>
-															<td class="width2">${p.memberId }</td>
-															<td class="width3">${p.bookName }</td>
-															<td class="width4">${p.bookPublisher }</td>
+															<td class="width5">${p.memberId }</td>
+															<td class="width5">${p.bookName }</td>
+															<td class="width5">${p.bookPublisher }</td>
 															<td class="width5">${p.bookCategory }</td>
 
 														</tr>
@@ -475,60 +536,22 @@
 
 												</tbody>
 											</table>
-											<nav id="footNav2">
+
+
+											<nav id="footNav2" style="text-align: center;">
+												<div style="margin-top: 20px; float: left;">
+													<button type="button" class="btn btn-default"
+														id="selDelete">분실철회</button>
+												</div>
+												<div id="sel" style="float: right; margin-top: 20px;">
+													<button type="button" class="btn btn-default" id="back">돌아가기</button>
+												</div>
 												<ul class="pagination">${pageNavi1 }</ul>
 											</nav>
-											<div id="sel">
-												<button type="button" class="btn btn-default" id="selDelete">분실철회</button>
-
-											</div>
 
 										</div>
 									</div>
 								</div>
-
-
-
-								<!-- 검색 메뉴 드롭다운 -->
-								<div class="col-lg-6">
-									<div class="input-group">
-										<div class="input-group-btn">
-											<button id="searchTitle"
-												class="btn btn-default dropdown-toggle" type="button"
-												data-toggle="dropdown" aria-expanded="false">
-												<c:if test="${empty searchTitle }">id</c:if>
-												<c:if test="${not empty searchTitle }">${searchTitle }</c:if>
-											</button>
-											<ul class="dropdown-menu" role="menu">
-												<li><a class="searchList">id</a></li>
-												<li><a class="searchList">도서이름</a></li>
-												<li><a class="searchList">작가</a></li>
-												<li><a class="searchList">출판사</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-
-								<!-- 검색창, 검색모양 -->
-								<c:if test="${not empty search }">
-									<input type="text" class="form-control" aria-label="..."
-										id="search" value="${search }" style="witdh: 300px">
-									<span class="glyphicon glyphicon-search" id="sear"></span>
-								</c:if>
-								<c:if test="${empty search }">
-									<input type="text" class="form-control " aria-label="..."
-										id="search">
-									<span class="glyphicon glyphicon-search" id="sear"></span>
-								</c:if>
-
-								<!-- /.col-lg-6 -->
-
-								<button type="button" class="btn btn-default" id="back">돌아가기</button>
-
-
-
-
-
 								<!-- /.container-fluid -->
 
 							</div>

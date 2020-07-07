@@ -99,6 +99,7 @@
 		});
 		
 		$("#selDelete").click(function(){
+			
 			if(confirm("선택 도서를 삭제 하시겠습니까?")){
 				var checkArr = new Array();
 				var reqPages = ${reqPage };
