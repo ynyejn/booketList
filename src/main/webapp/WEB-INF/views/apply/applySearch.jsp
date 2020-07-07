@@ -12,17 +12,14 @@
 </head>
 <body>
 	<input type="text" id="title">
-	<button>검색</button>
+	<button class="searchAl">검색</button>
 	
 	<table>
 		<tr>
 			<th>이미지</th>
 			<th>도서이름</th>
-			<th>출판일</th>
 			<th>작가</th>
 			<th>출판사</th>
-			<th>카테 고리</th>
-			<th>도서내용</th>
 			<th>선택</th>
 		</tr>
 	</table>
@@ -32,38 +29,59 @@
        // opener.document.getElementById("bookName").innerHTML = document.getElementsByClassName(".bookName").innerHTML;
        // console.log(document.getElementsByClassName(".bookName").innerHTML+"dd");
 	//}
-	var apply = "";
-		$(function() {
-			$("button").click(function() {
-				var title = $("#title").val();
-				
-				$.ajax({
-					url : "/aladdin.do",
-					data : { title:title },
-					success : function(data){
-						html="";
-						for(var i=0;i<data.length;i++){
-							html+="<tr class='apply'><td><input type='hidden' class='bookImg'value='"+data[i].bookImg+"'><img src='"+data[i].bookImg+"'></td>";
-							html+="<td class='bookName'>"+data[i].bookName+"</td>";
-							html+="<td class='bookPubDate'>"+data[i].bookPubDate+"</td>";
-							html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
-							html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
-							html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
-							if(data[i].bookContent==""){
-								html+="<td class='bookContent'>내용 없음</td>";
-							}else{
-								html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
-							}
-							if(data[i].selectCheck==0){
-								html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
-							}else{
-								html+="<td>이미 책이 있습니다.</td></tr>";
-							}
-							
-							
-						}
-						
-						$("table>tbody").append(html);
+	var reqPage = 1;
+   var start = 1;
+   var apply = "";
+   var title = "";
+      $(function() {
+         $(".searchAl").click(function() {
+            title = $("#searchcontent").val();
+            reqPage = 1;
+            start = 1;
+            $(".addBookList>tbody").children(".apply").remove();
+            insertSearchBook(1);
+            
+         })
+      })
+      
+      function insertSearchBook(reqPage){
+    	  
+    	  if(reqPage != 1){
+    		  start += 10;
+    	  }
+    	  reqPage += 1;
+    	  $(".newPlus").remove();
+    	  $.ajax({
+              url : "/aladdin.do",
+              data : { title:title, start:start },
+              success : function(data){
+           	  console.log(data);
+                 html="";
+                 for(var i=0;i<data.length;i++){
+                    html+="<tr class='apply'><td><input type='hidden' class='bookImg'value='"+data[i].bookImg+"'><img src='"+data[i].bookImg+"'></td>";
+                    html+="<td class='bookName'>"+data[i].bookName+"</td>";
+                    html+="<td class='bookPubDate'>"+data[i].bookPubDate+"</td>";
+                    html+="<td class='bookWriter'>"+data[i].bookWriter+"</td>";
+                    html+="<td class='bookPublisher'>"+data[i].bookPublisher+"</td>";
+                    html+="<td class='bookCategory'>"+data[i].bookCategory+"</td>";
+                    if(data[i].bookContent==""){
+                       html+="<td class='bookContent'>내용 없음</td>";
+                    }else{
+                       html+="<td class='bookContent'>"+data[i].bookContent+"</td>";
+                    }
+                    if(data[i].selectCheck==0){
+                       html+="<td><a href='javascript:void(0)' class ='reqBook' onclick='window.close()'>신청하기</a></td></tr>";
+                    }else{
+                       html+="<td>이미 책이 있습니다.</td></tr>";
+                    }
+                    
+                    
+                 }
+                 
+                 
+                 $("table>tbody").append(html);
+                 
+                 $("table>tbody").append("<tr class='newPlus' colspan='8' onclick='insertSearchBook("+reqPage+")'><th><a>더 보기</a></th></tr>");
 						$(".reqBook").click(function () {
 							console.log($(this).parent().parent().find(".bookName"));
 							var bookName = $(this).parent().parent().find(".bookName").html();
@@ -91,13 +109,10 @@
 							opener.document.getElementById("bookName").value = bookName;
 							opener.document.getElementById("bookImg").value = bookImg;
 						})
-					},
-					error : function(){
-						console.log("ajax통신 실패")
-					}
+              }
 				});
-			})
-		})
+		
+      }
 	</script>
 </body>
 </html>

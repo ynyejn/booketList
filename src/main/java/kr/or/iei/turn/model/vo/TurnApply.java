@@ -4,11 +4,12 @@ import java.sql.Date;
 
 import lombok.Data;
 
+
 @Data
 public class TurnApply {
 	private int turnApply;
 	private String memberId;
-	private int bookNo;
+	private String bookNo;
 	private String bookName;
 	private String spotName;
 	private Date turnapplyDate;
