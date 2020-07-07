@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import kr.or.iei.usedBoard.model.service.UsedBoardService;
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
 import kr.or.iei.usedBoard.model.vo.UsedBoardPageData;
 import kr.or.iei.usedBoard.model.vo.UsedComment;
+import kr.or.iei.usedBoard.model.vo.UsedFiles;
 
 @Controller
 public class UsedBoardController {
@@ -108,41 +110,43 @@ public class UsedBoardController {
 	@RequestMapping("/usedCommentInsert.do")
 	public String usedCommentInsert(HttpServletRequest request, MultipartFile files[], UsedComment uc)
 			throws ServletException, IOException {
-		//int result = service.insertComment(uc);
 		// 업로드경로잡으려고 HttpServletRequest객체
 		// 우리가올린파일 MultipartFile, 나머지 notice
 		System.out.println(files.length);
+		ArrayList<UsedFiles> fileList = new ArrayList<UsedFiles>();
 		// 배열로 들어옴, 들어있지않으면
-//		if (!file[0].isEmpty()) {
-//			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/usedBoard/");
-//			// 업로드된 실제 파일명 얻어옴 ->test.txt
-//			String originalFilename = file[0].getOriginalFilename();
-//			// 확장자를 제외한 파일명 ->test
-//			String onlyFilename = originalFilename.substring(0, originalFilename.lastIndexOf("."));
-//			// 확장자-> .txt
-//			String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-//			String filepath = onlyFilename + "_" + getCurrentTime() + extension;
-//			String fullpath = savePath + filepath;
-//			//n.setFilename(originalFilename);
-//			//n.setFilepath(filepath);
-//			try {
-//				byte[] bytes = file.getBytes();
-//				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
-//				bos.write(bytes);
-//				bos.close();
-//				System.out.println("파일업로드 완료");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		int result = service.insertNotice(n);
-//		if (result > 0) {
-//			System.out.println("게시글 등록성공");
-//		} else {
-//			System.out.println("게시글 등록실패");
-//		}
+		for(int i=0; i<files.length;i++) {
+			if (!files[i].isEmpty()) {
+				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/usedBoard/");
+				// 업로드된 실제 파일명 얻어옴 ->test.txt
+				String originalFilename = files[i].getOriginalFilename();
+				// 확장자를 제외한 파일명 ->test
+				String onlyFilename = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+				// 확장자-> .txt
+				String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+				String filepath = onlyFilename + "_" + getCurrentTime() + extension;
+				String fullpath = savePath + filepath;
+				UsedFiles uf = new UsedFiles();
+				uf.setCommentFilename(originalFilename);
+				uf.setCommentFilepath(filepath);
+				fileList.add(uf);
+				try {
+					byte[] bytes = files[i].getBytes();
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
+					bos.write(bytes);
+					bos.close();
+					System.out.println("파일업로드 완료");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}		
+		}
+		int result = service.insertComment(uc,fileList);
+		if (result > 1) {
+			System.out.println("댓글 등록성공");
+		} else {
+			System.out.println("댓글 등록실패");
+		}
 
 		return null;
 	}

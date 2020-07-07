@@ -1,5 +1,6 @@
 package kr.or.iei.usedBoard.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
 import kr.or.iei.usedBoard.model.vo.UsedComment;
+import kr.or.iei.usedBoard.model.vo.UsedFiles;
 
 @Repository
 public class UsedBoardDao {
@@ -46,5 +48,14 @@ public class UsedBoardDao {
 
 	public int insertComment(UsedComment uc) {
 		return sqlSession.insert("usedBoard.insertComment",uc);
+	}
+
+	public int insertFiles(ArrayList<UsedFiles> fileList) {
+		int result=0;
+		for(int i=0; i<fileList.size();i++) {
+		UsedFiles uf = fileList.get(i);
+		result +=sqlSession.insert("usedBoard.insertFiles",uf);
+		}
+		return result;
 	}
 }

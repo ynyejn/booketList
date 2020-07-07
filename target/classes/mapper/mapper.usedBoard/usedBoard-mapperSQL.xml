@@ -53,4 +53,7 @@ delete from used_board where used_no=#{_parameter}
 <insert id="insertComment" parameterType="usedComment">
 insert into used_comment values(comment_seq.nextval,#{usedNo},#{commentContent},#{commentWriter},sysdate)
 </insert>
+<insert id="insertFiles" parameterType="usedFiles">
+insert into used_files values(comment_seq.currval,#{commentFilename},#{commentFilepath})
+</insert>
 </mapper>

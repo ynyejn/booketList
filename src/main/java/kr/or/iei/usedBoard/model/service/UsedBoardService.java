@@ -14,6 +14,7 @@ import kr.or.iei.usedBoard.model.dao.UsedBoardDao;
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
 import kr.or.iei.usedBoard.model.vo.UsedBoardPageData;
 import kr.or.iei.usedBoard.model.vo.UsedComment;
+import kr.or.iei.usedBoard.model.vo.UsedFiles;
 
 @Service
 public class UsedBoardService {
@@ -94,7 +95,9 @@ public class UsedBoardService {
 	}
 	
 	@Transactional
-	public int insertComment(UsedComment uc) {
-		return dao.insertComment(uc);
+	public int insertComment(UsedComment uc, ArrayList<UsedFiles> fileList) {
+		int result1 = dao.insertComment(uc);
+		int result2 = dao.insertFiles(fileList);
+		return result1+result2;
 	}
 }

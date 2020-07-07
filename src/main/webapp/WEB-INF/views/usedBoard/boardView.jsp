@@ -93,25 +93,29 @@
         font-weight: bold;
         position: relative;
     }
-    .bTitle>button{
+
+    .bTitle>button {
         position: absolute;
         border: none;
         font-size: 14px;
         width: 90px;
         height: 30px;
         line-height: 30px;
-        top:6px;
+        top: 6px;
         border-radius: 3px;
     }
-    #modBtn{
+
+    #modBtn {
         background-color: #f3f4fa;
         color: #03169a;
         right: 110px;
     }
-    #delBtn{
+
+    #delBtn {
         background-color: #e5e5e5;
         right: 0;
     }
+
     .bContent {
         overflow: hidden;
         padding: 50px;
@@ -156,7 +160,8 @@
         background-color: #585858;
         text-align: center;
     }
-    .comment-write{
+
+    .comment-write {
         border: 1px solid #b3b3b3;
     }
 
@@ -193,17 +198,19 @@
                 </div>
                 <div class="bContent">${ub.usedContent}</div>
                 <div id="showComment" data-toggle="tooltip" title="댓글을 펼칩니다."><img src="/resources/imgs/more-icon.png"></div>
-                
+
                 <div class="comment-write">
-		<!-- 작성자, 게시글번호, 댓글레벨, 댓글번호 보내줘야함-->
-		<form action="/usedCommentInsert.do" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="commentWriter" value="${sessionScope.member.memberId }">
-		<input type="hidden" name="usedNo" value="${ub.usedNo}"> <!-- 댓글써지는 글번호 -->
-			<div><textarea name="commentContent"></textarea></div>
-			<input type="file" name="files" multiple="multiple">
-            <input type="submit" value="등록">
-		</form>
-	</div>
+                    <!-- 작성자, 게시글번호, 댓글레벨, 댓글번호 보내줘야함-->
+                    <form action="/usedCommentInsert.do" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="commentWriter" value="${sessionScope.member.memberId }">
+                        <input type="hidden" name="usedNo" value="${ub.usedNo}"> <!-- 댓글써지는 글번호 -->
+                        <div><textarea name="commentContent"></textarea></div>
+                        <input type="file" name="files" multiple="multiple" accept="image/*" onchange="loadImg(this);">
+                        <input type="submit" value="등록">
+                        <div img="img-viewer" class="imgBox">
+                        </div>
+                    </form>
+                </div>
                 <div class="commentFrame"></div>
             </div>
         </div>
@@ -212,14 +219,36 @@
 </body>
 
 <script>
-function delFunc(usedNo){
-    if(confirm("정말 삭제하시겠습니까?")){
-        location.href="/deleteUsedBoard.do?usedNo="+usedNo;
+    function delFunc(usedNo) {
+        if (confirm("정말 삭제하시겠습니까?")) {
+            location.href = "/deleteUsedBoard.do?usedNo=" + usedNo;
+        }
     }
-}
-function modifyFunc(usedNo){
-    location.href="/goModifyUsedBoard.do?usedNo="+usedNo;
-}
+
+    function modifyFunc(usedNo) {
+        location.href = "/goModifyUsedBoard.do?usedNo=" + usedNo;
+    }
+
+    function loadImg(f) {
+        console.log(f.files);
+        var html = "";
+        if (f.files.length != 0 && f.files[0] != 0) { //파일이 하나이상 올라왔거나 파일이 용량이 0이 아닐경우
+            for (var i = 0; i < f.files.length; i++) {
+                var reader = new FileReader();
+                reader.readAsDataURL(f.files[i]);
+                reader.onload = function(e) {
+                    html += "<img id='img-view' width='350' src=" + e.target.result + ">";
+                    // $("#img-view").attr("src",e.target.result);
+                }
+            }
+            $(".imgBox").append(html);
+
+        } else {
+            $(".imgBox").empty();
+            //$("#img-view").attr("src","");
+        }
+    }
+
 </script>
 
 </html>
