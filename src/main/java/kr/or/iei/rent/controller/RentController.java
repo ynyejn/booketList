@@ -196,7 +196,7 @@ public class RentController {
 		
 		//새로운 10권 짜리 책 리스트 만들기.
 		ArrayList<BookAndReview> list = new ArrayList<BookAndReview>();
-		for(int i=0; i<10; i++) {
+		for(int i=0; i<5; i++) {
 			int ranCount = r.nextInt(count);
 			list.add(refreshBookList.get(ranCount));
 		}		

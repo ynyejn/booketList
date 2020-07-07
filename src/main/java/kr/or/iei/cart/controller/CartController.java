@@ -30,12 +30,12 @@ public class CartController {
 	public String GoMyCart(int reqPage, Model model, HttpSession session) {
 
 		Member member = (Member)session.getAttribute("member");
-
 		CartPageData cartPageData = service.selectCartList(reqPage, member);
 		model.addAttribute("list", cartPageData.getList());
 		model.addAttribute("pageNavi", cartPageData.getPageNavi());
-		return "book/myCart";
+		return "book/myCart";			
 	}
+	
 	@ResponseBody
 	@RequestMapping(value= "/delSelect.do", method = RequestMethod.GET)
 	public int insertCart(HttpServletRequest request, HttpSession session) {

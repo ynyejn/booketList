@@ -40,7 +40,7 @@
 				<!--로그인되어있지않을때 -->
 				<li><a href="/member/loginFrm.do">로그인</a></li>
 				<li><a href="/member/join.do">회원가입</a></li>
-				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
+				<li><a href="javascript:void(0);" onclick="plzLogin();">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
@@ -62,7 +62,14 @@
 				<li><a href="/rent/goBookSearch.do?reqPage=1">도서 검색</a></li>
 				<li><a href="/goBookReturn.do">도서 반납</a></li>
 				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
+			<c:if test="${not empty sessionScope.member }">
+			<!-- 로그인이 되어있을 때 -->
 				<li><a href="/rent/goPreference.do" data-toggle="tooltip" title="Try it!">취향분석</a></li>
+			</c:if>
+			<c:if test="${empty sessionScope.member }">
+			<!-- 로그인이 안 되어있을 때 -->
+				<li><a href="javascript:void(0);" onclick="plzLogin();" data-toggle="tooltip" title="Try it!">취향분석</a></li>
+			</c:if>				
 			</ul>
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>
@@ -131,4 +138,7 @@
 							$(".header").css("box-shadow", "none");
 						}
 					});
+	function plzLogin() {
+		alert("로그인이 필요한 페이지입니다. ");
+	}
 </script>
