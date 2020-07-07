@@ -355,7 +355,7 @@
 					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}) group by book_name) order by BOOK_NO desc) 
 					</when>
 					<when test="preferCategory1 == null and preferCategory2 == null and preferCategory3 == null">
-					            (SELECT * from book where rowid in (select max(rowid) from book) group by book_name) order by BOOK_NO desc) 
+					            (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
 					</when>
 				</choose>
 			            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
