@@ -48,6 +48,7 @@
 		<url-pattern>/resources/ckfinder/core/connector/java/connector.java</url-pattern>
 	</servlet-mapping>
 	<!-- CKFINDER END -->
+
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>

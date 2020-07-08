@@ -9,12 +9,13 @@ public class BookRentalStatusSearchPage {
 	private String[] arrRentEndDate;
 	private int reqPage;
 	private int selectCount;
+	private String[] compareStatus;
 	public BookRentalStatusSearchPage() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public BookRentalStatusSearchPage(ArrayList<BookRentalStatus> list, String pageNavi, String[] arrRentStartDate,
-			String[] arrRentEndDate, int reqPage, int selectCount) {
+			String[] arrRentEndDate, int reqPage, int selectCount, String[] compareStatus) {
 		super();
 		this.list = list;
 		this.pageNavi = pageNavi;
@@ -22,6 +23,7 @@ public class BookRentalStatusSearchPage {
 		this.arrRentEndDate = arrRentEndDate;
 		this.reqPage = reqPage;
 		this.selectCount = selectCount;
+		this.compareStatus = compareStatus;
 	}
 	public ArrayList<BookRentalStatus> getList() {
 		return list;
@@ -59,6 +61,11 @@ public class BookRentalStatusSearchPage {
 	public void setSelectCount(int selectCount) {
 		this.selectCount = selectCount;
 	}
-	
-	
+	public String[] getCompareStatus() {
+		return compareStatus;
+	}
+	public void setCompareStatus(String[] compareStatus) {
+		this.compareStatus = compareStatus;
+	}
+ 	
 }
