@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.review.model.service.ReviewService;
 import kr.or.iei.review.model.vo.Review;
 
@@ -40,7 +42,9 @@ public class ReviewController {
 		return "review/reviewList";
 	}
 	@RequestMapping("/reviewWriting.do")
-	public String reviewWriting() {
+	public String reviewWriting(HttpSession session,Model model) {
+		Member m = (Member)session.getAttribute("member");
+		model.addAttribute("m",m);
 		return "review/reviewWriting";
 	}
 	@RequestMapping("/reviewInsert.do")
@@ -54,7 +58,7 @@ public class ReviewController {
 			String filepath =  onlyFilename+"_"+getCurrentTime()+extension;
 			String fullpath = savePath+filepath;
 			review.setReviewFilename(onlyFilename);
-			review.setReviewFilepath(filepath);
+			review.setReviewFilepath("/resources/review/"+filepath);
 			review.setBookName(type);
 			ArrayList<Book> list = service.reviewSelectBook(memberId);
 			for(Book b : list) {

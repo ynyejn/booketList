@@ -1592,6 +1592,9 @@ public class AdminController {
 			ReservationSearchPage rsp = new ReservationSearchPage(list, pageNavi, arrReserveDate, aReqPage,selectCount);
 			return new Gson().toJson(rsp);
 		
+
+//			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
+
 		}
 }
 

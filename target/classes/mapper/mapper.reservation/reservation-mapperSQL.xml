@@ -93,4 +93,14 @@
 		</choose>
 		where rnum between #{start} and #{end}
 </select>
+	<select id="reservationList" parameterType="String" resultType="reservation">
+		select 
+		 book_name as bookName,
+         reserve_date as reserveDate,
+         book_publisher as bookPublisher,
+         book_writer as bookWriter    
+         from reservation
+         where member_id=#{_parameter}
+		
+	</select>
 </mapper>

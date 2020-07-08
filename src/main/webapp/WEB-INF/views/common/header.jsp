@@ -61,7 +61,7 @@
 			<ul class="hNavi1">
 				<li><a href="/rent/goBookSearch.do?reqPage=1">도서 검색</a></li>
 				<li><a href="javascript:void(0);" onclick="returnFunc('${sessionScope.member.memberId}');">도서 반납</a></li>
-				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
+				<li><a href="javascript:void(0);" onclick="appl('${sessionScope.member.memberId}');">도서 입고 신청</a></li>
 				<li><a href="/rent/goPreference.do" data-toggle="tooltip" title="Try it!">취향분석</a></li>
 			</ul>
 			<ul class="hNavi2">
@@ -81,6 +81,14 @@
 			location.href="/member/loginFrm.do";
 		}else{
 			location.href="/goBookReturn.do";
+		}
+	}
+	function appl(memberId){
+		if(memberId==""){
+			alert("로그인이 필요합니다");
+			location.href="/member/loginFrm.do";
+		}else{
+			location.href="/apply/applyApplication.do";
 		}
 	}
 	function up() {

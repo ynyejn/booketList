@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="rent">
 	<select id="userRentList" parameterType="member" resultType="rentAndCount">
@@ -28,6 +28,20 @@
 			 #{arr}
 		</foreach>
 	</update>
+	<select id="rentList" parameterType="String" resultType="rent">
+		select 
+		 rent_no as rentNo,
+         book_no as bookNo,
+         spot_name as spotName,
+         rent_start_date as rentStartDate,
+         rent_end_date as rentEndDate,
+         rent_return as rentReturn,
+         book_name as bookName
+         from rent
+         join book using(book_no)
+         where member_id=#{_parameter}
+	
+	</select>
 	<select id="rentApplyTotalCount" resultType="_int">
 		select count(*) as cnt from rentapply
 	</select>
