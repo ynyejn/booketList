@@ -89,6 +89,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/adminPage.do")
 	public String adminPageFrm() {
+		
 		return "/admin/adminPage";
 	}
 	
@@ -833,14 +834,8 @@ public class AdminController {
 			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
 		}
 		
-		@ResponseBody
-		@RequestMapping(value="selectOneLostBook.do",produces = "application/json;charset=utf-8")
-		public String selectOneLostBook(int bookNo) {
-			System.out.println(bookNo);
-			Book book = service.selectOneLostBook(bookNo);
-			System.out.println(book.getBookNo());
-			return new Gson().toJson(book);
-		}
+		
+		
 		
 }
 

@@ -23,11 +23,12 @@
   
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
-  <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+  
   
   <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
+	<!-- Custom styles for this template-->
+  
   <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -38,7 +39,46 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css"/>
+
+
+<script>
+/*웹 소켓 */
+	var ws;
+	/* var memberId = '${sessionScope.member.memberId }'; */
+	function connect(){
+		ws = new WebSocket("ws://192.168.10.181/adminPage.do");
+		ws.onopen = function(){
+			console.log("웹소켓 연결 생성");
+			var msg = {
+					type : "register"
+			};
+			ws.send(JSON.stringify(msg));
+		};
+		ws.onmessage = function(e){
+			
+		};
+		ws.onclose = function(){
+			console.log("연결종료");
+		};
+	}
 	
+	$(function(){
+		connect();
+		$("#sendBtn").click(function(){
+			var chat = $("#chatMsg").val();
+			var msg = $("#msgArea").val()+"\n나 : "+chat;
+			$("#msgArea").val(msg);
+			$("#chatMsg").val("");
+			var sendMsg = {
+					type : "chat",
+					target : $("#target").val(),
+					msg : chat
+			};
+			ws.send(JSON.stringify(sendMsg));
+		});
+	});
+</script>
 <!-- End Channel Plugin -->
 </head>
 
@@ -246,12 +286,12 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3</span>
+                <span class="badge badge-danger badge-counter danger"></span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                  Alerts Center
+                	알람
                 </h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
@@ -260,8 +300,8 @@
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                    <!-- <div class="small text-gray-500">December 12, 2019</div> -->
+                    <span class="font-weight-bold">도서 분실 신고</span>
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">

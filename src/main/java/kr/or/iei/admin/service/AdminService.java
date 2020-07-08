@@ -1012,5 +1012,6 @@ public class AdminService {
 	public BookAndRent selectOneLostBook(int bookNo) {
 		return dao.selectOneLostBook(bookNo);
 	}
+	
 
 }

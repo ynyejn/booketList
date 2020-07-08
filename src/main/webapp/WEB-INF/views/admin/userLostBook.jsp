@@ -64,7 +64,28 @@
     
 </style>
 <script>
+var ws;
+var memberId = '${sessionScope.member.memberId }'; 
+function connect(){
+	ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+	ws.onopen = function(){
+		console.log("웹소켓 연결 생성");
+		var msg = {
+				type : "register"
+		};
+		ws.send(JSON.stringify(msg));
+	};
+	ws.onmessage = function(e){
+		
+	};
+	ws.onclose = function(){
+		console.log("연결종료");
+	};
+}
+
+
 	$(function() {
+	connect();
 		var chk = 0;
 		
 		$("#allSelect").click(function () {
@@ -86,7 +107,7 @@
 		$(".checkRow").click(function() {
 			var count = 0;
 			$(".checkRow:checked").each(function() {
-				count += 20000;
+				count += 1000;
 			});
 			$(".payPrice").html(count);
 		});
@@ -151,10 +172,15 @@
 							chBox : checkArr
 						},
 						success : function(result) {
+							var sendMsg = {
+									type : "lostBookAlarmCount",
+									result : result
+							};
 							console.log(result);
 							if (result > 0) {
 								alert("분실신고가 완료되었습니다.");
-								location.href = "/userLostBook.do";
+								ws.send(JSON.stringify(sendMsg));
+								location.href = "/updateAlarm.do";
 							} else {
 								alert("수정이 실패 하였습니다.");
 							}
@@ -179,6 +205,8 @@
 			return false;
 		}
 	});
+	
+	
 </script>
 </head>
 <body>
