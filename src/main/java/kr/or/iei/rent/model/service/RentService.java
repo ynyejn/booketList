@@ -208,21 +208,11 @@ public class RentService {
 		preferCategory.put("preferCategory2", null);
 		preferCategory.put("preferCategory3", null);
 		//////////
-		System.out.println("member.getMEmber:"+member.getMemberCategory3());
-		System.out.println("member.getMEmber:"+member.getMemberCategory2());
-		System.out.println("member.getMEmber:"+member.getMemberCategory1());
-		/* member.getMemberCategory2() == null */
-		
-		
 		if(rentDateList.size() < 10) {
-			System.out.println(rentDateList.size()+"사이즈 탓따~");
 			//1. 읽은 책이 10권 미만일때. 취향으로만.
-			if(member.getMemberCategory3()==null) {
-				System.out.println("1111");
-				if(member.getMemberCategory2()==null) {
-					System.out.println("2222");
-					if(member.getMemberCategory1()==null) {
-						System.out.println("3333");
+			if(member.getMemberCategory3() == null) {
+				if(member.getMemberCategory2() == null) {
+					if(member.getMemberCategory1() == null) {
 						//취향이 모두 비어있을 때. 랜덤 10권. 취향을 선택하지 않아 이용이 불가능합니다.
 						type = 0;
 						ppd.setBookAndReviewList((ArrayList<BookAndReview>)dao.userBookAndReviewList(preferCategory));													
@@ -248,7 +238,7 @@ public class RentService {
 				ppd.setBookAndReviewList((ArrayList<BookAndReview>)dao.userBookAndReviewList(preferCategory));							
 			}
 		}else{
-			if(!reviewList.isEmpty() && reviewList.get(0).getReviewScore() > 3) {
+			if(reviewList.get(0).getReviewScore() > 3) {
 				//3. 읽은 책이 10권 이상이고, 제일 많이 읽은 카테고리가 있지만, 리뷰를 3.0 이상 준 항목이 있다면 리뷰 3.0 이상 준 카테고리를 추천
 				type = 3;
 				preferCategory.put("preferCategory1", reviewList.get(0).getBookCategory());

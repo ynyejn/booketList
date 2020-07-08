@@ -28,18 +28,14 @@ public class CartController {
 	
 	@RequestMapping("/goMyCart.do")
 	public String GoMyCart(int reqPage, Model model, HttpSession session) {
-		
+
 		Member member = (Member)session.getAttribute("member");
-		if(member == null) {
-			return "redirect:/member/loginFrm.do";
-		}else {
-			CartPageData cartPageData = service.selectCartList(reqPage, member);
-			model.addAttribute("list", cartPageData.getList());
-			model.addAttribute("pageNavi", cartPageData.getPageNavi());
-			return "book/myCart";						
-		}
+
+		CartPageData cartPageData = service.selectCartList(reqPage, member);
+		model.addAttribute("list", cartPageData.getList());
+		model.addAttribute("pageNavi", cartPageData.getPageNavi());
+		return "book/myCart";
 	}
-	
 	@ResponseBody
 	@RequestMapping(value= "/delSelect.do", method = RequestMethod.GET)
 	public int insertCart(HttpServletRequest request, HttpSession session) {

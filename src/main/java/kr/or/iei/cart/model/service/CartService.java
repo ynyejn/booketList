@@ -27,6 +27,7 @@ public class CartService {
 		map2.put("memberId", member.getMemberId());
 
 		int totalCount = dao.totalCount(map2);
+		System.out.println("totalcount : "+totalCount);		
 		int numPerPage = 5;
 		int totalPage = 0;
 		if(totalCount % numPerPage ==0) {
@@ -50,13 +51,13 @@ public class CartService {
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
 		//페이지 네비 [이전] [현재] [다음]
 		if(pageNo != 1) {
-			pageNavi += "<div class='prevNavi'><a href='/cart/goMyCart.do?reqPage="+(pageNo-1)+"'>&lt;</a></div>";
+			pageNavi += "<a href='/cart/goMyCart.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage == pageNo) {
-				pageNavi += "<div style='background-color: rgb(0, 102, 179);' class='numberNavi1'><span>"+pageNo+"</span></div>";
+				pageNavi += "<span>"+pageNo+"</span>";
 			}else {
-				pageNavi += "<div class='numberNavi2'><a href='/cart/goMyCart.do?reqPage="+pageNo+"'>"+pageNo+"</a></div>";
+				pageNavi += "<a href='/cart/goMyCart.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -64,8 +65,9 @@ public class CartService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<div class='nextNavi'><a href='/cart/goMyCart.do?reqPage="+pageNo+"'>&gt;</a></div>";
+			pageNavi += "<a href='/cart/goMyCart.do?reqPage="+pageNo+"'>[다음]</a>";
 		}
+		
 		CartPageData cartPageData = new CartPageData((ArrayList<Cart>)list, pageNavi);
 		return cartPageData;
 	}

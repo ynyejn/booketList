@@ -138,54 +138,50 @@ public class RentController {
 		//review엔 member_nickname 조회
 		//rent엔 member_id 조회
 		Member member = (Member)session.getAttribute("member");
-		if(member == null) {
-			return "redirect:/member/loginFrm.do";
-		}else {
-			PreferencePageData ppd = service.userPreferencePageData(member);
-			
-			ArrayList<Review> reviewList = ppd.getReviewList();
-			ArrayList<RentAndCount> rentList = ppd.getRentAndCountList();
-			ArrayList<BookAndReview> writerList = ppd.getWriterList();
-			ArrayList<RentAndCount> rentDateList = ppd.getRentDateList();
-			ArrayList<BookAndReview> bookAndReviewList = ppd.getBookAndReviewList();
-			session.setAttribute("reviewList", reviewList);
-			session.setAttribute("rentList", rentList);
-			session.setAttribute("writerList", writerList);
-			session.setAttribute("rentDateList", rentDateList);
-			session.setAttribute("bookAndReviewList", bookAndReviewList);
-			
-			//유저 카테고리는 유형에 따라 다르게 보여진다.
-			//1 : 기본 취향 세 개, 2 : 가장많이 읽은 카테고리, 3: 좋은 후기를 남긴 카테고리
-			
-			model.addAttribute("preferCategory", ppd.getPreferCategory());
-			model.addAttribute("type", ppd.getType());
-			
-			if(ppd.getPreferCategory().get("preferCategory3") == null) {
-				if(ppd.getPreferCategory().get("preferCategory2") == null) {
-					if(ppd.getPreferCategory().get("preferCategory1") == null) {
-						model.addAttribute("userCategory", "알 수 없음");					
-					}else {
-						model.addAttribute("userCategory", ppd.getPreferCategory().get("preferCategory1"));										
-					}
+		
+		PreferencePageData ppd = service.userPreferencePageData(member);
+		
+		ArrayList<Review> reviewList = ppd.getReviewList();
+		ArrayList<RentAndCount> rentList = ppd.getRentAndCountList();
+		ArrayList<BookAndReview> writerList = ppd.getWriterList();
+		ArrayList<RentAndCount> rentDateList = ppd.getRentDateList();
+		ArrayList<BookAndReview> bookAndReviewList = ppd.getBookAndReviewList();
+		session.setAttribute("reviewList", reviewList);
+		session.setAttribute("rentList", rentList);
+		session.setAttribute("writerList", writerList);
+		session.setAttribute("rentDateList", rentDateList);
+		session.setAttribute("bookAndReviewList", bookAndReviewList);
+		
+		//유저 카테고리는 유형에 따라 다르게 보여진다.
+		//1 : 기본 취향 세 개, 2 : 가장많이 읽은 카테고리, 3: 좋은 후기를 남긴 카테고리
+
+		model.addAttribute("preferCategory", ppd.getPreferCategory());
+		model.addAttribute("type", ppd.getType());
+
+		if(ppd.getPreferCategory().get("preferCategory3") == null) {
+			if(ppd.getPreferCategory().get("preferCategory2") == null) {
+				if(ppd.getPreferCategory().get("preferCategory1") == null) {
+					model.addAttribute("userCategory", "취향 알 수 없음");					
 				}else {
-					model.addAttribute("userCategory", ppd.getPreferCategory().get("preferCategory1")+"/"+ppd.getPreferCategory().get("preferCategory2"));									
+					model.addAttribute("userCategory", ppd.getPreferCategory().get("preferCategory1"));										
 				}
 			}else {
-				model.addAttribute("userCategory", ppd.getPreferCategory().get("preferCategory1")+"/"+ppd.getPreferCategory().get("preferCategory2")+"/"+ppd.getPreferCategory().get("preferCategory3"));								
+				model.addAttribute("userCategory", ppd.getPreferCategory().get("preferCategory1")+"/"+ppd.getPreferCategory().get("preferCategory2"));									
 			}
-			
-			model.addAttribute("reviewList", new Gson().toJson(reviewList));
-			model.addAttribute("rentList", new Gson().toJson(rentList));
-			model.addAttribute("writerList", new Gson().toJson(writerList));
-			model.addAttribute("rentDateList", new Gson().toJson(rentDateList));
-			model.addAttribute("bookAndReviewList", bookAndReviewList);
-			model.addAttribute("rentListSize", rentList.size());
-			session.setAttribute("preferCategory", ppd.getPreferCategory());
-			session.setAttribute("type", ppd.getType());
-			
-			return "/book/preference";
-			
+		}else {
+			model.addAttribute("userCategory", ppd.getPreferCategory().get("preferCategory1")+"/"+ppd.getPreferCategory().get("preferCategory2")+"/"+ppd.getPreferCategory().get("preferCategory3"));								
 		}
+		
+		model.addAttribute("reviewList", new Gson().toJson(reviewList));
+		model.addAttribute("rentList", new Gson().toJson(rentList));
+		model.addAttribute("writerList", new Gson().toJson(writerList));
+		model.addAttribute("rentDateList", new Gson().toJson(rentDateList));
+		model.addAttribute("bookAndReviewList", bookAndReviewList);
+		
+		session.setAttribute("preferCategory", ppd.getPreferCategory());
+		session.setAttribute("type", ppd.getType());
+		
+		return "/book/preference";
 	}
 	@ResponseBody
 	@RequestMapping(value="/refresh.do" , produces = "application/json; charset=utf-8")
@@ -201,7 +197,7 @@ public class RentController {
 		
 		//새로운 10권 짜리 책 리스트 만들기.
 		ArrayList<BookAndReview> list = new ArrayList<BookAndReview>();
-		for(int i=0; i<5; i++) {
+		for(int i=0; i<10; i++) {
 			int ranCount = r.nextInt(count);
 			list.add(refreshBookList.get(ranCount));
 		}		

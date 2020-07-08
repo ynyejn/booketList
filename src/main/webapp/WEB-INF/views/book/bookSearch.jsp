@@ -16,7 +16,6 @@
         height: 160px;
         background-image: url(/resources/imgs/title.jpg);
         position: relative;
-                	background-size : cover;
     }
 
     .black {
@@ -44,8 +43,8 @@
         width: 1200px;
         overflow: hidden;
         margin: 0 auto;
-        padding-bottom: 50px;
-/*         border: 1px solid lightgray; */
+        padding-bottom: 200px;
+        border: 1px solid lightgray;
     }
     #searchDiv {
     	width : 1100px;
@@ -67,6 +66,7 @@
     	border: 1px solid #03166c;
 	    outline: none;
     	box-sizing: border-box;
+    
     	margin : 0;
     }
     #select1, #select2 {
@@ -117,11 +117,11 @@
 	    font-size: 14px;
 	    border-radius: 2px;
     }
-    #searchDiv2 > a {
+    #selectDiv > a {
     	float : right;
     	margin : 10px;
     }
-    #searchDiv2 >a:hover {
+    #selectDiv>a:hover {
     	font-weight : bold;
     	color : #0066b3;
     }
@@ -165,9 +165,6 @@
 	    height: 35px;
 	    font-size: 14px;
 	    border-radius: 2px;
-    }
-    #bookListAdd:hover, #bookListRemove:hover {
-    	cursor : pointer;
     }
 
 
@@ -420,7 +417,7 @@
 </script>
 
 <body>
-<div class="wrapper" style="background-color : #f3f5f7;">
+<div class="wrapper" style="background-color : #f7f8f8;">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="cTop">
 			<div class="black"></div><span>도서 검색</span>
@@ -477,21 +474,20 @@
 			</div>
 			<div class="emptyDiv" style="height:35px;"></div>
 			<div id="searchDiv2">
-				<button type="button" id="allSelect">전체 선택/취소</button>
-				<c:if test="${not empty sessionScope.member }">
-					<!-- 로그인이 되어있을 때 -->
+				<div id="selectDiv">
+					<button type="button" id="allSelect">전체 선택/취소</button>
 					<button type="button" id="insertCart">장바구니에 담기</button>
-				</c:if>
-				<c:if test="${empty bookAttr}">
-					<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=book_name">이름순</a>
-					<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=avg_score">평점순</a>
-					<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=book_pub_date">최신작순</a>
-				</c:if>
-				<c:if test="${not empty bookAttr}">	
-					<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=book_name">이름순</a>
-					<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=avg_score">평점순</a>
-					<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=book_pub_date">최신작순</a>
-				</c:if>
+					<c:if test="${empty bookAttr}">
+						<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=book_name">이름순</a>
+						<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=avg_score">평점순</a>
+						<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=book_name&inputText=${inputText }&sort=book_pub_date">최신작순</a>
+					</c:if>
+					<c:if test="${not empty bookAttr}">	
+						<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=book_name">이름순</a>
+						<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=avg_score">평점순</a>
+						<a href="/rent/searchBookDetail.do?reqPage=1&categorySelect=${categorySelect }&bookAttr=${bookAttr }&inputText=${inputText }&sort=book_pub_date">최신작순</a>
+					</c:if>
+				</div>
 			</div>
 			<div id="contentDiv">
 				<div id="MainContentDiv">
@@ -514,7 +510,7 @@
 											<td rowspan="5" style='wdith:730px; padding-left : 10px;'> 
 												<span style='font-weight:bold;' class='nameSpan'>${n.bookName}</span>&nbsp;&nbsp;&nbsp;<div style='border-radius:5px; display:inline;font-weight:bold; font-size:12px; background-color:brown; color:white;'>&nbsp;${n.avgScore }&nbsp;</div> 
 												<c:if test="${n.cnt eq '0'}">
-													<button type="button" style='background-color:rgb(0, 102, 179);' id="reservationButton">예약하기</button>
+													<button type="button" id="reservationButton">예약하기</button>
 													<input type="hidden" id="reservationInput" value="${n.bookName }~구분~${n.bookWriter }~구분~${n.bookPublisher}~구분~${n.bookCategory}">
 												</c:if>
 												<br>
@@ -537,7 +533,7 @@
 													<span class='pubDateSpan'>${n.bookPubDate }</span>
 												<br>
 												<c:if test="${n.cnt ne '0'}">
-													<span id="bookListAdd" onclick="bookListLoad('${n.bookName}', this, ${i.count})"><span style='color:#0066b3; font-weight:bold; font-size:15px;'>대여 가능</span><img style='margin-left : 5px; width:13px; height:13px;' src="/resources/imgs/openIcon.png"></span>
+													<span id="bookListAdd" onclick="bookListLoad('${n.bookName}', this, ${i.count})"><span style='color : #0066b3; font-weight:bold; font-size:15px;'>대여 가능</span><img style='margin-left : 5px; width:13px; height:13px;' src="/resources/imgs/openIcon.png"></span>
 													<span id="bookListRemove" style='display:none;' onclick='bookListRemove(this, ${i.count})'><span style='color : #0066b3; font-weight:bold; font-size:15px;'>대여 가능</span><img style='margin-left : 5px; width:13px; height:13px;' src="/resources/imgs/closeIcon.png"></span>
 												</c:if>
 												<c:if test="${n.cnt eq '0'}">
@@ -561,10 +557,7 @@
 			</div>
 			<div id="searchDiv2">
 				<button type="button" id="allSelect2">전체 선택/취소</button>
-				<c:if test="${not empty sessionScope.member }">
-					<!-- 로그인이 되어있을 때 -->
-					<button type="button" id="insertCart2">장바구니에 담기</button>
-				</c:if>
+				<button type="button" id="insertCart2">장바구니에 담기</button>
 			</div>
 			<div id="naviDiv">
 				${pageNavi}
