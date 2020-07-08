@@ -33,4 +33,16 @@
 	<insert id="reviewInsert">
 		insert into review values(review_seq.nextval,#{memberNickName},#{reviewContent},#{reviewScore},#{reviewFilename},#{bookName},#{bookPublisher},#{bookWriter},#{reviewFilepath},#{bookCategory},sysdate)
 	</insert>
+	<select id="reviewList" parameterType="String" resultType="review">
+		select 
+		 book_name as bookName,
+         review_content as reviewContent,
+         review_score as reviewScore,
+         book_publisher as bookPublisher,
+         book_writer as bookWriter,
+         book_category as bookCategory
+         from review
+         where member_nickname=#{_parameter}
+	
+	</select>
 </mapper>

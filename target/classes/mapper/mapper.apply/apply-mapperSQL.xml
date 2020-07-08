@@ -92,4 +92,15 @@
 	<update id="detailOneApplyYes" parameterType="_int">
 		update apply set apply_status = 1 where apply_no = #{applyNo} 
 	</update>
+	
+	<select id="applyList" parameterType="String" resultType="apply">
+		select 
+		 book_name as bookName,
+         apply_date as applyDate,
+         apply_status as applyStatus,
+         apply_content as applyContent    
+         from apply
+         where member_id=#{_parameter}
+	
+	</select>
 </mapper>
