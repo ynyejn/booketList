@@ -8,7 +8,7 @@
 <title>Booket List 후기</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.3.1.js"></script>
-		
+
 <style>
 .content {
 	width: 1200px;
@@ -23,24 +23,22 @@
 	background-color: aliceblue;
 	border: 1px solid black;
 	width: 350px;
-	height: 90%;
-	display: block;
 	
+	display: block;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
-	overflow : hidden;
+	overflow: hidden;
 	float: left;
 }
 
 .reviews {
-	 width: 32%;
-  margin-bottom: 2%;
-	display:inline-block;
+	width: 32%;
+	margin-bottom: 2%;
+	display: inline-block;
 	width: 370px;
-	height: 100%;
-	  
+	
 }
 
 .cTop {
@@ -89,31 +87,34 @@
 	border-top: 2px solid #585858;
 	text-align: center;
 }
-.reviceImg{
+
+.reviceImg {
 	width: 100%;
 }
-table{
+
+table {
 	width: 350px;
 }
-.revdate{
+
+.revdate {
 	font-size: 0.8em;
 }
-.revNick{
+
+.revNick {
 	text-align: left;
 }
 
-/* #reviewList { */
-/* padding-left: 80px; */
+#reviewList {
+display : flex;
+	align-content: space-between;
+	content: "";
+	clear: both;
+}
 
-/*   align-content: space-between; */
-/*    content:""; */
-/*      display:block; */
-/*      clear:both; */
-/* } */
-
-
-
-
+#reviewList > div{
+	display : flex;
+	flex-direction : column;
+}
 </style>
 </head>
 <body>
@@ -130,31 +131,102 @@ table{
 			</div>
 			<div id="searchDiv"></div>
 			<div id="reviewList">
-			<c:forEach var="list" items="${r }">
-				<div class="reviews">
-					<br>
-					<div class="reviewBox">
-						<table>
-							<tr>
-								<th class="revNick">${list.memberNickName }<br> <span class="revdate">${list.reviewDate }</span>
-								</th>
-								<th>${list.reviewScore }점</th>
-							</tr>
-							<tr>
-								<th colspan="2">${list.bookName }<br> ${list.bookPublisher }<br>
-									${list.bookWriter }<br> ${list.bookCategory }
-								</th>
-							</tr>
-							<tr>
-								<th colspan="2">${list.reviewContent }</th>
-							</tr>
-							<tr>
-								<th colspan="2"><img class="reviceImg"src="${list.reviewFilepath }"></th>
-							</tr>
-						</table>
-					</div>
+				<div>
+					<c:forEach var="list" items="${r }" varStatus="status">
+						<c:if test="${status.count % 3 == 1 }">
+							<div class="reviews">
+								<br>
+								<div class="reviewBox">
+									<table>
+										<tr>
+											<th class="revNick">${list.memberNickName }<br> <span
+												class="revdate">${list.reviewDate }</span>
+											</th>
+											<th>${list.reviewScore }점</th>
+										</tr>
+										<tr>
+											<th colspan="2">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }<br>
+												${list.bookCategory }
+											</th>
+										</tr>
+										<tr>
+											<th colspan="2">${list.reviewContent }</th>
+										</tr>
+										<tr>
+											<th colspan="2"><img class="reviceImg"
+												src="${list.reviewFilepath }"></th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
 				</div>
-			</c:forEach>
+				<div>
+					<c:forEach var="list" items="${r }" varStatus="status">
+						<c:if test="${status.count % 3 == 2 }">
+							<div class="reviews">
+								<br>
+								<div class="reviewBox">
+									<table>
+										<tr>
+											<th class="revNick">${list.memberNickName }<br> <span
+												class="revdate">${list.reviewDate }</span>
+											</th>
+											<th>${list.reviewScore }점</th>
+										</tr>
+										<tr>
+											<th colspan="2">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }<br>
+												${list.bookCategory }
+											</th>
+										</tr>
+										<tr>
+											<th colspan="2">${list.reviewContent }</th>
+										</tr>
+										<tr>
+											<th colspan="2"><img class="reviceImg"
+												src="${list.reviewFilepath }"></th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
+				<div>
+					<c:forEach var="list" items="${r }" varStatus="status">
+						<c:if test="${status.count % 3 == 0 }">
+							<div class="reviews">
+								<br>
+								<div class="reviewBox">
+									<table>
+										<tr>
+											<th class="revNick">${list.memberNickName }<br> <span
+												class="revdate">${list.reviewDate }</span>
+											</th>
+											<th>${list.reviewScore }점</th>
+										</tr>
+										<tr>
+											<th colspan="2">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }<br>
+												${list.bookCategory }
+											</th>
+										</tr>
+										<tr>
+											<th colspan="2">${list.reviewContent }</th>
+										</tr>
+										<tr>
+											<th colspan="2"><img class="reviceImg"
+												src="${list.reviewFilepath }"></th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -162,16 +234,16 @@ table{
 	<script type="text/javascript">
 		$(function() {
 			$('#reviewList').msrItems({
-				'colums': 3,
-				'margin': 15
-				});
-			$( window ).on('resize',function(e) {
+				'colums' : 3,
+				'margin' : 15
+			});
+			$(window).on('resize', function(e) {
 				clearTimeout(time);
-				time = setTimeout(function(){
-				$('.msrItems').msrItems('refresh');
+				time = setTimeout(function() {
+					$('.msrItems').msrItems('refresh');
 				}, 200);
-				
-				})
+
+			})
 
 			$("button").click(function() {
 				window.name = "apply"
