@@ -37,6 +37,8 @@
 	</form>
 <script type="text/javascript">
 
+
+
 function loadImg(f) {
 	if (f.files.length != 0 && f.files[0] != 0) {
 		var reader = new FileReader();

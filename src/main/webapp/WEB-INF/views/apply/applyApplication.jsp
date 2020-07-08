@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Booket List 도서신청</title>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <style>
       
         .content {

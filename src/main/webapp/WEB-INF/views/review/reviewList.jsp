@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Booket List 후기</title>
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
 <style>
 .content {
@@ -233,18 +231,7 @@ display : flex;
 	</div>
 	<script type="text/javascript">
 		$(function() {
-			$('#reviewList').msrItems({
-				'colums' : 3,
-				'margin' : 15
-			});
-			$(window).on('resize', function(e) {
-				clearTimeout(time);
-				time = setTimeout(function() {
-					$('.msrItems').msrItems('refresh');
-				}, 200);
-
-			})
-
+			
 			$("button").click(function() {
 				window.name = "apply"
 				var url = "/review/reviewWriting.do";
@@ -253,8 +240,11 @@ display : flex;
 				window.open(url, title, style);
 			});
 		})
-		window.opener.location.reload();
-		window.close();
+				window.opener.location.reload();
+				window.close();
+	
+
+		
 	</script>
 </body>
 </html>

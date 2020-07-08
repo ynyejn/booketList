@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Booket List openChatting</title>
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <style>
         .content {
             width: 1200px;
