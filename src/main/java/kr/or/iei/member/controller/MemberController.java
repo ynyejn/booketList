@@ -1,6 +1,7 @@
 package kr.or.iei.member.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,9 +28,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.mail.util.MailSend;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.rent.model.vo.Rent;
+import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.review.model.vo.Review;
 
 @Controller
 @RequestMapping("/member")
@@ -40,11 +46,9 @@ public class MemberController {
 	public MemberController() {
 		super();
 	}
-
 	@RequestMapping(value="/join.do")
 	public String join(Member m) {
-
-		
+	
 		return "member/join";
 	}
 	@RequestMapping(value="/joinSuccess.do")
@@ -95,23 +99,91 @@ public class MemberController {
 	public String loginMember(HttpSession session, Member m) {
 		System.out.println(m.getMemberId());
 		System.out.println(m.getMemberPw());
-		Member member = service.selectOne(m);
+		Member member = service.selectOneMember(m);
+		
 		if (member != null) {
+			System.out.println();
 			session.setAttribute("member", member);
-			return "redirect:/";
+			return "member/mypage";
 		} else {
 			return "member/loginFailed";
 		}
 	}
-		@RequestMapping(value = "/loginFrm.do")
-		public String loginMember() {
+	@RequestMapping(value="/mUpdate.do",method = RequestMethod.POST)
+	public String update(HttpSession session,Member m) {
+		int result = service.update(m);
+		if(result>0) {
+			session.setAttribute("member", m);
+			System.out.println("회원정보가 수정되었습니다.");
+			return "redirect:/";
 			
-				return "member/login";
+		}else {
+			System.out.println("회원정보가 수정되지 않았습니다.");
+			return "member/mypage";
+		}
+	}
+	@RequestMapping(value = "/loginFrm.do")
+	public String loginMember() {
+		
+		return "member/login";	
+	}
+	@RequestMapping(value="/logout.do")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/mypage.do")
+	public String mypage(HttpSession session, Model model) {
+		Member m = (Member) session.getAttribute("model");
+		model.addAttribute("m",m);
+		return "member/mypage";
+	}
+	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	public String delete(HttpSession session) {
+		Member m = (Member)session.getAttribute("member");
+		int result = service.delete(m.getMemberId());
+		if(result>0) {
 			
+			session.invalidate();
+			return "redirect:/";
+		}else {
+			return "member/mypage";
+		}
+	}
+	@RequestMapping(value = "/mypageReviewFrm.do")
+	public String reviewList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+		System.out.println(reviewList.size());
+		model.addAttribute("list", reviewList);
+		return "member/mypageReview";
+	}
+	@RequestMapping(value = "/mypageApplyFrm.do")
+	public String applyList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Apply> applyList = service.applyList(m.getMemberId());
+		System.out.println(applyList.size());
+		model.addAttribute("list", applyList);
+		return "member/mypageApply";
+	}
+	@RequestMapping(value = "/mypageReservationFrm.do")
+	public String reservationList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Reservation> reservationList = service.reservationList(m.getMemberId());
+		System.out.println(reservationList.size());
+		model.addAttribute("list", reservationList);
+		return "member/mypageReservation";
+	}
+	@RequestMapping(value = "/mypageRentFrm.do")
+	public String rentList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<Rent> rentList = service.rentList(m.getMemberId());
+		System.out.println(rentList.size());
+		model.addAttribute("list", rentList);
+		return "member/mypageRent";
 	}
 	
 	
-	
-
-
 }
+
