@@ -18,7 +18,7 @@
 
 .reviewBox {
 	text-align: center;
-	background-color: aliceblue;
+
 	border: 1px solid black;
 	width: 350px;
 	
@@ -87,7 +87,12 @@
 }
 
 .reviceImg {
-	width: 100%;
+	width: 95%;
+	padding-bottom: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 
 table {

@@ -67,13 +67,15 @@ function loadImg(f) {
 			data : { memberId:memberId },
 			success : function(data){
 				html="";
-
+				html2="";
 				for(var i=0;i<data.length;i++){
-					html+="<option value='"+data[i].bookName+"'>"+data[i].bookName+"</option>";
-					
+					html+="<option value='"+data[i].bookName+"'>"+data[i].bookName;+"</option>";
+					html2+= "<input type='hidden' name='bookPublisher'value='"+data[i].bookPublisher+"'>";
+					html2+= "<input type='hidden' name='bookWriter'value='"+data[i].bookWriter+"'>";
+					html2+= "<input type='hidden' name='bookCategory'value='"+data[i].bookCategory+"'>";
 				}
 				$("#type").append(html);
-				
+				$("#book").html(html2);
 			}
 		});
 		
