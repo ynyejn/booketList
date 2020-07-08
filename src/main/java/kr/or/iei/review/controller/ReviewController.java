@@ -48,9 +48,9 @@ public class ReviewController {
 		return "review/reviewWriting";
 	}
 	@RequestMapping("/reviewInsert.do")
-	public String reviewInster(HttpSession session,HttpServletRequest request,MultipartFile file,String type,Review review) {
+	public String reviewInster(HttpSession session,HttpServletRequest request,MultipartFile file,String type,Review review,Model model) {
 		Member m = (Member)session.getAttribute("member");
-		System.out.println(review.getReviewScore()+"점수");
+		
 		if(!file.isEmpty()) {
 			System.out.println(review.getReviewScore()+"점수");
 			String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
@@ -81,10 +81,14 @@ public class ReviewController {
 					bos.write(bytes);
 					bos.close();
 					System.out.println("파일 업로드 완료");
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
+				}
+				ArrayList<Review> list2 = service.selectReview();
+				model.addAttribute("r",list2);
+				return "review/reviewList";
 			}
 		}else {
 			System.out.println(review.getReviewScore()+"점수");
@@ -102,10 +106,13 @@ public class ReviewController {
 			}
 			int result = service.reviewInsert(review);
 			if(result>0) {
+				ArrayList<Review> list2 = service.selectReview();
+				model.addAttribute("r",list2);
 				return "review/reviewList";
 			}
 		}
-		return "review/reviewList";
+		return null;
+		
 	}
 	public long getCurrentTime() {
 		Calendar today = Calendar.getInstance();

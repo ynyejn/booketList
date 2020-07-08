@@ -103,6 +103,7 @@ table {
 }
 
 #reviewList {
+padding-left:50px;
 display : flex;
 	align-content: space-between;
 	content: "";
