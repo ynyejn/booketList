@@ -891,7 +891,7 @@ public class AdminController {
 				return null;
 			}
 			
-			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
+//			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
 		}
 		
 

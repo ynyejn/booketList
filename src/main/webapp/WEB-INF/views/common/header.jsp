@@ -17,7 +17,7 @@
 <!-- css 여기있어야함 -->
 <link rel="stylesheet" href="/resources/css/header/hStyle.css">
 
-<div class="header" style='z-index:5000;'>
+<div class="header">
 	<div class="header1">
 		<a href="/"><img src="/resources/imgs/bluelogo.png"></a>
 	</div>
@@ -40,7 +40,7 @@
 				<!--로그인되어있지않을때 -->
 				<li><a href="/member/loginFrm.do">로그인</a></li>
 				<li><a href="/member/join.do">회원가입</a></li>
-				<li><a href="javascript:void(0);" onclick="plzLogin();">장바구니</a></li>
+				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
@@ -51,7 +51,6 @@
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="#">${sessionScope.member.memberName }님</a></li>
 				</c:if>
-				<li><a href="/member/mypage.do">마이페이지</a></li>
 				<li><a href="/member/logout.do">로그아웃</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 			</c:if>
@@ -62,15 +61,8 @@
 			<ul class="hNavi1">
 				<li><a href="/rent/goBookSearch.do?reqPage=1">도서 검색</a></li>
 				<li><a href="javascript:void(0);" onclick="returnFunc('${sessionScope.member.memberId}');">도서 반납</a></li>
-				<li><a href="/apply/applyApplication.do">도서 입고 신청</a></li>
-			<c:if test="${not empty sessionScope.member }">
-			<!-- 로그인이 되어있을 때 -->
+				<li><a href="javascript:void(0);" onclick="appl('${sessionScope.member.memberId}');">도서 입고 신청</a></li>
 				<li><a href="/rent/goPreference.do" data-toggle="tooltip" title="Try it!">취향분석</a></li>
-			</c:if>
-			<c:if test="${empty sessionScope.member }">
-			<!-- 로그인이 안 되어있을 때 -->
-				<li><a href="javascript:void(0);" onclick="plzLogin();" data-toggle="tooltip" title="Try it!">취향분석</a></li>
-			</c:if>				
 			</ul>
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>
@@ -81,7 +73,7 @@
 		</div>
 	</div>
 </div>
-    
+
 <script>
 	function returnFunc(memberId){
 		if(memberId==""){
@@ -89,6 +81,14 @@
 			location.href="/member/loginFrm.do";
 		}else{
 			location.href="/goBookReturn.do";
+		}
+	}
+	function appl(memberId){
+		if(memberId==""){
+			alert("로그인이 필요합니다");
+			location.href="/member/loginFrm.do";
+		}else{
+			location.href="/apply/applyApplication.do";
 		}
 	}
 	function up() {
@@ -135,7 +135,9 @@
 									"border-top", "1px solid #eeeeee");
 							$(".hNavi1>li>a").css("color", "#0066b3");
 							$(".hNavi2>li>a").css("color", "gray");
-							$(".header").css("box-shadow","0 4px 12px rgba(0, 0, 0, .08), 0 0 1px rgba(1, 0, 0, .1)");
+							$(".header")
+									.css("box-shadow",
+											"0 4px 12px rgba(0, 0, 0, .08), 0 0 1px rgba(1, 0, 0, .1)");
 						} else {
 							$(".header3").css("opacity", "100%").css(
 									"border-top", "1px solid #0066b3").css(
@@ -145,7 +147,4 @@
 							$(".header").css("box-shadow", "none");
 						}
 					});
-	function plzLogin() {
-		alert("로그인이 필요한 페이지입니다. ");
-	}
 </script>

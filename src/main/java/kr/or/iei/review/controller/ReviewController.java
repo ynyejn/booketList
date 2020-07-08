@@ -58,7 +58,7 @@ public class ReviewController {
 			String filepath =  onlyFilename+"_"+getCurrentTime()+extension;
 			String fullpath = savePath+filepath;
 			review.setReviewFilename(onlyFilename);
-			review.setReviewFilepath(filepath);
+			review.setReviewFilepath("/resources/review/"+filepath);
 			review.setBookName(type);
 			ArrayList<Book> list = service.reviewSelectBook(memberId);
 			for(Book b : list) {
