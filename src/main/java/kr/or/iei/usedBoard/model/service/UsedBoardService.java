@@ -100,4 +100,9 @@ public class UsedBoardService {
 		int result2 = dao.insertFiles(fileList);
 		return result1+result2;
 	}
+
+	public ArrayList<UsedComment> selectComment(int usedNo) {
+		List list = dao.selectComment(usedNo);
+		return (ArrayList<UsedComment>)list;
+	}
 }

@@ -58,4 +58,8 @@ public class UsedBoardDao {
 		}
 		return result;
 	}
+
+	public List selectComment(int usedNo) {
+		return sqlSession.selectList("usedBoard.selectComment",usedNo);
+	}
 }

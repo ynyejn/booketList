@@ -56,4 +56,12 @@ insert into used_comment values(comment_seq.nextval,#{usedNo},#{commentContent},
 <insert id="insertFiles" parameterType="usedFiles">
 insert into used_files values(comment_seq.currval,#{commentFilename},#{commentFilepath})
 </insert>
+<select id="selectComment" parameterType="_int" resultType="usedComment">
+select comment_no as commentNo,
+		used_no as usedNo,
+		comment_content as commentContent,
+		comment_writer as commentWriter,
+		comment_date as commentDate
+		from used_comment where used_no = #{_parameter}
+</select>
 </mapper>

@@ -87,7 +87,9 @@ public class UsedBoardController {
 	@RequestMapping("/goBoardView.do")
 	private String goBoardView(Model model, int usedNo) {
 		UsedBoard ub = service.selectOneBoard(usedNo);
+		ArrayList<UsedComment> uc = service.selectComment(usedNo);
 		model.addAttribute("ub", ub);
+		model.addAttribute("ucList",uc);
 		return "usedBoard/boardView";
 	}
 
@@ -102,8 +104,8 @@ public class UsedBoardController {
 
 	@RequestMapping("/goModifyUsedBoard.do")
 	private String goModifyUsedBoard(Model model, int usedNo) {
-		UsedBoard ub = service.selectOneBoard(usedNo);
-		model.addAttribute("ub", ub);
+		UsedBoard ub = service.selectOneBoard(usedNo);	
+		model.addAttribute("ub", ub);		
 		return "usedBoard/modifyBoard";
 	}
 
@@ -148,7 +150,7 @@ public class UsedBoardController {
 			System.out.println("댓글 등록실패");
 		}
 
-		return null;
+		return "redirect:/goBoardView.do?usedNo="+uc.getUsedNo();
 	}
 	
 	public long getCurrentTime() {
