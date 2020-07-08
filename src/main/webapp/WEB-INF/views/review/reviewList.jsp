@@ -233,15 +233,14 @@ display : flex;
 		$(function() {
 			
 			$("button").click(function() {
-				window.name = "apply"
+				window.name = "reviewWriting.do";
 				var url = "/review/reviewWriting.do";
 				var title = "후기";
 				var style = "width=400,height=400,top=100,left=400";
 				window.open(url, title, style);
 			});
+				
 		})
-				window.opener.location.reload();
-				window.close();
 	
 
 		

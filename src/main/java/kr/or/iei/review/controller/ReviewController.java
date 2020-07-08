@@ -48,9 +48,11 @@ public class ReviewController {
 		return "review/reviewWriting";
 	}
 	@RequestMapping("/reviewInsert.do")
-	public String reviewInster(HttpServletRequest request,MultipartFile file,String type,Review review) {
-		String memberId = "user01";
+	public String reviewInster(HttpSession session,HttpServletRequest request,MultipartFile file,String type,Review review) {
+		Member m = (Member)session.getAttribute("member");
+		System.out.println(review.getReviewScore()+"점수");
 		if(!file.isEmpty()) {
+			System.out.println(review.getReviewScore()+"점수");
 			String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
 			String originalFileName = file.getOriginalFilename();
 			String onlyFilename = originalFileName.substring(0, originalFileName.lastIndexOf("."));
@@ -60,7 +62,7 @@ public class ReviewController {
 			review.setReviewFilename(onlyFilename);
 			review.setReviewFilepath("/resources/review/"+filepath);
 			review.setBookName(type);
-			ArrayList<Book> list = service.reviewSelectBook(memberId);
+			ArrayList<Book> list = service.reviewSelectBook(m.getMemberId());
 			for(Book b : list) {
 				if(b.getBookName()==type) {
 					System.out.println(b.getBookCategory());
@@ -85,8 +87,9 @@ public class ReviewController {
 				}	
 			}
 		}else {
+			System.out.println(review.getReviewScore()+"점수");
 			review.setBookName(type);
-			ArrayList<Book> list = service.reviewSelectBook(memberId);
+			ArrayList<Book> list = service.reviewSelectBook(m.getMemberId());
 			for(Book b : list) {
 				if(b.getBookName()==type) {
 					System.out.println(b.getBookCategory());
