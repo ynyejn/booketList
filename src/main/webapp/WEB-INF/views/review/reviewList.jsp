@@ -8,6 +8,7 @@
 <title>Booket List 후기</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.3.1.js"></script>
+		
 <style>
 .content {
 	width: 1200px;
@@ -24,19 +25,22 @@
 	width: 350px;
 	height: 90%;
 	display: block;
+	
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	overflow : hidden;
+	float: left;
 }
 
 .reviews {
-	padding-left: 50px; 
-	
+	 width: 32%;
+  margin-bottom: 2%;
+	display:inline-block;
 	width: 370px;
 	height: 100%;
-	float: left;
+	  
 }
 
 .cTop {
@@ -97,6 +101,19 @@ table{
 .revNick{
 	text-align: left;
 }
+
+/* #reviewList { */
+/* padding-left: 80px; */
+
+/*   align-content: space-between; */
+/*    content:""; */
+/*      display:block; */
+/*      clear:both; */
+/* } */
+
+
+
+
 </style>
 </head>
 <body>
@@ -112,7 +129,7 @@ table{
 				<button class="allCheck" type="button">후기 작성</button>
 			</div>
 			<div id="searchDiv"></div>
-
+			<div id="reviewList">
 			<c:forEach var="list" items="${r }">
 				<div class="reviews">
 					<br>
@@ -138,11 +155,24 @@ table{
 					</div>
 				</div>
 			</c:forEach>
+			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
 	<script type="text/javascript">
 		$(function() {
+			$('#reviewList').msrItems({
+				'colums': 3,
+				'margin': 15
+				});
+			$( window ).on('resize',function(e) {
+				clearTimeout(time);
+				time = setTimeout(function(){
+				$('.msrItems').msrItems('refresh');
+				}, 200);
+				
+				})
+
 			$("button").click(function() {
 				window.name = "apply"
 				var url = "/review/reviewWriting.do";
