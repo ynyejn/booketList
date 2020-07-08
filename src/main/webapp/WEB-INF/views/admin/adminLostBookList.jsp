@@ -84,6 +84,11 @@
 
 		$("#selDelete").click(function() {
 			
+			if($(".checkRow").is(":checked")== false){
+				alert("도서를 선택해주세요");
+				return false;
+			}
+			
 							if (confirm("선택 도서 분실을 취소 하시겠습니까?")) {
 								var checkArr = new Array();
 								var reqPage = ${reqPage};
@@ -118,8 +123,8 @@
 							}
 
 						});
-
 	});
+	
 </script>
 
 </head>
@@ -497,27 +502,35 @@
 											<table class="table table-hover">
 												<thead>
 													<tr>
-														<th class="width5"><input type="checkbox" id="ck_all"></th>
-														<th class="width5">분실한 id</th>
-														<th class="width5">도서 이름</th>
-														<th class="width5">도서 출판사</th>
-														<th class="width5">도서 장르</th>
+														<th class="width1"><input type="checkbox" id="ck_all" style="cursor:pointer"></th>
+														<th class="width1">분실한 id</th>
+														<th class="width5"></th>
+														<th class="width8"></th>
 
 													</tr>
 												</thead>
 												<tbody>
 													<c:forEach items="${list1 }" var="p" varStatus="i">
-														<tr class="move">
-															<th class="width5"><input type="checkbox"
+														<tr class="move" style="cursor:default">
+															<th class="width1"><input type="checkbox" style="cursor:pointer"
 																class="checkRow" value="${p.bookNo }"></th>
-															<td class="width5">${p.memberId }</td>
-															<td class="width5">${p.bookName }</td>
-															<td class="width5">${p.bookPublisher }</td>
-															<td class="width5">${p.bookCategory }</td>
+															<td class="width2">${p.memberId }</td>
+															<td class="width5"><img src="${p.bookImg }" style="width: 110px; height: 160px;"></td>
+															<td class="width8" style="text-align: left;"><span
+																style="font-weight: bold; color: #0066b3">${p.bookName }</span>
+																<ul style="padding-left: 15px;">
+																	<li style="font-size: 12px; text-align: left;">작가
+																		: ${p.bookWriter }</li>
+																	<li style="font-size: 12px; text-align: left">출판사
+																		: ${p.bookPublisher }</li>
+																	<li style="font-size: 12px; text-align: left">장르 :
+																		${p.bookCategory }</li>
+																	<li style="font-size: 12px; text-align: left">출판일
+																		: ${p.bookPubDate }</li>
+																</ul></td>
 
 														</tr>
 													</c:forEach>
-
 												</tbody>
 											</table>
 
@@ -536,6 +549,8 @@
 										</div>
 									</div>
 								</div>
+								
+								
 								<!-- /.container-fluid -->
 
 							</div>

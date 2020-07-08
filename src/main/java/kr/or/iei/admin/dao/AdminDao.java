@@ -303,6 +303,10 @@ public class AdminDao {
 		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
+	public BookAndRent selectOneLostBook(int bookNo) {
+		return sqlSession.selectOne("book.selectOneLostBook", bookNo);
+	}
+
 	 
 
 

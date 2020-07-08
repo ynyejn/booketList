@@ -1009,5 +1009,8 @@ public class AdminService {
 	public int updateBookTurnApply(String bookNo) {
 		return dao.updateBookTurnApply(bookNo);
 	}
+	public BookAndRent selectOneLostBook(int bookNo) {
+		return dao.selectOneLostBook(bookNo);
+	}
 
 }
