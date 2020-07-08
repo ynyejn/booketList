@@ -121,4 +121,19 @@
 	<delete id="deleteAgreeRentApply" parameterType="_int">
 		delete from rentapply where rentapply=#{rentApply}
 	</delete>
+	<update id="updateBookRentApply" parameterType="_int">
+		update book set book_status=2 where book_no=#{bookNo}
+	</update>
+	<select id="selectExcelRentApplyList" parameterType="_int" resultType="rentApply">
+		select rentapply as rentApply, book_no as bookNo, member_id as memberId, book_name as bookName
+		,spot_name as spotName
+		,rentapply_date as rentApplyDate
+		from rentapply left join book using(book_no) where rentapply=#{rentApply}
+	</select>
+	<select id="excelRentApplyListTotal" resultType="rentApply">
+		select rentapply as rentApply, book_no as bookNo, member_id as memberId, book_name as bookName
+		,spot_name as spotName
+		,rentapply_date as rentApplyDate
+		from rentapply left join book using(book_no)
+	</select>
 </mapper>

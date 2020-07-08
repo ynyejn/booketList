@@ -120,7 +120,7 @@ update book set book_status=3 where book_no = #{_parameter}
         ,turnapply_date as turnapplyDate
 		from turnapply where turnapply=#{turnApply}
 </select>
-<select id="selectBookListTurnApply" parameterType="_int" resultType="book">
+<select id="selectBookListTurnApply" parameterType="String" resultType="book">
 	select
 		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
 		book_publisher as bookPublisher,
@@ -138,7 +138,21 @@ update book set book_status=3 where book_no = #{_parameter}
 		book_writer as bookWriter,
 		reserve_date as reserveDate,
 		book_category as bookCategory
-		from reservation where book_name=#{bookName} and book_publisher=#{bookPublisher} and book_writer=#{bookWriter}
+		from reservation
+		<trim prefix="where" prefixOverrides="and/or">
+			<if test="bookName != null">
+				book_name=#{bookName}
+			</if>
+			<if test="bookPublisher != null">
+				and book_publisher=#{bookPublisher}
+			</if>
+			<if test="bookWriter != null">
+				and book_writer=#{bookWriter}
+			</if>
+			<if test="bookWriter == null">
+				and book_writer is null
+			</if>
+		</trim> 
 </select>
 <select id="selectMemberEmailTurnApply" parameterType="String" resultType="String">
 select
@@ -149,9 +163,39 @@ from member where member_id=#{memberId}
 	delete from turnapply where turnapply=#{turnApply}
 </delete>
 <delete id="deleteReservationTurnApply" parameterType="map">
-	delete from reservation where book_name=#{bookName} and book_publisher=#{bookPublisher} and book_writer=#{bookWriter} 
+	delete from reservation
+<trim prefix="where" prefixOverrides="and/or">
+			<if test="bookName != null">
+				book_name=#{bookName}
+			</if>
+			<if test="bookPublisher != null">
+				and book_publisher=#{bookPublisher}
+			</if>
+			<if test="bookWriter != null">
+				and book_writer=#{bookWriter}
+			</if>
+			<if test="bookWriter == null">
+				and book_writer is null
+			</if>
+		</trim>  
 </delete>
-<update id="updateBookTurnApply" parameterType="_int">
-	update book set book_no=#{bookNo} where book_status=0 
+<update id="updateBookTurnApply" parameterType="String">
+	update book set book_status=0 where book_no=#{bookNo}
 </update>
+
+<update id="updateRentReturnTurnApply" parameterType="String">
+	update rent set rent_return=1 where book_no=#{bookNo}
+</update>
+<select id="selectExcelTurnApplyList" parameterType="_int" resultType="turnApply">
+	select turnapply as turnApply, book_no as bookNo, member_id as memberId, book_name as bookName
+		,spot_name as spotName
+		,turnapply_date as turnApplyDate
+		from turnapply left join book using(book_no) where turnapply=#{turnApply}
+</select>
+<select id="excelTurnApplyListTotal" resultType="turnApply">
+	select turnapply as turnApply, book_no as bookNo, member_id as memberId, book_name as bookName
+		,spot_name as spotName
+		,turnapply_date as turnApplyDate
+		from turnapply left join book using(book_no)
+</select>
 </mapper>

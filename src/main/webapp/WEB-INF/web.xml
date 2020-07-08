@@ -49,8 +49,6 @@
 	</servlet-mapping>
 	<!-- CKFINDER END -->
 
-
-	출처: https://shxrecord.tistory.com/122 [첫 발]
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
