@@ -307,6 +307,10 @@ public class AdminDao {
 		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
+	public List bookStatusList() {
+		return sqlSession.selectList("book.bookStatusList");
+	}
+
 	 
 
 

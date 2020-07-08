@@ -22,8 +22,11 @@ import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
+import kr.or.iei.rent.model.dao.RentDao;
 import kr.or.iei.rent.model.vo.BookRentalApplyPage;
+import kr.or.iei.rent.model.vo.RentAndCount;
 import kr.or.iei.rent.model.vo.RentApply;
+import kr.or.iei.rent.model.vo.RentDateCount;
 import kr.or.iei.reservation.model.vo.Reservation;
 import kr.or.iei.turn.model.vo.BookTurnApplyPage;
 import kr.or.iei.turn.model.vo.TurnApply;
@@ -35,7 +38,11 @@ public class AdminService {
 	@Autowired
 	@Qualifier("adminDao")
 	private AdminDao dao;
-
+	
+	@Autowired
+	@Qualifier("rentDao")
+	private RentDao rentDao;
+	
 	public MemberPageData selectMember(int reqPage, int selectCount) {
 		System.out.println("AdminService");
 		int numPerPage = selectCount;
@@ -1011,6 +1018,20 @@ public class AdminService {
 	}
 	public int updateBookTurnApply(String bookNo) {
 		return dao.updateBookTurnApply(bookNo);
+	}
+	
+	//책 대여 목록 불러오기
+	public ArrayList<RentDateCount> rentDateCountList() {
+		List list = rentDao.rentDateCountList();
+		ArrayList<RentDateCount> rentDateCountList = (ArrayList<RentDateCount>)list;
+		return rentDateCountList;
+	}
+	//책 리스트 불러오기
+	public ArrayList<Book> bookStatusList() {
+		return (ArrayList<Book>)dao.bookStatusList();
+	}
+	public ArrayList<RentAndCount> rentAndCountList() {
+		return (ArrayList<RentAndCount>)rentDao.rentAndCountList();
 	}
 
 }

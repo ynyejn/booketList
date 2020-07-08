@@ -429,5 +429,8 @@
 			 #{arr}
 		</foreach>
 	</update>
-	
+	<select id="bookStatusList" resultType="book">
+		select book_no as bookNo, book_status as bookStatus
+		from book
+	</select>
 </mapper>

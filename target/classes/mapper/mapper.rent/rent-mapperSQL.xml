@@ -135,4 +135,16 @@
 	<delete id="deleteAgreeRentApply" parameterType="_int">
 		delete from rentapply where rentapply=#{rentApply}
 	</delete>
+	<select id="rentDateCountList" resultType="rentDateCount">
+		select to_char(rent_start_date, 'YYYY-MM') as rentDate, count(*) as cnt 
+		from rent
+		group by to_char(rent_start_date, 'YYYY-MM')
+		order by 1	
+	</select>
+	<select id="rentAndCountList" resultType="rentAndCount">
+		select book_category as bookCategory, count(*) as cnt 
+		from rent 
+		group by book_category 
+		order by cnt desc
+	</select>
 </mapper>
