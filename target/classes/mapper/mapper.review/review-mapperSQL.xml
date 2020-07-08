@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="review">
+  <select id="userReviewList" parameterType="member" resultType="review">
+  	select 
+  		avg(review_score) as reviewScore, book_category as bookCategory 
+  	from review 
+  	where member_nickname = #{memberNickname}
+  	group by book_category
+  	order by reviewScore desc
+  </select>
+	<select id="selectReview" resultType="review">
+		select review_no as reviewNo,
+		member_nickname as memberNickName,
+		review_content as reviewContent,
+		review_score as reviewScore,
+		review_filename as reviewFilename,
+		review_filepath as reviewFilepath,
+		book_name as bookName,
+		book_publisher as bookPublisher,
+		book_writer as bookWriter,
+		review_date as reviewDate,
+		book_category as bookCategory from review
+	</select>
+	<select id="reviewSelectBook" parameterType="string" resultType="book">
+		select book_name as bookName,
+		book_publisher as bookPublisher,
+		book_writer as bookWriter,
+		book_category as bookCategory
+		from book where book_no
+		 in (select book_no from rent where member_id=#{memberId} and rent_return=0)
+	</select>
+	<insert id="reviewInsert">
+		insert into review values(review_seq.nextval,#{memberNickName},#{reviewContent},#{reviewScore},#{reviewFilename},#{bookName},#{bookPublisher},#{bookWriter},#{reviewFilepath},#{bookCategory},sysdate)
+	</insert>
+</mapper>

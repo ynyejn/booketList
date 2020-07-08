@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd">
+
+
+	<!-- 라이브러리 추가해서 걔네가 이렇게 연결해줌 jdbc객체만들기 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"><!-- dbcp라이브러리가 있어야 사용가능 -->
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+		<property name="username" value="booketlist" />
+		<property name="password" value="1234" />
+	</bean>
+	<bean name="sqlSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations"
+			value="classpath:/mapper/**/*SQL.xml" /><!-- **은 폴더에 하위폴더 전체를 포함,*SQL은 
+			이름끝에 SQL로 끝나야 한다 -->
+	</bean>
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSession" />
+	</bean>
+	<!-- 파일업로드용 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760"></property>
+	</bean>
+	<!-- 트랜잭션 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 웹소켓설정 chat.do를 요청하면 myHandler가 실행 -->
+	<websocket:handlers>
+		<websocket:mapping handler="openChatting" path="/openChatting.do"/>
+		<websocket:handshake-interceptors>
+			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<context:component-scan base-package="kr.or.iei.common"/>
+	<context:component-scan base-package="kr.or.iei.chat"/>	
+	<context:component-scan base-package="kr.or.iei.cart"/>	
+	<context:component-scan base-package="kr.or.iei.member"/>	
+	<context:component-scan base-package="kr.or.iei.book"/>	
+	<context:component-scan base-package="kr.or.iei.notice"/>	
+	<context:component-scan base-package="kr.or.iei.rent"/>
+	<context:component-scan base-package="kr.or.iei.reservation"/>	
+	<context:component-scan base-package="kr.or.iei.apply"/>	
+	<tx:annotation-driven /> 
+	<task:annotation-driven /> <!-- 작업관련 (@Scheduled 여기들어있음) -->
+	<aop:aspectj-autoproxy />
+</beans>
