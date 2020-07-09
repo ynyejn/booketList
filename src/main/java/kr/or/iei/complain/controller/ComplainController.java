@@ -20,11 +20,11 @@ public class ComplainController {
 		// TODO Auto-generated constructor stub
 	}
 	@RequestMapping("/complain.do")
-	public String complain(String memberId,String fileName,String complainContent,Model model) {
-		System.out.println(memberId);
+	public String complain(String memberIds,String fileName,String complainContent,Model model) {
+		System.out.println(memberIds);
 		System.out.println(fileName);
 		System.out.println(complainContent);
-		model.addAttribute("memberId",memberId);
+		model.addAttribute("memberIds",memberIds);
 		model.addAttribute("fileName",fileName);
 		model.addAttribute("complainContent",complainContent);
 		return "complain/complain";
