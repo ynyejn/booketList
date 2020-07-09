@@ -49,10 +49,8 @@
 				<li><a href="#">${sessionScope.member.memberName }</a></li>
 				</c:if>
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
-				<li><a href="#">${sessionScope.member.memberName }님</a></li>
+				<li><a href="/member/mypage.do">${sessionScope.member.memberName }님</a></li>
 				</c:if>
-				
-				<li><a href="/member/mypage.do">마이페이지</a></li>
 				<li><a href="/member/logout.do">로그아웃</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
 			</c:if>
