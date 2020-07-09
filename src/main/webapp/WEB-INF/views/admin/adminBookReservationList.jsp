@@ -61,6 +61,12 @@
 <script>
 	window.onload = function() {
 		console.log("onload");
+		var msg = '${msg }';
+		if(msg=='1'){
+			alert("승인완료 하였습니다.");
+		}else if(msg=='2'){
+			alert("승인실패 하였습니다.");
+		}
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
@@ -72,12 +78,11 @@
 							var selectColumn = $("#selectColumn option:selected").val();
 							var search = $("#search").val();
 							var smc = $("#selectBookCount option:selected").val();
-							var srs = $("#selectReturnStatus option:selected").val();
 							smc = parseInt(smc);
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
-										url : "/bookSearchRentalStatusList.do",
+										url : "/bookSearchReservationList.do",
 										type : "post",
 										dataType : "json",
 										data : {
@@ -86,8 +91,7 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search,
-											returnStatus : srs,
+											search : search
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -96,7 +100,7 @@
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
 												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentApply="+data.list[i].rentApply+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -108,18 +112,11 @@
 														+ data.list[i].bookName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.arrRentStartDate[i]
+														+ data.list[i].bookWriter
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.arrRentEndDate[i]
+														+ data.arrReserveDate[i]
 														+ "</td>";
-												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-													resultText += "<td class=th2>대여중</td></tr>";
-												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-													resultText += "<td class=th2>연체중</td></tr>";
-												}else if(data.list[i].rentReturn == 1){
-													resultText += "<td class=th2>반납완료</td></tr>";
-												}
 											}
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
@@ -133,7 +130,6 @@
 			$(".chBox").prop("checked", false);
 			$("#allCheck").prop("checked", false);
 						var smc = $("#selectBookCount option:selected").val();
-						var srs = $("#selectReturnStatus option:selected").val();
 							$("#tbody").html("");
 							$(".pagination").html("");
 							var selectColumn = $("#selectColumn option:selected").val();
@@ -141,7 +137,7 @@
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
-										url : "/bookSearchRentalStatusList.do",
+										url : "/bookSearchReservationList.do",
 										type : "post",
 										dataType : "json",
 										data : {
@@ -150,8 +146,7 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search,
-											returnStatus : srs
+											search : search
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -160,8 +155,8 @@
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
 												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-														 + ((data.reqPage - 1)
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-reserveNo="+data.list[i].reserveNo+">"
+														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
 														+ "</th>";
@@ -172,82 +167,11 @@
 														+ data.list[i].bookName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.arrRentStartDate[i]
+														+ data.list[i].bookWriter
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.arrRentEndDate[i]
+														+ data.arrReserveDate[i]
 														+ "</td>";
-												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-													resultText += "<td class=th2>대여중</td></tr>";
-												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-													resultText += "<td class=th2>연체중</td></tr>";
-												}else if(data.list[i].rentReturn == 1){
-													resultText += "<td class=th2>반납완료</td></tr>";
-												}
-											}
-											$("#tbody").html(resultText);
-											$(".pagination").html(data.pageNavi);
-										},
-										error : function() {
-
-										}
-									});
-						});
-		$("#selectReturnStatus").change(function() {
-			$(".chBox").prop("checked", false);
-			$("#allCheck").prop("checked", false);
-						var smc = $("#selectBookCount option:selected").val();
-						var srs = $("#selectReturnStatus option:selected").val();
-							$("#tbody").html("");
-							$(".pagination").html("");
-							var selectColumn = $("#selectColumn option:selected").val();
-							var search = $("#search").val();
-							var alignTitle = $("#alignStatus").find("span").html();
-							var alignStatus = $("#alignStatus").find("input").val();
-							$.ajax({
-										url : "/bookSearchRentalStatusList.do",
-										type : "post",
-										dataType : "json",
-										data : {
-											alignTitle : alignTitle,
-											alignStatus : alignStatus,
-											selectCount : smc,
-											reqPage : 1,
-											selectColumn : selectColumn,
-											search : search,
-											returnStatus : srs
-										},
-										success : function(data) {
-											console.log(data.list);
-											console.log(data.list[0].memberId);
-											console.log(data.pageNavi);
-											var resultText = "";
-											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-														 + ((data.reqPage - 1)
-																* data.selectCount
-																+ i + 1)
-														+ "</th>";
-												resultText += "<td class=th2>"
-														+ data.list[i].memberId
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.list[i].bookName
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrRentStartDate[i]
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrRentEndDate[i]
-														+ "</td>";
-												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-													resultText += "<td class=th2>대여중</td></tr>";
-												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-													resultText += "<td class=th2>연체중</td></tr>";
-												}else if(data.list[i].rentReturn == 1){
-													resultText += "<td class=th2>반납완료</td></tr>";
-												}
 											}
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
@@ -272,18 +196,18 @@
 			console.log("엑셀다운로드");
 			var checkArr = new Array();
 			$("input[class='chBox']:checked").each(function(){
-				checkArr.push($(this).attr("data-rentNo"));
+				checkArr.push($(this).attr("data-rentApply"));
 			});
-			if(checkArr != 0){
-			location.href="/excelRentDown.do?checkArr="+checkArr
+			if(checkArr!=0){
+				location.href="/excelReservationDown.do?checkArr="+checkArr	
 			}else{
 				alert("선택해주세요");
 			}
-
+		
 		});
 		$("#excelDownLoadTotal").click(function(){
 			console.log("전체엑셀다운로드");
-			var part = "rentStatus";
+			var part = "reservation";
 				location.href="/excelDownTotal.do?part="+part;
 		});
 
@@ -298,7 +222,6 @@
 		$(".chBox").prop("checked", false);
 		$("#allCheck").prop("checked", false);
 		var smc = $("#selectBookCount option:selected").val();
-		var srs = $("#selectReturnStatus option:selected").val();
 		smc = parseInt(smc);
 		var ajaxReqPage = $("#ajaxReqPage").val();
 		ajaxReqPage = parseInt(ajaxReqPage);
@@ -317,7 +240,7 @@
 		var selectColumn = $("#selectColumn option:selected").val();
 		var search = $("#search").val();
 		$.ajax({
-			url : "/bookSearchRentalStatusList.do",
+			url : "/bookSearchReservationList.do",
 			type : "post",
 			dataType : "json",
 			data : {
@@ -326,8 +249,7 @@
 				selectCount : smc,
 				reqPage : reqPage,
 				selectColumn : selectColumn,
-				search : search,
-				returnStatus : srs
+				search : search
 			},
 			success : function(data) {
 				$(".pagination").html("");
@@ -335,8 +257,8 @@
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
 					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-							 + ((data.reqPage - 1)
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-reserveNo="+data.list[i].reserveNo+">"
+							+ ((data.reqPage - 1)
 									* data.selectCount
 									+ i + 1)
 							+ "</th>";
@@ -347,18 +269,11 @@
 							+ data.list[i].bookName
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.arrRentStartDate[i]
+							+ data.list[i].bookWriter
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.arrRentEndDate[i]
+							+ data.arrReserveDate[i]
 							+ "</td>";
-					if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-						resultText += "<td class=th2>대여중</td></tr>";
-					}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-						resultText += "<td class=th2>연체중</td></tr>";
-					}else if(data.list[i].rentReturn == 1){
-						resultText += "<td class=th2>반납완료</td></tr>";
-					}
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -383,7 +298,6 @@
 		ajaxReqPage = parseInt(ajaxReqPage);
 		console.log(ajaxReqPage);
 		var selectColumn = $("#selectColumn option:selected").val();
-		var srs = $("#selectReturnStatus option:selected").val();
 		var search = $("#search").val();
 		$("#alignStatus").find("span").html(aTitle);
 		if(aStatus=="0"){
@@ -396,7 +310,7 @@
 		var alignTitle = $("#alignStatus").find("span").html();
 		var alignStatus = $("#alignStatus").find("input").val();
 		$.ajax({
-			url : "/bookSearchRentalStatusList.do",
+			url : "/bookSearchReservationList.do",
 			type : "post",
 			dataType : "json",
 			data : {
@@ -405,8 +319,7 @@
 				selectColumn : selectColumn,
 				search : search,
 				alignTitle : alignTitle,
-				alignStatus : alignStatus,
-				returnStatus : srs
+				alignStatus : alignStatus
 			},
 			success : function(data){
 				$(".pagination").html("");
@@ -414,8 +327,8 @@
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
 					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-							 + ((data.reqPage - 1)
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-reserveNo="+data.list[i].reserveNo+">"
+							+ ((data.reqPage - 1)
 									* data.selectCount
 									+ i + 1)
 							+ "</th>";
@@ -426,18 +339,11 @@
 							+ data.list[i].bookName
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.arrRentStartDate[i]
+							+ data.list[i].bookWriter
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.arrRentEndDate[i]
+							+ data.arrReserveDate[i]
 							+ "</td>";
-					if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-						resultText += "<td class=th2>대여중</td></tr>";
-					}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-						resultText += "<td class=th2>연체중</td></tr>";
-					}else if(data.list[i].rentReturn == 1){
-						resultText += "<td class=th2>반납완료</td></tr>";
-					}
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -451,6 +357,13 @@
 			}
 		});
 	}
+	
+	function agreeRentApply(obj){
+		var rentApply = $(obj).attr("data-rentApply");
+		console.log(rentApply);
+		location.href="/agreeRentApply.do?rentApply="+rentApply;
+		
+	};
 </script>
 </head>
 
@@ -529,7 +442,7 @@
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
             <a class="collapse-item" href="/adminBookRentalApplyList.do?reqPage=1&selectCount=10">도서 대여 신청 목록</a>
             <a class="collapse-item" href="/adminBookTurnApplyList.do?reqPage=1&selectCount=10">도서 반납 신청 목록</a>
-             <a class="collapse-item" href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
+            <a class="collapse-item" href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
           </div>
         </div>
       </li>
@@ -721,7 +634,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">도서 대여 현황</h1>
+					<h1 class="h3 mb-2 text-gray-800">도서 대여 예약 목록</h1>
 
 					<style>
 .tableTop {
@@ -754,6 +667,9 @@
 	margin-top: 20px;
 	float: left;
 }
+#excelDownLoadTotal {
+	float: left;
+}
 #tbody button{
 width:50px;
 height:20px;
@@ -778,7 +694,7 @@ padding-top:3px;
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										<li id="tt1" role="presentation" class="active"><a
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
-											aria-controls="home" aria-expanded="true"><b>도서 대여 현황</b></a></li>
+											aria-controls="home" aria-expanded="true"><b>도서 대여 예약 목록</b></a></li>
 										<li>
 											<select class="form-control"
 												style="width: 80px; height: 40px; float:left; margin-left: 10px;"
@@ -807,6 +723,8 @@ padding-top:3px;
 																	<c:if test="${selectColumn eq memberId }">selected</c:if>>ID</option>
 																<option value="책 제목"
 																	<c:if test="${selectColumn eq bookName}">selected</c:if>>책 제목</option>
+																	<option value="책 작가"
+																	<c:if test="${selectColumn eq spotName}">selected</c:if>>책 작가</option>
 															</select>
 
 														</div>
@@ -834,32 +752,19 @@ padding-top:3px;
 															<th class="num" style="width:10%"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
 															<th class="th2" style="width:10%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></th>
 															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
-															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여일자</span></th>
-															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납예정일자</span></th>
-															<th class="th2" style="width:20%">
-																<select class="form-control" id="selectReturnStatus" style="width:90px;height:28px; font-size:13px; font-weight:bolder;padding:0px;">
-																	<option value="대여상태">대여상태</option>
-																	<option value="대여중">대여중</option>
-																	<option value="반납완료">반납완료</option>
-																	<option value="연체중">연체중</option>
-																</select>
-															</th>
+															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 작가</span></th>
+															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>예약신청날짜</span></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
 														<c:forEach items="${list }" var="l" varStatus="i">
 															<tr>
 																<input type="hidden" id="ajaxReqPage" value="${reqPage }">
-																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-rentNo="${l.rentNo }">${(reqPage-1)*selectCount + i.count }</th>
-																<td class="th2"><c:if test="${l.memberId eq null}">-</c:if>${l.memberId }</td>
+																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-reserveNo="${l.reserveNo }">${(reqPage-1)*selectCount + i.count }</th>
+																<td class="th2">${l.memberId }</td>
 																<td class="th2">${l.bookName }</td>
-																<td class="th2">${l.rentStartDate }</td>
-																<td class="th2">${l.rentEndDate }</td>
-																<td class="th2">
-																	<c:if test="${l.rentReturn eq 0 and compare[i.index] eq '0'}">대여중</c:if>
-																	<c:if test="${l.rentReturn eq 0 and compare[i.index] eq '1'}">연체중</c:if>
-																	<c:if test="${l.rentReturn eq 1}">반납완료</c:if>
-																</td>
+																<td class="th2">${l.bookWriter }</td>
+																<td class="th2">${l.reserveDate }</td>
 															</tr>
 														</c:forEach>
 													</tbody>
@@ -934,7 +839,6 @@ padding-top:3px;
 
 				<!-- Bootstrap core JavaScript-->
 
-				<script src="/resources/adminBootstrap/vendor/jquery/jquery.min.js"></script>
 				<script
 					src="/resources/adminBootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

@@ -307,8 +307,57 @@ public class AdminDao {
 		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
+
 	public List bookStatusList() {
 		return sqlSession.selectList("book.bookStatusList");
+	}
+	public int updateBookRentApply(int bookNo) {
+		return sqlSession.update("rent.updateBookRentApply",bookNo);
+	}
+
+	public int updateRentReturnTurnApply(String bookNo) {
+		return sqlSession.update("return.updateRentReturnTurnApply",bookNo);
+	}
+
+	public List selectExcelRentApplyList(int rentApply) {
+		return sqlSession.selectList("rent.selectExcelRentApplyList",rentApply);
+	}
+
+	public List selectExcelTurnApplyList(int turnApply) {
+		return sqlSession.selectList("return.selectExcelTurnApplyList",turnApply);
+	}
+
+	public List excelTurnApplyListTotal() {
+		return sqlSession.selectList("return.excelTurnApplyListTotal");
+	}
+
+	public List excelRentApplyListTotal() {
+		return sqlSession.selectList("rent.excelRentApplyListTotal");
+	}
+
+	public List excelRentListTotal() {
+		return sqlSession.selectList("book.excelRentListTotal");
+	}
+
+	public List excelMemberListTotal() {
+		return sqlSession.selectList("member.excelMemberListTotal");
+	}
+
+	public int reservationTotalCount() {
+		return sqlSession.selectOne("reservation.reservationTotalCount");
+	}
+
+	public List bookReservationList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("reservation.bookReservationList",map);
+	}
+
+	public int selectReservationTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("reservation.selectReservationTotalCount",map);
+	}
+
+	public List bookSearchReservationList(HashMap<String, Object> map) {
+		return sqlSession.selectList("reservation.bookSearchReservationList",map);
+
 	}
 
 	 

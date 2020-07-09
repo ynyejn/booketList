@@ -61,6 +61,15 @@
 <script>
 	window.onload = function() {
 		console.log("onload");
+		var msg = '${msg }';
+		if(msg=='1'){
+			alert("승인완료! 예약고객분들꼐 메일 발송하였습니다.");
+		}else if(msg=='2'){
+			alert("승인실패 하였습니다.");
+		}else if(msg=='3'){
+			alert("승인완료! 예약고객님이 없어 메일을 발송하지 않았습니다.");
+		}
+		
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
@@ -198,9 +207,18 @@
 			$("input[class='chBox']:checked").each(function(){
 				checkArr.push($(this).attr("data-turnApply"));
 			});
-			console.log(checkArr);
-			location.href="/excelTurnApplyDown.do?checkArr="+checkArr
+			if(checkArr != 0){
+				location.href="/excelTurnApplyDown.do?checkArr="+checkArr	
+			}else{
+				alert("선택해주세요");
+			}
+			
 
+		});
+		$("#excelDownLoadTotal").click(function(){
+			console.log("전체엑셀다운로드");
+			var part = "turnApply";
+				location.href="/excelDownTotal.do?part="+part;
 		});
 
 	};
@@ -665,6 +683,9 @@
 	margin-top: 20px;
 	float: left;
 }
+#excelDownLoadTotal {
+	float: left;
+}
 #tbody button{
 width:50px;
 height:20px;
@@ -718,8 +739,8 @@ padding-top:3px;
 																	<c:if test="${selectColumn eq memberId }">selected</c:if>>ID</option>
 																<option value="책 제목"
 																	<c:if test="${selectColumn eq bookName}">selected</c:if>>책 제목</option>
-																	<option value="대여 장소"
-																	<c:if test="${selectColumn eq spotName}">selected</c:if>>대여 장소</option>
+																	<option value="반납 장소"
+																	<c:if test="${selectColumn eq spotName}">selected</c:if>>반납 장소</option>
 															</select>
 
 														</div>
@@ -769,13 +790,15 @@ padding-top:3px;
 												</table>
 												
 												<nav id="footNav2" style="text-align: center;">
-													<button class="btn btn-primary" id="excelDownLoad">엑셀
+													<button class="btn btn-primary" id="excelDownLoad">선택 엑셀
 														다운로드</button>
 													<ul class="pagination">${pageNavi }</ul>
-													<div id="sel" style="float: right; margin-top: 10px;">
+													<div id="sel" style="float: right; margin-top: 20px;">
 														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 													</div>
 												</nav>
+												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
+														다운로드</button>
 										</div>
 									</div>
 								</div>
