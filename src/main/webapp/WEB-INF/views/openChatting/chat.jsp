@@ -74,6 +74,7 @@
 	
 <script>
 	var ws;
+	var memberId = '${sessionScope.member.memberId}';
 	var memberNickname = '${sessionScope.member.memberNickname}';
 	var	title = $("#chatTitle").val();
 	var	chatPeople = $("#chatPeople").val();
@@ -140,7 +141,7 @@
 	            	console.log(data);
 	               fileName = data;
 	               console.log(fileName);
-	   			var chat = "<div><p class='${sessionScope.member.memberId} chatp'>"+memberNickname+":<img id='img-view' width='200' src='"+fileName+"'><br><span class='time'>"+hours+":"+minutes+"</span></p></div>";
+	   			var chat = "<div><input type='hidden' id='memberId' value='${sessionScope.member.memberId}'><p class='${sessionScope.member.memberId} chatp'><input type='hidden' id='fileName' value='"+fileName+"'>"+memberNickname+":<img id='img-view' width='200' src='"+fileName+"'><br><a href='javascript:fileDownload();'>다운로드</a><span class='time'>"+hours+":"+minutes+"</span></p></div>";
 	   			var msg = $("#msgArea").html()+chat;
 	   			$("#file").val("");
 	   			$("#msgArea").html(msg);
@@ -158,7 +159,7 @@
 	              
 	        });
 			}else{
-				var chat = "<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='${sessionScope.member.memberId} chatp'>"+memberNickname+":"+$("#chatMsg").val()+"<br><span class='time'>"+hours+":"+minutes+"</span></p></div><br>";
+				var chat = "<div style='margin: 0 auto;width:100%; overflow:hidden;'><input type='hidden' id='memberId' value='${sessionScope.member.memberId}'><p class='${sessionScope.member.memberId} chatp' id='chatMsgg'>"+memberNickname+":"+$("#chatMsg").val()+"<br><span class='time'>"+hours+":"+minutes+"</span></p></div><br>";
 	   			var msg = $("#msgArea").html()+chat;
 	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
@@ -174,7 +175,14 @@
 			}
 	        
 		});
+		
 	});
+	function fileDownload() {
+		var filepath=document.getElementById("fileName").value;
+		console.log(filepath);
+		var newFilepath = encodeURIComponent(filepath);
+		location.href = "/chat/fileDownload.do?filepath=" + newFilepath;
+	}
 	</script>
 </body>
 </html>
