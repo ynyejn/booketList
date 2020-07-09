@@ -41,6 +41,11 @@
 	</div>
 	<script type="text/javascript">
 	$(function () {
+		var memberId = '${sessionScope.member.memberId}';
+		if(memberId==""){
+			alert("로그인이 필요합니다");
+			location.href="/member/loginFrm.do";
+		}
 	var title = 1;
 		$("button").click(function () {
 			window.name="apply"

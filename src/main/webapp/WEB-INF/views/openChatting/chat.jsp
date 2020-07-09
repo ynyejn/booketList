@@ -113,7 +113,7 @@
 	}
 	$(function() {
 		connect();
-
+		
 		$('#msgArea').scrollTop($('#msgArea').prop('scrollHeight'));
 
 

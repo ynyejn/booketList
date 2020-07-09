@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-       <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +10,7 @@
 <body>
 	<script type="text/javascript">
 	$(function () {
-		alert("인원이 현재 꽉차있습니다.");
+		alert("방이 존재하지 않습니다.");
 		self.close();
 	})
 	</script>

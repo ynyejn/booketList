@@ -68,7 +68,7 @@
 			<ul class="hNavi2">
 				<li><a href="#">공지사항</a></li>
 				<li><a href="/review/reviewList.do">후기 게시판</a></li>
-				<li><a href="/chat/openChatting.do" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
+				<li><a  href="javascript:void(0);" onclick="chat('${sessionScope.member.memberId}');" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
 				<li><a href="/goUsedBoard.do?reqPage=1">도서기증 / 판매</a></li>
 			</ul>
 		</div>
@@ -76,6 +76,14 @@
 </div>
 
 <script>
+	function chat(memberId){
+	if(memberId==""){
+		alert("로그인이 필요합니다");
+		location.href="/member/loginFrm.do";
+	}else{
+		location.href="/chat/openChatting.do";
+	}
+}
 	function returnFunc(memberId){
 		if(memberId==""){
 			alert("로그인이 필요합니다");

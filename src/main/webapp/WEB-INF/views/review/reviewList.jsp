@@ -128,6 +128,10 @@ display : flex;
 	width: 40px;
 	height: 40px;
 }
+.reviewScore{
+	text-align: right;
+	padding-right: 10px;
+}
 </style>
 </head>
 <body>
@@ -156,12 +160,12 @@ display : flex;
 											<th class="revNick">${list.memberNickName }<br> <span
 												class="revdate">${list.reviewDate }</span>
 											</th>
-											<th>${list.reviewScore }점</th>
+											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
 										<tr>
 											<th colspan="3">${list.bookName }<br>
-												${list.bookPublisher }<br> ${list.bookWriter }<br>
-												${list.bookCategory }
+												${list.bookPublisher }<br> ${list.bookWriter }
+												
 											</th>
 										</tr>
 										<tr>
@@ -185,22 +189,22 @@ display : flex;
 								<div class="reviewBox">
 									<table>
 										<tr>
+										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
 											<th class="revNick">${list.memberNickName }<br> <span
 												class="revdate">${list.reviewDate }</span>
 											</th>
-											<th>${list.reviewScore }점</th>
+											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
 										<tr>
-											<th colspan="2">${list.bookName }<br>
-												${list.bookPublisher }<br> ${list.bookWriter }<br>
-												${list.bookCategory }
+											<th colspan="3">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }
 											</th>
 										</tr>
 										<tr>
-											<th colspan="2">${list.reviewContent }</th>
+											<th colspan="3">${list.reviewContent }</th>
 										</tr>
 										<tr>
-											<th colspan="2"><img class="reviceImg"
+											<th colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
 										</tr>
 									</table>
@@ -217,22 +221,22 @@ display : flex;
 								<div class="reviewBox">
 									<table>
 										<tr>
+										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
 											<th class="revNick">${list.memberNickName }<br> <span
 												class="revdate">${list.reviewDate }</span>
 											</th>
-											<th>${list.reviewScore }점</th>
+											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
 										<tr>
-											<th colspan="2">${list.bookName }<br>
-												${list.bookPublisher }<br> ${list.bookWriter }<br>
-												${list.bookCategory }
+											<th colspan="3">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }
 											</th>
 										</tr>
 										<tr>
-											<th colspan="2">${list.reviewContent }</th>
+											<th colspan="3">${list.reviewContent }</th>
 										</tr>
 										<tr>
-											<th colspan="2"><img class="reviceImg"
+											<th colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
 										</tr>
 									</table>
@@ -247,13 +251,20 @@ display : flex;
 	</div>
 	<script type="text/javascript">
 		$(function() {
+			var memberId = '${sessionScope.member.memberId}';
 			
 			$("button").click(function() {
+				if(memberId==""){
+					alert("로그인이 필요합니다");
+					location.href="/member/loginFrm.do";
+				}else{
+					
 				window.name = "reviewWriting.do";
 				var url = "/review/reviewWriting.do";
 				var title = "후기";
 				var style = "width=400,height=400,top=100,left=400";
 				window.open(url, title, style);
+				}
 			});
 				
 		})
