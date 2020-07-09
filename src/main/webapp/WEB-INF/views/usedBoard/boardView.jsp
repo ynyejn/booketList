@@ -157,21 +157,36 @@
     /*---------------------------------------------댓글-----------------------------------------------------*/
     #showComment {
         height: 40px;
-        background-color: #585858;
+        background-color: white;
         text-align: center;
+        border-bottom: 2px solid #585858;
+    }
+    .tag{
+        display: inline-block;
+        padding: 2px 35px;
+        font-size:17px;
+        background-color: #03166c;
+        border: 1px solid black;
+        border-bottom: none;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px; 
+        color: #f3f5f7;
+        margin-left: 80px;
     }
 
     .comment-write {
         border: 1px solid #b3b3b3;
         width: 900px;
         margin: 0 auto;
-        margin-top: 20px;
     }
 
     .commentFrame {
-        border-top: 2px solid #585858;
         overflow: hidden;
-        padding-top: 20px;
+        padding-top: 60px;
+        display: none;
+    }
+    .commentZone{
+        padding-bottom: 60px;
     }
 
     .commentBox {
@@ -180,6 +195,7 @@
         width: 90%;
         margin: 0 auto;
         /*        border-top: 1px solid #dddddd;*/
+        border-top: 1px solid #585858;
         border-bottom: 1px solid #dddddd;
         padding-bottom: 15px;
     }
@@ -195,7 +211,6 @@
     .commentWriter {
         border-bottom: 1px solid #dddddd;
         padding: 3px 30px;
-        background-color: #f3f5f7;
     }
 
     .commentDate {
@@ -205,8 +220,9 @@
     }
 
     .memberId {
-        color: #0066b3;
+        color: black;
         font-weight: bold;
+        font-size: 15px;
         /*        border-bottom: 3px solid #00a3e0;*/
     }
 
@@ -215,20 +231,17 @@
         margin-top: 4px;
     }
 
-    .commentFiles>div {
+    .smallImg {
         float: left;
         display: inline-block;
-        width: 70px;
+        width: 50px;
         margin-right: 10px;
         background-size: cover;
-        height: 70px;
+        height: 50px;
         border: 1px solid black;
+        opacity: 70%;
     }
 
-    .commentFiles>div>img {
-        width: 50px;
-        height: 50px;
-    }
 
     .commentFiles {
         padding: 3px 30px;
@@ -257,7 +270,9 @@
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
     }
-
+    .smallImg:hover>.bigImg>img{
+        opacity: 100%;
+    }
     .words {
         height: 25px;
         line-height: 25px;
@@ -332,6 +347,7 @@
     #fileSection {
         margin: 15px;
         padding: 20px;
+        background-color: #f3f4fa;
         border: 1px dashed lightgray;
     }
 
@@ -350,6 +366,7 @@
         height: 13px;
         margin-bottom: 1px;
     }
+    
 
 </style>
 
@@ -390,11 +407,12 @@
                     </c:if>
                 </div>
                 <div class="bContent">${ub.usedContent}</div>
-                <div id="showComment" data-toggle="tooltip" title="댓글을 펼칩니다.">
-                    <img src="/resources/imgs/more-icon.png">
+                <div id="showComment" data-toggle="tooltip" title="댓글창을 펼칩니다.">
+                    <img src="/resources/imgs/openIcon.png">
                 </div>
                 <div class="commentFrame">
                     <div class="commentZone">
+                        <span class="tag">댓글 목록</span>
                         <c:forEach items="${ucList }" var="uc">
                             <div class="commentBox">
                                 <input type="hidden" name="commentNo" value="${uc.commentNo}">
@@ -412,6 +430,7 @@
 
                     </div>
                     <c:if test="${not empty sessionScope.member }">
+                        <span class="tag">댓글 입력</span>
                         <div class="comment-write">
                             <!-- 작성자, 게시글번호, 댓글레벨, 댓글번호 보내줘야함-->
                             <form action="/usedCommentInsert.do" method="post" enctype="multipart/form-data">
@@ -508,6 +527,26 @@
                 upFileName.append(span);
             }
 
+        });
+        
+        //댓글창 열기닫기
+        var openStatus = 0;
+        $("#showComment").click(function(){
+            if(openStatus==0){
+                $(".commentFrame").slideDown();
+                openStatus=1;
+                $("#showComment").empty();
+                $("#showComment").append("<img src='/resources/imgs/closeIcon.png'>");
+                $("#showComment").attr("data-original-title","댓글창을 닫습니다.");
+                
+            }else{
+                $(".commentFrame").slideUp();
+                openStatus=0;
+                $("#showComment").empty();
+                $("#showComment").append("<img src='/resources/imgs/openIcon.png'>");
+                $("#showComment").attr("data-original-title","댓글창을 펼칩니다.");
+            }
+           
         });
 
     });
