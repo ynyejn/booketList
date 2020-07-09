@@ -60,14 +60,19 @@
 			if(JSON.parse(e.data).totalCount == 0){
 				$("#alarmss").html("");
 				$("#lostAlarm").html("");
+				$("#complainAlarm").html("");
 			}else{
 				$("#alarmss").html(JSON.parse(e.data).totalCount);
 				if(JSON.parse(e.data).lostbookCount == 0){
 					$("#lostAlarm").html("");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+				}else if(JSON.parse(e.data).complainCount == 0){
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
+					$("#complainAlarm").html("");
 				}else{
-					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
 				}
-				
 			}
 			/* $("#alarmss").html(JSON.parse(e.data).totalCount);
 			$("#lostAlarm").html(JSON.parse(e.data).lostbookCount); */
@@ -83,6 +88,15 @@
 			var data = $("#lostAlarm").html();
 			var sendMsg = {
 					type : "lostbookClick",
+					data : data
+			};
+			ws.send(JSON.stringify(sendMsg));
+		});
+		
+		$("#complainAlarmClick").click(function(){
+			var data = $("#complainAlarm").html();
+			var sendMsg = {
+					type : "complainAlarmClick",
 					data : data
 			};
 			ws.send(JSON.stringify(sendMsg));
@@ -131,7 +145,7 @@
           <span>회원 목록</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#complaincollapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#complaincollapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-cog"></i>    
           <span>회원 신고 관리</span>
         </a>
@@ -155,11 +169,11 @@
       
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesRent" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
           <span>도서 대여</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePagesRent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
@@ -185,7 +199,7 @@
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-cog"></i>
           <span>도서 분실 신고</span>
          </a>
@@ -315,15 +329,15 @@
                     <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a if="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
+                    <span class="font-weight-bold">회원신고</span>
+                    <span id="complainAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">

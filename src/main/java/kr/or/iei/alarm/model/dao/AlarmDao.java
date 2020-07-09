@@ -27,4 +27,12 @@ public class AlarmDao {
 	public int updateLostBookAlarm(int data) {
 		return sqlSession.update("alarm.updateLostBookAlarm",data);
 	}
+
+	public int updateComplainAlarm() {
+		return sqlSession.update("alarm.updateComplainAlarm");
+	}
+
+	public int updatecomplainAlarmClick(int data) {
+		return sqlSession.update("alarm.updateComplainAlarmClick",data);
+	}
 }

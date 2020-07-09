@@ -40,37 +40,52 @@ public class AdminMsg extends TextWebSocketHandler{
 		JsonElement element = parser.parse(message.getPayload());
 		String type = element.getAsJsonObject().get("type").getAsString();
 		
-		if(type.equals("lostBookAlarmCount")) {
-			int result = dao.updateAlarm();
-			
-			Alarm total = dao.selectTotalCount();
-			System.out.println("totalCount : "+ total);
+		if(type.equals("lostBookAlarmCount")) { 
+			int result = dao.updateAlarm(); //책 분실신고 들어오면 lostbook_count + 1
+			Alarm total = dao.selectTotalCount();  
 			String a = new Gson().toJson(total);
 			System.out.println(a);
 			for(int i=0;i<admin.size();i++) {
 				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
 			}
 
-		}else if(type.equals("output")){
-			System.out.println(session);
-			admin.add(session);	
+		}else if(type.equals("complainAlarmCount")) {
+			int result = dao.updateComplainAlarm(); // alarm 테이블 complain_count +1
+			Alarm total = dao.selectTotalCount(); //모든 컬럼들 select 
+			String a = new Gson().toJson(total);
+			System.out.println(a);
+			for(int i=0;i<admin.size();i++) {
+				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+			}
 			
-			Alarm total = dao.selectTotalCount();
-			
-			System.out.println("totalCount : "+ total);
-			session.sendMessage(new TextMessage(new Gson().toJson(total)));
 		}else if(type.equals("lostbookClick")) {
-			int data = element.getAsJsonObject().get("data").getAsInt();
-			int result = dao.updateLostBookAlarm(data);
-			
-			
+			int data = element.getAsJsonObject().get("data").getAsInt(); 
+			int result = dao.updateLostBookAlarm(data); // lostbookAlarmClick을 하면 lostbook_count 0, lostbook_count 만큼 total_count 삭제
 			Alarm total = dao.selectTotalCount();
 			String a = new Gson().toJson(total);
 			System.out.println(a);
 			for(int i=0;i<admin.size();i++) {
 				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
 			}
+			
+		}else if(type.equals("complainAlarmClick")) {
+			int data = element.getAsJsonObject().get("data").getAsInt();
+			int result = dao.updatecomplainAlarmClick(data); // complainAlarmClick을 하면 complain_count 0, lostbook_count 만큼 total_count 삭제
+			Alarm total = dao.selectTotalCount();
+			String a = new Gson().toJson(total);
+			System.out.println(a);
+			for(int i=0;i<admin.size();i++) {
+				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+			}
+			
+		}else if(type.equals("output")){
+			admin.add(session);
+			Alarm total = dao.selectTotalCount(); //전체출력
+			System.out.println("totalCount : "+ total);
+			session.sendMessage(new TextMessage(new Gson().toJson(total))); //보내줌
+			
 		}
+		
 	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
