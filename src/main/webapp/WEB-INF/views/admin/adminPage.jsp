@@ -8,7 +8,8 @@
 <html lang="en" style="font-size:18px;">
 
 <head>
-
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -45,18 +46,31 @@
 <script>
 /*웹 소켓 */
 	var ws;
-	/* var memberId = '${sessionScope.member.memberId }'; */
+	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.181/adminPage.do");
+		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
-					type : "register"
+					type : "output"
 			};
 			ws.send(JSON.stringify(msg));
 		};
 		ws.onmessage = function(e){
-			
+			if(JSON.parse(e.data).totalCount == 0){
+				$("#alarmss").html("");
+				$("#lostAlarm").html("");
+			}else{
+				$("#alarmss").html(JSON.parse(e.data).totalCount);
+				if(JSON.parse(e.data).lostbookCount == 0){
+					$("#lostAlarm").html("");
+				}else{
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
+				}
+				
+			}
+			/* $("#alarmss").html(JSON.parse(e.data).totalCount);
+			$("#lostAlarm").html(JSON.parse(e.data).lostbookCount); */
 		};
 		ws.onclose = function(){
 			console.log("연결종료");
@@ -65,15 +79,11 @@
 	
 	$(function(){
 		connect();
-		$("#sendBtn").click(function(){
-			var chat = $("#chatMsg").val();
-			var msg = $("#msgArea").val()+"\n나 : "+chat;
-			$("#msgArea").val(msg);
-			$("#chatMsg").val("");
+		$("#lostbookClick").click(function(){
+			var data = $("#lostAlarm").html();
 			var sendMsg = {
-					type : "chat",
-					target : $("#target").val(),
-					msg : chat
+					type : "lostbookClick",
+					data : data
 			};
 			ws.send(JSON.stringify(sendMsg));
 		});
@@ -286,14 +296,14 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter danger"></span>
+                <span id="alarmss" class="badge badge-danger badge-counter danger"></span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                 	알람
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a id="lostbookClick" class="dropdown-item d-flex align-items-center" href="/adminLostBookList.do?reqPage=1">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -302,6 +312,7 @@
                   <div>
                     <!-- <div class="small text-gray-500">December 12, 2019</div> -->
                     <span class="font-weight-bold">도서 분실 신고</span>
+                    <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">

@@ -70,10 +70,7 @@ function connect(){
 	ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 	ws.onopen = function(){
 		console.log("웹소켓 연결 생성");
-		var msg = {
-				type : "register"
-		};
-		ws.send(JSON.stringify(msg));
+		
 	};
 	ws.onmessage = function(e){
 		
@@ -85,7 +82,7 @@ function connect(){
 
 
 	$(function() {
-	connect();
+		connect();
 		var chk = 0;
 		
 		$("#allSelect").click(function () {
@@ -172,15 +169,15 @@ function connect(){
 							chBox : checkArr
 						},
 						success : function(result) {
-							var sendMsg = {
-									type : "lostBookAlarmCount",
-									result : result
-							};
+							
 							console.log(result);
 							if (result > 0) {
 								alert("분실신고가 완료되었습니다.");
+								var sendMsg = {
+										type : "lostBookAlarmCount"
+								};
 								ws.send(JSON.stringify(sendMsg));
-								location.href = "/updateAlarm.do";
+								location.href = "/userLostBook.do";
 							} else {
 								alert("수정이 실패 하였습니다.");
 							}
