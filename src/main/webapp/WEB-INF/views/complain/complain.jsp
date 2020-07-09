@@ -9,6 +9,8 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
 <body>
-
+	${complainContent }
+	${fileName }
+	${memberId }
 </body>
 </html>
