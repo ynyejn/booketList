@@ -359,9 +359,4 @@ public class AdminDao {
 		return sqlSession.selectList("reservation.bookSearchReservationList",map);
 
 	}
-
-	 
-
-
-
 }
