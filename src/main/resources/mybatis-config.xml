@@ -28,5 +28,6 @@
       <typeAlias type="kr.or.iei.turn.model.vo.TurnApply" alias="turnApply"/>
       <typeAlias type="kr.or.iei.usedBoard.model.vo.UsedComment" alias="usedComment"/>
       <typeAlias type="kr.or.iei.usedBoard.model.vo.UsedFiles" alias="usedFiles"/>
+      <typeAlias type="kr.or.iei.rent.model.vo.RentDateCount" alias="rentDateCount"/>
    </typeAliases>
 </configuration>

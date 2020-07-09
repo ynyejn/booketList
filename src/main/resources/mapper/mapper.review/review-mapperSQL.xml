@@ -19,6 +19,7 @@
 		book_name as bookName,
 		book_publisher as bookPublisher,
 		book_writer as bookWriter,
+		review_date as reviewDate,
 		book_category as bookCategory from review
 	</select>
 	<select id="reviewSelectBook" parameterType="string" resultType="book">
@@ -30,7 +31,7 @@
 		 in (select book_no from rent where member_id=#{memberId} and rent_return=0)
 	</select>
 	<insert id="reviewInsert">
-		insert into review values(review_seq.nextval,#{memberNickName},#{reviewContent},#{reviewScore},#{reviewFilename},#{bookName},#{bookPublisher},#{bookWriter},#{reviewFilepath},#{bookCategory})
+		insert into review values(review_seq.nextval,#{memberNickName},#{reviewContent},#{reviewScore},#{reviewFilename},#{bookName},#{bookPublisher},#{bookWriter},#{reviewFilepath},#{bookCategory},sysdate)
 	</insert>
 	<select id="reviewList" parameterType="String" resultType="review">
 		select 

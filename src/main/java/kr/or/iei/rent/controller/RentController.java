@@ -123,16 +123,6 @@ public class RentController {
 		}
 	}
 
-	@RequestMapping(value="/goSpotPage.do")
-	public String goSpotPage(String[] bookNoList, Model model) {
-		String [] bookNo = new String[bookNoList.length]; 
-		for(int i=0; i<bookNoList.length; i++) {
-			bookNo[i]=bookNoList[i];
-		}
-		model.addAttribute("bookNo", bookNo);		
-		return "/book/spotPage";
-	}
-	
 	@RequestMapping(value="/goPreference.do")
 	public String GoPreference(Model model, HttpSession session) {
 		//review엔 member_nickname 조회
@@ -180,6 +170,7 @@ public class RentController {
 			model.addAttribute("rentDateList", new Gson().toJson(rentDateList));
 			model.addAttribute("bookAndReviewList", bookAndReviewList);
 			model.addAttribute("rentListSize", rentList.size());
+			model.addAttribute("reviewListSize", reviewList.size());
 			session.setAttribute("preferCategory", ppd.getPreferCategory());
 			session.setAttribute("type", ppd.getType());
 			

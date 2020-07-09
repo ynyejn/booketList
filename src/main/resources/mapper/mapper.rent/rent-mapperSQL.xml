@@ -135,4 +135,31 @@
 	<delete id="deleteAgreeRentApply" parameterType="_int">
 		delete from rentapply where rentapply=#{rentApply}
 	</delete>
+	<select id="rentDateCountList" resultType="rentDateCount">
+		select to_char(rent_start_date, 'YYYY-MM') as rentDate, count(*) as cnt 
+		from rent
+		group by to_char(rent_start_date, 'YYYY-MM')
+		order by 1	
+	</select>
+	<select id="rentAndCountList" resultType="rentAndCount">
+		select book_category as bookCategory, count(*) as cnt 
+		from rent 
+		group by book_category 
+		order by cnt desc
+	</select>
+	<update id="updateBookRentApply" parameterType="_int">
+		update book set book_status=2 where book_no=#{bookNo}
+	</update>
+	<select id="selectExcelRentApplyList" parameterType="_int" resultType="rentApply">
+		select rentapply as rentApply, book_no as bookNo, member_id as memberId, book_name as bookName
+		,spot_name as spotName
+		,rentapply_date as rentApplyDate
+		from rentapply left join book using(book_no) where rentapply=#{rentApply}
+	</select>
+	<select id="excelRentApplyListTotal" resultType="rentApply">
+		select rentapply as rentApply, book_no as bookNo, member_id as memberId, book_name as bookName
+		,spot_name as spotName
+		,rentapply_date as rentApplyDate
+		from rentapply left join book using(book_no)
+	</select>
 </mapper>

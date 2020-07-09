@@ -41,11 +41,11 @@
 	</div>
 	<script type="text/javascript">
 	$(function () {
-
+	var title = 1;
 		$("button").click(function () {
 			window.name="apply"
 			var url = "/chat/makingRoomFrm.do";
-			var title = "도서검색";
+			title = title+1;
 			var style = "location=no,width=500,height=600,top=100,left=400";
 			window.open(url,title,style);
 		});

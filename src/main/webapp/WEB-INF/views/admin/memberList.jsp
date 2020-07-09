@@ -61,6 +61,12 @@
 <script>
 	window.onload = function() {
 		console.log("onload");
+		var msg = '${msg }';
+		if(msg=='1'){
+			alert("탈퇴완료하였습니다.");
+		}else if(msg=='2'){
+			alert("탈퇴실패했습니다.");
+		}
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
@@ -214,9 +220,16 @@
 			$("input[class='chBox']:checked").each(function(){
 				checkArr.push($(this).attr("data-memberId"));
 			});
-			console.log(checkArr);
-			location.href="/excelDown.do?checkArr="+checkArr;
-
+			if(checkArr != 0){
+				location.href="/excelDown.do?checkArr="+checkArr;	
+			}else{
+				alert("선택해주세요");
+			}
+		});
+		$("#excelDownLoadTotal").click(function(){
+			console.log("전체엑셀다운로드");
+			var part = "member";
+				location.href="/excelDownTotal.do?part="+part
 		});
 
 	};
@@ -450,7 +463,7 @@
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
             <a class="collapse-item" href="/adminBookRentalApplyList.do?reqPage=1&selectCount=10">도서 대여 신청 목록</a>
             <a class="collapse-item" href="/adminBookTurnApplyList.do?reqPage=1&selectCount=10">도서 반납 신청 목록</a>
-            <a class="collapse-item" href="#">도서예약내역</a>
+             <a class="collapse-item" href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
           </div>
         </div>
       </li>
@@ -675,6 +688,9 @@
 	margin-top: 20px;
 	float: left;
 }
+#excelDownLoadTotal {
+	float: left;
+}
 #tbody button{
 width:50px;
 height:20px;
@@ -783,10 +799,12 @@ padding-top:3px;
 													<button class="btn btn-primary" id="excelDownLoad">엑셀
 														다운로드</button>
 													<ul class="pagination">${pageNavi }</ul>
-													<div id="sel" style="float: right; margin-top: 10px;">
+													<div id="sel" style="float: right; margin-top: 20px;">
 														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 													</div>
 												</nav>
+												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
+														다운로드</button>
 										</div>
 									</div>
 								</div>

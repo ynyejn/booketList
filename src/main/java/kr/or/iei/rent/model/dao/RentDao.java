@@ -15,6 +15,7 @@ import kr.or.iei.cart.model.vo.Cart;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.rent.model.vo.RentAndCount;
+import kr.or.iei.rent.model.vo.RentDateCount;
 
 @Repository("rentDao")
 public class RentDao {
@@ -67,6 +68,18 @@ public class RentDao {
 
 	public List refreshBookList(HashMap<String, String> preferCategory) {
 		return sql.selectList("book.refreshBookList", preferCategory);
+	}
+
+	public List rentDateList() {
+		return sql.selectList("rent.rentDateList");
+	}
+
+	public List rentDateCountList() {
+		return sql.selectList("rent.rentDateCountList");
+	}
+
+	public List rentAndCountList() {
+		return sql.selectList("rent.rentAndCountList");
 	}
 
 

@@ -12,6 +12,87 @@
 		FROM RESERVATION
 		WHERE MEMBER_ID = #{memberId} AND BOOK_NAME = #{bookName} AND BOOK_WRITER = #{bookWriter} AND BOOK_PUBLISHER = #{bookPublisher} 
 	</select>
+	<select id="reservationTotalCount" resultType="_int">
+		select count(*) as cnt from reservation
+	</select>
+	<select id="bookReservationList" parameterType="map" resultType="reservation">
+		select * from
+		(select rownum as rnum, n.* from
+		(select reserve_no as reserveNo, member_id as memberId, book_name as bookName, book_publisher as bookPublisher
+		,book_writer as bookWriter
+		,reserve_date as reserveDate
+		,book_category as bookCategory
+		from reservation order by reserve_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectReservationTotalCount" parameterType="map" resultType="_int">
+		select count(*) as cnt
+		from reservation
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('반납 장소') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+		</trim>
+	</select>
+	<select id="bookSearchReservationList" parameterType="map" resultType="reservation">
+	select * from
+		(select rownum as rnum, n.* from
+		(select reserve_no as reserveNo, member_id as memberId, book_name as bookName, book_publisher as bookPublisher
+		,book_writer as bookWriter
+		,reserve_date as reserveDate
+		,book_category as bookCategory
+		from reservation
+		<trim prefix="where">
+			<if test="selectColumn.equals('아이디') and search != ''">
+				member_id like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 제목') and search != ''">
+				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('책 작가') and search != ''">
+				book_writer like '%' || #{search} || '%'
+			</if>
+		</trim>	
+		<choose>
+			<when test="alignTitle=='' and alignStatus==''">
+			order by reserve_no desc)n)
+			</when>
+			<when test="alignTitle==null and alignStatus==null">
+			order by reserve_no desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="0"'>
+			order by member_id desc)n)
+			</when>
+			<when test='alignTitle.equals("아이디") and alignStatus=="1"'>
+			order by member_id asc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="0"'>
+			order by book_name desc)n)
+			</when>
+			<when test='alignTitle.equals("책 제목") and alignStatus=="1"'>
+			order by book_name asc)n)
+			</when>
+			<when test='alignTitle.equals("책 작가") and alignStatus=="0"'>
+			order by book_writer desc)n)
+			</when>
+			<when test='alignTitle.equals("책 작가") and alignStatus=="1"'>
+			order by book_writer asc)n)
+			</when>
+			<when test='alignTitle.equals("예약신청날짜") and alignStatus=="0"'>
+			order by reserve_date desc)n)
+			</when>
+			<when test='alignTitle.equals("예약신청날짜") and alignStatus=="1"'>
+			order by reserve_date asc)n)
+			</when>
+		</choose>
+		where rnum between #{start} and #{end}
+</select>
 	<select id="reservationList" parameterType="String" resultType="reservation">
 		select 
 		 book_name as bookName,

@@ -37,4 +37,26 @@ public class SpotController {
 		model.addAttribute("keyword",keyword);
 		return "book/spotPage";
 	}
+	
+	@RequestMapping("/goSpotPage2.do")
+	public String goSpotPage2(HttpServletRequest request,Model model,int reqPage,String localName,String keyword, String[] bookNoList) {
+		//책번호넘기기
+		//String[] bookNoList2 = bookNoList;
+//		String[] bookNo=request.getParameterValues("bookNo");
+
+		String[] bookNo = bookNoList;
+		model.addAttribute("bookNo",bookNo);
+		//spot정보들
+		SpotPageData spd = service.selectAllSpot(reqPage,localName,keyword,bookNo);
+		model.addAttribute("list",spd.getList());
+		model.addAttribute("pageNavi",spd.getPageNavi());
+		//lacalName list
+		ArrayList<String> localList = service.selectAllLocalName();
+		model.addAttribute("localList",localList);
+		
+		//검색
+		model.addAttribute("localName",localName);
+		model.addAttribute("keyword",keyword);
+		return "book/spotPage2";
+	}	
 }
