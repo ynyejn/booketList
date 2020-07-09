@@ -119,6 +119,15 @@ display : flex;
 	display : flex;
 	flex-direction : column;
 }
+.reviewImg{
+	width: 30px;
+	height: 30px;
+	padding: 0;
+}
+.reviewImgBox{
+	width: 40px;
+	height: 40px;
+}
 </style>
 </head>
 <body>
@@ -143,22 +152,23 @@ display : flex;
 								<div class="reviewBox">
 									<table>
 										<tr>
+										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
 											<th class="revNick">${list.memberNickName }<br> <span
 												class="revdate">${list.reviewDate }</span>
 											</th>
 											<th>${list.reviewScore }점</th>
 										</tr>
 										<tr>
-											<th colspan="2">${list.bookName }<br>
+											<th colspan="3">${list.bookName }<br>
 												${list.bookPublisher }<br> ${list.bookWriter }<br>
 												${list.bookCategory }
 											</th>
 										</tr>
 										<tr>
-											<th colspan="2">${list.reviewContent }</th>
+											<th colspan="3">${list.reviewContent }</th>
 										</tr>
 										<tr>
-											<th colspan="2"><img class="reviceImg"
+											<th colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
 										</tr>
 									</table>
