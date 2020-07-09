@@ -528,11 +528,11 @@
           </div>
 
           <!-- Content Row -->
-          <div class="row">
+         <%-- <div class="row">
 
             <!-- Content Column -->
             <div class="col-lg-6 mb-4">
-<%-- 
+
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -551,8 +551,7 @@
                   </div>
                 </div>
               </div>
- --%>
-<!--  
+
               Color System
               <div class="row">
                 <div class="col-lg-6 mb-4">
@@ -606,10 +605,10 @@
               </div>
 
             </div>
- -->
+
  
             <div class="col-lg-6 mb-4" style="height : 50px;">
-<!-- 
+ 
               Illustrations
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -623,8 +622,8 @@
                   <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
                 </div>
               </div>
-               -->
-<!-- 
+
+ 
               Approach
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -633,11 +632,11 @@
                 <div class="card-body">
                   <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
                   <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
+                </div> 
               </div>
- -->
+
             </div>
-          </div>
+          </div> --%>
 
         </div>
         <!-- /.container-fluid -->
@@ -738,7 +737,8 @@
 	}
 	
 	// Area Chart Example
-	var rentDateCountListSize = ${rentDateCountList}.length;
+ 	var rentDateCountListSize = ${rentDateCountList}.length; 
+
 	var rentDateCountList = ${rentDateCountList};
 	
 	if(rentDateCountListSize > 12) {
@@ -872,7 +872,9 @@
 	// Pie Chart Example
 	var ctx = document.getElementById("myPieChart");
 	var rentAndCountList = ${rentAndCountList};
-	var rentAndCountListLength = ${rentAndCountList}.length;
+ 	var rentAndCountListLength = ${rentAndCountList}.length;
+	 var rentAndCountListLength = 12;
+
 	var extra = 0;
  	$("#bookCategoryI1").html(rentAndCountList[0]["bookCategory"]);
 	$("#bookCategoryI2").html(rentAndCountList[1]["bookCategory"]);
