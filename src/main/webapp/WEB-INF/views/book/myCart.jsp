@@ -296,7 +296,7 @@ $(function () {
 					}else if(data == 0){
 						alert("data 0 ");
 					}else {
-						location.href="/rent/goSpotPage.do?bookNoList="+data;
+						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
 					}
 				}, error : function () {
 					console.log("아작스 실패");
@@ -327,7 +327,7 @@ $(function () {
 					}else if(data == 0){
 						alert("data 0 ");
 					}else {
-						location.href="/rent/goSpotPage.do?bookNoList="+data;
+						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
 					}
 				}, error : function () {
 					console.log("아작스 실패");

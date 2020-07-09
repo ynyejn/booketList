@@ -213,12 +213,21 @@
 	<select id="selectRentTotalCount" parameterType="map" resultType="_int">
 		select count(*) as cnt
 		from rent left join book using(book_no)
-		<trim prefix="where">
+		<trim prefix="where" prefixOverrides="and|or">
 			<if test="selectColumn.equals('아이디') and search != ''">
 				member_id like '%' || #{search} || '%'
 			</if>
 			<if test="selectColumn.equals('책 제목') and search != ''">
 				book_name like '%' || #{search} || '%'
+			</if>
+			<if test="returnStatus.equals('대여중')">
+				and sysdate &lt; rent_end_date and rent_return=0
+			</if>
+			<if test="returnStatus.equals('연체중')">
+				and sysdate &gt; rent_end_date
+			</if>
+			<if test="returnStatus.equals('반납완료')">
+				and rent_return=1
 			</if>
 		</trim>
 	</select>
@@ -232,13 +241,22 @@
 		,rent_end_date as rentEndDate
 		,rent_return as rentReturn
 		from rent left join book using(book_no)
-		<trim prefix="where">
+		<trim prefix="where" prefixOverrides="and|or">
 		<if test="selectColumn.equals('아이디') and search != null">
 			member_id like '%' || #{search} || '%'
 		</if>
 		<if test="selectColumn.equals('책 제목') and search != null">
 			book_name like '%' || #{search} || '%'
 		</if>
+		<if test="returnStatus.equals('대여중')">
+				and sysdate &lt; rent_end_date and rent_return=0
+			</if>
+			<if test="returnStatus.equals('연체중')">
+				and sysdate &gt; rent_end_date
+			</if>
+			<if test="returnStatus.equals('반납완료')">
+				and rent_return=1
+			</if>
 		</trim>		
 		<choose>
 			<when test="alignTitle=='' and alignStatus==''">
@@ -355,7 +373,7 @@
 					            (SELECT * from book where rowid in (select max(rowid) from book where book_category in (#{preferCategory1}) group by book_name) order by BOOK_NO desc) 
 					</when>
 					<when test="preferCategory1 == null and preferCategory2 == null and preferCategory3 == null">
-					            (SELECT * from book where rowid in (select max(rowid) from book) group by book_name) order by BOOK_NO desc) 
+					            (SELECT * from book where rowid in (select max(rowid) from book group by book_name) order by BOOK_NO desc) 
 					</when>
 				</choose>
 			            JOIN (SELECT BOOK_NAME, NVL(avg(REVIEW_SCORE), 0) AS AVG_SCORE, SUM(decode(book_status, '0', 1, 0)) AS CNT FROM BOOK
@@ -429,5 +447,16 @@
 			 #{arr}
 		</foreach>
 	</update>
-	
+
+	<select id="bookStatusList" resultType="book">
+		select book_no as bookNo, book_status as bookStatus
+		from book
+	</select>
+	<select id="excelRentListTotal" resultType="bookRentalStatus">
+		select rent_no as rentNo, book_no as bookNo, member_id as memberId, book_name as bookName
+		,rent_start_date as rentStartDate
+		,rent_end_date as rentEndDate
+		,rent_return as rentReturn
+		from rent left join book using(book_no)
+	</select>
 </mapper>

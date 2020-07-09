@@ -26,6 +26,12 @@
       <typeAlias type="kr.or.iei.review.model.vo.Review" alias="review"/> 
       <typeAlias type="kr.or.iei.rent.model.vo.RentApply" alias="rentApply"/>
       <typeAlias type="kr.or.iei.turn.model.vo.TurnApply" alias="turnApply"/>
+
       <typeAlias type="kr.or.iei.alarm.model.vo.Alarm" alias="alarm"/>
+
+      <typeAlias type="kr.or.iei.usedBoard.model.vo.UsedComment" alias="usedComment"/>
+      <typeAlias type="kr.or.iei.usedBoard.model.vo.UsedFiles" alias="usedFiles"/>
+      <typeAlias type="kr.or.iei.rent.model.vo.RentDateCount" alias="rentDateCount"/>
+
    </typeAliases>
 </configuration>

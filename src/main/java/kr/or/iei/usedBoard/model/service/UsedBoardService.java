@@ -13,6 +13,8 @@ import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.usedBoard.model.dao.UsedBoardDao;
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
 import kr.or.iei.usedBoard.model.vo.UsedBoardPageData;
+import kr.or.iei.usedBoard.model.vo.UsedComment;
+import kr.or.iei.usedBoard.model.vo.UsedFiles;
 
 @Service
 public class UsedBoardService {
@@ -90,5 +92,17 @@ public class UsedBoardService {
 	@Transactional
 	public int deleteBoard(int usedNo) {
 		return dao.deleteBoard(usedNo);
+	}
+	
+	@Transactional
+	public int insertComment(UsedComment uc, ArrayList<UsedFiles> fileList) {
+		int result1 = dao.insertComment(uc);
+		int result2 = dao.insertFiles(fileList);
+		return result1+result2;
+	}
+
+	public ArrayList<UsedComment> selectComment(int usedNo) {
+		List list = dao.selectComment(usedNo);
+		return (ArrayList<UsedComment>)list;
 	}
 }

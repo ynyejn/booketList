@@ -165,7 +165,7 @@
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
             <a class="collapse-item" href="/adminBookRentalApplyList.do?reqPage=1&selectCount=10">도서 대여 신청 목록</a>
             <a class="collapse-item" href="/adminBookTurnApplyList.do?reqPage=1&selectCount=10">도서 반납 신청 목록</a>
-            <a class="collapse-item" href="#">도서예약내역</a>
+             <a class="collapse-item" href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
           </div>
         </div>
       </li>
@@ -427,7 +427,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800"></h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 
@@ -440,11 +440,11 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">누적 도서 대여량</div>
+                      <div id="monthlyRentBooks" class="h5 mb-0 font-weight-bold text-gray-800">&nbsp;&nbsp;${sumRentBooks }</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <img style="width:40px; height:40px; opacity:0.2;" src="/resources/imgs/bookicon.png">
                     </div>
                   </div>
                 </div>
@@ -457,11 +457,12 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">월 평균 도서 대여량</div>
+                      <div id="anuualRentBooks" class="h5 mb-0 font-weight-bold text-gray-800">&nbsp;&nbsp;${monthlyRentBooks }</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
+                      <img style="width:40px; height:40px; opacity:0.3;" src="/resources/imgs/books.png">
                     </div>
                   </div>
                 </div>
@@ -474,17 +475,10 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
-                      <div class="row no-gutters align-items-center">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">미처리 대여 신청 건 수</div>
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">${requestRentBooks }</div>
                         </div>
-                        <div class="col">
-                          <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -500,8 +494,8 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">미처리 반납 신청 건 수</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">&nbsp;&nbsp;${requestReturnBooks }</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -521,17 +515,17 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">월별 대여량</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-header"><!-- Dropdown Header: --></div>
+<!--                       <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a> -->
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+<!--                       <a class="dropdown-item" href="#">Something else here</a> -->
                     </div>
                   </div>
                 </div>
@@ -549,17 +543,17 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">장르별 대여 비율</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
+<!--                       <div class="dropdown-header">Dropdown Header:</div>
                       <a class="dropdown-item" href="#">Action</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#">Something else here</a> -->
                     </div>
                   </div>
                 </div>
@@ -570,13 +564,13 @@
                   </div>
                   <div class="mt-4 text-center small">
                     <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
+                      <i id="bookCategoryI1" class="fas fa-circle text-primary"></i>
                     </span>
                     <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
+                      <i id="bookCategoryI2" class="fas fa-circle text-success"></i>
                     </span>
                     <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
+                      <i id="bookCategoryI3" class="fas fa-circle text-info"></i>
                     </span>
                   </div>
                 </div>
@@ -585,7 +579,7 @@
           </div>
 
           <!-- Content Row -->
-          <div class="row">
+         <%-- <div class="row">
 
             <!-- Content Column -->
             <div class="col-lg-6 mb-4">
@@ -593,33 +587,23 @@
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Summary</h6>
+                	<h4 style="position : absolute; right:61px; top:20px;" class="m-0 small font-weight-bold text-secondary">도서 총 권수 : </h4>
+                	<h4 style="position : absolute; right:30px; top:20px;" class="m-0 small font-weight-bold text-secondary">${sumBooks }</h4>
                 </div>
                 <div class="card-body">
-                  <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
+                  <h4 class="small font-weight-bold">도서 대여율 <span id="rentSpan" class="float-right"></span></h4>
                   <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div id="rentDiv" class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">도서 분실율 <span id="lostSpan" class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div id="lostDiv" class="progress-bar bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- Color System -->
+              Color System
               <div class="row">
                 <div class="col-lg-6 mb-4">
                   <div class="card bg-primary text-white shadow">
@@ -673,23 +657,25 @@
 
             </div>
 
-            <div class="col-lg-6 mb-4">
-
-              <!-- Illustrations -->
+ 
+            <div class="col-lg-6 mb-4" style="height : 50px;">
+ 
+              Illustrations
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
                 </div>
                 <div class="card-body">
-<!--                   <div class="text-center"> -->
-<!--                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt=""> -->
-<!--                   </div> -->
+                  <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
+                  </div>
                   <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
                   <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
                 </div>
               </div>
 
-              <!-- Approach -->
+ 
+              Approach
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
@@ -697,11 +683,11 @@
                 <div class="card-body">
                   <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
                   <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
+                </div> 
               </div>
 
             </div>
-          </div>
+          </div> --%>
 
         </div>
         <!-- /.container-fluid -->
@@ -769,5 +755,219 @@
   <script src="/resources/adminBootstrap/js/demo/chart-pie-demo.js"></script>
  
 </body>
+
+<script>
+
+	// Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#858796';
+	
+	function number_format(number, decimals, dec_point, thousands_sep) {
+	  // *     example: number_format(1234.56, 2, ',', ' ');
+	  // *     return: '1 234,56'
+	  number = (number + '').replace(',', '').replace(' ', '');
+	  var n = !isFinite(+number) ? 0 : +number,
+	    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+	    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+	    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+	    s = '',
+	    toFixedFix = function(n, prec) {
+	      var k = Math.pow(10, prec);
+	      return '' + Math.round(n * k) / k;
+	    };
+	  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+	  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+	  if (s[0].length > 3) {
+	    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+	  }
+	  if ((s[1] || '').length < prec) {
+	    s[1] = s[1] || '';
+	    s[1] += new Array(prec - s[1].length + 1).join('0');
+	  }
+	  return s.join(dec);
+	}
+	
+	// Area Chart Example
+ 	var rentDateCountListSize = ${rentDateCountList}.length; 
+
+	var rentDateCountList = ${rentDateCountList};
+	
+	if(rentDateCountListSize > 12) {
+		for(var i=0; i<12; i++) {
+			rentDateCountList[i] = rentDateCountList[rentDateCountListSize-12+i];
+		}
+	}
+	
+	var lostBooksData = ${lostBooks};
+	var nowRentBooksData = ${nowRentBooks};
+	var sumBooksData = ${sumBooks};
+	var lostBooks = ((lostBooksData/sumBooksData)*100).toFixed(2);
+	var rentBooks = ((nowRentBooksData/sumBooksData)*100).toFixed(2);
+	var lostBooksLetter = lostBooks+"%";
+	var rentBooksLetter = rentBooks+"%";
+	console.log(lostBooks);
+	console.log(rentBooks);
+
+	console.log(lostBooksLetter);
+	console.log(rentBooksLetter);
+	$("#rentSpan").html(rentBooksLetter);	
+	$("#lostSpan").html(lostBooksLetter);
+ 	$("#rentDiv").attr("width", rentBooksLetter);
+	$("#lostDiv").attr("width", "30");
+	
+	
+	var ctx = document.getElementById("myAreaChart");
+	var myLineChart = new Chart(ctx, {
+	  type: 'line',
+	  data: {
+	    labels: 
+	    	[rentDateCountList[0]["rentDate"], rentDateCountList[1]["rentDate"],
+	    		rentDateCountList[2]["rentDate"], rentDateCountList[3]["rentDate"],
+	    		rentDateCountList[4]["rentDate"], rentDateCountList[5]["rentDate"], 
+	    		rentDateCountList[6]["rentDate"], rentDateCountList[7]["rentDate"], 
+	    		rentDateCountList[8]["rentDate"], rentDateCountList[9]["rentDate"], 
+	    		rentDateCountList[10]["rentDate"], rentDateCountList[11]["rentDate"]],
+	    datasets: [{
+	      label: "대여 권수",
+	      lineTension: 0.3,
+	      backgroundColor: "rgba(78, 115, 223, 0.05)",
+	      borderColor: "rgba(78, 115, 223, 1)",
+	      pointRadius: 3,
+	      pointBackgroundColor: "rgba(78, 115, 223, 1)",
+	      pointBorderColor: "rgba(78, 115, 223, 1)",
+	      pointHoverRadius: 3,
+	      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+	      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+	      pointHitRadius: 10,
+	      pointBorderWidth: 2,
+	      data: [rentDateCountList[0]["cnt"], rentDateCountList[1]["cnt"], 
+	    	  rentDateCountList[2]["cnt"], rentDateCountList[3]["cnt"], 
+	    	  rentDateCountList[4]["cnt"], rentDateCountList[5]["cnt"], 
+	    	  rentDateCountList[6]["cnt"], rentDateCountList[7]["cnt"], 
+	    	  rentDateCountList[8]["cnt"], rentDateCountList[9]["cnt"], 
+	    	  rentDateCountList[10]["cnt"], rentDateCountList[11]["cnt"]],
+	    }],
+	  },
+	  options: {
+	    maintainAspectRatio: false,
+	    layout: {
+	      padding: {
+	        left: 10,
+	        right: 25,
+	        top: 25,
+	        bottom: 0
+	      }
+	    },
+	    scales: {
+	      xAxes: [{
+	        time: {
+	          unit: 'date'
+	        },
+	        gridLines: {
+	          display: false,
+	          drawBorder: false
+	        },
+	        ticks: {
+	          maxTicksLimit: 7
+	        }
+	      }],
+	      yAxes: [{
+	        ticks: {
+	          maxTicksLimit: 5,
+	          padding: 10,
+	          // Include a dollar sign in the ticks
+	          callback: function(value, index, values) {
+	            return number_format(value)+'권';
+	          }
+	        },
+	        gridLines: {
+	          color: "rgb(234, 236, 244)",
+	          zeroLineColor: "rgb(234, 236, 244)",
+	          drawBorder: false,
+	          borderDash: [2],
+	          zeroLineBorderDash: [2]
+	        }
+	      }],
+	    },
+	    legend: {
+	      display: false
+	    },
+	    tooltips: {
+	      backgroundColor: "rgb(255,255,255)",
+	      bodyFontColor: "#858796",
+	      titleMarginBottom: 10,
+	      titleFontColor: '#6e707e',
+	      titleFontSize: 14,
+	      borderColor: '#dddfeb',
+	      borderWidth: 1,
+	      xPadding: 15,
+	      yPadding: 15,
+	      displayColors: false,
+	      intersect: false,
+	      mode: 'index',
+	      caretPadding: 10,
+	      callbacks: {
+	        label: function(tooltipItem, chart) {
+	          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+	          return datasetLabel + " : " + number_format(tooltipItem.yLabel);
+	        }
+	      }
+	    }
+	  }
+	});
+	
+	// Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#858796';
+
+	// Pie Chart Example
+	var ctx = document.getElementById("myPieChart");
+	var rentAndCountList = ${rentAndCountList};
+ 	var rentAndCountListLength = ${rentAndCountList}.length;
+	 var rentAndCountListLength = 12;
+
+	var extra = 0;
+ 	$("#bookCategoryI1").html(rentAndCountList[0]["bookCategory"]);
+	$("#bookCategoryI2").html(rentAndCountList[1]["bookCategory"]);
+	$("#bookCategoryI3").html(rentAndCountList[2]["bookCategory"]);
+	
+	for(var i=3; i<rentAndCountListLength; i++) {
+		extra += rentAndCountList[i]["cnt"];
+	}
+	
+	
+	var myPieChart = new Chart(ctx, {
+	  type: 'doughnut',
+	  data: {
+	    labels: [rentAndCountList[0]["bookCategory"], rentAndCountList[1]["bookCategory"],
+	    		rentAndCountList[2]["bookCategory"], "그 외"],
+	    datasets: [{
+	      data: [rentAndCountList[0]["cnt"], rentAndCountList[1]["cnt"],
+	    	  rentAndCountList[2]["cnt"], 20],
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	    }],
+	  },
+	  options: {
+	    maintainAspectRatio: false,
+	    tooltips: {
+	      backgroundColor: "rgb(255,255,255)",
+	      bodyFontColor: "#858796",
+	      borderColor: '#dddfeb',
+	      borderWidth: 1,
+	      xPadding: 15,
+	      yPadding: 15,
+	      displayColors: false,
+	      caretPadding: 10,
+	    },
+	    legend: {
+	      display: false
+	    },
+	    cutoutPercentage: 80,
+	  },
+	});
+	
+</script>
 
 </html>

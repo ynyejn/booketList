@@ -14,4 +14,5 @@ public class Review {
 	private String bookPublisher;
 	private String bookWriter;
 	private String bookCategory;
+	private String reviewDate;
 }

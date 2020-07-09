@@ -193,8 +193,7 @@
 					html += "<tr><td colspan='2' style='height:200px;'>" + data.bookContent+ "</td><tr>";
 				}
 				
-				html += "<tr><td colspan='2'><span><신청사유></span><br>";
-				html += data.applyContent+"</td><tr>";
+			
 				
 				$("#detailUpdate1").hide();
 				$("#detailUpdate2").hide();

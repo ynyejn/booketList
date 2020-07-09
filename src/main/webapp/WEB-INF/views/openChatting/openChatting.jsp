@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Booket List openChatting</title>
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <style>
         .content {
             width: 1200px;
@@ -41,11 +41,16 @@
 	</div>
 	<script type="text/javascript">
 	$(function () {
-
+		var memberId = '${sessionScope.member.memberId}';
+		if(memberId==""){
+			alert("로그인이 필요합니다");
+			location.href="/member/loginFrm.do";
+		}
+	var title = 1;
 		$("button").click(function () {
 			window.name="apply"
 			var url = "/chat/makingRoomFrm.do";
-			var title = "도서검색";
+			title = title+1;
 			var style = "location=no,width=500,height=600,top=100,left=400";
 			window.open(url,title,style);
 		});
