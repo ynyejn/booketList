@@ -51,8 +51,6 @@
 		delete from member where member_id = #{memberId}
 	</delete>
 	
-	
-	
 	<select id="selectMemberTotalCount" parameterType="map" resultType="_int">	
 	select count(*) as cnt from member where
 		<if test = "selectColumn.equals('member_id')">
@@ -183,7 +181,6 @@
 			member_phone as memberPhone,
 			enroll_date as enrollDate,
 			member_nickname as memberNickname
-			
 		from member where member_id = #{memberId} and member_pw = #{memberPw}
 	</select>
 	<select id="excelMemberListTotal" resultType="member">

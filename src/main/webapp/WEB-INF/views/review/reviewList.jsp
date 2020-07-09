@@ -6,9 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Booket List 후기</title>
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-3.3.1.js"></script>
-		
+
 <style>
 .content {
 	width: 1200px;
@@ -20,27 +18,25 @@
 
 .reviewBox {
 	text-align: center;
-	background-color: aliceblue;
+
 	border: 1px solid black;
 	width: 350px;
-	height: 90%;
-	display: block;
 	
+	display: block;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
-	overflow : hidden;
+	overflow: hidden;
 	float: left;
 }
 
 .reviews {
-	 width: 32%;
-  margin-bottom: 2%;
-	display:inline-block;
+	width: 32%;
+	margin-bottom: 2%;
+	display: inline-block;
 	width: 370px;
-	height: 100%;
-	  
+	
 }
 
 .cTop {
@@ -89,31 +85,53 @@
 	border-top: 2px solid #585858;
 	text-align: center;
 }
-.reviceImg{
-	width: 100%;
+
+.reviceImg {
+	width: 95%;
+	padding-bottom: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
-table{
+
+table {
 	width: 350px;
 }
-.revdate{
+
+.revdate {
 	font-size: 0.8em;
 }
-.revNick{
+
+.revNick {
 	text-align: left;
 }
 
-/* #reviewList { */
-/* padding-left: 80px; */
+#reviewList {
+padding-left:50px;
+display : flex;
+	align-content: space-between;
+	content: "";
+	clear: both;
+}
 
-/*   align-content: space-between; */
-/*    content:""; */
-/*      display:block; */
-/*      clear:both; */
-/* } */
-
-
-
-
+#reviewList > div{
+	display : flex;
+	flex-direction : column;
+}
+.reviewImg{
+	width: 30px;
+	height: 30px;
+	padding: 0;
+}
+.reviewImgBox{
+	width: 40px;
+	height: 40px;
+}
+.reviewScore{
+	text-align: right;
+	padding-right: 10px;
+}
 </style>
 </head>
 <body>
@@ -130,59 +148,129 @@ table{
 			</div>
 			<div id="searchDiv"></div>
 			<div id="reviewList">
-			<c:forEach var="list" items="${r }">
-				<div class="reviews">
-					<br>
-					<div class="reviewBox">
-						<table>
-							<tr>
-								<th class="revNick">${list.memberNickName }<br> <span class="revdate">${list.reviewDate }</span>
-								</th>
-								<th>${list.reviewScore }점</th>
-							</tr>
-							<tr>
-								<th colspan="2">${list.bookName }<br> ${list.bookPublisher }<br>
-									${list.bookWriter }<br> ${list.bookCategory }
-								</th>
-							</tr>
-							<tr>
-								<th colspan="2">${list.reviewContent }</th>
-							</tr>
-							<tr>
-								<th colspan="2"><img class="reviceImg"src="${list.reviewFilepath }"></th>
-							</tr>
-						</table>
-					</div>
+				<div>
+					<c:forEach var="list" items="${r }" varStatus="status">
+						<c:if test="${status.count % 3 == 1 }">
+							<div class="reviews">
+								<br>
+								<div class="reviewBox">
+									<table>
+										<tr>
+										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
+											<th class="revNick">${list.memberNickName }<br> <span
+												class="revdate">${list.reviewDate }</span>
+											</th>
+											<th class="reviewScore">${list.reviewScore }점</th>
+										</tr>
+										<tr>
+											<th colspan="3">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }
+												
+											</th>
+										</tr>
+										<tr>
+											<th colspan="3">${list.reviewContent }</th>
+										</tr>
+										<tr>
+											<th colspan="3"><img class="reviceImg"
+												src="${list.reviewFilepath }"></th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
 				</div>
-			</c:forEach>
+				<div>
+					<c:forEach var="list" items="${r }" varStatus="status">
+						<c:if test="${status.count % 3 == 2 }">
+							<div class="reviews">
+								<br>
+								<div class="reviewBox">
+									<table>
+										<tr>
+										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
+											<th class="revNick">${list.memberNickName }<br> <span
+												class="revdate">${list.reviewDate }</span>
+											</th>
+											<th class="reviewScore">${list.reviewScore }점</th>
+										</tr>
+										<tr>
+											<th colspan="3">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }
+											</th>
+										</tr>
+										<tr>
+											<th colspan="3">${list.reviewContent }</th>
+										</tr>
+										<tr>
+											<th colspan="3"><img class="reviceImg"
+												src="${list.reviewFilepath }"></th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
+				<div>
+					<c:forEach var="list" items="${r }" varStatus="status">
+						<c:if test="${status.count % 3 == 0 }">
+							<div class="reviews">
+								<br>
+								<div class="reviewBox">
+									<table>
+										<tr>
+										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
+											<th class="revNick">${list.memberNickName }<br> <span
+												class="revdate">${list.reviewDate }</span>
+											</th>
+											<th class="reviewScore">${list.reviewScore }점</th>
+										</tr>
+										<tr>
+											<th colspan="3">${list.bookName }<br>
+												${list.bookPublisher }<br> ${list.bookWriter }
+											</th>
+										</tr>
+										<tr>
+											<th colspan="3">${list.reviewContent }</th>
+										</tr>
+										<tr>
+											<th colspan="3"><img class="reviceImg"
+												src="${list.reviewFilepath }"></th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
 	<script type="text/javascript">
 		$(function() {
-			$('#reviewList').msrItems({
-				'colums': 3,
-				'margin': 15
-				});
-			$( window ).on('resize',function(e) {
-				clearTimeout(time);
-				time = setTimeout(function(){
-				$('.msrItems').msrItems('refresh');
-				}, 200);
-				
-				})
-
+			var memberId = '${sessionScope.member.memberId}';
+			
 			$("button").click(function() {
-				window.name = "apply"
+				if(memberId==""){
+					alert("로그인이 필요합니다");
+					location.href="/member/loginFrm.do";
+				}else{
+					
+				window.name = "reviewWriting.do";
 				var url = "/review/reviewWriting.do";
 				var title = "후기";
 				var style = "width=400,height=400,top=100,left=400";
 				window.open(url, title, style);
+				}
 			});
+				
 		})
-		window.opener.location.reload();
-		window.close();
+	
+
+		
 	</script>
 </body>
 </html>

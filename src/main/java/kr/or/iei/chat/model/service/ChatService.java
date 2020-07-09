@@ -53,5 +53,10 @@ public int chatUpdate(String title) {
 	
 }
 
+public String selectOpenTitle(String chatTitle) {
+	String title = dao.selectOnetitle(chatTitle);
+	return title;
+}
+
 
 }

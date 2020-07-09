@@ -8,7 +8,8 @@
 <html lang="en" style="font-size:18px;">
 
 <head>
-
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,11 +24,12 @@
   
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
-  <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+  
   
   <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
+	<!-- Custom styles for this template-->
+  
   <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -38,7 +40,69 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css"/>
+
+
+<script>
+/*웹 소켓 */
+	var ws;
+	var memberId = '${sessionScope.member.memberId }'; 
+	function connect(){
+		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws.onopen = function(){
+			console.log("웹소켓 연결 생성");
+			var msg = {
+					type : "output"
+			};
+			ws.send(JSON.stringify(msg));
+		};
+		ws.onmessage = function(e){
+			if(JSON.parse(e.data).totalCount == 0){
+				$("#alarmss").html("");
+				$("#lostAlarm").html("");
+				$("#complainAlarm").html("");
+			}else{
+				$("#alarmss").html(JSON.parse(e.data).totalCount);
+				if(JSON.parse(e.data).lostbookCount == 0){
+					$("#lostAlarm").html("");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+				}else if(JSON.parse(e.data).complainCount == 0){
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
+					$("#complainAlarm").html("");
+				}else{
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+				}
+			}
+			/* $("#alarmss").html(JSON.parse(e.data).totalCount);
+			$("#lostAlarm").html(JSON.parse(e.data).lostbookCount); */
+		};
+		ws.onclose = function(){
+			console.log("연결종료");
+		};
+	}
 	
+	$(function(){
+		connect();
+		$("#lostbookClick").click(function(){
+			var data = $("#lostAlarm").html();
+			var sendMsg = {
+					type : "lostbookClick",
+					data : data
+			};
+			ws.send(JSON.stringify(sendMsg));
+		});
+		
+		$("#complainAlarmClick").click(function(){
+			var data = $("#complainAlarm").html();
+			var sendMsg = {
+					type : "complainAlarmClick",
+					data : data
+			};
+			ws.send(JSON.stringify(sendMsg));
+		});
+	});
+</script>
 <!-- End Channel Plugin -->
 </head>
 
@@ -81,7 +145,7 @@
           <span>회원 목록</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#complaincollapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#complaincollapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-cog"></i>    
           <span>회원 신고 관리</span>
         </a>
@@ -105,11 +169,11 @@
       
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesRent" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
           <span>도서 대여</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePagesRent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
@@ -135,7 +199,7 @@
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-cog"></i>
           <span>도서 분실 신고</span>
          </a>
@@ -246,33 +310,34 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3</span>
+                <span id="alarmss" class="badge badge-danger badge-counter danger"></span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                  Alerts Center
+                	알람
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a id="lostbookClick" class="dropdown-item d-flex align-items-center" href="/adminLostBookList.do?reqPage=1">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                    <!-- <div class="small text-gray-500">December 12, 2019</div> -->
+                    <span class="font-weight-bold">도서 분실 신고</span>
+                    <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a if="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
+                    <span class="font-weight-bold">회원신고</span>
+                    <span id="complainAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">

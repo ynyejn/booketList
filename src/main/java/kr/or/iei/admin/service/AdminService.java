@@ -771,9 +771,6 @@ public class AdminService {
 	public int cancelLostBookList(String[] params) {
 		return dao.cancelLostbookList(params);
 	}
-	public Member login(Member m) {
-		return dao.login(m);
-	}
 	public List userLostBook(Member m) {
 		return dao.userLostBook(m);
 	}
@@ -1159,5 +1156,9 @@ public class AdminService {
 	public ArrayList<RentAndCount> rentAndCountList() {
 		return (ArrayList<RentAndCount>)rentDao.rentAndCountList();
 	}
+	public BookAndRent selectOneLostBook(int bookNo) {
+		return dao.selectOneLostBook(bookNo);
+	}
+	
 
 }

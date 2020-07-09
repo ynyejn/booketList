@@ -11,7 +11,7 @@
 <body>
 	<script type="text/javascript">
 	$(function () {
-		alert("인원이 꽉 찾거나 방이 없습니다.");
+		alert("인원이 현재 꽉차있습니다.");
 		self.close();
 	})
 	</script>

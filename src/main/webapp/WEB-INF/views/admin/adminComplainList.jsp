@@ -103,13 +103,13 @@
 				$("#ComplainHold").children("table").children().remove(); 
 				html = "";
 				html += "<tr><th>신고한 id</th>";
-				html += "<th>"+data.memberId+"</th></tr>";
+				html += "<td>"+data.memberId+"</td></tr>";
 				html += "<tr><th>신고당한 id</th>";
-				html += "<th>"+data.attacker+"</th></tr>";
+				html += "<td>"+data.attacker+"</td></tr>";
 				html += "<tr><th>신고 날짜</th>";
-				html += "<th>"+data.complainDate+"</th></tr>";
+				html += "<td>"+data.complainDate+"</td></tr>";
 				html += "<tr><th>신고 사유</th>";
-				html += "<th>"+data.complainContent+"</th></tr>";
+				html += "<td>"+data.complainContent+"</td></tr>";
 				$("#ComplainHold").children("table").append(html);
 				
 			},
@@ -137,12 +137,17 @@
 				html += "<tr><th>신고 사유</th>";
 				html += "<th>"+data.complainContent+"</th></tr>";
 				html += "<tr><th>신고 상태</th>";
-				html += "<th>"+data.complainStauts+"</th></tr>";
+				
+				if(data.complainStauts == 1){
+					html += "<th>신고처리</th></tr>";	
+				}else if(data.complainStauts == 2){
+					html += "<th>신고반려</th></tr>";
+				}
+				
 				$("#detailUpdate1").hide();
 				$("#detailUpdate2").hide();
 				if(data.complainStauts == '2'){
 					$("#detailUpdate1").show();
-				
 				}else{
 					$("#detailUpdate2").show();
 				}
@@ -723,7 +728,7 @@
 												<h4 class="modal-title" id="myModalLabel">신고처리대기</h4>
 											</div>
 											<div class="modal-body" id="ComplainHold"
-												style="height: 500px">
+												style="height: 400px">
 												<table class="table table-bordered">
 												</table>
 
@@ -751,7 +756,7 @@
 												<h4 class="modal-title" id="myModalLabel">신고처리완료</h4>
 											</div>
 											<div class="modal-body" id="ComplainHold2"
-												style="height: 500px">
+												style="height: 400px">
 												<table class="table table-bordered">
 												</table>
 

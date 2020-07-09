@@ -59,17 +59,23 @@ public class ChatController {
 	}
 	@RequestMapping("/chatRoom.do")
 	public String chatRoom(String title,Model model) {
-		int result = service.chatUpdate(title);
-		Chat c = new Chat();
-		c.setChatTitle(title);
-		System.out.println("gdgd");
-		if(result>0) {
-			model.addAttribute("c",c);
-			System.out.println("gdgd");
-			return "openChatting/chat";	
+		String chatTitle=service.selectOpenTitle(title);
+		if(chatTitle==null) {
+			return "openChatting/chatTitleFull";
 		}else {
+			
+			int result = service.chatUpdate(title);
+			Chat c = new Chat();
+			c.setChatTitle(title);
 			System.out.println("gdgd");
-			return "openChatting/chatFull";
+			if(result>0) {
+				model.addAttribute("c",c);
+				System.out.println("gdgd");
+				return "openChatting/chat";	
+			}else {
+				System.out.println("gdgd");
+				return "openChatting/chatFull";
+			}
 		}
 	}
 	@ResponseBody
