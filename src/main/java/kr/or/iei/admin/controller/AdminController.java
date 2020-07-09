@@ -50,7 +50,9 @@ import kr.or.iei.member.model.vo.MemberPageData;
 import kr.or.iei.member.model.vo.MemberPageSearchData;
 import kr.or.iei.rent.model.vo.BookRentalApplyPage;
 import kr.or.iei.rent.model.vo.BookRentalApplySearchPage;
+import kr.or.iei.rent.model.vo.RentAndCount;
 import kr.or.iei.rent.model.vo.RentApply;
+import kr.or.iei.rent.model.vo.RentDateCount;
 import kr.or.iei.reservation.model.vo.Reservation;
 import kr.or.iei.reservation.model.vo.ReservationPage;
 import kr.or.iei.reservation.model.vo.ReservationSearchPage;
@@ -111,7 +113,49 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminPage.do")
-	public String adminPageFrm() {
+	public String adminPageFrm(Model model) {
+		ArrayList<RentDateCount> rentDateCountList = service.rentDateCountList();
+		ArrayList<Book> bookStatus = service.bookStatusList();
+		ArrayList<RentAndCount> rentAndCountList = service.rentAndCountList();
+		//분실 수
+		int lostBooks =0;
+		//대여 수
+		int nowRentBooks =0;
+		//대여 신청 수
+		int requestRentBooks = 0;
+		//반납 신청 수
+		int requestReturnBooks = 0;
+		for(int i=0; i<bookStatus.size(); i++) {
+			if(bookStatus.get(i).getBookStatus()==1) {
+				requestRentBooks++;
+			}else if(bookStatus.get(i).getBookStatus()==3) {
+				requestReturnBooks++;
+			}else if(bookStatus.get(i).getBookStatus()==5) {
+				lostBooks++;
+			}else if(bookStatus.get(i).getBookStatus()==2) {
+				nowRentBooks++;
+			}
+		}
+		
+		//누적 도서 대여량
+		int sumRentBooks = 0;
+		//월 평균 도서 대여량
+		double monthlyRentBooks = 0.0;
+		
+		for(int i=0; i<rentDateCountList.size(); i++) {
+			sumRentBooks += rentDateCountList.get(i).getCnt();
+		}
+		monthlyRentBooks = (sumRentBooks/rentDateCountList.size());
+		model.addAttribute("requestRentBooks", requestRentBooks);
+		model.addAttribute("requestReturnBooks", requestReturnBooks);
+		model.addAttribute("sumRentBooks", sumRentBooks);
+		model.addAttribute("monthlyRentBooks", monthlyRentBooks);
+		model.addAttribute("lostBooks", lostBooks);
+		model.addAttribute("nowRentBooks", nowRentBooks);
+		model.addAttribute("sumBooks", bookStatus.size());
+		model.addAttribute("rentDateCountList", new Gson().toJson(rentDateCountList));
+		model.addAttribute("rentAndCountList", new Gson().toJson(rentAndCountList));
+		
 		return "/admin/adminPage";
 	}
 	
@@ -1596,6 +1640,8 @@ public class AdminController {
 //			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
 
 		}
+		
+
 }
 
 

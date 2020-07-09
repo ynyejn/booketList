@@ -207,7 +207,7 @@
     });
     $(function() {
             var html = "";
-            if ('${ud.usedType}' == '기증') {
+            if ('${ub.usedType}' == '기증') {
                 html += "<tr class='infoTr'><td>기증자 명</td><td>${ub.usedInfo}</td></tr>";
             } else {
                 html += "<tr class='infoTr'><td >계좌번호</td><td>";

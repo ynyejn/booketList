@@ -447,6 +447,11 @@
 			 #{arr}
 		</foreach>
 	</update>
+
+	<select id="bookStatusList" resultType="book">
+		select book_no as bookNo, book_status as bookStatus
+		from book
+	</select>
 	<select id="excelRentListTotal" resultType="bookRentalStatus">
 		select rent_no as rentNo, book_no as bookNo, member_id as memberId, book_name as bookName
 		,rent_start_date as rentStartDate

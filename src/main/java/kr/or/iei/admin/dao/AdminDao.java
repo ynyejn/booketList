@@ -307,6 +307,10 @@ public class AdminDao {
 		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
+
+	public List bookStatusList() {
+		return sqlSession.selectList("book.bookStatusList");
+	}
 	public int updateBookRentApply(int bookNo) {
 		return sqlSession.update("rent.updateBookRentApply",bookNo);
 	}
@@ -353,10 +357,6 @@ public class AdminDao {
 
 	public List bookSearchReservationList(HashMap<String, Object> map) {
 		return sqlSession.selectList("reservation.bookSearchReservationList",map);
+
 	}
-
-	 
-
-
-
 }
