@@ -216,17 +216,9 @@
            SPOT 관리
       </div>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>SPOT</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">SPOT</h6>
-            <a class="collapse-item" href="#">SPOT리스트</a>
-            <a class="collapse-item" href="#">SPOT생성</a>
-          </div>
-        </div>
+        	<a class="nav-link" href="/adminSpotList.do?reqPage=1&selectCount=10">
+          	<i class="fas fa-fw fa-table"></i>
+          	<span>SPOT</span></a>
       </li>
       <hr class="sidebar-divider">
 
