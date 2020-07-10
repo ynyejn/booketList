@@ -19,7 +19,7 @@
 		select * from 
 		    (select rownum as rnum, n.* from 
 		        (SELECT 
-      	        	book_name as bookName, book_no as bookNo, book_writer as BookWriter, book_publisher as bookPublisher,
+      	        	book_name as bookName, book_no as bookNo, nvl(book_writer, ' ') as BookWriter, nvl(book_publisher, ' ') as bookPublisher,
 		        	book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate, book_status as bookStatus,
 		        	book_content as bookContent, avg_score as avgScore, cnt		        
 		        FROM 
@@ -60,8 +60,8 @@
 		select * from
 		(select rownum as rnum, n.* from
 		(SELECT
-		book_name as bookName, book_no as bookNo, book_writer as BookWriter,
-		book_publisher as bookPublisher,
+		book_name as bookName, book_no as bookNo, nvl(book_writer, ' ') as bookWriter,
+		nvl(book_publisher, ' ') as bookPublisher,
 		book_category as bookCategory, book_img as bookImg, book_pub_date as bookPubDate,
 		book_status as bookStatus,
 		book_content as bookContent, avg_score as avgScore, cnt
@@ -311,9 +311,23 @@
 		SELECT BOOK_NO as bookNo
 		FROM(SELECT *
 			FROM BOOK 
-			WHERE BOOK_NAME = #{bookName} AND BOOK_PUBLISHER = #{bookPublisher}
-			 AND BOOK_WRITER = #{bookWriter} AND BOOK_STATUS = 0)
-		<![CDATA[ WHERE ROWNUM <= 1 ]]>
+			<choose>
+				<when test='bookWriter.equals(" ") and bookPublisher.equals(" ")'>
+					WHERE BOOK_NAME = #{bookName} AND BOOK_STATUS = 0)
+					<![CDATA[ WHERE ROWNUM <= 1 ]]>
+	
+				</when>
+				<when test='bookWriter.equals(" ") and !bookPublisher.equals(" ")'>
+					WHERE BOOK_NAME = #{bookName} AND BOOK_PUBLISHER = #{bookPublisher}
+					 AND BOOK_STATUS = 0)								
+	 				<![CDATA[ WHERE ROWNUM <= 1 ]]>	
+				</when>
+				<otherwise>
+					WHERE BOOK_NAME = #{bookName} AND BOOK_PUBLISHER = #{bookPublisher}
+					 AND BOOK_WRITER = #{bookWriter} AND BOOK_STATUS = 0)								
+					<![CDATA[ WHERE ROWNUM <= 1 ]]>
+				</otherwise>
+			</choose>
 	</select>	
 	<select id="userWriterList" parameterType="member" resultType="bookAndReview">
 		select book_writer as bookWriter, count(book_writer) as cnt

@@ -40,9 +40,11 @@ public class AdminMsg extends TextWebSocketHandler{
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(message.getPayload());
 		String type = element.getAsJsonObject().get("type").getAsString();
-		
-		if(type.equals("lostBookAlarmCount")) { 
-			int result = dao.updateAlarm(); //책 분실신고 들어오면 lostbook_count + 1
+		System.out.println("타입입니다. :"+type);
+		if(type.equals("lostBookAlarmCount")) {
+			int data = element.getAsJsonObject().get("count").getAsInt();
+			System.out.println("왜 안되지 : "+data);
+			int result = dao.updateAlarm(data); //책 분실신고 들어오면 lostbook_count + data, total_count + 1
 			Alarm total = dao.selectTotalCount();  
 			String a = new Gson().toJson(total);
 			System.out.println(a);
@@ -91,6 +93,6 @@ public class AdminMsg extends TextWebSocketHandler{
 	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		
+		System.out.println("연결이 종료되었습니다!!!!!!");
 	}
 }
