@@ -265,12 +265,12 @@
         width: 100%;
     }
 
-    .smallImg:hover>.bigImg {
+    .smallImg:hover {
         opacity: 100%;
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
     }
-    .smallImg:hover>.bigImg>img{
+    .smallImg:hover>.bigImg{
         opacity: 100%;
     }
     .words {
