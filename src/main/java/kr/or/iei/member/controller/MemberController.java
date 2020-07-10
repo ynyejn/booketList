@@ -97,9 +97,9 @@ public class MemberController {
 		if (member != null) {
 			System.out.println();
 			session.setAttribute("member", member);
-			return "member/mypage";
+			return "redirect:/";
 		} else {
-			return "member/loginFailed";
+			return "member/login";
 		}
 	}
 	@RequestMapping(value="/mUpdate.do",method = RequestMethod.POST)
@@ -124,6 +124,11 @@ public class MemberController {
 	public String logoutMember(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	@RequestMapping(value="/loginFailed.do")
+	public String loginFailed() {
+	
+		return "member/login";
 	}
 	
 	@RequestMapping(value="/mypage.do")

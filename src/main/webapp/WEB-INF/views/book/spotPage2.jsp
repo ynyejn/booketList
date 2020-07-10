@@ -201,7 +201,7 @@
             <div class="black"></div><span>대여 장소 선택</span>
         </div>
         <div class="content">
-            <form action="/returnBook.do" method="post">
+            <form action="/rent/rentBook.do" method="post">
             <div class="selectZone">
             <select name="localName" id="localName">
                 <option value="" id="nameList">전체보기</option>
@@ -211,8 +211,8 @@
             </select>
             <input type="text" name="keyword" value="${keyword }">
             <div id="searchBtn">검색</div>
-            <c:forEach items="${bookNo }" var="no">
-            <input type="hidden" value="${no}" name="bookNo">
+            <c:forEach items="${bookNo}" var="no">
+            <input type="hidden" value="${no}" name="bookNoString">
                 </c:forEach>
             <button type="submit" id="submitBtn">대여신청</button>
             </div>

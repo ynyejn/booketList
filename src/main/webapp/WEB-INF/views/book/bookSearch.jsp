@@ -211,7 +211,15 @@
 		};
 	</script>
 <script>
-
+$(function(){
+	if("${msg}"!=""){
+		if("${msg}"==0){
+			alert("대여신청이 완료되었습니다.");
+		}else{
+			alert("대여신청이 실패했습니다.");
+		}
+	}
+});
 	function bookListLoad(bookName, obj, numb) {
 		$("div.loader").css("display","block");
 		$.ajax({
