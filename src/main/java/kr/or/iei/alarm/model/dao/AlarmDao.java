@@ -12,8 +12,8 @@ public class AlarmDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	public int lostUpdateAlarm() {
-		return sqlSession.update("alarm.updateAlarm");
+	public int lostUpdateAlarm(int data) {
+		return sqlSession.update("alarm.updateAlarm",data);
 	}
 
 	public Alarm selectAlarmLost() {

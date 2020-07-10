@@ -12,7 +12,7 @@ public class AlarmService {
 	@Qualifier("alarmDao")
 	private AlarmDao dao;
 	
-	public int updateAlarm() {
-		return dao.updateAlarm();
-	}
+	/*
+	 * public int updateAlarm() { return dao.updateAlarm(); }
+	 */
 }

@@ -40,11 +40,12 @@ public class AdminMsg extends TextWebSocketHandler{
 		JsonElement element = parser.parse(message.getPayload());
 		String type = element.getAsJsonObject().get("type").getAsString();
 		System.out.println("타입입니다. :");
+		
 		if(type.equals("lostbookAlarmCount")) {
 			System.out.println("2222222222s");
-			/* int data = element.getAsJsonObject().get("data").getAsInt() */;
+			int data = element.getAsJsonObject().get("data").getAsInt();
 			System.out.println("왜 안되지 : ");
-			dao.lostUpdateAlarm(); //책 분실신고 들어오면 lostbook_count + data, total_count + data
+			dao.lostUpdateAlarm(data); //책 분실신고 들어오면 lostbook_count + data, total_count + data
 			Alarm total = dao.selectTotalCount();  
 			String a = new Gson().toJson(total);
 			System.out.println(a);
