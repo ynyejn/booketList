@@ -309,9 +309,22 @@ td {
 			type : 'post',
 			dataType : 'json',
 			contentType : "application/json; charset=UTF-8",
-			data : JSON.stringify(member)
+			data : JSON.stringify(member),
+			success : function(data){
+				if(data >0){
+					console.log("회원가입성공");
+					location.href="/";
+					}else{
+					console.log("회원가입실패");
+				}
+			},
+			error : function(){
+				console.log("ajax 통신 실패");
+			}
 		});
-
+		
+		alert("회원가입을 축하드립니다.");
+		
 	}
 </script>
 <body>
@@ -371,12 +384,8 @@ td {
 						<span id="mailMsg">
 							<div class="check_font" id="email_check"></div>
 					</div>
-
-
-
-					<h2>카톡 api</h2>
-					<h2>네이버 api</h2>
-					<h2>도서선호장르 최대3개까지 체크가능(선택)</h2>
+			
+					<h3>도서선호장르 최대3개까지 체크가능(선택사항입니다.)</h3>
 					<div class="form-group">
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="컴퓨터/모바일" />컴퓨터/모바일 <input type="checkbox" id="bookcheck"
@@ -416,11 +425,13 @@ td {
 
 						<button type="button" onclick="member_join()" id="memberJoin"
 							disabled="disabled" style="width: 430px;">회원가입</button>
+							
 					</div>
 			</div>
 		</div>
 	</div>
 	</form>
+	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 </html>

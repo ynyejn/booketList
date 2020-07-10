@@ -36,6 +36,7 @@ public class AdminMsg extends TextWebSocketHandler{
 	}
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		System.out.println(message);
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(message.getPayload());
 		String type = element.getAsJsonObject().get("type").getAsString();
@@ -50,6 +51,7 @@ public class AdminMsg extends TextWebSocketHandler{
 			}
 
 		}else if(type.equals("complainAlarmCount")) {
+			System.out.println("11111111111s");
 			int result = dao.updateComplainAlarm(); // alarm 테이블 complain_count +1
 			Alarm total = dao.selectTotalCount(); //모든 컬럼들 select 
 			String a = new Gson().toJson(total);
