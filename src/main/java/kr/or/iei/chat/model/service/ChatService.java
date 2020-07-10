@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.chat.model.dao.ChatDao;
 import kr.or.iei.chat.model.vo.Chat;
+import kr.or.iei.chat.model.vo.ChatFile;
 
 @Service("chatService")
 public class ChatService {
@@ -56,6 +57,11 @@ public int chatUpdate(String title) {
 public String selectOpenTitle(String chatTitle) {
 	String title = dao.selectOnetitle(chatTitle);
 	return title;
+}
+
+public int chatFileInsert(ChatFile c) {
+	
+	return dao.chatFileInsert(c);
 }
 
 

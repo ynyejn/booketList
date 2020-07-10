@@ -25,4 +25,7 @@
  	<select id="selectOnetitle" parameterType="string" resultType="string">
  		select chat_title from chat where chat_title = #{chatTitle }
  	</select>
+ 	<insert id="chatFileInsert" parameterType="chatFile">
+ 		insert into chatfile values(#{chatTitle},#{chatFilepath})
+ 	</insert>
 </mapper>
