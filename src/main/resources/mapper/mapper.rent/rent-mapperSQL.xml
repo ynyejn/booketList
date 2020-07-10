@@ -36,7 +36,8 @@
          rent_start_date as rentStartDate,
          rent_end_date as rentEndDate,
          rent_return as rentReturn,
-         book_name as bookName
+         book_name as bookName,
+         round(rent_end_date-sysdate) as countinueDate
          from rent
          join book using(book_no)
          where member_id=#{_parameter}
@@ -170,4 +171,10 @@
 		from rent join book using (book_no) 
 		where member_id = #{memberId}
 	</select>
+	<insert id="insertRentApply" parameterType="rentApply">
+insert into rentapply values(rentapply_seq.nextval,#{memberId},#{bookNo},#{spotName},sysdate)
+	</insert>
+	<update id="updateBookStatusTo1" parameterType="_int">
+update book set book_status=1 where book_no = #{_parameter}
+</update>
 </mapper>

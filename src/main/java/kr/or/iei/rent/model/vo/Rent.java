@@ -17,6 +17,6 @@ public class Rent {
 	private String bookName;
 	private String bookWriter;
 	private int bookStatus;
-	
+	private int countinueDate;
 	
 }
