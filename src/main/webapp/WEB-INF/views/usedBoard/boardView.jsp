@@ -161,15 +161,16 @@
         text-align: center;
         border-bottom: 2px solid #585858;
     }
-    .tag{
+
+    .tag {
         display: inline-block;
         padding: 2px 35px;
-        font-size:17px;
+        font-size: 17px;
         background-color: #03166c;
         border: 1px solid black;
         border-bottom: none;
         border-top-left-radius: 7px;
-        border-top-right-radius: 7px; 
+        border-top-right-radius: 7px;
         color: #f3f5f7;
         margin-left: 80px;
     }
@@ -185,7 +186,8 @@
         padding-top: 60px;
         display: none;
     }
-    .commentZone{
+
+    .commentZone {
         padding-bottom: 60px;
     }
 
@@ -249,10 +251,9 @@
 
     .bigImg {
         opacity: 0;
-        position: fixed;
+        position: absolute;
+        left: 50px;
         overflow: hidden;
-        top: 30%;
-        left: 58%;
         width: 600px;
         z-index: 300;
         background-color: white;
@@ -270,9 +271,11 @@
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
     }
-    .smallImg:hover>.bigImg{
+
+    .smallImg:hover>.bigImg {
         opacity: 100%;
     }
+
     .words {
         height: 25px;
         line-height: 25px;
@@ -304,25 +307,28 @@
         height: 45px;
         border-top: 1px solid #e5e5e5;
     }
-    
-    .writeBottom>select{
+
+    .writeBottom>select {
         margin-left: 598px;
         font-size: 15px;
     }
+
     #commentSubmit {
         float: right;
         border: none;
         border-radius: 0;
+        text-align: center;
         width: 68px;
-        height: 40px;
+        height: 45px;
         font-size: 14px;
         border: 1px solid #454545;
         background: #525252;
         color: white;
-        line-height: 40px;
+        line-height: 45px;
     }
-    
+
     #commentSubmit:hover {
+        cursor: pointer;
         background: #222222;
         border: 1px solid #222222;
     }
@@ -366,7 +372,6 @@
         height: 13px;
         margin-bottom: 1px;
     }
-    
 
 </style>
 
@@ -447,15 +452,19 @@
                                 <div class="writeBottom"><label for="files"><img src="resources/imgs/cameraIcon.png" style="width:20px; height:20px;vertical-align: text-bottom;">사진첨부</label>
                                     <input type="file" name="files" multiple="multiple" id="files" accept="image/*" onchange="loadImg(this);" style="display:none;">
                                     <c:if test="${sessionScope.member.memberId eq 'admin' }">
-                                    <select name="usedStatus">
-                                    <option value=1>피드백 요청</option>
-                                     <option value=3>기증/판매 확정</option>
-                                     <option value=4>기증/판매 완료</option>
-                                    </select>
+                                        <select name="usedStatus" id="usedStatus">
+                                            <option value=1>피드백 요청</option>
+                                            <option value=3>기증/판매 확정</option>
+                                            <option value=4>기증/판매 완료</option>
+                                        </select>
                                     </c:if>
                                     <c:if test="${sessionScope.member.memberId ne 'admin' }">
-                                        <select name="usedStatus" style="display:none;"><option value="${ub.usedStatus}" selected>${ub.usedStatus}</option></select></c:if>
-                                        <input type="submit" value="등록" id="commentSubmit"></div>
+                                        <select name="usedStatus" style="display:none;" id="usedStatus">
+                                            <option value="${ub.usedStatus}" selected>${ub.usedStatus}</option>
+                                        </select></c:if>
+                                    <input type="submit" id="gogogo" style="display:none">
+                                    <div id="commentSubmit" onclick="sendToServer();">등록</div>
+                                </div>
 
                             </form>
                         </div>
@@ -470,24 +479,59 @@
 <script>
     var files = [];
     var files2 = [];
-    
-    function pro11(file, fileName){
-        return new Promise(function(resolve,reject){
-             var reader = new FileReader();
+
+    function pro11(file, fileName) {
+        return new Promise(function(resolve, reject) {
+            var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function(e) {
-                resolve("<span class='img-view' fileName='"+fileName+"'style='background-image:url(" + e.target.result + ");'><button class='subDiv' type='button' onclick='subFunc(this);' style='padding:0;'><img src='/resources/imgs/x.png'></button></span>");
-            }            
+                resolve("<span class='img-view' fileName='" + fileName + "'style='background-image:url(" + e.target.result + ");'><button class='subDiv' type='button' onclick='subFunc(this);' style='padding:0;'><img src='/resources/imgs/x.png'></button></span>");
+            }
         });
     }
-    function pro22(file, fileName){
-        return new Promise(function(resolve,reject){
-             var reader = new FileReader();
+
+    function pro22(file, fileName) {
+        return new Promise(function(resolve, reject) {
+            var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function(e) {
-                resolve("<span class='img-view' fileName='"+fileName+"'style='background-image:url(" + e.target.result + ");'><button class='subDiv' type='button' onclick='subFunc(this);' style='padding:0;'><img src='/resources/imgs/x.png'></button></span>");
-            }            
+                resolve("<span class='img-view' fileName='" + fileName + "'style='background-image:url(" + e.target.result + ");'><button class='subDiv' type='button' onclick='subFunc(this);' style='padding:0;'><img src='/resources/imgs/x.png'></button></span>");
+            }
         });
+    }
+
+    function sendToServer() {
+        if (files.length != 0) { 
+            alert("들어옴");
+            var data = new FormData(); //form data객체를 생성
+            var usedStatus = $("#usedStatus").val();
+            var commentContent = $('#commentContentWrite').val();
+            for(var i=0; i<files.length; i++){
+                data.append('files',files[i]);
+            }
+            data.append('commentWriter', "${sessionScope.member.memberId }");
+            data.append('usedNo', "${ub.usedNo}");
+            data.append('usedStatus', usedStatus);
+            data.append('commentContent', commentContent);
+            var url = '/usedCommentInsert.do';
+            jQuery.ajaxSettings.traditional = true;
+            	    $.ajax({
+            	        url:url,
+            	        type:'post',
+            	        data : data,
+            	        contentType:false,
+            	        processData:false,
+            	        enctype:'multipart/form-data',
+            	        success:function(data){
+            	            location.href="/goBoardView.do?usedNo=${ub.usedNo}";
+            	        },
+            	        error : function(){
+            	            alert('실패');
+            	        }	        
+            		});
+        } else {
+            $('#gogogo').click(); //form태그의 submit을 요청
+        }
     }
     $(function() {
         var obj = $("#fileSection");
@@ -510,7 +554,7 @@
             e.preventDefault();
         });
         //drop 영역에 파일을 두면
-        obj.on('drop',async function(e) {
+        obj.on('drop', async function(e) {
             $(this).css('border', '1px dashed gray'); //div의 border를 점선으로 변경
             e.preventDefault();
             var count = files.length;
@@ -523,31 +567,32 @@
             upFileName.empty();
             for (var i = 0; i < files.length; i++) {
                 var fileName = files[i].name;
-                var span = await pro11(files[i],fileName);                
+                var span = await pro11(files[i], fileName);
                 upFileName.append(span);
             }
 
         });
-        
+
         //댓글창 열기닫기
         var openStatus = 0;
-        $("#showComment").click(function(){
-            if(openStatus==0){
+        $("#showComment").click(function() {
+            if (openStatus == 0) {
                 $(".commentFrame").slideDown();
-                openStatus=1;
+                openStatus = 1;
                 $("#showComment").empty();
                 $("#showComment").append("<img src='/resources/imgs/closeIcon.png'>");
-                $("#showComment").attr("data-original-title","댓글창을 닫습니다.");
-                
-            }else{
+                $("#showComment").attr("data-original-title", "댓글창을 닫습니다.");
+
+            } else {
                 $(".commentFrame").slideUp();
-                openStatus=0;
+                openStatus = 0;
                 $("#showComment").empty();
                 $("#showComment").append("<img src='/resources/imgs/openIcon.png'>");
-                $("#showComment").attr("data-original-title","댓글창을 펼칩니다.");
+                $("#showComment").attr("data-original-title", "댓글창을 펼칩니다.");
             }
-           
+
         });
+
 
     });
     //파일삭제
@@ -566,6 +611,7 @@
         }
         $(ev).parent("span").remove();
     }
+
 
     function delFunc(usedNo) {
         if (confirm("정말 삭제하시겠습니까?")) {
@@ -587,7 +633,7 @@
         if (f.files.length != 0 && f.files[0] != 0) { //파일이 하나이상 올라왔거나 파일이 용량이 0이 아닐경우
             for (var i = 0; i < files.length; i++) {
                 var fileName = files[i].name;
-                var span = await pro22(files[i],fileName);                
+                var span = await pro22(files[i], fileName);
                 upFileName.append(span);
             }
         }
