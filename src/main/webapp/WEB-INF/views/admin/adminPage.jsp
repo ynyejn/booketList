@@ -737,10 +737,10 @@
 	}
 	
 	// Area Chart Example
- 	var rentDateCountListSize = ${rentDateCountList}.length; 
 
 	var rentDateCountList = ${rentDateCountList};
-	
+ 	var rentDateCountListSize = Object.keys(rentDateCountList).length; 
+ 	console.log(rentDateCountListSize);
 	if(rentDateCountListSize > 12) {
 		for(var i=0; i<12; i++) {
 			rentDateCountList[i] = rentDateCountList[rentDateCountListSize-12+i];
@@ -764,19 +764,19 @@
  	$("#rentDiv").attr("width", rentBooksLetter);
 	$("#lostDiv").attr("width", "30");
 	
-	
+
 	var ctx = document.getElementById("myAreaChart");
 	var myLineChart = new Chart(ctx, {
 	  type: 'line',
 	  data: {
 	    labels: 
-	    	[rentDateCountList[0]["rentDate"], rentDateCountList[1]["rentDate"],
+			[rentDateCountList[0]["rentDate"], rentDateCountList[1]["rentDate"],
 	    		rentDateCountList[2]["rentDate"], rentDateCountList[3]["rentDate"],
 	    		rentDateCountList[4]["rentDate"], rentDateCountList[5]["rentDate"], 
 	    		rentDateCountList[6]["rentDate"], rentDateCountList[7]["rentDate"], 
 	    		rentDateCountList[8]["rentDate"], rentDateCountList[9]["rentDate"], 
-	    		rentDateCountList[10]["rentDate"], rentDateCountList[11]["rentDate"]],
-	    datasets: [{
+	    		rentDateCountList[10]["rentDate"], rentDateCountList[11]["rentDate"]]
+		,datasets: [{
 	      label: "대여 권수",
 	      lineTension: 0.3,
 	      backgroundColor: "rgba(78, 115, 223, 0.05)",

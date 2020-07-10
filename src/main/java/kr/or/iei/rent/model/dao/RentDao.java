@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.book.model.vo.BookAndReview;
 import kr.or.iei.book.model.vo.BookData;
 import kr.or.iei.cart.model.vo.Cart;
@@ -80,6 +81,10 @@ public class RentDao {
 
 	public List rentAndCountList() {
 		return sql.selectList("rent.rentAndCountList");
+	}
+
+	public List selectUserList(Member member) {
+		return sql.selectList("rent.selectUserList", member);
 	}
 
 

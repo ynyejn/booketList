@@ -80,6 +80,7 @@
 	<context:component-scan base-package="kr.or.iei.rent"/>
 	<context:component-scan base-package="kr.or.iei.reservation"/>	
 	<context:component-scan base-package="kr.or.iei.apply"/>	
+	<context:component-scan base-package="spring.basic.bean"/>	
 	<tx:annotation-driven /> 
 	<task:annotation-driven /> <!-- 작업관련 (@Scheduled 여기들어있음) -->
 	<aop:aspectj-autoproxy />
