@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.book.model.vo.BookAndReview;
 import kr.or.iei.book.model.vo.BookData;
 import kr.or.iei.cart.model.vo.Cart;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.rent.model.vo.RentAndCount;
+import kr.or.iei.rent.model.vo.RentApply;
 import kr.or.iei.rent.model.vo.RentDateCount;
 
 @Repository("rentDao")
@@ -81,6 +83,18 @@ public class RentDao {
 
 	public List rentAndCountList() {
 		return sql.selectList("rent.rentAndCountList");
+	}
+
+	public List selectUserList(Member member) {
+		return sql.selectList("rent.selectUserList", member);
+	}
+
+	public int insertRentApply(RentApply rent) {
+		return sql.insert("rent.insertRentApply",rent);
+	}
+
+	public void updateBookStatusTo1(int bookNo) {
+		sql.update("rent.updateBookStatusTo1",bookNo);	
 	}
 
 

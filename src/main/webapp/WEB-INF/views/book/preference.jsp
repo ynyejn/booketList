@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-       <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <!DOCTYPE html>
 <html>
@@ -8,7 +8,9 @@
 <meta charset="UTF-8">
 <title>Booket List</title>
 </head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
     <!-- google charts -->
 	   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
@@ -37,7 +39,7 @@
 		    font-weight: bolder;
 	        text-shadow: 1px 1px 2px black;
 	        position : absolute;
-	        z-index : 1000;
+	        z-index : 500;
         }
         .userNameSpan {
            	margin-top : -250px;
@@ -104,7 +106,7 @@
 	        position : relative;
         }
         #spanDivSpan {
-        	
+        	position : relative;
            	font-size : 30px;
 		    border-bottom: 2px solid #585858;
 		    text-align:center;           
@@ -191,8 +193,26 @@
          	font-size : 12px;
          	opacity : 0.9;
          }
+         #keywordBtn {
+         	position : absolute;
+         	top : 5px;
+         	right : 20px;
+			border: none;
+	    	background-color: rgb(0, 102, 179);
+	    	color: white;
+		    width: 110px;
+		    height: 35px;
+		    font-size: 14px;
+		    border-radius: 2px;         
+    	}
 
 </style>
+<script>
+
+
+
+</script>
+
 	<!-- 구글차트 파이 차트. -->
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
@@ -204,12 +224,13 @@
 		var rentListLength = ${rentList}.length;
 		var writerListLength = ${writerList}.length;
 		var rentDateListLength = ${rentDateList}.length;
-		
+		var rentCount = 0;
 		var rentBookCategory = new Array();
 		var rentBookCategoryCnt = new Array();
 		for(var i=0; i<rentListLength; i++) {
 			rentBookCategory.push(${rentList}[i]["bookCategory"]);
 			rentBookCategoryCnt.push(${rentList}[i]["cnt"]);
+			rentCount += ${rentList}[i]["cnt"];
 		}
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart1);
@@ -311,6 +332,19 @@
 			var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
 			chart.draw(view, options);
 		};
+		 $("#keywordBtn").click(function () {
+				console.log("click");
+				
+				console.log(rentCount);
+				if(rentCount > 3) {
+					var status = "left=200px, top=150px, width=980px, height=550px, menubar=no, status=no, scrollbars=no"; 
+					var title = "wordcloud";
+		 			window.open("/rjava/connection.do",title, status); 				
+				}else{
+					$("#myBtn2").trigger('click');
+				}
+					
+			 });
 	});
     
 	function refresh() {
@@ -333,15 +367,17 @@
 				console.log("Ajax error");
 			}
 		});
-	}
-	
+	};
+
 	function searchBook(obj) {
 		console.log(obj);
 		var bookCategory = $('#input'+obj).val().split('~구분~')[0];
 		var bookName = $('#input'+obj).val().split('~구분~')[1];
+		console.log(bookCategory);
+		console.log(bookName);
 		location.href = "/rent/searchBookDetail.do?categorySelect="+bookCategory+"&bookAttr=book_name&reqPage=1&sort=book_name&inputText="+bookName;
 	};
-  </script>    
+</script>    
 <body style="line-height:normal;">
 <div class="wrapper"  style="background-color : #f3f5f7;">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -500,7 +536,6 @@
 					<span class="userCategorySpan">[${userCategory}]입니다.</span>
 				</div>
 			</c:when>			
-
 			<c:when test="${userCategory eq '청소년'}">
 				<div class='mainImgDiv' style="background-image: url('/resources/imgs/elementary.jpg');">
 					<div class="black"  style="opacity:60%;"></div>
@@ -536,6 +571,9 @@
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
 				${sessionScope.member.memberNickname }님의 독서 통계
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
+				<c:if test="${rentListSize > 0}">	
+					<button id="keywordBtn" type="button">워드클라우드</button>									
+				</c:if>			
 			</div>
 			<c:if test="${type eq 0}">
 				<!-- //취향이 모두 비어있으며, 책 10권미만 구독. 취향을 선택하지 않아 정확한 이용이 불가능합니다. -->
@@ -620,15 +658,27 @@
 <!-- The Modal -->
 <div id="myModal" class="modal">
 <!-- Modal content -->
-	<div class="modal-content" style="height : 285px;">
+	<div class="modal-content" style="height : 315px;">
 		<span class="close">&times;</span>
-		<h3>취향분석에 오신걸 환영합니다! </h3><br><br><br>                                                            
+		<h3><img src="/resources/imgs/fDot.png" style='width:23px; height:23px;'>&nbsp;&nbsp;취향분석에 오신걸 환영합니다!&nbsp;&nbsp;<img src="/resources/imgs/fDot.png" style='width:23px; height:23px;'></h3><br><br>                                                      
 		<p>회원 가입시 골라주신 카테고리와 대여한 책, 남기신 리뷰를 바탕으로 회원님께 맞는 책을 추천해드리는 코너입니다 :)</p>
 		<p>정확한 분석을 위해선 10권 이상의 대여 기록이 필요하니 이점 참고해주세요 !</p>
+		<p>또한, 워드 클라우드의 경우엔 3권 이상 대여시 이용이 가능하답니다 ^ 3^</p>
 	</div>
 </div>
 
+<!-- Trigger/Open The Modal -->
+<button id="myBtn2">Open Modal</button>
 
+<!-- The Modal -->
+<div id="myModal2" class="modal2">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 185px; width:450px;">
+		<span class="close2">&times;</span>
+		<p>사용자의 데이터가 부족해 키워드 분석을 할 수 없습니다. </p>
+		<p>책을 대여해 데이터를 쌓아주세요 ! </p>
+	</div>
+</div>
 </body>
 <style>
       /* The Modal (background) */
@@ -675,6 +725,51 @@
             text-decoration: none;
             cursor: pointer;
         }
+        /*------------------------ */
+      /* The Modal (background) */
+      	.modal-content2 > span2 {
+	      	text-align : right;
+      	}
+      	.modal-content2 > h3, .modal-content2 > p {
+	      	text-align : center;
+      	}
+      	.modal-content2 > p {
+      		font-size : 14px;
+      		font-weight : bold;
+      	}      
+        .modal2 {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content2 {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }
+        /* The Close Button */
+        .close2 {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close2:hover,
+        .close2:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }        
 </style>
 <script>
 	// Get the modal
@@ -706,7 +801,36 @@
 		$("#myBtn").trigger('click');
 		$("#myBtn").hide();
 	});
-
+	////////////////////////
+	// Get the modal
+	var modal2 = document.getElementById('myModal2');
+	
+	// Get the button that opens the modal
+	var btn2 = document.getElementById("myBtn2");
+	
+	// Get the <span> element that closes the modal
+	var span2 = document.getElementsByClassName("close2")[0];                                          
+	
+	// When the user clicks on the button, open the modal 
+	btn2.onclick = function() {
+	    modal2.style.display = "block";
+	}
+	
+	// When the user clicks on <span> (x), close the modal
+	span2.onclick = function() {
+	    modal2.style.display = "none";
+	}
+	
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal2.style.display = "none";
+	    }
+	}
+	$(document).ready(function() {
+		$("#myBtn2").hide();
+	});	
+	
 </script>
 
 

@@ -96,13 +96,16 @@
     .boardFrame>table th {
         background-color: #ebedf4;
         border-bottom: 1px solid #dddddd;
-        height: 50px;
+        height: 40px;
     }
 
     .boardFrame>table td {
-        height: 50px;
+        height: 40px;
         border-bottom: 1px solid #dddddd;
         color: #595959;
+    }
+    td>a:hover{
+        text-decoration: underline;
     }
 
 </style>
@@ -135,7 +138,7 @@
                             <td>${l.usedNo}</td>
                             <td>${l.usedType}</td>
                             <td>${l.memberId}</td>
-                            <td>${l.usedTitle}</td>
+                            <td><a href="/goBoardView.do?usedNo=${l.usedNo}">${l.usedTitle}</a></td>
                             <td>${l.usedDate}</td>
                             <td>${l.usedStatus}</td>
                         </tr>

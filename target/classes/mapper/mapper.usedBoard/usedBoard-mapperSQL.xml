@@ -64,4 +64,17 @@ select comment_no as commentNo,
 		comment_date as commentDate
 		from used_comment where used_no = #{_parameter}
 </select>
+<select id="selectFiles" parameterType="_int" resultType="usedFiles">
+select comment_no as commentNo,
+		comment_filename as commentFilename,
+		comment_filepath as commentFilepath
+		from used_files where comment_no = #{_parameter} 
+</select>
+<update id="updateUsedStatus" parameterType="usedBoard">
+update used_board set 
+<if test="!memberId.equals('admin') and usedStatus==1">
+				used_status=2
+			</if>
+where used_no=#{usedNo}
+</update>
 </mapper>

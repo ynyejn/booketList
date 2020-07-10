@@ -21,7 +21,7 @@
 		<input type="hidden" name="complainContent" value="${complainContent }">
 		<input type="hidden" name="fileName">
 	</c:if>
-		<input type="submit" value="등록하기"><input type="button" onclick="window.close()" value="취소">
+		<input id="gogo" type="submit" value="등록하기"><input type="button" onclick="window.close()" value="취소">
 	</form>
 
 </body>
@@ -29,15 +29,11 @@
 var ws;
 var memberId = '${sessionScope.member.memberId }'; 
 function connect(){
-	ws = new WebSocket("ws://192.168.10.16/adminMsg.do");
+	ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 	ws.onopen = function(){
 		console.log("웹소켓 연결 생성");
-		
 	};
 	ws.onmessage = function(e){
-		
-		
-	
 	};
 	ws.onclose = function(){
 		console.log("연결종료");
@@ -45,9 +41,10 @@ function connect(){
 }
 $(function() {
 	connect();
-	$("from").submit(function () {
+	$("#gogo").click(function () {
+		console.log("갓니")
 		var msg = {
-			type : "complainAlarmClick"
+			type : "complainAlarmCount"
 			
 		}
 		ws.send(JSON.stringify(msg));

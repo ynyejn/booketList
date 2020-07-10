@@ -31,7 +31,9 @@ import kr.or.iei.cart.model.vo.Cart;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.service.RentService;
 import kr.or.iei.rent.model.vo.RentAndCount;
+import kr.or.iei.rent.model.vo.RentApply;
 import kr.or.iei.review.model.vo.Review;
+import kr.or.iei.turn.model.vo.TurnApply;
 import net.sf.json.JSONArray;
 
 @Controller
@@ -43,9 +45,13 @@ public class RentController {
 	private RentService service;
 	
 	@RequestMapping("/goBookSearch.do")
-	public String GoBookSearch(int reqPage, Model model) {
+	public String GoBookSearch(int reqPage, Model model, String msg) {
+		System.out.println(msg);
 		BookAndReviewPageData bd = service.selectBookPage(reqPage);
 		HashMap<String, Integer> bookNum = new HashMap<String, Integer>();
+		if(msg!=null) {
+			model.addAttribute("msg",msg);
+		}
 		model.addAttribute("list", bd.getList());
 		model.addAttribute("pageNavi", bd.getPageNavi());
 		model.addAttribute("bookAttr", "");
@@ -108,10 +114,13 @@ public class RentController {
 			ArrayList<Cart> cartList = new ArrayList<Cart>();
 			for(int i=0; i<param.length; i++) {
 				Cart c = new Cart();
+				System.out.println(param[i]);
 				c.setBookName(param[i].split("~구분~")[0]);
 				c.setBookWriter(param[i].split("~구분~")[1]);
-				c.setBookPublisher(param[i].split("~구분~")[2]);
-				System.out.println();
+				c.setBookPublisher(param[i].split("~구분~")[2]);					
+				System.out.println(c.getBookName());
+				System.out.println(c.getBookWriter());
+				System.out.println(c.getBookPublisher());
 				cartList.add(c);
 			}
 			ArrayList<Integer> bookNoList = new ArrayList<Integer>();
@@ -199,4 +208,18 @@ public class RentController {
 		return new Gson().toJson(list);
 	}
 	
+	///////////////////////////////////////예진-스팟정하고 대여신청테이블에 넣기
+	@RequestMapping("/rentBook.do")
+	public String goBookRent(HttpSession session, RentApply rent,String bookNoString,Model model) {
+		Member m = (Member)session.getAttribute("member");
+		String memberId = m.getMemberId();
+		rent.setMemberId(memberId);
+		System.out.println("대여:"+bookNoString+"/"+rent.getSpotName());
+		int result = service.insertRentApply(rent,bookNoString);
+		if(result>0) {
+			return "redirect:/rent/goBookSearch.do?reqPage=1&msg=0";
+		}else {
+			return "redirect:/rent/goBookSearch.do?reqPage=1&msg=1";
+		}
+	}
 }
