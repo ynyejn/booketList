@@ -576,15 +576,15 @@
 			</c:otherwise>
 		</c:choose>
 	<div class="content">
-<!-- 		<div style="width:600px; height:600px;" class="test">
-			<iframe src="/rjava/connection.do" style="width:600px; height:400px; scrolling:no;">대체 내용</iframe>  
-		</div> -->
+
 		<div id="chartDiv">
 			<div id="spanDivSpan">
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
 				${sessionScope.member.memberNickname }님의 독서 통계
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
-				<button id="keywordBtn" onclick="keywordBtn();">워드클라우드</button>
+				<c:if test="${rentListSize > 0}">	
+					<button id="keywordBtn" onclick="keywordBtn();">워드클라우드</button>				
+				</c:if>			
 			</div>
 			<c:if test="${type eq 0}">
 				<!-- //취향이 모두 비어있으며, 책 10권미만 구독. 취향을 선택하지 않아 정확한 이용이 불가능합니다. -->
