@@ -75,6 +75,8 @@
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
+		
+		
 	    $("#sear").click(function() {
 			var search = $("#search").val();
 			var searchTitle = $("#searchTitle").find("option:selected").html();

@@ -1,34 +1,45 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
 
 <!DOCTYPE html>
-<html lang="en" style="font-size:18px;">
+<html lang="en" style="font-size: 18px;">
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
-  <title>BooketList</title>
-   
+<title>BooketList</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
-  <!-- Custom styles for this template-->
-  <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet"
+<link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-  <link
+
+<!-- Custom fonts for this template-->
+<link
+	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+
+<!-- Custom styles for this template-->
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
+	rel="stylesheet" type="text/css">
+
+
+<link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -38,6 +49,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+
+
 	
 <!-- End Channel Plugin -->
 </head>
@@ -115,7 +128,8 @@
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
             <a class="collapse-item" href="/adminBookRentalApplyList.do?reqPage=1&selectCount=10">도서 대여 신청 목록</a>
             <a class="collapse-item" href="/adminBookTurnApplyList.do?reqPage=1&selectCount=10">도서 반납 신청 목록</a>
-             <a class="collapse-item" href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
+             <a class="collapse-item"href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
+<!--              <td style="float: right;"><button type="button" class="btn btn-default" id="insertBook" data-toggle="modal" data-target="#myModal2">도서등록</button></td> -->
           </div>
         </div>
       </li>
@@ -154,17 +168,9 @@
            SPOT 관리
       </div>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>SPOT</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">SPOT</h6>
-            <a class="collapse-item" href="#">SPOT리스트</a>
-            <a class="collapse-item" href="#">SPOT생성</a>
-          </div>
-        </div>
+        	<a class="nav-link" href="/adminSpotList.do?reqPage=1&selectCount=10">
+          	<i class="fas fa-fw fa-table"></i>
+          	<span>SPOT</span></a>
       </li>
       <hr class="sidebar-divider">
 

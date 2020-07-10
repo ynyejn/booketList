@@ -19,19 +19,11 @@
 <title>BooketList</title>
 
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
 
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
 <!-- Custom fonts for this template-->
 <link
 	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
@@ -57,6 +49,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+
+
 <!-- 테이블 부트스트랩 -->
 <script>
 	window.onload = function() {
@@ -196,7 +190,7 @@
 			console.log("엑셀다운로드");
 			var checkArr = new Array();
 			$("input[class='chBox']:checked").each(function(){
-				checkArr.push($(this).attr("data-rentApply"));
+				checkArr.push($(this).attr("data-reserveNo"));
 			});
 			if(checkArr!=0){
 				location.href="/excelReservationDown.do?checkArr="+checkArr	
@@ -210,7 +204,6 @@
 			var part = "reservation";
 				location.href="/excelDownTotal.do?part="+part;
 		});
-
 	};
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
@@ -366,7 +359,30 @@
 	};
 </script>
 </head>
-
+	<!-- 스팟생성 상세보기 모달 -->
+                        <div class="modal fade" id="myModal" tabindex="-1"
+                           role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">SPOT 생성</h4>
+                                 </div>
+                                 <form action="/insertSpot.do" name="insertSpot" id="insertSpot" method="post" onsubmit="return check()">
+	                                 <div class="modal-body" style="height: 200px; text-align:center; line-height:200px;">
+	                                    <input type="text" id="spotName" name="spotName" style="width: 200px; height: 35px; font-size: 10pt; display: inline-block;" placeholder="스팟이름" required/> 
+	                                    <input type="text" id="spotAddr" name="spotAddr" style="width: 200px; height: 35px; font-size: 10pt;"placeholder="도로명주소" readonly="readonly" required="required"/>
+										<button type="button" id="addrSearch" class="btn btn-warning px-3" style="height: 35px;">주소검색</button><br/>
+	                                 </div>
+	                                 <div class="modal-footer">
+	                                 	<span id="spotCheckStatus" style="position: absolute; left:320px;"></span>
+	                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative;">돌아가기</button>
+	                                    <button type="submit" class="btn btn-primary" id="submit">생성</button>
+	                                 </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+<!-- --------- -->
 <body id="page-top">
 
 	<!-- Page Wrapper -->
@@ -478,19 +494,11 @@
 
 			<!-- Heading -->
 			<div class="sidebar-heading">SPOT 관리</div>
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapseUtilities"
-				aria-expanded="true" aria-controls="collapseUtilities"> <i
-					class="fas fa-fw fa-folder"></i> <span>SPOT</span>
-			</a>
-				<div id="collapseUtilities" class="collapse"
-					aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">SPOT</h6>
-						<a class="collapse-item" href="#">SPOT리스트</a> <a
-							class="collapse-item" href="#">SPOT생성</a>
-					</div>
-				</div></li>
+			<li class="nav-item">
+        	<a class="nav-link" href="/adminSpotList.do?reqPage=1&selectCount=10">
+          	<i class="fas fa-fw fa-table"></i>
+          	<span>SPOT</span></a>
+      </li>
 			<hr class="sidebar-divider">
 
 			<!-- Heading -->
@@ -678,7 +686,6 @@ padding-top:3px;
 }
 
 </style>
-
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
