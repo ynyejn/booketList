@@ -3,10 +3,12 @@ package kr.or.iei.member.model.dao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.review.model.vo.Review;
 
@@ -60,6 +62,22 @@ public class MemberDao {
 
 	public List rentList(String memberId) {
 		return sql.selectList("rent.rentList", memberId);
-	}	
+	}
+	@Transactional
+	public int updatePw(Member member) throws Exception{
+		return sql.update("member.updatePw",member);
+	}
+
+
+	public Member selectIdMember(Member m) {
+		System.out.println("dao");
+		return  sql.selectOne("member.selectIdMember",m);
+	}
+
+
+	public Member selectId(Member m) {
+		
+		return sql.selectOne("member.selectId",m);
+	}
 	
 }

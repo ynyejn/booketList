@@ -1,18 +1,7 @@
 package kr.or.iei.member.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,15 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.iei.apply.model.vo.Apply;
 import kr.or.iei.mail.util.MailSend;
+import kr.or.iei.mail.util.MailSendId;
+import kr.or.iei.mail.util.MailSendPw;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.Rent;
@@ -51,16 +43,17 @@ public class MemberController {
 	
 		return "member/join";
 	}
-	@RequestMapping(value="/joinSuccess.do")
+	
+	@RequestMapping(value="/joinSuccess.do", method = RequestMethod.POST, produces="application/json;charset=utf-8")
+	@ResponseBody
 	public String joinSuccess(@RequestBody Member member) {
 		int result = service.joinSuccess(member);
-		
 		if(result>0) {
 			System.out.println("회원가입성공");
-			return "redirect:/";
+			return "1";
 		}else {
 			System.out.println("회원가입 실패");
-			return "member/join";
+			return "0";
 		}
 	}
 	@ResponseBody//값만 받을 때 사용
@@ -110,7 +103,7 @@ public class MemberController {
 		}
 	}
 	@RequestMapping(value="/mUpdate.do",method = RequestMethod.POST)
-	public String update(HttpSession session,Member m) {
+	public String update(HttpSession session,Member m) throws Exception {
 		int result = service.update(m);
 		if(result>0) {
 			session.setAttribute("member", m);
@@ -184,6 +177,56 @@ public class MemberController {
 		return "member/mypageRent";
 	}
 	
-	
-}
+	@RequestMapping(value="/findPwFrm.do")
+	public String findPwFrm() throws Exception{
+		return "/member/findPwFrm";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/findPw.do")
+	public String sendMailPw(String id,String email) throws Exception {
+		Member m = new Member();
+		System.out.println(id);
+		System.out.println(email);
+		m.setMemberId(id);
+		m.setMemberEmail(email);
+		Member member = service.selectIdMember(m);
+		if(member!=null) {
+			String mailCode = new MailSendPw().mailSendPw(m);
+			m.setMemberPw(mailCode);
+			int result = service.update(m);
+			if(result>0) {
+				
+				return mailCode;
+			}else {
+				return "없어";
+			}
+		}else{
+			return "없어";
+		}
+		
+	}
+	@RequestMapping(value="/findIdFrm.do")
+	public String findIdFrm() throws Exception{
+		return "/member/findIdFrm";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/findId.do")
+	public String sendMailId(String email,String phone) throws Exception {
+		Member m = new Member();
+		
+		m.setMemberEmail(email);
+		m.setMemberPhone(phone);
+			
+		Member member = service.selectId(m);
+		if(member!=null) {
+			member.setMemberEmail(email);
+			member.setMemberPhone(phone);
+			String mailCode = new MailSendId().mailSendId(member);
+			member.setMemberId(mailCode);
+				return mailCode;
+			}else {
+				return "없어";
+			}
+		}
+	}
 

@@ -14,12 +14,11 @@ import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookRentalStatus;
 
 import kr.or.iei.book.model.vo.BookAndRent;
-
-import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.RentApply;
 import kr.or.iei.reservation.model.vo.Reservation;
 import kr.or.iei.turn.model.vo.TurnApply;
 import kr.or.iei.complain.model.vo.Complain;
+import kr.or.iei.member.model.vo.Member;
 
 @Repository("adminDao")
 public class AdminDao {
