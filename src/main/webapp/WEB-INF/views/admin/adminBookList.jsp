@@ -99,6 +99,14 @@
 		});
 		
 		$("#selDelete").click(function(){
+			
+			if($(".checkRow").is(":checked")== false){
+				alert("도서를 선택해주세요");
+				return false;
+			}
+				
+				
+			
 			if(confirm("선택 도서를 삭제 하시겠습니까?")){
 				var checkArr = new Array();
 				var reqPages = ${reqPage };

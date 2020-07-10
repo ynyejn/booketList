@@ -82,6 +82,7 @@
 
 	function connect() {
 		ws = new WebSocket("ws://192.168.10.16/openChatting.do?memberNickname="+memberNickname+" "+title);
+
 		
 		ws.onopen = function () {
 			console.log("웹소켓 연결 생성");
