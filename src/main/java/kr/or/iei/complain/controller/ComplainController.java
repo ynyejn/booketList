@@ -48,7 +48,7 @@ public class ComplainController {
 	}
 	@RequestMapping("/complainInsert.do")
 	public String complainInsert(HttpServletRequest request,String fileName,Complain c,HttpServletResponse response) {
-		if(!fileName.equals(null)) {
+		if(!fileName.isEmpty()) {
 				try {
 					System.out.println("/"+fileName);
 					String[] filepame = fileName.split("/");

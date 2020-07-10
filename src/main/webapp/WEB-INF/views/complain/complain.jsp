@@ -19,6 +19,7 @@
 	</c:if>
 	<c:if test="${not empty complainContent  }">
 		<input type="hidden" name="complainContent" value="${complainContent }">
+		<input type="hidden" name="fileName">
 	</c:if>
 		<input type="submit" value="등록하기"><input type="button" onclick="window.close()" value="취소">
 	</form>
