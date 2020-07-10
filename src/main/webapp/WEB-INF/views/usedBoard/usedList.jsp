@@ -236,7 +236,9 @@
                     기증 및 판매를 원하는 개인은 글을 작성하신 후 판매자의 응답에 따라 기증 및 판매가 가능합니다.</div>
             </div>
             <div class="boardFrame">
-                <span onclick="location.href='/goBoardWrite.do'" style="cursor:pointer;">글작성</span>
+                <c:if test="${not empty sessionScope.member }">
+		<c:if test="${sessionScope.member.memberId != 'admin' }">
+            <span onclick="location.href='/goBoardWrite.do'" style="cursor:pointer;">글작성</span></c:if></c:if>
                 <div class="boardList">
                     <c:forEach items="${list }" var="l">
                         <div class="boardBox">

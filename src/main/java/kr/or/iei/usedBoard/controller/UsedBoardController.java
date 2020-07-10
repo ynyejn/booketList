@@ -145,7 +145,7 @@ public class UsedBoardController {
 			}		
 		}
 		int result = service.insertComment(uc,fileList,usedStatus);
-		if (result > 1) {
+		if (result > 0) {
 			System.out.println("댓글 등록성공");
 		} else {
 			System.out.println("댓글 등록실패");
