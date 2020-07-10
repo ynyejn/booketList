@@ -48,9 +48,11 @@ public class ReviewController {
 		return "review/reviewWriting";
 	}
 	@RequestMapping("/reviewInsert.do")
-	public String reviewInster(HttpServletRequest request,MultipartFile file,String type,Review review) {
-		String memberId = "user01";
+	public String reviewInster(HttpSession session,HttpServletRequest request,MultipartFile file,String type,Review review,Model model) {
+		Member m = (Member)session.getAttribute("member");
+		
 		if(!file.isEmpty()) {
+			System.out.println(review.getReviewScore()+"점수");
 			String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
 			String originalFileName = file.getOriginalFilename();
 			String onlyFilename = originalFileName.substring(0, originalFileName.lastIndexOf("."));
@@ -60,7 +62,7 @@ public class ReviewController {
 			review.setReviewFilename(onlyFilename);
 			review.setReviewFilepath("/resources/review/"+filepath);
 			review.setBookName(type);
-			ArrayList<Book> list = service.reviewSelectBook(memberId);
+			ArrayList<Book> list = service.reviewSelectBook(m.getMemberId());
 			for(Book b : list) {
 				if(b.getBookName()==type) {
 					System.out.println(b.getBookCategory());
@@ -79,14 +81,19 @@ public class ReviewController {
 					bos.write(bytes);
 					bos.close();
 					System.out.println("파일 업로드 완료");
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
+				}
+				ArrayList<Review> list2 = service.selectReview();
+				model.addAttribute("r",list2);
+				return "review/reviewList";
 			}
 		}else {
+			System.out.println(review.getReviewScore()+"점수");
 			review.setBookName(type);
-			ArrayList<Book> list = service.reviewSelectBook(memberId);
+			ArrayList<Book> list = service.reviewSelectBook(m.getMemberId());
 			for(Book b : list) {
 				if(b.getBookName()==type) {
 					System.out.println(b.getBookCategory());
@@ -99,10 +106,13 @@ public class ReviewController {
 			}
 			int result = service.reviewInsert(review);
 			if(result>0) {
+				ArrayList<Review> list2 = service.selectReview();
+				model.addAttribute("r",list2);
 				return "review/reviewList";
 			}
 		}
-		return "review/reviewList";
+		return null;
+		
 	}
 	public long getCurrentTime() {
 		Calendar today = Calendar.getInstance();

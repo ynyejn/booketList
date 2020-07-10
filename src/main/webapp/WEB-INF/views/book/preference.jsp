@@ -101,6 +101,7 @@
         	text-align : center;
 	        border: 1px solid lightgray;
 	        background-color : white;
+	        position : relative;
         }
         #spanDivSpan {
         	
@@ -177,6 +178,18 @@
          .imgSpan12 {
          	margin-left : 570px;
          	margin-top : -280px;
+         }
+         #noDataDiv {
+         	position : absolute;
+         	background-color : gray;
+         	width : 140px;
+         	height : 40px;
+         	color : white;
+         	top : 160px;
+         	left : 685px;
+         	line-height : 40px;
+         	font-size : 12px;
+         	opacity : 0.9;
          }
 
 </style>
@@ -537,6 +550,9 @@
 					<div id="chartDiv2">
 					    <div id="piechart" style="width: 450px; height: 400px; display:inline-block;"></div>
 						<div id="columnchart_values" style="width: 400px; height: 400px; display:inline-block;"></div>	
+						<c:if test="${reviewListSize == 0}">
+							<div id="noDataDiv">No Data</div>
+						</c:if>
 					</div>			
 				</c:if>
 				<c:if test="${rentListSize == 0}">
@@ -551,6 +567,9 @@
 				<div id="chartDiv2">
 				    <div id="piechart" style="width: 450px; height: 400px; display:inline-block;"></div>
 					<div id="columnchart_values" style="width: 400px; height: 400px; display:inline-block;"></div>	
+					<c:if test="${reviewListSize == 0}">
+						<div id="noDataDiv">No Data</div>
+					</c:if>
 				</div>			
 			</c:if>
 			<c:if test="${type eq 3}">
