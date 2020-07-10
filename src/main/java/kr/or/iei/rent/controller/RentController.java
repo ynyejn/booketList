@@ -201,5 +201,6 @@ public class RentController {
 		}		
 		return new Gson().toJson(list);
 	}
+
 	
 }

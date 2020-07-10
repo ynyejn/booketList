@@ -337,14 +337,16 @@
 				
 				console.log(rentCount);
 				if(rentCount > 3) {
-					var status = "left=200px, top=150px, width=980px, height=550px, menubar=no, status=no, scrollbars=no"; 
+					var status = "left=200px, top=150px, width=980px, height=550px, menubar=no, status=no, scrollbars=no, toolbar=no"; 
+					var status2 = "left=600px, top=250px, width=260px, height=320px, menubar=no, status=no, scrollbars=no, toolbar=no"; 
 					var title = "wordcloud";
+					var title2 = "pop";
 		 			window.open("/rjava/connection.do",title, status); 				
+		 			window.open("/rjava/pop.do",title2, status2); 				
 				}else{
 					$("#myBtn2").trigger('click');
-				}
-					
-			 });
+				}	
+		 });
 	});
     
 	function refresh() {
