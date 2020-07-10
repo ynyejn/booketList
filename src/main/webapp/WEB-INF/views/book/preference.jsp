@@ -336,7 +336,7 @@
 				console.log("click");
 				
 				console.log(rentCount);
-				if(rentCount > 1) {
+				if(rentCount > 3) {
 					var status = "left=200px, top=150px, width=980px, height=550px, menubar=no, status=no, scrollbars=no"; 
 					var title = "wordcloud";
 		 			window.open("/rjava/connection.do",title, status); 				
