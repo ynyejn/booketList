@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-   
       <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <!DOCTYPE html>
 <html>
@@ -9,7 +8,9 @@
 <meta charset="UTF-8">
 <title>Booket List</title>
 </head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
     <!-- google charts -->
 	   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
@@ -352,12 +353,25 @@
 			}
 		});
 	}
-	function keywordBtn() {
-/* 		location.href = "/common/NewFile.html"; */
+/* 	function keywordBtn() {
+ 		location.href = "/common/NewFile.html"; 
 		$.ajax({
 			url : '/rjava/connection.do',
 			success : function(data) {
-/* 				var styleScriptBody = data;
+				console.log(data);
+				$("#htmlText").val(data);
+				$("#wordBtn").trigger('click');
+				var url = "/rjava/word.do"; //중복체크를 처리할 Servelet Mapping 값
+				var title = "wordcloud"; //새로 열리는 창과 checkIdFrm form을 연결할 값
+ 				var status = "left=500px, top=100px, width=300px, height=200px, menubar=no, status=no, scrollbars=yes"; 
+				var popup = window.open("",title);
+				$("input[name=htmlText]").val(data);
+				$("#wordCloud").attr("action",url);
+				$("#wordCloud").attr("method","post"); //포스트
+				$("#wordCloud").attr("target",title); //새로열린 pop창과 form태그를 연결
+				$("#wordCloud").submit();
+				
+ 				var styleScriptBody = data;
 				var style = styleScriptBody.split("~구분~")[0];
 				var script = styleScriptBody.split("~구분~")[1];
 				var body = styleScriptBody.split("~구분~")[2];
@@ -369,7 +383,7 @@
 				$(".modal-content2").append(body);
 				$(".test").append(body);
 				$(".modal-content2").append(script);
-				$(".test").append(script); */
+				$(".test").append(script); 
 				if(data == "성공") {
 					
 				}else {
@@ -380,7 +394,13 @@
 			}
 		});
 	}
-	
+	 */
+	 $(function() {
+		 $("#keywordBtn").click(function () {
+			console.log("click");
+/* 			location.href = "/rjava/connection.do"; */
+		 });
+	 })
 	function searchBook(obj) {
 		console.log(obj);
 		var bookCategory = $('#input'+obj).val().split('~구분~')[0];
@@ -576,14 +596,17 @@
 			</c:otherwise>
 		</c:choose>
 	<div class="content">
-
+		<form id="wordCloud">
+			<input type="text" id="htmlText" name="htmlText">
+		</form>
 		<div id="chartDiv">
 			<div id="spanDivSpan">
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
 				${sessionScope.member.memberNickname }님의 독서 통계
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
 				<c:if test="${rentListSize > 0}">	
-					<button id="keywordBtn" onclick="keywordBtn();">워드클라우드</button>				
+<!-- 					<button id="keywordBtn" onclick="keywordBtn();">워드클라우드</button>				 -->
+					<button id="keywordBtn" type="button">워드클라우드</button>									
 				</c:if>			
 			</div>
 			<c:if test="${type eq 0}">
@@ -689,7 +712,6 @@
 		<h3>책을 대여해 데이터를 쌓아주세요 !</h3>
 	</div>
 </div>
-
 </body>
 <style>
       /* The Modal (background) */

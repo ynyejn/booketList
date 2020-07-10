@@ -15,9 +15,12 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.service.RentService;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.rosuda.REngine.REXP;
@@ -39,7 +42,7 @@ public class RjavaBean {
 	private RentService rentService;
 	
 	@ResponseBody
-	@RequestMapping(value="/connection.do", produces = "application/text; charset=utf8")
+	@RequestMapping(value="/connection.do", produces = "text/html; charset=utf8")
 	public String connection(Model model, HttpSession session) throws Exception { //예외 처리
 		Member member = (Member)session.getAttribute("member");
 		ArrayList<BookAndRent> userRentList = rentService.selectUserList(member);
@@ -82,12 +85,12 @@ public class RjavaBean {
 			REXP b7 = conn.eval("b0111 <- b0111[, c(3, 1)]");
 			REXP b8 = conn.eval("b1111 <- b0111 %>% mutate(noun=str_match(value, '([가-힣]+)/N')[,2]) %>% na.omit %>% filter(str_length(noun)>=2) %>% count(noun, sort=TRUE) %>% wordcloud2(fontFamily='Noto Sans CJK KR Bold', color='random-light')");
 			REXP b9 = conn.eval("b1111");
-			REXP b1000 = conn.eval("show(b1111)");
-//			REXP b91 = conn.eval("setwd('C:/tempTest')");
-//			REXP b10 = conn.eval("saveWidget(b1111, 'temp.html',selfcontained = F)");
-//			REXP b11 = conn.eval("htxt <- read_html(\"C:/tempTest/tmp.html\")");
-//			REXP b20 = conn.eval("tt <- coerce(htxt, 'character', strict = TRUE)");
-//			REXP b12 = conn.eval("htxt");
+//			REXP b1000 = conn.parseAndEval("show(b1111)");
+			REXP b91 = conn.eval("setwd('C:/tempTest')");
+			REXP b10 = conn.parseAndEval("saveWidget(b1111, '12344321.html',selfcontained = F)");
+			REXP b11 = conn.eval("htxt <- read_html(\"C:/tempTest/12344321.html\")");
+			REXP b20 = conn.eval("tt <- coerce(htxt, 'character', strict = TRUE)");
+			REXP b12 = conn.eval("tt");
 //			System.out.println(b20.asString());
 //			String style = "<style>" + b20.asString().split("<style>")[1].split("</style>")[0] + "</style>";
 //			String script = b20.asString().split("</style>")[1].split("</title>")[0];
@@ -100,10 +103,17 @@ public class RjavaBean {
 //			model.addAttribute("scriptTag", script);
 //			conn.close();   //필수요소. 다시 실행될 때 리로딩 됨 (끊고-실행을 반복해야 함)
 //			String styleScriptBody = style + "~구분~" + script + "~구분~" + body;
-			return "성공";
-			
+//			return new Gson().toJson(b9);
+			System.out.println(b12.asString());
+			return b12.asString();
 		}else {
 			return "none";
 		}
 	}
+	
+	@RequestMapping("/word.do")
+	public void WordCloud(HttpServletResponse response, String htmlText) throws IOException{
+		response.getWriter().print(htmlText);
+	}
+	
 }

@@ -55,8 +55,10 @@
 <!-- 테이블 부트스트랩 -->
 <script>
 var result = new Array("false", "false");
+var updateResult = new Array("success", "success");
 $("#spotAddr").val("");
 $("#spotCheckStatus").html("");
+$("#updateSpotCheckStatus").html("");
 	window.onload = function() {
 		console.log("onload");
 		var msg = '${msg }';
@@ -113,6 +115,8 @@ $("#spotCheckStatus").html("");
 												resultText += "<td class=th2>"
 														+ data.list[i].localName
 														+ "</td>";
+												resultText +="<td class='th2'><button type='button' class='btn btn-primary' data-spotNo='"+data.list[i].spotNo+"' onclick='selectOneSpot(this)' data-toggle='modal' data-target='#myModal2'>수정</button>"
+												 + "<button class='btn btn-danger' data-spotNo='"+data.list[i].spotNo+"'onclick='deleteSpot(this)'>삭제</button></td></tr>";
 											}
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
@@ -165,6 +169,8 @@ $("#spotCheckStatus").html("");
 												resultText += "<td class=th2>"
 														+ data.list[i].localName
 														+ "</td>";
+												resultText +="<td class='th2'><button type='button' class='btn btn-primary' data-spotNo='"+data.list[i].spotNo+"' onclick='selectOneSpot(this)' data-toggle='modal' data-target='#myModal2'>수정</button>"
+												 + "<button class='btn btn-danger' data-spotNo='"+data.list[i].spotNo+"'onclick='deleteSpot(this)'>삭제</button></td></tr>";
 											}
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
@@ -203,9 +209,7 @@ $("#spotCheckStatus").html("");
 			var part = "spot";
 				location.href="/excelDownTotal.do?part="+part;
 		});
-		
 	
-		
 		$("#addrSearch").click(function(){
 			new daum.Postcode({
 				oncomplete : function(data) {
@@ -250,6 +254,7 @@ $("#spotCheckStatus").html("");
 				}
 			});
 		});
+		
 	};
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
@@ -310,6 +315,8 @@ $("#spotCheckStatus").html("");
 					resultText += "<td class=th2>"
 							+ data.list[i].localName
 							+ "</td>";
+					resultText +="<td class='th2'><button type='button' class='btn btn-primary' data-spotNo='"+data.list[i].spotNo+"' onclick='selectOneSpot(this)' data-toggle='modal' data-target='#myModal2'>수정</button>"
+					 + "<button class='btn btn-danger' data-spotNo='"+data.list[i].spotNo+"'onclick='deleteSpot(this)'>삭제</button></td></tr>";
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -377,6 +384,8 @@ $("#spotCheckStatus").html("");
 					resultText += "<td class=th2>"
 							+ data.list[i].localName
 							+ "</td>";
+					resultText +="<td class='th2'><button type='button' class='btn btn-primary' data-spotNo='"+data.list[i].spotNo+"' onclick='selectOneSpot(this)' data-toggle='modal' data-target='#myModal2'>수정</button>"
+					 + "<button class='btn btn-danger' data-spotNo='"+data.list[i].spotNo+"'onclick='deleteSpot(this)'>삭제</button></td></tr>";
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -400,8 +409,18 @@ $("#spotCheckStatus").html("");
 			return true;
 		}
 	}
-	function updateSpot(obj){
+	function updateCheck(){
+		if(updateResult[0] == "false"){
+			return false;
+		}else if(updateResult[1] == "false"){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function selectOneSpot(obj){
 		var spotNo = $(obj).attr("data-spotNo");
+		console.log(spotNo);
 		$.ajax({
 			url : "/selectOneSpot.do",
 			type : "post",
@@ -409,13 +428,91 @@ $("#spotCheckStatus").html("");
 				spotNo : spotNo
 			},
 			success : function(data){
-				
+			$("#updateModalSpot").children().remove();
+			console.log(data.spotAddr);
+			
+			html = "";
+			html += "<input type='hidden' id='updateSpotNo' name='spotNo' value='"+data.spotNo+"'/>";
+			html += "<input type='text' id='updateSpotName' onkeyup='updateSpotNameChecked()' name='spotName' style='width: 200px; height: 35px; font-size: 10pt; display: inline-block;' data-spotName='"+data.spotName+"' value='"+data.spotName+"' required/>";
+			html += "<input type='text' id='updateSpotAddr' onchange='updateSpotAddrNull()' name='spotAddr' style='width: 200px; height: 35px; font-size: 10pt;'value='"+data.spotAddr+"' readonly='readonly' required='required'/>";
+			html += "<button type='button' onclick='updateAddrSearch()' class='btn btn-warning px-3' style='height: 35px;'>주소검색</button>";
+			$("#updateModalSpot").append(html);
 			},
 			error : function(){
 				
 			}
 		});
 	}
+	function updateAddrSearch(){
+		new daum.Postcode({
+			oncomplete : function(data) {
+				$("#updateSpotAddr").val(data.roadAddress);
+				updateResult[1] = "success";
+				console.log(updateResult);
+			},
+		}).open();
+	}
+	function deleteSpot(obj){
+		var spotNo = $(obj).attr("data-spotNo");
+		var result = confirm("삭제하시겠습니까?");
+		if(result){
+			location.href = "/deleteSpot.do?spotNo="+spotNo
+		}else{
+			
+		}
+	}
+	function updateSpotNameChecked(){
+		var dataSpotName = $("#updateSpotName").attr("data-spotName");
+		console.log(dataSpotName);
+		var spotName = $("#updateSpotName").val();
+		$.ajax({
+			url : "/updateSpotNameChecked.do",
+			type : "post",
+			data : {
+				spotName : spotName,
+				dataSpotName : dataSpotName
+			},
+			success : function(data){
+				if(data=="1"){
+					$("#updateSpotCheckStatus").css("color","red");
+					$("#updateSpotCheckStatus").html("스팟이름이 중복입니다.");
+					updateResult[0] = "false";
+					console.log(updateResult);
+				}else if(data=="2"){
+					$("#updateSpotCheckStatus").css("color","green");
+					$("#updateSpotCheckStatus").html("원래 스팟이름입니다.");
+					updateResult[0] = "success";
+					console.log(updateResult);
+				}else{
+					$("#updateSpotCheckStatus").css("color","green");
+					$("#updateSpotCheckStatus").html("사용할 수 있는 스팟이름입니다.");
+					updateResult[0] = "success";
+					console.log(updateResult);
+					
+				}
+			},
+			error : function(data){	
+			}
+		});
+	}
+	function updateSpotAddrNull(){
+		if($("#updateSpotAddr").val()==''){
+			updateResult[1] = "false";
+			console.log(updateResult);
+		}else{
+			updateResult[1] = "success";
+			console.log(updateResult);
+		}
+	}
+// 	$("#updateSpotAddr").change(function(){
+// 		if($(this).val()==''){
+// 			updateResult[1] = "false";
+// 			console.log(updateResult);
+// 		}else{
+// 			updateResult[1] = "success";
+// 			console.log(updateResult);
+// 		}
+// 	});
 </script>
 </head>
 
@@ -805,7 +902,7 @@ padding-top:3px;
 																<td class="th2">${l.spotAddr }</td>
 																<td class="th2">${l.localName }</td>
 																<td class="th2">
-																<button class="btn btn-primary" data-spotNo="${l.spotNo }" data-toggle="modal" data-target="#myModal2" onclick="updateSpot(this)">수정</button>
+																<button type="button" class="btn btn-primary" data-spotNo="${l.spotNo }" onclick="selectOneSpot(this)" data-toggle="modal" data-target="#myModal2">수정</button>
 																<button class="btn btn-danger" data-spotNo="${l.spotNo }" onclick="deleteSpot(this)">삭제</button></td>
 															</tr>
 														</c:forEach>
@@ -853,16 +950,14 @@ padding-top:3px;
                            <div class="modal-dialog modal-lg">
                               <div class="modal-content">
                                  <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">SPOT 생성</h4>
+                                    <h4 class="modal-title" id="myModalLabel">SPOT 수정</h4>
                                  </div>
-                                 <form action="/updateSpot.do" name="updateSpot" id="updateSpot" method="post" onsubmit="return check()">
-	                                 <div class="modal-body" style="height: 200px; text-align:center; line-height:200px;">
-	                                    <input type="text" id="spotName" name="spotName" style="width: 200px; height: 35px; font-size: 10pt; display: inline-block;" placeholder="스팟이름" required/> 
-	                                    <input type="text" id="spotAddr" name="spotAddr" style="width: 200px; height: 35px; font-size: 10pt;"placeholder="도로명주소" readonly="readonly" required="required"/>
-										<button type="button" id="addrSearch" class="btn btn-warning px-3" style="height: 35px;">주소검색</button><br/>
+                                 <form action="/updateSpot.do" name="updateSpot" id="updateSpot" method="post" onsubmit="return updateCheck()">
+	                                 <div class="modal-body" id="updateModalSpot" style="height: 200px; text-align:center; line-height:200px;">
+	                                    
 	                                 </div>
 	                                 <div class="modal-footer">
-	                                 	<span id="spotCheckStatus" style="position: absolute; left:320px;"></span>
+	                                 	<span id="updateSpotCheckStatus" style="position: absolute; left:320px;"></span>
 	                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative;">돌아가기</button>
 	                                    <button type="submit" class="btn btn-primary" id="submit">수정</button>
 	                                 </div>

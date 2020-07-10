@@ -399,6 +399,18 @@ public class AdminDao {
 		return sqlSession.selectList("spot.excelSpotListTotal");
 	}
 
+	public Spot selectOneSpot(int spotNo) {
+		return sqlSession.selectOne("spot.selectOneSpot",spotNo);
+	}
+
+	public int deleteSpot(int spotNo) {
+		return sqlSession.delete("spot.deleteSpot",spotNo);
+	}
+
+	public int updateSpot(HashMap<String, Object> map) {
+		return sqlSession.update("spot.updateSpot",map);
+	}
+
 	 
 
 
