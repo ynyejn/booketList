@@ -25,4 +25,36 @@
 	</form>
 
 </body>
+<script type="text/javascript">
+var ws;
+var memberId = '${sessionScope.member.memberId }'; 
+function connect(){
+	ws = new WebSocket("ws://192.168.10.16/adminMsg.do");
+	ws.onopen = function(){
+		console.log("웹소켓 연결 생성");
+		var msg = {
+				type : "output"
+		};
+		ws.send(JSON.stringify(msg));
+	};
+	ws.onmessage = function(e){
+		
+		
+	
+	};
+	ws.onclose = function(){
+		console.log("연결종료");
+	};
+}
+$(function() {
+	connect();
+	$("from").submit(function () {
+		var msg = {
+			type : "complainAlarmClick"
+			
+		}
+		ws.send(JSON.stringify(msg));
+	})
+})
+</script>
 </html>
