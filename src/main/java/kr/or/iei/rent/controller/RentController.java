@@ -108,10 +108,13 @@ public class RentController {
 			ArrayList<Cart> cartList = new ArrayList<Cart>();
 			for(int i=0; i<param.length; i++) {
 				Cart c = new Cart();
+				System.out.println(param[i]);
 				c.setBookName(param[i].split("~구분~")[0]);
 				c.setBookWriter(param[i].split("~구분~")[1]);
-				c.setBookPublisher(param[i].split("~구분~")[2]);
-				System.out.println();
+				c.setBookPublisher(param[i].split("~구분~")[2]);					
+				System.out.println(c.getBookName());
+				System.out.println(c.getBookWriter());
+				System.out.println(c.getBookPublisher());
 				cartList.add(c);
 			}
 			ArrayList<Integer> bookNoList = new ArrayList<Integer>();
