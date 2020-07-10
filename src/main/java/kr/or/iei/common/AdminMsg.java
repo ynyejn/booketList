@@ -42,9 +42,9 @@ public class AdminMsg extends TextWebSocketHandler{
 		String type = element.getAsJsonObject().get("type").getAsString();
 		System.out.println("타입입니다. :"+type);
 		if(type.equals("lostBookAlarmCount")) {
-			int data = element.getAsJsonObject().get("count").getAsInt();
+			int data = element.getAsJsonObject().get("data").getAsInt();
 			System.out.println("왜 안되지 : "+data);
-			int result = dao.updateAlarm(data); //책 분실신고 들어오면 lostbook_count + data, total_count + 1
+			int result = dao.updateAlarm(data); //책 분실신고 들어오면 lostbook_count + data, total_count + data
 			Alarm total = dao.selectTotalCount();  
 			String a = new Gson().toJson(total);
 			System.out.println(a);
@@ -87,7 +87,6 @@ public class AdminMsg extends TextWebSocketHandler{
 			Alarm total = dao.selectTotalCount(); //전체출력
 			System.out.println("totalCount : "+ total);
 			session.sendMessage(new TextMessage(new Gson().toJson(total))); //보내줌
-			
 		}
 		
 	}
