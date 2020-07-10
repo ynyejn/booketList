@@ -110,11 +110,12 @@ public class UsedBoardController {
 	}
 
 	@RequestMapping("/usedCommentInsert.do")
-	public String usedCommentInsert(HttpServletRequest request, MultipartFile files[], UsedComment uc)
+	public String usedCommentInsert(HttpServletRequest request, MultipartFile files[], UsedComment uc, int usedStatus)
 			throws ServletException, IOException {
 		// 업로드경로잡으려고 HttpServletRequest객체
 		// 우리가올린파일 MultipartFile, 나머지 notice
 		System.out.println(files.length);
+	
 		ArrayList<UsedFiles> fileList = new ArrayList<UsedFiles>();
 		// 배열로 들어옴, 들어있지않으면
 		for(int i=0; i<files.length;i++) {
@@ -143,7 +144,7 @@ public class UsedBoardController {
 				}
 			}		
 		}
-		int result = service.insertComment(uc,fileList);
+		int result = service.insertComment(uc,fileList,usedStatus);
 		if (result > 1) {
 			System.out.println("댓글 등록성공");
 		} else {

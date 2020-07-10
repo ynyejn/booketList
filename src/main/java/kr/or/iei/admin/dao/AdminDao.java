@@ -14,13 +14,12 @@ import kr.or.iei.book.model.vo.Book;
 import kr.or.iei.book.model.vo.BookRentalStatus;
 
 import kr.or.iei.book.model.vo.BookAndRent;
-
-import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.RentApply;
 import kr.or.iei.reservation.model.vo.Reservation;
 import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.turn.model.vo.TurnApply;
 import kr.or.iei.complain.model.vo.Complain;
+import kr.or.iei.member.model.vo.Member;
 
 @Repository("adminDao")
 public class AdminDao {
@@ -398,6 +397,18 @@ public class AdminDao {
 
 	public List excelSpotListTotal() {
 		return sqlSession.selectList("spot.excelSpotListTotal");
+	}
+
+	public Spot selectOneSpot(int spotNo) {
+		return sqlSession.selectOne("spot.selectOneSpot",spotNo);
+	}
+
+	public int deleteSpot(int spotNo) {
+		return sqlSession.delete("spot.deleteSpot",spotNo);
+	}
+
+	public int updateSpot(HashMap<String, Object> map) {
+		return sqlSession.update("spot.updateSpot",map);
 	}
 
 	 

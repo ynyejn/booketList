@@ -42,9 +42,10 @@ td {
 					<h2 class="my-4">마이페이지</h2>
 					<div class="list-group">
 						<a href="/member/mypage.do" class="list-group-item active">내 정보 수정</a> 
-						<a href="/member/mypageRentFrm.do"class="list-group-item">도서 목록</a> 
+						<a href="/member/mypageRentFrm.do"class="list-group-item">도서 대여 목록</a> 
 						<a href="/member/mypageReservationFrm.do"class="list-group-item">도서 예약신청목록</a>
-						<a href="/member/mypageApplyFrm.do"class="list-group-item">도서 입고신청</a>  
+						<a href="/member/mypageApplyFrm.do"class="list-group-item">도서 입고신청</a> 
+						<a href="/member/mypageLostBookFrm.do" class="list-group-item">도서 분실 신고</a> 
 						<a href="/member/mypageReviewFrm.do" class="list-group-item">내가 작성한 후기</a>
 					</div>
 				</div>
@@ -57,8 +58,12 @@ td {
 						<div class="card-body">
 							<h3 class="card-title">내정보 수정</h3>
 							<form action="/member/mUpdate.do" method="post">
-								아이디 : <input type="text" name="memberId"
-									value="${sessionScope.member.memberId }" readonly><br>
+							<div class="form-group">
+						<label for="id">아이디</label> 
+						<input type="text"class="form-control" id="memberId" 
+						name="memberId"value="${sessionScope.member.memberId }" readonly>
+							</div>
+								
 								이름 : <input type="text" name="memberName"
 									value="${sessionScope.member.memberName }"><br>
 								닉네임 : <input type="text" name="memberNickname"

@@ -62,4 +62,13 @@ public class UsedBoardDao {
 	public List selectComment(int usedNo) {
 		return sqlSession.selectList("usedBoard.selectComment",usedNo);
 	}
+
+	public List selectFiles(int commentNo) {
+		return sqlSession.selectList("usedBoard.selectFiles",commentNo);
+	}
+
+	public int updateUsedStatus(UsedBoard ub) {
+		return sqlSession.update("usedBoard.updateUsedStatus",ub);
+		
+	}
 }

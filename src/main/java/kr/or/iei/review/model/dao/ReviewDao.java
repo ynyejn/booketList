@@ -6,9 +6,10 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import kr.or.iei.member.model.vo.Member;
+
 import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.review.model.vo.Review;
 
 @Repository("reviewDao")

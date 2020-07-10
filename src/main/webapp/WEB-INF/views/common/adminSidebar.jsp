@@ -46,7 +46,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.16/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -60,16 +60,16 @@
 				$("#lostAlarm").html("");
 				$("#complainAlarm").html("");
 			}else{
-				$("#alarmss").html(JSON.parse(e.data).totalCount);
+				$("#alarmss").html(JSON.parse(e.data).totalCount+"+");
 				if(JSON.parse(e.data).lostbookCount == 0){
 					$("#lostAlarm").html("");
-					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount);
 				}else if(JSON.parse(e.data).complainCount == 0){
-					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
 					$("#complainAlarm").html("");
 				}else{
-					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
-					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount);
 				}
 			}
 			/* $("#alarmss").html(JSON.parse(e.data).totalCount);
@@ -319,7 +319,7 @@
                     <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a if="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
+                <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
