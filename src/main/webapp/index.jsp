@@ -68,7 +68,7 @@ height:500px;
 .main>div {
 	width: 800px;
 	margin: 0 auto;
-	text-align: right;
+	text-align: left;
 }
 
 .main>div>img {
