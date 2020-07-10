@@ -808,7 +808,13 @@ $("#updateSpotCheckStatus").html("");
 	float: left;
 }
 #excelDownLoadTotal {
+	margin-top: 20px;
 	float: left;
+	position : relative;
+}
+.pagination{
+	position : absolute;
+	left : 500px;
 }
 #tbody button{
 width:50px;
@@ -816,14 +822,25 @@ height:20px;
 font-size:8pt;
 padding-top:3px;
 }
+#modalBtn{
+	width : 100px;
+	height : 30px;
+	font-size : 14px;
+	color : white;
+	background-color: #666;
+	line-height: 21px;
+	float : right;
+	margin:10px 0;
+	margin-right : 50px;
+}
 
 </style>
 
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
-						<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">List</h4>
+						<div class="card-header" id="card-header" style="padding:0px;">
+							<button class="btn btn" data-toggle="modal" data-target="#myModal" id="modalBtn">스팟 생성</button>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -902,24 +919,21 @@ padding-top:3px;
 																<td class="th2">${l.spotAddr }</td>
 																<td class="th2">${l.localName }</td>
 																<td class="th2">
-																<button type="button" class="btn btn-primary" data-spotNo="${l.spotNo }" onclick="selectOneSpot(this)" data-toggle="modal" data-target="#myModal2">수정</button>
-																<button class="btn btn-danger" data-spotNo="${l.spotNo }" onclick="deleteSpot(this)">삭제</button></td>
+																<button type="button" class="btn btn-primary" data-spotNo="${l.spotNo }" onclick="selectOneSpot(this)" data-toggle="modal" data-target="#myModal2" style="border:none; background-color:#00a3e0;">수정</button>
+																<button class="btn btn-danger" data-spotNo="${l.spotNo }" onclick="deleteSpot(this)" style="background-color:#FA6556; border:none;">삭제</button></td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 												
-												<nav id="footNav2" style="text-align: center;">
-													<button class="btn btn-primary" id="excelDownLoad">엑셀
-														다운로드</button>
+												<nav id="footNav2">
+													<button class="btn btn-primary" id="excelDownLoad">선택 항복 엑셀</button>
+													<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀</button>
 													<ul class="pagination">${pageNavi }</ul>
 													<div id="sel" style="float: right; margin-top: 20px;">
 														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 													</div>
 												</nav>
-												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
-														다운로드</button>
-												<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">스팟 생성</button>
 	<!-- 스팟생성 모달 -->
                         <div class="modal fade" id="myModal" tabindex="-1"
                            role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
