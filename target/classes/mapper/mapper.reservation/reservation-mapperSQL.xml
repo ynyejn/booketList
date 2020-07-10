@@ -103,4 +103,18 @@
          where member_id=#{_parameter}
 		
 	</select>
+	<select id="selectExcelReservationList" parameterType="_int" resultType="reservation">
+		select reserve_no as reserveNo, member_id as memberId, book_name as bookName, book_publisher as bookPublisher
+		,book_writer as bookWriter
+		,reserve_date as reserveDate
+		,book_category as bookCategory
+		from reservation where reserve_no = #{reserveNo}
+	</select>
+	<select id="excelReservationListTotal" resultType="reservation">
+		select reserve_no as reserveNo, member_id as memberId, book_name as bookName, book_publisher as bookPublisher
+		,book_writer as bookWriter
+		,reserve_date as reserveDate
+		,book_category as bookCategory
+		from reservation
+	</select>
 </mapper>

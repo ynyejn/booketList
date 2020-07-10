@@ -35,6 +35,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.reservation.model.vo.Reservation;
 import kr.or.iei.review.model.vo.Review;
+import kr.or.iei.usedBoard.model.vo.UsedComment;
 
 @Controller
 @RequestMapping("/member")
@@ -183,7 +184,10 @@ public class MemberController {
 		model.addAttribute("list", rentList);
 		return "member/mypageRent";
 	}
-	
+	@RequestMapping("/usedCommentInsert.do")
+	public String usedCommentInsert(UsedComment uc) {
+		return null;
+	}
 	
 }
 

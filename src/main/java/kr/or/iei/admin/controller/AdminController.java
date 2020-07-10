@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,9 @@ import kr.or.iei.rent.model.vo.RentDateCount;
 import kr.or.iei.reservation.model.vo.Reservation;
 import kr.or.iei.reservation.model.vo.ReservationPage;
 import kr.or.iei.reservation.model.vo.ReservationSearchPage;
+import kr.or.iei.spot.model.vo.Spot;
+import kr.or.iei.spot.model.vo.SpotPageData;
+import kr.or.iei.spot.model.vo.SpotSearchPage;
 import kr.or.iei.turn.model.vo.BookTurnApplyPage;
 import kr.or.iei.turn.model.vo.BookTurnApplySearchPage;
 import kr.or.iei.turn.model.vo.TurnApply;
@@ -69,10 +74,6 @@ public class AdminController {
 	@Autowired
 	private JavaMailSender mailSender; 
 	
-	@RequestMapping(value="/login.do")
-	public String loginFrm() {
-		return "admin/loginFrm";
-	}
 	
 	@RequestMapping(value="/userLostBook.do")
 	public String userLostBook(HttpSession session,Model model) {
@@ -95,21 +96,6 @@ public class AdminController {
 			return result2;
 		}
 		return 0;
-	}
-	
-	@RequestMapping(value="/logins.do")
-	public String login(String id, String pass, HttpSession session) {
-		Member m = new Member();
-		m.setMemberId(id);
-		m.setMemberPw(pass);
-		Member member = service.login(m);
-		if(member==null) {
-			return "admin/loginFrm";
-		}else {
-			session.setAttribute("member", member);
-			return "redirect:/";
-		}
-		
 	}
 	
 	@RequestMapping(value="/adminPage.do")
@@ -155,6 +141,7 @@ public class AdminController {
 		model.addAttribute("sumBooks", bookStatus.size());
 		model.addAttribute("rentDateCountList", new Gson().toJson(rentDateCountList));
 		model.addAttribute("rentAndCountList", new Gson().toJson(rentAndCountList));
+
 		
 		return "/admin/adminPage";
 	}
@@ -391,8 +378,10 @@ public class AdminController {
 		String[] params = request.getParameterValues("chBox");
 		model.addAttribute("reqPage", reqPage);
 		int result = service.cancelLostBookList(params); // book_status 5에서 0 으로
+		System.out.println(result);
 		if(result>0) {
 			int result2 = service.cancelLostBookList2(params); // rent table의 반납일자와 상태를 반납완료로 바꿈
+			System.out.println(result2);
 			return result2;
 		}
 		
@@ -972,10 +961,8 @@ public class AdminController {
 			}else {
 				return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10&msg=2";
 			}
-		}
-			
-			
-		}
+		}		
+	}
 		@RequestMapping(value = "/excelRentApplyDown.do")
 		public void excelRentApplyDown(HttpServletResponse response,int[]checkArr) throws Exception {
 		    ArrayList<RentApply> list = new ArrayList<RentApply>();
@@ -1217,6 +1204,10 @@ public class AdminController {
 		    ArrayList<RentApply> rentApplySelList = new ArrayList<RentApply>();
 			ArrayList<TurnApply> turnList = new ArrayList<TurnApply>();
 		    ArrayList<TurnApply> turnSelList = new ArrayList<TurnApply>();
+		    ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
+		    ArrayList<Reservation> reservationSelList = new ArrayList<Reservation>();
+		    ArrayList<Spot> spotList = new ArrayList<Spot>();
+		    ArrayList<Spot> spotSelList = new ArrayList<Spot>();
 		    System.out.println("컨트롤러");
 		    if(part.equals("member")) {
 		    	memberSelList=(ArrayList<Member>)service.excelMemberListTotal();
@@ -1312,6 +1303,43 @@ public class AdminController {
 		    	excelTurnApplyList.setTurnapplyDate(excelTurnApplyDate);
 		    	turnList.add(excelTurnApplyList);
 		    	System.out.println(turnList.size());
+		    	}
+		    }else if(part.equals("reservation")) {
+		    	reservationSelList=(ArrayList<Reservation>)service.excelReservationListTotal();
+		    	for(int i=0;i<reservationSelList.size();i++) {
+		    	int excelReserveNo = reservationSelList.get(i).getReserveNo();
+		    	String excelMemberId = reservationSelList.get(i).getMemberId();
+		    	String excelBookName = reservationSelList.get(i).getBookName();
+		    	String excelBookWriter = reservationSelList.get(i).getBookWriter();
+		    	String excelBookPublisher = reservationSelList.get(i).getBookPublisher();
+		    	Date excelReserveDate = reservationSelList.get(i).getReserveDate();
+		    	String excelBookCategory = reservationSelList.get(i).getBookCategory();
+		    	
+		    	Reservation excelReservationList = new Reservation();
+		    	excelReservationList.setReserveNo(excelReserveNo);
+		    	excelReservationList.setMemberId(excelMemberId);
+		    	excelReservationList.setBookName(excelBookName);
+		    	excelReservationList.setBookWriter(excelBookWriter);
+		    	excelReservationList.setBookPublisher(excelBookPublisher);
+		    	excelReservationList.setReserveDate(excelReserveDate);
+		    	excelReservationList.setBookCategory(excelBookCategory);
+		    	reservationList.add(excelReservationList);
+		    	System.out.println(reservationList.size());
+		    	}
+		    }else if(part.equals("spot")) {
+		    	spotSelList=(ArrayList<Spot>)service.excelSpotListTotal();
+		    	for(int i=0;i<spotSelList.size();i++) {
+		    	int excelReserveNo = spotSelList.get(i).getSpotNo();
+		    	String excelSpotName = spotSelList.get(i).getSpotName();
+		    	String excelSpotAddr = spotSelList.get(i).getSpotAddr();
+		    	String excelLocalName = spotSelList.get(i).getLocalName();
+		    	
+		    	Spot excelSpotList = new Spot();
+		    	excelSpotList.setSpotNo(excelReserveNo);
+		    	excelSpotList.setSpotName(excelSpotName);
+		    	excelSpotList.setSpotAddr(excelSpotAddr);
+		    	excelSpotList.setLocalName(excelLocalName);
+		    	spotList.add(excelSpotList);
 		    	}
 		    }
 		    // 워크북 생성
@@ -1587,6 +1615,94 @@ public class AdminController {
 		        
 
 		    	}
+		    }else if(part.equals("reservation")) {
+		    	 row = sheet.createRow(rowNo++);
+				    cell = row.createCell(0);
+				    cell.setCellStyle(headStyle);
+				    cell.setCellValue("예약 번호");
+				    
+				    cell = row.createCell(1);
+				    cell.setCellStyle(headStyle);
+				    cell.setCellValue("아이디");
+				    
+				    cell = row.createCell(2);
+				    cell.setCellStyle(headStyle);
+				    cell.setCellValue("도서 제목");
+				    
+				    cell = row.createCell(3);
+				    cell.setCellStyle(headStyle);
+				    cell.setCellValue("도서 작가");
+				    
+				    cell = row.createCell(4);
+				    cell.setCellStyle(headStyle);
+				    cell.setCellValue("예약 신청 날짜");
+
+				    
+				    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+				    // 데이터 부분 생성
+				    for(Reservation vo : reservationList) {
+				        row = sheet.createRow(rowNo++);
+				        cell = row.createCell(0);
+				        cell.setCellStyle(bodyStyle);
+				        cell.setCellValue(vo.getReserveNo());
+				        
+				        cell = row.createCell(1);
+				        cell.setCellStyle(bodyStyle);
+				        cell.setCellValue(vo.getMemberId());
+				        
+				        cell = row.createCell(2);
+				        cell.setCellStyle(bodyStyle);
+				        cell.setCellValue(vo.getBookName());
+				        
+				        cell = row.createCell(3);
+				        cell.setCellStyle(bodyStyle);
+				        cell.setCellValue(vo.getBookWriter());
+				        
+				        String strReserveDate = sdFormat.format(vo.getReserveDate());
+				        cell = row.createCell(4);
+				        cell.setCellStyle(bodyStyle);
+				        cell.setCellValue(strReserveDate);
+				        
+				    }
+		    }else if(part.equals("spot")) {
+		    	row = sheet.createRow(rowNo++);
+			    cell = row.createCell(0);
+			    cell.setCellStyle(headStyle);
+			    cell.setCellValue("스팟 번호");
+			    
+			    cell = row.createCell(1);
+			    cell.setCellStyle(headStyle);
+			    cell.setCellValue("스팟명");
+			    
+			    cell = row.createCell(2);
+			    cell.setCellStyle(headStyle);
+			    cell.setCellValue("도로명 주소");
+			    
+			    cell = row.createCell(3);
+			    cell.setCellStyle(headStyle);
+			    cell.setCellValue("지역명");
+
+			    // 데이터 부분 생성
+			    for(Spot vo : spotList) {
+			        row = sheet.createRow(rowNo++);
+			        cell = row.createCell(0);
+			        cell.setCellStyle(bodyStyle);
+			        cell.setCellValue(vo.getSpotNo());
+			        
+			        cell = row.createCell(1);
+			        cell.setCellStyle(bodyStyle);
+			        cell.setCellValue(vo.getSpotName());
+			        
+			        cell = row.createCell(2);
+			        cell.setCellStyle(bodyStyle);
+			        cell.setCellValue(vo.getSpotAddr());
+			        
+			        cell = row.createCell(3);
+			        cell.setCellStyle(bodyStyle);
+			        cell.setCellValue(vo.getLocalName());
+			        
+			        
+			    }
 		    }
 		    response.setContentType("application/vnd.ms-excel");
 
@@ -1637,11 +1753,289 @@ public class AdminController {
 			return new Gson().toJson(rsp);
 		
 
-//			return "redirect:/adminBookTurnApplyList.do?reqPage=1&selectCount=10";
-
 		}
 		
+		@RequestMapping(value = "/excelReservationDown.do")
+		public void excelReservationDown(HttpServletResponse response,int[]checkArr) throws Exception {
+		    ArrayList<Reservation> list = new ArrayList<Reservation>();
+		    ArrayList<Reservation> selList = new ArrayList<Reservation>();
+		    System.out.println("컨트롤러");
+		    for(int reserveNo : checkArr) {
+		    	// 게시판 목록조회
+		    	selList=(ArrayList<Reservation>)service.selectExcelReservationList(reserveNo);
+		    	int excelReserveNo = selList.get(0).getReserveNo();
+		    	String excelMemberId = selList.get(0).getMemberId();
+		    	String excelBookName = selList.get(0).getBookName();
+		    	String excelBookWriter = selList.get(0).getBookWriter();
+		    	String excelBookPublisher = selList.get(0).getBookPublisher();
+		    	Date excelReserveDate = selList.get(0).getReserveDate();
+		    	String excelBookCategory = selList.get(0).getBookCategory();
+		    	
+		    	
+		    	Reservation excelReservationList = new Reservation();
+		    	excelReservationList.setReserveNo(excelReserveNo);
+		    	excelReservationList.setMemberId(excelMemberId);
+		    	excelReservationList.setBookName(excelBookName);
+		    	excelReservationList.setBookWriter(excelBookWriter);
+		    	excelReservationList.setBookPublisher(excelBookPublisher);
+		    	excelReservationList.setReserveDate(excelReserveDate);
+		    	excelReservationList.setBookCategory(excelBookCategory);
+		    	list.add(excelReservationList);
+		    }
+		    System.out.println(list.size());
+		    // 워크북 생성
+		    Workbook wb = new HSSFWorkbook();
+		    Sheet sheet = wb.createSheet("게시판");
+		    Row row = null;
+		    Cell cell = null;
+		    int rowNo = 0;
+		    // 테이블 헤더용 스타일
+		    CellStyle headStyle = wb.createCellStyle();
+		    // 가는 경계선을 가집니다.
+		    headStyle.setBorderTop(BorderStyle.THIN);
+		    headStyle.setBorderBottom(BorderStyle.THIN);
+		    headStyle.setBorderLeft(BorderStyle.THIN);
+		    headStyle.setBorderRight(BorderStyle.THIN);
+		    // 배경색은 노란색입니다.
+		    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+		    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		    // 데이터는 가운데 정렬합니다.
+		    headStyle.setAlignment(HorizontalAlignment.CENTER);
+		    // 데이터용 경계 스타일 테두리만 지정
+		    CellStyle bodyStyle = wb.createCellStyle();
+		    bodyStyle.setBorderTop(BorderStyle.THIN);
+		    bodyStyle.setBorderBottom(BorderStyle.THIN);
+		    bodyStyle.setBorderLeft(BorderStyle.THIN);
+		    bodyStyle.setBorderRight(BorderStyle.THIN);
+		    // 헤더 생성
+		    row = sheet.createRow(rowNo++);
+		    cell = row.createCell(0);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("예약 번호");
+		    
+		    cell = row.createCell(1);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("아이디");
+		    
+		    cell = row.createCell(2);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("도서 제목");
+		    
+		    cell = row.createCell(3);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("도서 작가");
+		    
+		    cell = row.createCell(4);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("예약 신청 날짜");
 
+		    
+		    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+		    // 데이터 부분 생성
+		    for(Reservation vo : list) {
+		        row = sheet.createRow(rowNo++);
+		        cell = row.createCell(0);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getReserveNo());
+		        
+		        cell = row.createCell(1);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getMemberId());
+		        
+		        cell = row.createCell(2);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getBookName());
+		        
+		        cell = row.createCell(3);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getBookWriter());
+		        
+		        String strReserveDate = sdFormat.format(vo.getReserveDate());
+		        cell = row.createCell(4);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(strReserveDate);
+		        
+		    }
+		    response.setContentType("application/vnd.ms-excel");
+
+		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    // 엑셀 출력
+		    wb.write(response.getOutputStream());
+		    wb.close();
+		    
+		}
+		@ResponseBody
+		@RequestMapping(value="/spotNameChecked.do",produces = "application/text;charset=utf-8")
+		public String spotNameChecked(HttpServletRequest request) {
+			String spotName = request.getParameter("spotName");
+			Spot spot = service.spotNameChecked(spotName);
+			if(spot != null) {
+				return "1";
+			}else {
+				return "0";
+			}
+		}
+		@RequestMapping(value="/insertSpot.do")
+		public String insertSpot(HttpServletRequest request) {
+			String spotName = request.getParameter("spotName");
+			String spotAddr = request.getParameter("spotAddr");
+			System.out.println(spotAddr);
+			StringTokenizer str = new StringTokenizer(spotAddr, " ");
+			String arr[] = new String[str.countTokens()];
+			int i = 0;
+			while (str.hasMoreTokens()) {
+				arr[i] = str.nextToken();
+				i++;
+			}
+			String localName = arr[1];
+			System.out.println(localName);
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("spotName", spotName);
+			map.put("spotAddr",spotAddr);
+			map.put("localName",localName);
+			int result = service.insertSpot(map);
+			if(result>0) {
+				System.out.println("성공");
+				return "redirect:/adminPage.do";
+			}else {
+				System.out.println("실패");
+				return "redirect:/adminPage.do";
+			}
+			
+		}
+		@RequestMapping(value="/adminSpotList.do")
+		public String adminSpotList(Model model, int reqPage, int selectCount){
+			SpotPageData spd= service.adminSpotList(reqPage,selectCount);
+			
+			model.addAttribute("list",spd.getList());
+			model.addAttribute("pageNavi",spd.getPageNavi());
+			model.addAttribute("reqPage",reqPage);
+			model.addAttribute("selectCount",selectCount);
+			return "admin/adminSpotList";
+		}
+		
+		@ResponseBody
+		@RequestMapping(value="/spotSearchList.do", produces="application/json;charset=utf-8")
+		public String spotSearchList(HttpServletRequest request) {
+			int aReqPage = (Integer.parseInt(request.getParameter("reqPage")));
+			System.out.println("페이징 reqPage : "+aReqPage);
+			String selectColumn = request.getParameter("selectColumn");
+			String search = request.getParameter("search");
+			int selectCount = Integer.parseInt(request.getParameter("selectCount"));
+			System.out.println("선택한 컬럼 : "+selectColumn);
+			System.out.println("찾고자 하는 검색어 : "+search);
+			String alignTitle  = request.getParameter("alignTitle");
+			String alignStatus = request.getParameter("alignStatus");
+			System.out.println("선택한 배열 제목 : "+alignTitle);
+			System.out.println("선택한 배열 상태 : "+alignStatus);
+			SpotPageData spd = service.spotSearchList(selectColumn,search,aReqPage,selectCount,alignTitle,alignStatus);
+			
+			ArrayList<Spot> list = spd.getList();
+			String pageNavi = spd.getPageNavi();
+			System.out.println("pageNavi : "+pageNavi);
+			SpotSearchPage ssp = new SpotSearchPage(list, pageNavi, aReqPage,selectCount);
+			return new Gson().toJson(ssp);
+		}
+		@RequestMapping(value = "/excelSpotListDown.do")
+		public void excelSpotListDown(HttpServletResponse response,int[]checkArr) throws Exception {
+		    ArrayList<Spot> list = new ArrayList<Spot>();
+		    ArrayList<Spot> selList = new ArrayList<Spot>();
+		    System.out.println("컨트롤러");
+		    for(int spotNo : checkArr) {
+		    	// 게시판 목록조회
+		    	selList=(ArrayList<Spot>)service.excelSpotListDown(spotNo);
+		    	int excelReserveNo = selList.get(0).getSpotNo();
+		    	String excelSpotName = selList.get(0).getSpotName();
+		    	String excelSpotAddr = selList.get(0).getSpotAddr();
+		    	String excelLocalName = selList.get(0).getLocalName();
+		    	
+		    	Spot excelSpotList = new Spot();
+		    	excelSpotList.setSpotNo(excelReserveNo);
+		    	excelSpotList.setSpotName(excelSpotName);
+		    	excelSpotList.setSpotAddr(excelSpotAddr);
+		    	excelSpotList.setLocalName(excelLocalName);
+		    	list.add(excelSpotList);
+		    }
+		    System.out.println(list.size());
+		    // 워크북 생성
+		    Workbook wb = new HSSFWorkbook();
+		    Sheet sheet = wb.createSheet("게시판");
+		    Row row = null;
+		    Cell cell = null;
+		    int rowNo = 0;
+		    // 테이블 헤더용 스타일
+		    CellStyle headStyle = wb.createCellStyle();
+		    // 가는 경계선을 가집니다.
+		    headStyle.setBorderTop(BorderStyle.THIN);
+		    headStyle.setBorderBottom(BorderStyle.THIN);
+		    headStyle.setBorderLeft(BorderStyle.THIN);
+		    headStyle.setBorderRight(BorderStyle.THIN);
+		    // 배경색은 노란색입니다.
+		    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+		    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		    // 데이터는 가운데 정렬합니다.
+		    headStyle.setAlignment(HorizontalAlignment.CENTER);
+		    // 데이터용 경계 스타일 테두리만 지정
+		    CellStyle bodyStyle = wb.createCellStyle();
+		    bodyStyle.setBorderTop(BorderStyle.THIN);
+		    bodyStyle.setBorderBottom(BorderStyle.THIN);
+		    bodyStyle.setBorderLeft(BorderStyle.THIN);
+		    bodyStyle.setBorderRight(BorderStyle.THIN);
+		    // 헤더 생성
+		    row = sheet.createRow(rowNo++);
+		    cell = row.createCell(0);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("스팟 번호");
+		    
+		    cell = row.createCell(1);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("스팟명");
+		    
+		    cell = row.createCell(2);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("도로명 주소");
+		    
+		    cell = row.createCell(3);
+		    cell.setCellStyle(headStyle);
+		    cell.setCellValue("지역명");
+
+		    // 데이터 부분 생성
+		    for(Spot vo : list) {
+		        row = sheet.createRow(rowNo++);
+		        cell = row.createCell(0);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getSpotNo());
+		        
+		        cell = row.createCell(1);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getSpotName());
+		        
+		        cell = row.createCell(2);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getSpotAddr());
+		        
+		        cell = row.createCell(3);
+		        cell.setCellStyle(bodyStyle);
+		        cell.setCellValue(vo.getLocalName());
+		        
+		        
+		    }
+		    response.setContentType("application/vnd.ms-excel");
+
+		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    // 엑셀 출력
+		    wb.write(response.getOutputStream());
+		    wb.close();
+		    
+		}
+		
+		@ResponseBody
+		@RequestMapping(value="/selectOneSpot.do",produces="application/json;charset=utf-8")
+		public String selectOneSpot() {
+			
+			return null;
+		}
+		
 }
 
 
