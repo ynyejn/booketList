@@ -22,9 +22,15 @@ import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.complain.model.vo.ComplainPageData;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.MemberPageData;
+import kr.or.iei.rent.model.dao.RentDao;
 import kr.or.iei.rent.model.vo.BookRentalApplyPage;
+import kr.or.iei.rent.model.vo.RentAndCount;
 import kr.or.iei.rent.model.vo.RentApply;
+import kr.or.iei.rent.model.vo.RentDateCount;
 import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.reservation.model.vo.ReservationPage;
+import kr.or.iei.spot.model.vo.Spot;
+import kr.or.iei.spot.model.vo.SpotPageData;
 import kr.or.iei.turn.model.vo.BookTurnApplyPage;
 import kr.or.iei.turn.model.vo.TurnApply;
 
@@ -35,7 +41,11 @@ public class AdminService {
 	@Autowired
 	@Qualifier("adminDao")
 	private AdminDao dao;
-
+	
+	@Autowired
+	@Qualifier("rentDao")
+	private RentDao rentDao;
+	
 	public MemberPageData selectMember(int reqPage, int selectCount) {
 		System.out.println("AdminService");
 		int numPerPage = selectCount;
@@ -596,11 +606,12 @@ public class AdminService {
 		return brsp;
 
 	}
-	public BookRentalStatusPage bookSearchRentalStatusList(String selectColumn, String search, int reqPage, int selectCount, String alignTitle, String alignStatus) {
+	public BookRentalStatusPage bookSearchRentalStatusList(String selectColumn, String search, int reqPage, int selectCount, String alignTitle, String alignStatus, String returnStatus) {
 		int numPerPage = selectCount;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("selectColumn", selectColumn);
 		map.put("search", search);
+		map.put("returnStatus", returnStatus);
 		int totalCount = dao.selectRentTotalCount(map);
 		System.out.println("서치북리스트개수 : "+totalCount);
 		int totalPage = 0;
@@ -762,9 +773,6 @@ public class AdminService {
 	public int cancelLostBookList(String[] params) {
 		return dao.cancelLostbookList(params);
 	}
-	public Member login(Member m) {
-		return dao.login(m);
-	}
 	public List userLostBook(Member m) {
 		return dao.userLostBook(m);
 	}
@@ -889,7 +897,7 @@ public class AdminService {
 	public BookTurnApplyPage bookTurnApplyList(int reqPage, int selectCount) {
 		int numPerPage = selectCount;
 		int totalCount = dao.turnApplyTotalCount();
-		System.out.println(totalCount);
+		System.out.println("총게시물수 : "+totalCount);
 		int totalPage = 0;
 		if(totalCount % numPerPage ==0) {
 			totalPage = totalCount/numPerPage;
@@ -897,14 +905,14 @@ public class AdminService {
 			totalPage = totalCount/numPerPage+1;
 		}
 		int start = (reqPage -1)*numPerPage +1;
-		System.out.println(start);
+		System.out.println("페이지 게시물 시작값 : "+start);
 		int end = reqPage*numPerPage;
-		System.out.println(end);
+		System.out.println("페이지 게시물 끝값 : "+end);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
 		ArrayList<TurnApply> list = (ArrayList<TurnApply>)dao.bookTurnApplyList(map);
-		System.out.println(list.size());
+		System.out.println("리스트 사이즈: "+list.size());
 		String pageNavi = "";
 		int pageNaviSize = 5;
 		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
@@ -1010,7 +1018,268 @@ public class AdminService {
 		return dao.deleteReservationTurnApply(map);
 	}
 	public int updateBookTurnApply(String bookNo) {
-		return dao.updateBookTurnApply(bookNo);
+		int result = dao.updateBookTurnApply(bookNo);
+		if(result>0) {
+			return dao.updateRentReturnTurnApply(bookNo);
+		}else {
+			return 0;
+		}
+		
 	}
+	public int updateBookRentApply(int bookNo) {
+		return dao.updateBookRentApply(bookNo);
+	}
+	public List selectExcelRentApplyList(int rentApply) {
+		return dao.selectExcelRentApplyList(rentApply);
+	}
+	public List selectExcelTurnApplyList(int turnApply) {
+		return dao.selectExcelTurnApplyList(turnApply);
+	}
+	public List excelTurnApplyListTotal() {
+		return dao.excelTurnApplyListTotal();
+	}
+	public List excelRentApplyListTotal() {
+		return dao.excelRentApplyListTotal();
+	}
+	public List excelRentListTotal() {
+		return dao.excelRentListTotal();
+	}
+	public List excelMemberListTotal() {
+		return dao.excelMemberListTotal();
+	}
+	public ReservationPage bookReservationList(int reqPage, int selectCount) {
+		int numPerPage = selectCount;
+		int totalCount = dao.reservationTotalCount();
+		System.out.println(totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println(start);
+		int end = reqPage*numPerPage;
+		System.out.println(end);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		ArrayList<Reservation> list = (ArrayList<Reservation>)dao.bookReservationList(map);
+		System.out.println(list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='/adminBookReservationList.do?reqPage=" + (pageNo - pageNaviSize) + "&selectCount="+selectCount+"'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+				pageNavi += "<li><a href='/adminBookReservationList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li><a aria-label='Next' href='/adminBookReservationList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'><span>»</span></a></li>";
+		}
+		
+		ReservationPage rp = new ReservationPage(list,pageNavi);
+		return rp;
+	}
+	public ReservationPage bookSearchReservationList(String selectColumn, String search, int reqPage, int selectCount,
+			String alignTitle, String alignStatus) {
+		int numPerPage = selectCount;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("selectColumn", selectColumn);
+		map.put("search", search);
+		int totalCount = dao.selectReservationTotalCount(map);
+		System.out.println("서치북리스트개수 : "+totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println("시작번호 : "+start);
+		int end = reqPage*numPerPage;
+		System.out.println("끝번호 : "+end);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("alignTitle",alignTitle);
+		map.put("alignStatus",alignStatus);
+		System.out.println("service alignTitle: "+alignTitle);
+		System.out.println("service alignStatus: "+alignStatus);
+		ArrayList<Reservation> list = (ArrayList<Reservation>)dao.bookSearchReservationList(map);
+		
+		System.out.println("리스트 사이즈 : "+list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+			
+				pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		
+		if (pageNo <= totalPage) {
+			
+			pageNavi += "<li><a aria-label='Next' href='javascript:void(0)' onclick='searchPageNavi(this)'><span>»</span></a></li>";
+		}
+		ReservationPage rp = new ReservationPage(list,pageNavi);
+		return rp;
+	}
+
+	public List selectExcelReservationList(int reserveNo) {
+
+		return dao.selectExcelReservationList(reserveNo);
+	}
+	public List excelReservationListTotal() {
+		return dao.excelReservationListTotal();
+	}
+	public Spot spotNameChecked(String spotName) {
+		return dao.spotNameChecked(spotName);
+	}
+	public int insertSpot(HashMap<String, String> map) {
+		return dao.insertSpot(map);
+	}
+	public SpotPageData adminSpotList(int reqPage, int selectCount) {
+		int numPerPage = selectCount;
+		int totalCount = dao.adminSpotListTotalCount();
+		System.out.println(totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println(start);
+		int end = reqPage*numPerPage;
+		System.out.println(end);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		ArrayList<Spot> list = (ArrayList<Spot>)dao.adminSpotList(map);
+		System.out.println(list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='/adminSpotList.do?reqPage=" + (pageNo - pageNaviSize) + "&selectCount="+selectCount+"'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+				pageNavi += "<li><a href='/adminSpotList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li><a aria-label='Next' href='/adminSpotList.do?reqPage=" + pageNo + "&selectCount="+selectCount+"'><span>»</span></a></li>";
+		}
+		
+		SpotPageData spd = new SpotPageData(list,pageNavi);
+		return spd;
+	}
+	public SpotPageData spotSearchList(String selectColumn, String search, int reqPage, int selectCount,
+			String alignTitle, String alignStatus) {
+		int numPerPage = selectCount;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("selectColumn", selectColumn);
+		map.put("search", search);
+		int totalCount = dao.selectSpotListTotalCount(map);
+		System.out.println("서치북리스트개수 : "+totalCount);
+		int totalPage = 0;
+		if(totalCount % numPerPage ==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = (reqPage -1)*numPerPage +1;
+		System.out.println("시작번호 : "+start);
+		int end = reqPage*numPerPage;
+		System.out.println("끝번호 : "+end);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("alignTitle",alignTitle);
+		map.put("alignStatus",alignStatus);
+		System.out.println("service alignTitle: "+alignTitle);
+		System.out.println("service alignStatus: "+alignStatus);
+		ArrayList<Spot> list = (ArrayList<Spot>)dao.bookSearchSpotList(map);
+		
+		System.out.println("리스트 사이즈 : "+list.size());
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		
+		if (pageNo != 1) {
+			pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'><span>«</span></a></li>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (reqPage == pageNo) {
+				pageNavi += "<li class='active'><a href='#'><span>"+ pageNo  +"<span class='sr-only'>(current)</span></span></a></li>";
+			} else {
+			
+				pageNavi += "<li><a href='javascript:void(0)' onclick='searchPageNavi(this)'>" + pageNo + "</a></li>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		
+		if (pageNo <= totalPage) {
+			
+			pageNavi += "<li><a aria-label='Next' href='javascript:void(0)' onclick='searchPageNavi(this)'><span>»</span></a></li>";
+		}
+		SpotPageData spd = new SpotPageData(list,pageNavi);
+		return spd;
+	}
+	public List excelSpotListDown(int spotNo) {
+		return dao.excelSpotListDown(spotNo);
+	}
+	public List excelSpotListTotal() {
+		return dao.excelSpotListTotal();
+	}
+
+	
+	//책 대여 목록 불러오기
+	public ArrayList<RentDateCount> rentDateCountList() {
+		List list = rentDao.rentDateCountList();
+		ArrayList<RentDateCount> rentDateCountList = (ArrayList<RentDateCount>)list;
+		return rentDateCountList;
+	}
+	//책 리스트 불러오기
+	public ArrayList<Book> bookStatusList() {
+		return (ArrayList<Book>)dao.bookStatusList();
+	}
+	public ArrayList<RentAndCount> rentAndCountList() {
+		return (ArrayList<RentAndCount>)rentDao.rentAndCountList();
+	}
+	public BookAndRent selectOneLostBook(int bookNo) {
+		return dao.selectOneLostBook(bookNo);
+	}
+	
+
 
 }

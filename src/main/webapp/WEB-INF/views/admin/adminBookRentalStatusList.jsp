@@ -19,19 +19,11 @@
 <title>BooketList</title>
 
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
 
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
 <!-- Custom fonts for this template-->
 <link
 	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
@@ -57,6 +49,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+
+
 <!-- 테이블 부트스트랩 -->
 <script>
 	window.onload = function() {
@@ -72,6 +66,7 @@
 							var selectColumn = $("#selectColumn option:selected").val();
 							var search = $("#search").val();
 							var smc = $("#selectBookCount option:selected").val();
+							var srs = $("#selectReturnStatus option:selected").val();
 							smc = parseInt(smc);
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
@@ -85,7 +80,8 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search
+											search : search,
+											returnStatus : srs,
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -111,8 +107,10 @@
 												resultText += "<td class=th2>"
 														+ data.arrRentEndDate[i]
 														+ "</td>";
-												if(data.list[i].rentReturn == 0){
+												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
 													resultText += "<td class=th2>대여중</td></tr>";
+												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
+													resultText += "<td class=th2>연체중</td></tr>";
 												}else if(data.list[i].rentReturn == 1){
 													resultText += "<td class=th2>반납완료</td></tr>";
 												}
@@ -129,6 +127,7 @@
 			$(".chBox").prop("checked", false);
 			$("#allCheck").prop("checked", false);
 						var smc = $("#selectBookCount option:selected").val();
+						var srs = $("#selectReturnStatus option:selected").val();
 							$("#tbody").html("");
 							$(".pagination").html("");
 							var selectColumn = $("#selectColumn option:selected").val();
@@ -145,7 +144,8 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search
+											search : search,
+											returnStatus : srs
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -171,8 +171,74 @@
 												resultText += "<td class=th2>"
 														+ data.arrRentEndDate[i]
 														+ "</td>";
-												if(data.list[i].rentReturn == 0){
+												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
 													resultText += "<td class=th2>대여중</td></tr>";
+												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
+													resultText += "<td class=th2>연체중</td></tr>";
+												}else if(data.list[i].rentReturn == 1){
+													resultText += "<td class=th2>반납완료</td></tr>";
+												}
+											}
+											$("#tbody").html(resultText);
+											$(".pagination").html(data.pageNavi);
+										},
+										error : function() {
+
+										}
+									});
+						});
+		$("#selectReturnStatus").change(function() {
+			$(".chBox").prop("checked", false);
+			$("#allCheck").prop("checked", false);
+						var smc = $("#selectBookCount option:selected").val();
+						var srs = $("#selectReturnStatus option:selected").val();
+							$("#tbody").html("");
+							$(".pagination").html("");
+							var selectColumn = $("#selectColumn option:selected").val();
+							var search = $("#search").val();
+							var alignTitle = $("#alignStatus").find("span").html();
+							var alignStatus = $("#alignStatus").find("input").val();
+							$.ajax({
+										url : "/bookSearchRentalStatusList.do",
+										type : "post",
+										dataType : "json",
+										data : {
+											alignTitle : alignTitle,
+											alignStatus : alignStatus,
+											selectCount : smc,
+											reqPage : 1,
+											selectColumn : selectColumn,
+											search : search,
+											returnStatus : srs
+										},
+										success : function(data) {
+											console.log(data.list);
+											console.log(data.list[0].memberId);
+											console.log(data.pageNavi);
+											var resultText = "";
+											for (var i = 0; i < data.list.length; i++) {
+												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
+														 + ((data.reqPage - 1)
+																* data.selectCount
+																+ i + 1)
+														+ "</th>";
+												resultText += "<td class=th2>"
+														+ data.list[i].memberId
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.list[i].bookName
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.arrRentStartDate[i]
+														+ "</td>";
+												resultText += "<td class=th2>"
+														+ data.arrRentEndDate[i]
+														+ "</td>";
+												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
+													resultText += "<td class=th2>대여중</td></tr>";
+												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
+													resultText += "<td class=th2>연체중</td></tr>";
 												}else if(data.list[i].rentReturn == 1){
 													resultText += "<td class=th2>반납완료</td></tr>";
 												}
@@ -202,11 +268,18 @@
 			$("input[class='chBox']:checked").each(function(){
 				checkArr.push($(this).attr("data-rentNo"));
 			});
-			console.log(checkArr);
+			if(checkArr != 0){
 			location.href="/excelRentDown.do?checkArr="+checkArr
+			}else{
+				alert("선택해주세요");
+			}
 
 		});
-
+		$("#excelDownLoadTotal").click(function(){
+			console.log("전체엑셀다운로드");
+			var part = "rentStatus";
+				location.href="/excelDownTotal.do?part="+part;
+		});
 	};
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
@@ -218,6 +291,7 @@
 		$(".chBox").prop("checked", false);
 		$("#allCheck").prop("checked", false);
 		var smc = $("#selectBookCount option:selected").val();
+		var srs = $("#selectReturnStatus option:selected").val();
 		smc = parseInt(smc);
 		var ajaxReqPage = $("#ajaxReqPage").val();
 		ajaxReqPage = parseInt(ajaxReqPage);
@@ -245,7 +319,8 @@
 				selectCount : smc,
 				reqPage : reqPage,
 				selectColumn : selectColumn,
-				search : search
+				search : search,
+				returnStatus : srs
 			},
 			success : function(data) {
 				$(".pagination").html("");
@@ -270,8 +345,10 @@
 					resultText += "<td class=th2>"
 							+ data.arrRentEndDate[i]
 							+ "</td>";
-					if(data.list[i].rentReturn == 0){
+					if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
 						resultText += "<td class=th2>대여중</td></tr>";
+					}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
+						resultText += "<td class=th2>연체중</td></tr>";
 					}else if(data.list[i].rentReturn == 1){
 						resultText += "<td class=th2>반납완료</td></tr>";
 					}
@@ -299,6 +376,7 @@
 		ajaxReqPage = parseInt(ajaxReqPage);
 		console.log(ajaxReqPage);
 		var selectColumn = $("#selectColumn option:selected").val();
+		var srs = $("#selectReturnStatus option:selected").val();
 		var search = $("#search").val();
 		$("#alignStatus").find("span").html(aTitle);
 		if(aStatus=="0"){
@@ -320,7 +398,8 @@
 				selectColumn : selectColumn,
 				search : search,
 				alignTitle : alignTitle,
-				alignStatus : alignStatus
+				alignStatus : alignStatus,
+				returnStatus : srs
 			},
 			success : function(data){
 				$(".pagination").html("");
@@ -345,8 +424,10 @@
 					resultText += "<td class=th2>"
 							+ data.arrRentEndDate[i]
 							+ "</td>";
-					if(data.list[i].rentReturn == 0){
+					if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
 						resultText += "<td class=th2>대여중</td></tr>";
+					}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
+						resultText += "<td class=th2>연체중</td></tr>";
 					}else if(data.list[i].rentReturn == 1){
 						resultText += "<td class=th2>반납완료</td></tr>";
 					}
@@ -363,8 +444,10 @@
 			}
 		});
 	}
+
 </script>
 </head>
+
 
 <body id="page-top">
 
@@ -441,7 +524,7 @@
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
             <a class="collapse-item" href="/adminBookRentalApplyList.do?reqPage=1&selectCount=10">도서 대여 신청 목록</a>
             <a class="collapse-item" href="/adminBookTurnApplyList.do?reqPage=1&selectCount=10">도서 반납 신청 목록</a>
-            <a class="collapse-item" href="#">도서예약내역</a>
+             <a class="collapse-item" href="/adminBookReservationList.do?reqPage=1&selectCount=10">도서예약내역</a>
           </div>
         </div>
       </li>
@@ -477,19 +560,11 @@
 
 			<!-- Heading -->
 			<div class="sidebar-heading">SPOT 관리</div>
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapseUtilities"
-				aria-expanded="true" aria-controls="collapseUtilities"> <i
-					class="fas fa-fw fa-folder"></i> <span>SPOT</span>
-			</a>
-				<div id="collapseUtilities" class="collapse"
-					aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">SPOT</h6>
-						<a class="collapse-item" href="#">SPOT리스트</a> <a
-							class="collapse-item" href="#">SPOT생성</a>
-					</div>
-				</div></li>
+			<li class="nav-item">
+        	<a class="nav-link" href="/adminSpotList.do?reqPage=1&selectCount=10">
+          	<i class="fas fa-fw fa-table"></i>
+          	<span>SPOT</span></a>
+      </li>
 			<hr class="sidebar-divider">
 
 			<!-- Heading -->
@@ -666,6 +741,9 @@
 	margin-top: 20px;
 	float: left;
 }
+#excelDownLoadTotal {
+	float: left;
+}
 #tbody button{
 width:50px;
 height:20px;
@@ -674,7 +752,6 @@ padding-top:3px;
 }
 
 </style>
-
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -748,7 +825,14 @@ padding-top:3px;
 															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여일자</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납예정일자</span></th>
-															<th class="th2" style="width:20%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여상태</span></th>
+															<th class="th2" style="width:20%">
+																<select class="form-control" id="selectReturnStatus" style="width:90px;height:28px; font-size:13px; font-weight:bolder;padding:0px;">
+																	<option value="대여상태">대여상태</option>
+																	<option value="대여중">대여중</option>
+																	<option value="반납완료">반납완료</option>
+																	<option value="연체중">연체중</option>
+																</select>
+															</th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
@@ -761,7 +845,8 @@ padding-top:3px;
 																<td class="th2">${l.rentStartDate }</td>
 																<td class="th2">${l.rentEndDate }</td>
 																<td class="th2">
-																	<c:if test="${l.rentReturn eq 0}">대여중</c:if>
+																	<c:if test="${l.rentReturn eq 0 and compare[i.index] eq '0'}">대여중</c:if>
+																	<c:if test="${l.rentReturn eq 0 and compare[i.index] eq '1'}">연체중</c:if>
 																	<c:if test="${l.rentReturn eq 1}">반납완료</c:if>
 																</td>
 															</tr>
@@ -773,10 +858,12 @@ padding-top:3px;
 													<button class="btn btn-primary" id="excelDownLoad">엑셀
 														다운로드</button>
 													<ul class="pagination">${pageNavi }</ul>
-													<div id="sel" style="float: right; margin-top: 10px;">
+													<div id="sel" style="float: right; margin-top: 20px;">
 														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 													</div>
 												</nav>
+												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
+														다운로드</button>
 										</div>
 									</div>
 								</div>

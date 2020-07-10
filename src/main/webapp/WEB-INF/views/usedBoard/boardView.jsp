@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
+	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -63,7 +63,7 @@
         padding: 50px;
         margin: 0 auto;
         margin-top: 10px;
-        border-bottom: 1px solid #e0e0e0;
+        border: 1px solid #e5e5e5;
         border-top: 1px solid #999;
         background-color: #ffffff;
         position: relative;
@@ -82,7 +82,6 @@
         color: #111111;
         line-height: 33px;
         font-weight: 100;
-
     }
 
     .bTitle {
@@ -93,25 +92,29 @@
         font-weight: bold;
         position: relative;
     }
-    .bTitle>button{
+
+    .bTitle>button {
         position: absolute;
         border: none;
         font-size: 14px;
         width: 90px;
         height: 30px;
         line-height: 30px;
-        top:6px;
+        top: 6px;
         border-radius: 3px;
     }
-    #modBtn{
+
+    #modBtn {
         background-color: #f3f4fa;
         color: #03169a;
         right: 110px;
     }
-    #delBtn{
+
+    #delBtn {
         background-color: #e5e5e5;
         right: 0;
     }
+
     .bContent {
         overflow: hidden;
         padding: 50px;
@@ -151,30 +154,177 @@
         line-height: 30px;
     }
 
+    /*---------------------------------------------댓글-----------------------------------------------------*/
     #showComment {
         height: 40px;
         background-color: #585858;
         text-align: center;
     }
-    .comment-write{
+
+    .comment-write {
         border: 1px solid #b3b3b3;
+        width: 900px;
+        margin: 0 auto;
+        margin-top: 20px;
     }
 
+    .commentFrame {
+        border-top: 2px solid #585858;
+        overflow: hidden;
+        padding-top: 20px;
+    }
+
+    .commentBox {
+        border-bottom: 1px solid #e0e0e0;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 auto;
+        /*        border-top: 1px solid #dddddd;*/
+        border-bottom: 1px solid #dddddd;
+        padding-bottom: 15px;
+    }
+
+    .commentBox:first-of-type {
+        border-top: 1px solid #585858;
+    }
+
+    .commentBox:last-of-type {
+        border-bottom: 1px solid #585858;
+    }
+
+    .commentWriter {
+        border-bottom: 1px solid #dddddd;
+        padding: 3px 30px;
+        background-color: #f3f5f7;
+    }
+
+    .commentDate {
+        float: right;
+        color: #898989;
+        font-size: 15px;
+    }
+
+    .memberId {
+        color: #0066b3;
+        font-weight: bold;
+        /*        border-bottom: 3px solid #00a3e0;*/
+    }
+
+    .commentContent {
+        padding: 3px 30px;
+        margin-top: 4px;
+    }
+
+    .commentFiles>div {
+        float: left;
+        display: inline-block;
+        width: 50px;
+        margin-right: 10px;
+        height: 50px;
+        border: 1px solid lightgray;
+    }
+
+    .commentFiles>div>img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .commentFiles {
+        padding: 3px 30px;
+    }
+
+    .bigImg {
+        display: none;
+        position: fixed;
+        overflow: hidden;
+        top: 200px;
+        width: 600px;
+        z-index: 300;
+        border: 1px solid lightgray;
+        background-color: white;
+    }
+
+    .bigImg>img {
+        width: 100%;
+    }
+
+    .smallImg:hover>.bigImg {
+        display: inline-block;
+    }
+
+    .words {
+        height: 25px;
+        line-height: 25px;
+        text-align: right;
+        padding-right: 20px;
+        font-size: 15px;
+        color: #898989;
+    }
+
+    label[for=files] {
+        opacity: 60%;
+        padding-left: 20px;
+        font-size: 14px;
+        margin-top: 12px;
+        display: inline-block;
+    }
+    label[for=files]:hover{
+        opacity: 90%;
+        cursor: pointer;
+    }
+
+    lable[for=files]>img {
+        vertical-align: text-bottom;
+    }
+
+    .writeBottom {
+        height: 45px;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    #commentSubmit {
+        float: right;
+        border: none;
+        border-radius: 0;
+        width: 68px;
+        height: 40px;
+        font-size: 14px;
+        border: 1px solid #454545;
+        background: #525252;
+        color: white;
+        line-height: 40px;
+    }
+    #commentSubmit:hover{
+        background: #222222;
+        border: 1px solid #222222;
+    }
+
+    .textareaBox {
+        padding: 20px;
+        padding-bottom: 0;
+    }
 </style>
 
-<body style="line-height:normal;">
-    <div class="wrapper" style="background-color:#f3f5f7;">
+<body style="line-height: normal;">
+    <div class="wrapper" style="background-color: #f3f5f7;">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
         <div class="cTop">
-            <div class="black"></div><span>기증 / 판매</span>
+            <div class="black"></div>
+            <span>기증 / 판매</span>
         </div>
         <div class="content">
             <span>기증/판매 게시판 > 상세글 보기</span>
             <div class="boardFrame">
-                <div class="bTitle">${ub.usedTitle} <span>/ 도서 ${ub.usedType}</span><button id="modBtn" onclick="modifyFunc(${ub.usedNo});">수정</button><button id="delBtn" onclick="delFunc(${ub.usedNo});">삭제</button></div>
-                <div class="bInfo"><span>${ub.memberId}</span>
-                    <span>${ub.usedDate}</span>
-                    <span>조회 ${ub.readCount}</span>
+                <div class="bTitle">${ub.usedTitle}
+                    <span>/ 도서 ${ub.usedType}</span>
+                    <c:if test="${sessionScope.member.memberId eq ub.memberId}">
+                    <button id="modBtn" onclick="modifyFunc(${ub.usedNo});">수정</button>
+                    <button id="delBtn" onclick="delFunc(${ub.usedNo});">삭제</button>
+                    </c:if>
+                </div>
+                <div class="bInfo">
+                    <span>${ub.memberId}</span> <span>${ub.usedDate}</span> <span>조회
+                        ${ub.readCount}</span>
                     <c:if test="${ub.usedStatus eq 0}">
                         <span>요청 완료</span>
                     </c:if>
@@ -192,28 +342,46 @@
                     </c:if>
                 </div>
                 <div class="bContent">${ub.usedContent}</div>
-                <div id="showComment" data-toggle="tooltip" title="댓글을 펼칩니다."><img src="/resources/imgs/more-icon.png"></div>
-                
-                <div class="comment-write">
-		<!-- 작성자, 게시글번호, 댓글레벨, 댓글번호 보내줘야함-->
-		<form action="/usedCommentInsert.do" method="post">
-		<input type="hidden" name="commentWriter" value="${sessionScope.member.memberId }">
-		<input type="hidden" name="noticeRef" value="${n.noticeNo}"><!-- 댓글써지는 글번호 -->
-		<input type="hidden" name="noticeCommentLevel" value="1"><!-- 직접댓글이니까 1 -->
-		<input type="hidden" name="noticeCommentRef" value="0"><!-- 대댓글일경우 참조하는댓글번호 -->
-			<table class="table">
-				<tr>
-					<td width="85%">
-						<input type="text" class="form-control" name="noticeCommentContent">
-					</td>
-					<td width="15%">
-						<button type="submit" class="btn btn-primary">등록</button>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
-                <div class="commentFrame"></div>
+                <div id="showComment" data-toggle="tooltip" title="댓글을 펼칩니다.">
+                    <img src="/resources/imgs/more-icon.png">
+                </div>
+                <div class="commentFrame">
+                    <div class="commentZone">
+                        <c:forEach items="${ucList }" var="uc">
+                            <div class="commentBox">
+                                <input type="hidden" name="commentNo" value="${uc.commentNo}">
+                                <div class="commentWriter"><span class="memberId">${uc.commentWriter}</span><span class="commentDate">${uc.commentDate}</span></div>
+                                <div class="commentContent">${uc.commentContent}</div>
+                                <div class='commentFiles'>
+                                    <div class='smallImg'><img src="/resources/upload/usedBoard/갈색로고3_1594130482734.png">
+                                        <div class="bigImg"><img src="/resources/upload/usedBoard/갈색로고3_1594130482734.png"></div>
+                                    </div>
+                                    <div class='smallImg'><img src="/resources/upload/usedBoard/갈색로고3_1594130482734.png">
+                                        <div class="bigImg"><img src="/resources/upload/usedBoard/갈색로고3_1594130482734.png"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+
+                    </div>
+                    <c:if test="${not empty sessionScope.member }">
+                        <div class="comment-write">
+                            <!-- 작성자, 게시글번호, 댓글레벨, 댓글번호 보내줘야함-->
+                            <form action="/usedCommentInsert.do" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="commentWriter" value="${sessionScope.member.memberId }"> <input type="hidden" name="usedNo" value="${ub.usedNo}">
+                                <!-- 댓글써지는 글번호 -->
+                                <div class="textareaBox">
+                                    <textarea name="commentContent" id="commentContentWrite" style="width:850px;height:60px; border:none; outline:none;resize:none;" placeholder="댓글을 입력해주세요."></textarea>
+                                </div>
+                                <div class="words">0/150</div>
+                                <div class="writeBottom"><label for="files"><img src="resources/imgs/cameraIcon.png" style="width:20px; height:20px;vertical-align: text-bottom;">사진첨부</label>
+                                    <input type="file" name="files" multiple="multiple" id="files" accept="image/*" onchange="loadImg(this);" style="display:none;"> <input type="submit" value="등록" id="commentSubmit"></div>
+                                <div img="img-viewer" class="imgBox">
+                                </div>
+                            </form>
+                        </div>
+                    </c:if>
+                </div>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -221,14 +389,37 @@
 </body>
 
 <script>
-function delFunc(usedNo){
-    if(confirm("정말 삭제하시겠습니까?")){
-        location.href="/deleteUsedBoard.do?usedNo="+usedNo;
+    function delFunc(usedNo) {
+        if (confirm("정말 삭제하시겠습니까?")) {
+            location.href = "/deleteUsedBoard.do?usedNo=" + usedNo;
+        }
     }
-}
-function modifyFunc(usedNo){
-    location.href="/goModifyUsedBoard.do?usedNo="+usedNo;
-}
-</script>
 
-</html>
+    function modifyFunc(usedNo) {
+        location.href = "/goModifyUsedBoard.do?usedNo=" + usedNo;
+    }
+
+    function loadImg(f) {
+        console.log(f.files);
+        if (f.files.length != 0 && f.files[0] != 0) { //파일이 하나이상 올라왔거나 파일이 용량이 0이 아닐경우
+            for (var i = 0; i < f.files.length; i++) {
+                var reader = new FileReader();
+                reader.readAsDataURL(f.files[i]);
+                reader.onload = function(e) {
+                    $(".imgBox").append("<img id='img-view' width='350' src=" + e.target.result + ">");
+                }
+            }
+        } else {
+            $(".imgBox").empty();
+        }
+    }
+    $("#commentContentWrite").keyup(function() {
+        var inputLength = $(this).val().length;
+        if (inputLength > 150) {
+            alert("최대 150자까지 입력 가능합니다.");
+            $(this).val($(this).val().substring(0, 150));
+            inputLength=150;
+        }
+        $(".words").html(inputLength + "/150");
+    });
+</script></html>

@@ -1,12 +1,18 @@
 package kr.or.iei.chat.controller;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,17 +65,23 @@ public class ChatController {
 	}
 	@RequestMapping("/chatRoom.do")
 	public String chatRoom(String title,Model model) {
-		int result = service.chatUpdate(title);
-		Chat c = new Chat();
-		c.setChatTitle(title);
-		System.out.println("gdgd");
-		if(result>0) {
-			model.addAttribute("c",c);
-			System.out.println("gdgd");
-			return "openChatting/chat";	
+		String chatTitle=service.selectOpenTitle(title);
+		if(chatTitle==null) {
+			return "openChatting/chatTitleFull";
 		}else {
+			
+			int result = service.chatUpdate(title);
+			Chat c = new Chat();
+			c.setChatTitle(title);
 			System.out.println("gdgd");
-			return "openChatting/chatFull";
+			if(result>0) {
+				model.addAttribute("c",c);
+				System.out.println("gdgd");
+				return "openChatting/chat";	
+			}else {
+				System.out.println("gdgd");
+				return "openChatting/chatFull";
+			}
 		}
 	}
 	@ResponseBody
@@ -106,5 +118,53 @@ public class ChatController {
 			return new Gson().toJson("0");
 		}
 		
+	}
+	@RequestMapping("/fileDownload.do")
+	public String fileDownload(HttpServletRequest request,HttpServletResponse response,String filepath){
+		//1.인코딩
+				try {
+					
+					System.out.println("/"+filepath);
+					String[] fileName = filepath.split("/");
+					
+					//1)결로 설정
+					String root = request.getSession().getServletContext().getRealPath("resources/");
+					String saveDirectory = root+"chat/";
+					//파일이랑 서블릿연결
+					FileInputStream fis = new FileInputStream(saveDirectory+fileName[3]);
+					//속도를 위한 보조 스트림 생성
+					BufferedInputStream bis = new BufferedInputStream(fis);
+					//파일을 내보내기 위한 스트림 생성
+					ServletOutputStream sos = response.getOutputStream();
+					BufferedOutputStream bos = new BufferedOutputStream(sos);
+					String resFilename = "";
+					//브라우저가 IE인지 확인
+					boolean bool = request.getHeader("user-agent").indexOf("MSIE") != -1 || request.getHeader("user-agent").indexOf("Trident") != -1;
+					System.out.println("ie여부 :"+bool);
+					if(bool){
+						//ie인경우
+						resFilename = URLEncoder.encode(fileName[3], "UTF-8");
+						resFilename = resFilename.replaceAll("\\\\", "%20");
+					}else {
+						resFilename = new String(fileName[3].getBytes("UTF-8"),"ISO-8859-1");
+					}
+					//파일 다운로드 위한 HTTP Header설정
+					response.setContentType("application/octet-stream");
+					response.setHeader("Content-Disposition", "attachment;filename="+resFilename);
+					int read = -1;
+					while((read = bis.read())!= -1) {
+						bos.write(read);
+					}
+					bos.close();
+					bis.close();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
+				
 	}
 }

@@ -16,6 +16,7 @@ import kr.or.iei.book.model.vo.BookRentalStatus;
 import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.rent.model.vo.RentApply;
 import kr.or.iei.reservation.model.vo.Reservation;
+import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.turn.model.vo.TurnApply;
 import kr.or.iei.complain.model.vo.Complain;
 import kr.or.iei.member.model.vo.Member;
@@ -215,10 +216,6 @@ public class AdminDao {
 		return sqlSession.selectList("book.selectExcelRentList",rentNo);
 	}
 
-	public Member login(Member m) {
-		return sqlSession.selectOne("member.login",m);
-	}
-
 	public List userLostBook(Member m) {
 		return sqlSession.selectList("book.userLostBook",m);
 	}
@@ -306,8 +303,106 @@ public class AdminDao {
 		return sqlSession.update("return.updateBookTurnApply",bookNo);
 	}
 
+	public BookAndRent selectOneLostBook(int bookNo) {
+		return sqlSession.selectOne("book.selectOneLostBook", bookNo);
+	}
+
+	public List bookStatusList() {
+		return sqlSession.selectList("book.bookStatusList");
+	}
+	public int updateBookRentApply(int bookNo) {
+		return sqlSession.update("rent.updateBookRentApply",bookNo);
+	}
+
+	public int updateRentReturnTurnApply(String bookNo) {
+		return sqlSession.update("return.updateRentReturnTurnApply",bookNo);
+	}
+
+	public List selectExcelRentApplyList(int rentApply) {
+		return sqlSession.selectList("rent.selectExcelRentApplyList",rentApply);
+	}
+
+	public List selectExcelTurnApplyList(int turnApply) {
+		return sqlSession.selectList("return.selectExcelTurnApplyList",turnApply);
+	}
+
+	public List excelTurnApplyListTotal() {
+		return sqlSession.selectList("return.excelTurnApplyListTotal");
+	}
+
+	public List excelRentApplyListTotal() {
+		return sqlSession.selectList("rent.excelRentApplyListTotal");
+	}
+
+	public List excelRentListTotal() {
+		return sqlSession.selectList("book.excelRentListTotal");
+	}
+
+	public List excelMemberListTotal() {
+		return sqlSession.selectList("member.excelMemberListTotal");
+	}
+
+	public int reservationTotalCount() {
+		return sqlSession.selectOne("reservation.reservationTotalCount");
+	}
+
+	public List bookReservationList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("reservation.bookReservationList",map);
+	}
+
+	public int selectReservationTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("reservation.selectReservationTotalCount",map);
+	}
+
+	public List bookSearchReservationList(HashMap<String, Object> map) {
+		return sqlSession.selectList("reservation.bookSearchReservationList",map);
+
+	}
+
+	public List selectExcelReservationList(int reserveNo) {
+		return sqlSession.selectList("reservation.selectExcelReservationList",reserveNo);
+	}
+
+	public List excelReservationListTotal() {
+		return sqlSession.selectList("reservation.excelReservationListTotal");
+	}
+
+	public Spot spotNameChecked(String spotName) {
+		return sqlSession.selectOne("spot.spotNameChecked",spotName);
+	}
+
+	public int insertSpot(HashMap<String, String> map) {
+		return sqlSession.insert("spot.insertSpot",map);
+	}
+
+	public int adminSpotListTotalCount() {
+		return sqlSession.selectOne("spot.adminSpotListTotalCount");
+	}
+
+	public List adminSpotList(HashMap<String, Integer> map) {
+		return sqlSession.selectList("spot.adminSpotList",map);
+	}
+
+	public int selectSpotListTotalCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("spot.selectSpotListTotalCount",map);
+	}
+
+	public List bookSearchSpotList(HashMap<String, Object> map) {
+		return sqlSession.selectList("spot.bookSearchSpotList",map);
+	}
+
+	public List excelSpotListDown(int spotNo) {
+		return sqlSession.selectList("spot.excelSpotListDown",spotNo);
+	}
+
+	public List excelSpotListTotal() {
+		return sqlSession.selectList("spot.excelSpotListTotal");
+	}
+
 	 
 
 
 
-}
+
+
+	}

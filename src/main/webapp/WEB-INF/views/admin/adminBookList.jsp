@@ -75,6 +75,8 @@
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
+		
+		
 	    $("#sear").click(function() {
 			var search = $("#search").val();
 			var searchTitle = $("#searchTitle").find("option:selected").html();
@@ -99,6 +101,14 @@
 		});
 		
 		$("#selDelete").click(function(){
+			
+			if($(".checkRow").is(":checked")== false){
+				alert("도서를 선택해주세요");
+				return false;
+			}
+				
+				
+			
 			if(confirm("선택 도서를 삭제 하시겠습니까?")){
 				var checkArr = new Array();
 				var reqPages = ${reqPage };
@@ -185,8 +195,7 @@
 					html += "<tr><td colspan='2' style='height:200px;'>" + data.bookContent+ "</td><tr>";
 				}
 				
-				html += "<tr><td colspan='2'><span><신청사유></span><br>";
-				html += data.applyContent+"</td><tr>";
+			
 				
 				$("#detailUpdate1").hide();
 				$("#detailUpdate2").hide();
