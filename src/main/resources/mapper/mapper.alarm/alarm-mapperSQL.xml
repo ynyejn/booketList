@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="alarm">
- 	<update id="updateAlarm" parameterType="_int">
- 		update alarm set lostbook_count = lostbook_count+#{data }, total_count = total_count+#{data} where alarm_no = 0
+ 	<update id="updateAlarm">
+ 		update alarm set lostbook_count = lostbook_count+1, total_count = total_count+1 where alarm_no = 0
  	</update>
  	<select id="selectAlarmLost" resultType="alarm">
  		select lostbook_count as lostbookCount from alarm where alarm_no = 0
