@@ -3,10 +3,12 @@ package kr.or.iei.rent.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.JsonArray;
 
@@ -21,6 +23,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.rent.model.dao.RentDao;
 import kr.or.iei.rent.model.vo.Rent;
 import kr.or.iei.rent.model.vo.RentAndCount;
+import kr.or.iei.rent.model.vo.RentApply;
 import kr.or.iei.review.model.dao.ReviewDao;
 import kr.or.iei.review.model.vo.Review;
 import net.sf.json.JSONArray;
@@ -270,6 +273,20 @@ public class RentService {
 
 	public ArrayList<BookAndRent> selectUserList(Member member) {
 		return (ArrayList<BookAndRent>)dao.selectUserList(member);
+	}
+
+	//////////////////////////////////////예진-스팟정하고 대여신청목록에 insert, bookstatus update
+	@Transactional
+	public int insertRentApply(RentApply rent, String bookNoString) {
+		int result = 0;
+		StringTokenizer st = new StringTokenizer(bookNoString,",");
+		while(st.hasMoreTokens()) {
+			rent.setBookNo(Integer.parseInt(st.nextToken()));
+			System.out.println(rent.getBookNo());
+			result += dao.insertRentApply(rent);
+			dao.updateBookStatusTo1(rent.getBookNo());
+		}
+		return result;
 	}
 
 }

@@ -399,6 +399,14 @@
 
 <script>
     $(function() {
+    	if("${msg}"!=""){
+    		if("${msg}"==0){
+    			alert("반납신청이 완료되었습니다.");
+    		}else{
+    			alert("반납신청이 실패했습니다.");
+    		}
+    	}
+    	
         // 반납도서 검색창
         $("input[name=bookName]").keyup(function() {
             var value = $(this).val();

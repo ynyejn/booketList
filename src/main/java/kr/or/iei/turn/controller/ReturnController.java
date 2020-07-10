@@ -37,11 +37,14 @@ public class ReturnController {
 	
 	
 	@RequestMapping("/goBookReturn.do")
-	public String goBookReturn(HttpSession session,Model model) {
+	public String goBookReturn(HttpSession session,Model model,String msg) {
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
 		ArrayList<Rent> list = service.selectAllRent(memberId);
 		model.addAttribute("list",list);
+		if(msg!=null) {
+			model.addAttribute("msg",msg);
+		}
 		return "book/returnBook";
 	}
 	
@@ -53,9 +56,9 @@ public class ReturnController {
 		System.out.println(turn.getBookNo()+"/"+turn.getSpotName());
 		int result = service.insertTurnApply(turn);
 		if(result>0) {
-			return "book/returnSuccess";
+			return "redirect:/goBookReturn.do?msg=0";
 		}else {
-			return "book/returnFailed";
+			return "redirect:/goBookReturn.do?msg=1";
 		}
 	}
 

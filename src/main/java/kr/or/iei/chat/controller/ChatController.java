@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 
 import kr.or.iei.chat.model.service.ChatService;
 import kr.or.iei.chat.model.vo.Chat;
+import kr.or.iei.chat.model.vo.ChatFile;
 import kr.or.iei.member.model.vo.Member;
 
 @Controller
@@ -86,7 +87,7 @@ public class ChatController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/ajaxFormReceive.do",produces = "application/json; charset=utf-8")
-	public String fileInsert(HttpServletRequest request,MultipartFile file) {
+	public String fileInsert(HttpServletRequest request,MultipartFile file,String title) {
 		if(!file.isEmpty()) {
 			String savePath = request.getSession().getServletContext().getRealPath("resources/chat/");
 			String originalFileName = file.getOriginalFilename();
@@ -102,6 +103,12 @@ public class ChatController {
 			System.out.println(extension);
 			System.out.println(filepath);
 			System.out.println(fullpath);
+			System.out.println(title);
+			ChatFile c = new ChatFile();
+			c.setChatFilepath(fileName);
+			c.setChatTitle(title);
+			
+			int result = service.chatFileInsert(c);
 			byte[] bytes;
 			try {
 				bytes = file.getBytes();

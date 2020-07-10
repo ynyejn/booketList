@@ -34,6 +34,7 @@ function connect(){
 		console.log("웹소켓 연결 생성");
 	};
 	ws.onmessage = function(e){
+		
 	};
 	ws.onclose = function(){
 		console.log("연결종료");
@@ -42,7 +43,7 @@ function connect(){
 $(function() {
 	connect();
 	$("#gogo").click(function () {
-		console.log("갓니")
+		console.log("갓니");
 		var msg = {
 			type : "complainAlarmCount"
 			

@@ -32,6 +32,9 @@ td {
 	border-collapse: collapse;
 }
 </style>
+<script>
+	var bool = true;
+</script>
 
 <body>
 	<div class="wrapper">
@@ -82,8 +85,15 @@ td {
 
 								</tr>
 								<c:forEach items="${list }" var="r">
-									<hr>
-									<tr>
+									<c:if test="${r.countinueDate < 0 }">
+										<tr style="background-color: red"> 
+										<script>
+											bool = false;
+										</script>
+									</c:if>
+									<c:if test="${r.countinueDate >= 0 }">
+										<tr> 
+									</c:if>
 										<td>${r.rentNo}</td>
 										<td>${r.bookNo}</td>
 										<td>${r.spotName}</td>
@@ -91,8 +101,12 @@ td {
 										<td>${r.rentEndDate}</td>
 										<td>${r.rentReturn}</td>
 										<td>${r.bookName}</td>
-										<td><button type="button" id="delayBtn">연장하기</button>
-											<br>
+						
+										<td>
+										
+									<c:if test="${r.countinueDate >= 0 }">
+										<button type="button" class="delayBtn">연장하기</button>
+											</c:if><br>
 										<br></td>
 									</tr>
 
@@ -101,16 +115,33 @@ td {
 							<script>
 							
 									$(function(){
-										$("#delayBtn").click(function(){
-											if($r.rentReturn==0){
-												alert("연장 되었습니다.");
+										$(".delayBtn").click(function(){
+											if($(this).parent().prev().prev().html()==0){//버튼이어서 parent로 올라감
+												
+												if(!bool){
+													alert("연체된 책을 먼저 반납해주세요.");
+												}else{
+													alert("7일 연장되었습니다.");
+													var rentEndDate = $(this).parent().prev().prev().prev().html();
+													var rentReturn = $(this).parent().prev().prev().html();
+													$.ajax({
+														type:'POST',
+														data:{rentEndDate:rentEndDate},
+														{}
+													});
+												}
+														
 											}else{
-												alert("연장은 1회 입니다.");
+												alert("연장은 1회만 가능합니다.");
 											}
+												
+											
+											})
 											
 										});
-									});
+									
 								
+							
 							</script>
 
 							<hr>

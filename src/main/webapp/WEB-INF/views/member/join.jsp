@@ -132,18 +132,10 @@ td {
 								$('#nickname_check').text('중복체크 버튼을 눌러주세요');
 								$('#nickname_check').css('color', '#666666');
 								//닉네임 중복확인	
-								$("#doubleNick")
-										.click(
-												function() {
-													var memberNickname = $(
-															'#memberNickname')
-															.val();
-													$
-															.ajax({
-																type : 'POST',
-																data : {
-																	memberNickname : memberNickname
-																},
+								$("#doubleNick").click(function() {
+									var memberNickname = $('#memberNickname').val();
+													$.ajax({type : 'POST',
+															data : {memberNickname : memberNickname},
 																url : '/member/checkNickname.do',
 																success : function(
 																		data) {
@@ -160,10 +152,10 @@ td {
 																				"#memberJoin")
 																				.attr(
 																						"disabled");
-																	}
-																}
-															})
-												})
+										}
+									}
+								})
+							 })
 							}
 						})
 		$('#memberPhone').on("blur", function(event) {

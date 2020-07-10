@@ -9,6 +9,7 @@ public class RentApply {
 	private int rentApply;
 	private String memberId;
 	private int bookNo;
+	private String bookNoString;
 	private String bookName;
 	private String spotName;
 	private Date rentApplyDate; 
