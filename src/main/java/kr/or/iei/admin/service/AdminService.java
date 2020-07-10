@@ -1279,6 +1279,15 @@ public class AdminService {
 	public BookAndRent selectOneLostBook(int bookNo) {
 		return dao.selectOneLostBook(bookNo);
 	}
+	public Spot selectOneSpot(int spotNo) {
+		return dao.selectOneSpot(spotNo);
+	}
+	public int deleteSpot(int spotNo) {
+		return dao.deleteSpot(spotNo);
+	}
+	public int updateSpot(HashMap<String, Object> map) {
+		return dao.updateSpot(map);
+	}
 	
 
 

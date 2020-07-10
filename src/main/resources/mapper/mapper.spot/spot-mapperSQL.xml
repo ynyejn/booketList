@@ -135,4 +135,17 @@
 		spot_addr as spotAddr,
 		local_name as localName from spot
 </select>
+<select id="selectOneSpot" parameterType="_int" resultType="spot">
+	select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from spot where spot_no = #{spotNo}
+</select>
+<delete id="deleteSpot" parameterType="_int">
+	delete from spot where spot_no = #{spotNo}
+</delete>
+<update id="updateSpot" parameterType="map">
+	update spot set spot_name = #{spotName}, spot_addr = #{spotAddr} where spot_no=#{spotNo}
+</update>
 </mapper>

@@ -2031,11 +2031,54 @@ public class AdminController {
 		
 		@ResponseBody
 		@RequestMapping(value="/selectOneSpot.do",produces="application/json;charset=utf-8")
-		public String selectOneSpot() {
-			
-			return null;
+		public String selectOneSpot(HttpServletRequest request) {
+			int spotNo = Integer.parseInt(request.getParameter("spotNo")); 
+			Spot spot = service.selectOneSpot(spotNo);
+			return new Gson().toJson(spot);
 		}
-		
+		@RequestMapping(value="/deleteSpot.do")
+		public String deleteSpot(int spotNo) {
+			System.out.println(spotNo);
+			int result = service.deleteSpot(spotNo);
+			System.out.println(result);
+			if(result > 0) {
+				return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
+			}else {
+				return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
+			}
+		}
+			@ResponseBody
+			@RequestMapping(value="/updateSpotNameChecked.do",produces = "application/text;charset=utf-8")
+			public String updateSpotNameChecked(HttpServletRequest request) {
+				String spotName = request.getParameter("spotName");
+				String dataSpotName = request.getParameter("dataSpotName");
+				System.out.println(dataSpotName);
+				Spot spot = service.spotNameChecked(spotName);
+				if(spot != null && !spot.getSpotName().equals(dataSpotName)) {
+					return "1";
+				}else if(spot!=null && spot.getSpotName().equals(dataSpotName)){
+					return "2";
+				}else {
+					return "0";
+				}
+			}
+			@RequestMapping(value="/updateSpot.do")
+			public String updateSpot(HttpServletRequest request) {
+				int spotNo = Integer.parseInt(request.getParameter("spotNo"));
+				String spotName = request.getParameter("spotName");
+				String spotAddr = request.getParameter("spotAddr");
+				
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("spotNo", spotNo);
+				map.put("spotName", spotName);
+				map.put("spotAddr", spotAddr);
+				int result = service.updateSpot(map);
+				if(result>0) {
+					return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
+				}else {
+					return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
+				}
+			}
 }
 
 
