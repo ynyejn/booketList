@@ -156,11 +156,12 @@ function connect(){
 				if (rsp.success) {
 					//결제 성공햇을때
 					var checkArr = new Array();
-
+					var count = 0;
 					$(".checkRow:checked").each(function() {
 						checkArr.push($(this).val());
+						count = count + 1;
 					});
-
+						console.log("결제성공 아작스보내기전");
 					$.ajax({
 						url : "/userLostBookUpdate.do",
 						type : "get",
@@ -169,15 +170,17 @@ function connect(){
 							chBox : checkArr
 						},
 						success : function(result) {
-							
+							console.log("아작스 성공");
 							console.log(result);
 							if (result > 0) {
 								alert("분실신고가 완료되었습니다.");
+								alert(count);
 								var sendMsg = {
-										type : "lostBookAlarmCount"
+										type : "lostBookAlarmCount",
+										data : count
 								};
 								ws.send(JSON.stringify(sendMsg));
-								location.href = "/userLostBook.do";
+								/* location.href = "/userLostBook.do"; */
 							} else {
 								alert("수정이 실패 하였습니다.");
 							}
