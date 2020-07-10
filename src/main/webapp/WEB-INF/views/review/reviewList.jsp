@@ -189,7 +189,7 @@ display : flex;
 								<div class="reviewBox">
 									<table>
 										<tr>
-										<td class="reviewImgBox"><img src="/resources/review/noun_853841_cc.png" class="reviewImg"></td>
+										<td class="reviewImgBox"><img src="/resources/review/reviewBook2.png" class="reviewImg"></td>
 											<th class="revNick">${list.memberNickName }<br> <span
 												class="revdate">${list.reviewDate }</span>
 											</th>

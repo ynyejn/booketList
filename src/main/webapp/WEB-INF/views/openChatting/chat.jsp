@@ -74,6 +74,7 @@
 	
 <script>
 	var ws;
+	var memberId = '${sessionScope.member.memberId}';
 	var memberNickname = '${sessionScope.member.memberNickname}';
 	var	title = $("#chatTitle").val();
 	var	chatPeople = $("#chatPeople").val();
@@ -101,7 +102,8 @@
 			var chat = $("#msgArea").html()+msg+"<br>";
 			$("#msgArea").html(chat);
 			$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 300);
-			
+		
+			$("a[name=${sessionScope.member.memberId}]").hide();
 		}
 		
 		ws.onclose = function () {
@@ -115,16 +117,19 @@
 	$(function() {
 		connect();
 		
+				$("a[name=${sessionScope.member.memberId}]").hide();
+			
+
+		
 		$('#msgArea').scrollTop($('#msgArea').prop('scrollHeight'));
-
-
+	
 		$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 1000);
 		let today = new Date();
 	    let hours = today.getHours()<10?"0"+today.getHours():today.getHours(); // 시
 	    let minutes = today.getMinutes()<10?"0"+today.getMinutes():today.getMinutes();  // 분
 		var	title = $("#chatTitle").val();
 		$("#sendBtn").click(function () {
-			
+			$(".memberId").hide();
 	        var form = $("#ajaxFrom")[0];
 	        var formData = new FormData(form);
 	        var fileName = "";
@@ -141,7 +146,7 @@
 	            	console.log(data);
 	               fileName = data;
 	               console.log(fileName);
-	   			var chat = "<div><p class='${sessionScope.member.memberId} chatp'>"+memberNickname+":<img id='img-view' width='200' src='"+fileName+"'><br><span class='time'>"+hours+":"+minutes+"</span></p></div>";
+	   			var chat = "<div><input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'><p class='${sessionScope.member.memberId} chatp'><input type='hidden' id='fileName' value='"+fileName+"'>"+memberNickname+":<img id='img-view' width='200' src='"+fileName+"'><br><a href='javascript:fileDownload();'>다운로드</a><a  name='"+memberId+"'href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&fileName="+fileName+"' onclick='window.open(this.href,`_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span></p></div>";
 	   			var msg = $("#msgArea").html()+chat;
 	   			$("#file").val("");
 	   			$("#msgArea").html(msg);
@@ -155,11 +160,13 @@
 	   			var socketMsg = JSON.stringify(sendMsg);
 	   			ws.send(socketMsg);
 	   			$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 300);
+	   			$("a[name=${sessionScope.member.memberId}]").hide();
 	            }
 	              
 	        });
 			}else{
-				var chat = "<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='${sessionScope.member.memberId} chatp'>"+memberNickname+":"+$("#chatMsg").val()+"<br><span class='time'>"+hours+":"+minutes+"</span></p></div><br>";
+				var tit="window.open(this.href, '_blank', ' location=no,width=500,height=600,toolbars=no,scrollbars=no'); return false;";
+				var chat = "<div style='margin: 0 auto;width:100%; overflow:hidden;'><input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'><p class='${sessionScope.member.memberId} chatp' id='chatMsgg'>"+memberNickname+":"+$("#chatMsg").val()+"<br><a name='"+memberId+"' href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&complainContent="+$("#chatMsg").val()+"'  onclick='window.open(this.href, `_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span></p></div><br>";
 	   			var msg = $("#msgArea").html()+chat;
 	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
@@ -172,10 +179,18 @@
 	   			var socketMsg = JSON.stringify(sendMsg);
 	   			ws.send(socketMsg);
 	   			$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 300);
+	   			$("a[name=${sessionScope.member.memberId}]").hide();
 			}
 	        
 		});
+		
 	});
+	function fileDownload() {
+		var filepath=document.getElementById("fileName").value;
+		console.log(filepath);
+		var newFilepath = encodeURIComponent(filepath);
+		location.href = "/chat/fileDownload.do?filepath=" + newFilepath;
+	}
 	</script>
 </body>
 </html>

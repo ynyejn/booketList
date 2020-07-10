@@ -36,4 +36,103 @@
 		select local_name as localName from spot group by local_name order by
 		local_name
 	</select>
+	<select id="spotNameChecked" parameterType="String" resultType="spot">
+		select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from spot where spot_name=#{spotName}
+	</select>
+	<insert id="insertSpot" parameterType="map">
+		insert into spot values(spot_seq.nextval,#{spotName},#{spotAddr},#{localName})
+	</insert>
+	<select id="adminSpotListTotalCount" resultType="_int">
+		select count(*) from spot
+	</select>
+	<select id="adminSpotList" parameterType="map" resultType="spot">
+		select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from
+		(select ROWNUM as rnum, n.* from
+		(select * from spot order by spot_no desc)n)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectSpotListTotalCount" parameterType="map" resultType="_int">
+		select count(*) as cnt
+		from spot
+		<trim prefix="where">
+			<if test="selectColumn.equals('스팟명 ') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('도로명 주소') and search != ''">
+				spot_addr like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('지역명') and search != ''">
+				local_name like '%' || #{search} || '%'
+			</if>
+		</trim>
+	</select>
+	<select id="bookSearchSpotList" parameterType="map" resultType="spot">
+	select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from
+		(select ROWNUM as rnum, n.* from
+		(select * from spot
+		<trim prefix="where">
+			<if test="selectColumn.equals('스팟명 ') and search != ''">
+				spot_name like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('도로명 주소') and search != ''">
+				spot_addr like '%' || #{search} || '%'
+			</if>
+			<if test="selectColumn.equals('지역명') and search != ''">
+				local_name like '%' || #{search} || '%'
+			</if>
+		</trim>	
+		<choose>
+			<when test="alignTitle=='' and alignStatus==''">
+			order by spot_no desc)n)
+			</when>
+			<when test="alignTitle==null and alignStatus==null">
+			order by spot_no desc)n)
+			</when>
+			<when test='alignTitle.equals("스팟명") and alignStatus=="0"'>
+			order by spot_name desc)n)
+			</when>
+			<when test='alignTitle.equals("스팟명") and alignStatus=="1"'>
+			order by spot_name asc)n)
+			</when>
+			<when test='alignTitle.equals("도로명 주소") and alignStatus=="0"'>
+			order by spot_addr desc)n)
+			</when>
+			<when test='alignTitle.equals("도로명 주소") and alignStatus=="1"'>
+			order by spot_addr asc)n)
+			</when>
+			<when test='alignTitle.equals("지역명") and alignStatus=="0"'>
+			order by local_name desc)n)
+			</when>
+			<when test='alignTitle.equals("지역명") and alignStatus=="1"'>
+			order by local_name asc)n)
+			</when>
+		</choose>
+		where rnum between #{start} and #{end}
+</select>
+<select id="excelSpotListDown" parameterType="_int" resultType="spot">
+	select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from spot where spot_no=#{spotNo}
+</select>
+<select id="excelSpotListTotal" resultType="spot">
+	select
+		spot_no as spotNo,
+		spot_name as spotName,
+		spot_addr as spotAddr,
+		local_name as localName from spot
+</select>
 </mapper>

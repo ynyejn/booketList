@@ -16,4 +16,5 @@ public class BookAndRent {
 	private Date bookPubDate;
 	private int bookStatus;
 	private String memberId;
+	private String bookContent;
 }

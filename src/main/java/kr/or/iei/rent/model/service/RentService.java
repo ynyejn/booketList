@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonArray;
 
 import kr.or.iei.book.model.vo.Book;
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.book.model.vo.BookAndReview;
 import kr.or.iei.book.model.vo.BookAndReviewPageData;
 import kr.or.iei.book.model.vo.PreferencePageData;
@@ -215,14 +216,10 @@ public class RentService {
 		
 		
 		if(rentDateList.size() < 10) {
-			System.out.println(rentDateList.size()+"사이즈 탓따~");
 			//1. 읽은 책이 10권 미만일때. 취향으로만.
 			if(member.getMemberCategory3()==null) {
-				System.out.println("1111");
 				if(member.getMemberCategory2()==null) {
-					System.out.println("2222");
 					if(member.getMemberCategory1()==null) {
-						System.out.println("3333");
 						//취향이 모두 비어있을 때. 랜덤 10권. 취향을 선택하지 않아 이용이 불가능합니다.
 						type = 0;
 						ppd.setBookAndReviewList((ArrayList<BookAndReview>)dao.userBookAndReviewList(preferCategory));													
@@ -269,6 +266,10 @@ public class RentService {
 		
 		ArrayList<BookAndReview> list = (ArrayList<BookAndReview>)dao.refreshBookList(preferCategory);
 		return list;
+	}
+
+	public ArrayList<BookAndRent> selectUserList(Member member) {
+		return (ArrayList<BookAndRent>)dao.selectUserList(member);
 	}
 
 }

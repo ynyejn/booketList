@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kr.or.iei.complain.model.dao.ComplainDao;
+import kr.or.iei.complain.model.vo.Complain;
 
 @Service("complainService")
 public class ComplainService {
@@ -15,6 +16,11 @@ public class ComplainService {
 	public ComplainService() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public int complainInsert(Complain c) {
+		// TODO Auto-generated method stub
+		return dao.complainInsert(c);
 	}
 	
 }

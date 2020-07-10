@@ -62,9 +62,15 @@ public class MemberService {
 	}
 	
 	@Transactional
-	public int update(Member m) {
-		
-		return dao.update(m);
+	public int update(Member m) throws Exception {
+		try {
+			System.out.println(m.getMemberId());
+			m.setMemberPw(enc.encData(m.getMemberPw()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dao.updatePw(m);
 	}
 	@Transactional
 	public int delete(String memberId) {
@@ -94,7 +100,24 @@ public class MemberService {
 		return (ArrayList<Rent>)rentList;
 	}
 	
-	
-	
+	public Member selectIdMember(Member m) {
+		System.out.println(m.getMemberId());
+		System.out.println(m.getMemberPhone());
+		System.out.println(m.getMemberEmail());
+		Member memberId = dao.selectIdMember(m);
+		System.out.println(m.getMemberId());
+		return memberId;
+	}
+
+	public Member selectId(Member m) {
+		System.out.println(m.getMemberId());
+		System.out.println(m.getMemberPhone());
+		System.out.println(m.getMemberEmail());
+		System.out.println("서비스");
+		Member memberId = dao.selectId(m);
+		System.out.println(m.getMemberId());
+		System.out.println("서비스갔다옴");
+		return memberId;
+	}
 	
 }
