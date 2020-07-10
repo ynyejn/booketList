@@ -50,14 +50,25 @@
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 
-
+<script
+	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- 테이블 부트스트랩 -->
 <script>
+var result = new Array("false", "false");
+$("#spotAddr").val("");
+$("#spotCheckStatus").html("");
 	window.onload = function() {
 		console.log("onload");
+		var msg = '${msg }';
+		if(msg=='1'){
+			alert("승인완료 하였습니다.");
+		}else if(msg=='2'){
+			alert("승인실패 하였습니다.");
+		}
 		$("#back").click(function() {
 			location.href = "/adminPage.do";
 		});
+
 		$("#sear").click(function() {
 							$(".chBox").prop("checked", false);
 							$("#allCheck").prop("checked", false);
@@ -66,12 +77,11 @@
 							var selectColumn = $("#selectColumn option:selected").val();
 							var search = $("#search").val();
 							var smc = $("#selectBookCount option:selected").val();
-							var srs = $("#selectReturnStatus option:selected").val();
 							smc = parseInt(smc);
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
-										url : "/bookSearchRentalStatusList.do",
+										url : "/spotSearchList.do",
 										type : "post",
 										dataType : "json",
 										data : {
@@ -80,8 +90,7 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search,
-											returnStatus : srs,
+											search : search
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -90,30 +99,20 @@
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
 												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
 														+ "</th>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberId
+														+ data.list[i].spotName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].bookName
+														+ data.list[i].spotAddr
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.arrRentStartDate[i]
+														+ data.list[i].localName
 														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrRentEndDate[i]
-														+ "</td>";
-												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-													resultText += "<td class=th2>대여중</td></tr>";
-												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-													resultText += "<td class=th2>연체중</td></tr>";
-												}else if(data.list[i].rentReturn == 1){
-													resultText += "<td class=th2>반납완료</td></tr>";
-												}
 											}
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
@@ -127,7 +126,6 @@
 			$(".chBox").prop("checked", false);
 			$("#allCheck").prop("checked", false);
 						var smc = $("#selectBookCount option:selected").val();
-						var srs = $("#selectReturnStatus option:selected").val();
 							$("#tbody").html("");
 							$(".pagination").html("");
 							var selectColumn = $("#selectColumn option:selected").val();
@@ -135,7 +133,7 @@
 							var alignTitle = $("#alignStatus").find("span").html();
 							var alignStatus = $("#alignStatus").find("input").val();
 							$.ajax({
-										url : "/bookSearchRentalStatusList.do",
+										url : "/spotSearchList.do",
 										type : "post",
 										dataType : "json",
 										data : {
@@ -144,8 +142,7 @@
 											selectCount : smc,
 											reqPage : 1,
 											selectColumn : selectColumn,
-											search : search,
-											returnStatus : srs
+											search : search
 										},
 										success : function(data) {
 											console.log(data.list);
@@ -154,94 +151,20 @@
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
 												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-														 + ((data.reqPage - 1)
+												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
 														+ "</th>";
 												resultText += "<td class=th2>"
-														+ data.list[i].memberId
+														+ data.list[i].spotName
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.list[i].bookName
+														+ data.list[i].spotAddr
 														+ "</td>";
 												resultText += "<td class=th2>"
-														+ data.arrRentStartDate[i]
+														+ data.list[i].localName
 														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrRentEndDate[i]
-														+ "</td>";
-												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-													resultText += "<td class=th2>대여중</td></tr>";
-												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-													resultText += "<td class=th2>연체중</td></tr>";
-												}else if(data.list[i].rentReturn == 1){
-													resultText += "<td class=th2>반납완료</td></tr>";
-												}
-											}
-											$("#tbody").html(resultText);
-											$(".pagination").html(data.pageNavi);
-										},
-										error : function() {
-
-										}
-									});
-						});
-		$("#selectReturnStatus").change(function() {
-			$(".chBox").prop("checked", false);
-			$("#allCheck").prop("checked", false);
-						var smc = $("#selectBookCount option:selected").val();
-						var srs = $("#selectReturnStatus option:selected").val();
-							$("#tbody").html("");
-							$(".pagination").html("");
-							var selectColumn = $("#selectColumn option:selected").val();
-							var search = $("#search").val();
-							var alignTitle = $("#alignStatus").find("span").html();
-							var alignStatus = $("#alignStatus").find("input").val();
-							$.ajax({
-										url : "/bookSearchRentalStatusList.do",
-										type : "post",
-										dataType : "json",
-										data : {
-											alignTitle : alignTitle,
-											alignStatus : alignStatus,
-											selectCount : smc,
-											reqPage : 1,
-											selectColumn : selectColumn,
-											search : search,
-											returnStatus : srs
-										},
-										success : function(data) {
-											console.log(data.list);
-											console.log(data.list[0].memberId);
-											console.log(data.pageNavi);
-											var resultText = "";
-											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-														 + ((data.reqPage - 1)
-																* data.selectCount
-																+ i + 1)
-														+ "</th>";
-												resultText += "<td class=th2>"
-														+ data.list[i].memberId
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.list[i].bookName
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrRentStartDate[i]
-														+ "</td>";
-												resultText += "<td class=th2>"
-														+ data.arrRentEndDate[i]
-														+ "</td>";
-												if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-													resultText += "<td class=th2>대여중</td></tr>";
-												}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-													resultText += "<td class=th2>연체중</td></tr>";
-												}else if(data.list[i].rentReturn == 1){
-													resultText += "<td class=th2>반납완료</td></tr>";
-												}
 											}
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
@@ -266,19 +189,66 @@
 			console.log("엑셀다운로드");
 			var checkArr = new Array();
 			$("input[class='chBox']:checked").each(function(){
-				checkArr.push($(this).attr("data-rentNo"));
+				checkArr.push($(this).attr("data-spotNo"));
 			});
-			if(checkArr != 0){
-			location.href="/excelRentDown.do?checkArr="+checkArr
+			if(checkArr!=0){
+				location.href="/excelSpotListDown.do?checkArr="+checkArr	
 			}else{
 				alert("선택해주세요");
 			}
-
+		
 		});
 		$("#excelDownLoadTotal").click(function(){
 			console.log("전체엑셀다운로드");
-			var part = "rentStatus";
+			var part = "spot";
 				location.href="/excelDownTotal.do?part="+part;
+		});
+		
+	
+		
+		$("#addrSearch").click(function(){
+			new daum.Postcode({
+				oncomplete : function(data) {
+					$("#spotAddr").val(data.roadAddress);
+					result[1] = "success";
+					console.log(result);
+				},
+			}).open();
+		});
+		$("#spotAddr").change(function(){
+			if($(this).val()==''){
+				result[1] = "false";
+				console.log(result);
+			}else{
+				result[1] = "success";
+				console.log(result);
+			}
+		});
+		$("#spotName").keyup(function(){
+			var spotName = $("#spotName").val();
+			$.ajax({
+				url : "/spotNameChecked.do",
+				type : "post",
+				data : {
+					spotName : spotName
+				},
+				success : function(data){
+					if(data=="1"){
+						$("#spotCheckStatus").css("color","red");
+						$("#spotCheckStatus").html("스팟이름이 중복입니다.");
+						result[0] = "false";
+						console.log(result);
+					}else{
+						$("#spotCheckStatus").css("color","green");
+						$("#spotCheckStatus").html("사용할 수 있는 스팟이름입니다.");
+						result[0] = "success";
+						console.log(result);
+						
+					}
+				},
+				error : function(data){	
+				}
+			});
 		});
 	};
 	function searchPageNavi(obj) {
@@ -291,7 +261,6 @@
 		$(".chBox").prop("checked", false);
 		$("#allCheck").prop("checked", false);
 		var smc = $("#selectBookCount option:selected").val();
-		var srs = $("#selectReturnStatus option:selected").val();
 		smc = parseInt(smc);
 		var ajaxReqPage = $("#ajaxReqPage").val();
 		ajaxReqPage = parseInt(ajaxReqPage);
@@ -310,7 +279,7 @@
 		var selectColumn = $("#selectColumn option:selected").val();
 		var search = $("#search").val();
 		$.ajax({
-			url : "/bookSearchRentalStatusList.do",
+			url : "/spotSearchList.do",
 			type : "post",
 			dataType : "json",
 			data : {
@@ -319,8 +288,7 @@
 				selectCount : smc,
 				reqPage : reqPage,
 				selectColumn : selectColumn,
-				search : search,
-				returnStatus : srs
+				search : search
 			},
 			success : function(data) {
 				$(".pagination").html("");
@@ -328,30 +296,20 @@
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
 					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-							 + ((data.reqPage - 1)
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+							+ ((data.reqPage - 1)
 									* data.selectCount
 									+ i + 1)
 							+ "</th>";
 					resultText += "<td class=th2>"
-							+ data.list[i].memberId
+							+ data.list[i].spotName
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.list[i].bookName
+							+ data.list[i].spotAddr
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.arrRentStartDate[i]
+							+ data.list[i].localName
 							+ "</td>";
-					resultText += "<td class=th2>"
-							+ data.arrRentEndDate[i]
-							+ "</td>";
-					if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-						resultText += "<td class=th2>대여중</td></tr>";
-					}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-						resultText += "<td class=th2>연체중</td></tr>";
-					}else if(data.list[i].rentReturn == 1){
-						resultText += "<td class=th2>반납완료</td></tr>";
-					}
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -376,7 +334,6 @@
 		ajaxReqPage = parseInt(ajaxReqPage);
 		console.log(ajaxReqPage);
 		var selectColumn = $("#selectColumn option:selected").val();
-		var srs = $("#selectReturnStatus option:selected").val();
 		var search = $("#search").val();
 		$("#alignStatus").find("span").html(aTitle);
 		if(aStatus=="0"){
@@ -389,7 +346,7 @@
 		var alignTitle = $("#alignStatus").find("span").html();
 		var alignStatus = $("#alignStatus").find("input").val();
 		$.ajax({
-			url : "/bookSearchRentalStatusList.do",
+			url : "/spotSearchList.do",
 			type : "post",
 			dataType : "json",
 			data : {
@@ -398,8 +355,7 @@
 				selectColumn : selectColumn,
 				search : search,
 				alignTitle : alignTitle,
-				alignStatus : alignStatus,
-				returnStatus : srs
+				alignStatus : alignStatus
 			},
 			success : function(data){
 				$(".pagination").html("");
@@ -407,30 +363,20 @@
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
 					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-rentNo="+data.list[i].rentNo+">"
-							 + ((data.reqPage - 1)
+					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+							+ ((data.reqPage - 1)
 									* data.selectCount
 									+ i + 1)
 							+ "</th>";
 					resultText += "<td class=th2>"
-							+ data.list[i].memberId
+							+ data.list[i].spotName
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.list[i].bookName
+							+ data.list[i].spotAddr
 							+ "</td>";
 					resultText += "<td class=th2>"
-							+ data.arrRentStartDate[i]
+							+ data.list[i].localName
 							+ "</td>";
-					resultText += "<td class=th2>"
-							+ data.arrRentEndDate[i]
-							+ "</td>";
-					if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='0'){
-						resultText += "<td class=th2>대여중</td></tr>";
-					}else if(data.list[i].rentReturn == 0 && data.compareStatus[i]=='1'){
-						resultText += "<td class=th2>연체중</td></tr>";
-					}else if(data.list[i].rentReturn == 1){
-						resultText += "<td class=th2>반납완료</td></tr>";
-					}
 				}
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
@@ -444,13 +390,36 @@
 			}
 		});
 	}
-
+	
+	function check(){
+		if(result[0] == "false"){
+			return false;
+		}else if(result[1] == "false"){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function updateSpot(obj){
+		var spotNo = $(obj).attr("data-spotNo");
+		$.ajax({
+			url : "/selectOneSpot.do",
+			type : "post",
+			data : {
+				spotNo : spotNo
+			},
+			success : function(data){
+				
+			},
+			error : function(){
+				
+			}
+		});
+	}
 </script>
 </head>
 
-
 <body id="page-top">
-
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
@@ -708,9 +677,9 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">도서 대여 현황</h1>
+					<h1 class="h3 mb-2 text-gray-800">SPOT 목록</h1>
 
-					<style>
+<style>
 .tableTop {
 	width: 100%;
 	height: 45px;
@@ -753,6 +722,7 @@ padding-top:3px;
 
 </style>
 
+
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -767,7 +737,7 @@ padding-top:3px;
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										<li id="tt1" role="presentation" class="active"><a
 											href="#home" id="home-tab" role="tab" data-toggle="tab"
-											aria-controls="home" aria-expanded="true"><b>도서 대여 현황</b></a></li>
+											aria-controls="home" aria-expanded="true"><b>SPOT 리스트</b></a></li>
 										<li>
 											<select class="form-control"
 												style="width: 80px; height: 40px; float:left; margin-left: 10px;"
@@ -781,7 +751,6 @@ padding-top:3px;
 													<option value="100"
 														<c:if test="${selectCount eq 100}">selected</c:if>>100</option>
 											</select>
-											
 										</li>
 										<li id="searchbar">
 											<div class="row">
@@ -792,12 +761,13 @@ padding-top:3px;
 															<select class="form-control"
 																style="width: 120px; height: 35px; margin-left: 10px;"
 																id="selectColumn" name="selectColumn">
-																<option value="아이디"
-																	<c:if test="${selectColumn eq memberId }">selected</c:if>>ID</option>
-																<option value="책 제목"
-																	<c:if test="${selectColumn eq bookName}">selected</c:if>>책 제목</option>
+																<option value="스팟명 "
+																	<c:if test="${selectColumn eq spotName }">selected</c:if>>스팟명</option>
+																<option value="도로명 주소"
+																	<c:if test="${selectColumn eq spotAddr}">selected</c:if>>도로명 주소</option>
+																	<option value="지역명"
+																	<c:if test="${selectColumn eq localName}">selected</c:if>>지역명</option>
 															</select>
-
 														</div>
 														<!-- /btn-group -->
 														<input type="text" class="form-control" aria-label="..."
@@ -812,7 +782,7 @@ padding-top:3px;
 											</div>
 										</li>
 									</ul>
-								
+
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
@@ -821,34 +791,22 @@ padding-top:3px;
 													<thead>
 														<tr>
 															<th class="num" style="width:10%"><input type="checkbox" name="allCheck" id="allCheck">선택</th>
-															<th class="th2" style="width:10%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>아이디</span></th>
-															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
-															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>대여일자</span></th>
-															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납예정일자</span></th>
-															<th class="th2" style="width:20%">
-																<select class="form-control" id="selectReturnStatus" style="width:90px;height:28px; font-size:13px; font-weight:bolder;padding:0px;">
-																	<option value="대여상태">대여상태</option>
-																	<option value="대여중">대여중</option>
-																	<option value="반납완료">반납완료</option>
-																	<option value="연체중">연체중</option>
-																</select>
-															</th>
+															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>스팟명</span></th>
+															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>도로명 주소</span></th>
+															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>지역명</span></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
 														<c:forEach items="${list }" var="l" varStatus="i">
 															<tr>
 																<input type="hidden" id="ajaxReqPage" value="${reqPage }">
-																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-rentNo="${l.rentNo }">${(reqPage-1)*selectCount + i.count }</th>
-																<td class="th2"><c:if test="${l.memberId eq null}">-</c:if>${l.memberId }</td>
-																<td class="th2">${l.bookName }</td>
-																<td class="th2">${l.rentStartDate }</td>
-																<td class="th2">${l.rentEndDate }</td>
+																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-spotNo="${l.spotNo }">${(reqPage-1)*selectCount + i.count }</th>
+																<td class="th2">${l.spotName }</td>
+																<td class="th2">${l.spotAddr }</td>
+																<td class="th2">${l.localName }</td>
 																<td class="th2">
-																	<c:if test="${l.rentReturn eq 0 and compare[i.index] eq '0'}">대여중</c:if>
-																	<c:if test="${l.rentReturn eq 0 and compare[i.index] eq '1'}">연체중</c:if>
-																	<c:if test="${l.rentReturn eq 1}">반납완료</c:if>
-																</td>
+																<button class="btn btn-primary" data-spotNo="${l.spotNo }" data-toggle="modal" data-target="#myModal2" onclick="updateSpot(this)">수정</button>
+																<button class="btn btn-danger" data-spotNo="${l.spotNo }" onclick="deleteSpot(this)">삭제</button></td>
 															</tr>
 														</c:forEach>
 													</tbody>
@@ -864,6 +822,58 @@ padding-top:3px;
 												</nav>
 												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
 														다운로드</button>
+												<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">스팟 생성</button>
+	<!-- 스팟생성 모달 -->
+                        <div class="modal fade" id="myModal" tabindex="-1"
+                           role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">SPOT 생성</h4>
+                                 </div>
+                                 <form action="/insertSpot.do" name="insertSpot" id="insertSpot" method="post" onsubmit="return check()">
+	                                 <div class="modal-body" style="height: 200px; text-align:center; line-height:200px;">
+	                                    <input type="text" id="spotName" name="spotName" style="width: 200px; height: 35px; font-size: 10pt; display: inline-block;" placeholder="스팟이름" required/> 
+	                                    <input type="text" id="spotAddr" name="spotAddr" style="width: 200px; height: 35px; font-size: 10pt;"placeholder="도로명주소" readonly="readonly" required="required"/>
+										<button type="button" id="addrSearch" class="btn btn-warning px-3" style="height: 35px;">주소검색</button><br/>
+	                                 </div>
+	                                 <div class="modal-footer">
+	                                 	<span id="spotCheckStatus" style="position: absolute; left:320px;"></span>
+	                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative;">돌아가기</button>
+	                                    <button type="submit" class="btn btn-primary" id="submit">생성</button>
+	                                 </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+<!-- --------- -->
+<!-- 스팟수정 모달 -->
+                        <div class="modal fade" id="myModal2" tabindex="-1"
+                           role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">SPOT 생성</h4>
+                                 </div>
+                                 <form action="/updateSpot.do" name="updateSpot" id="updateSpot" method="post" onsubmit="return check()">
+	                                 <div class="modal-body" style="height: 200px; text-align:center; line-height:200px;">
+	                                    <input type="text" id="spotName" name="spotName" style="width: 200px; height: 35px; font-size: 10pt; display: inline-block;" placeholder="스팟이름" required/> 
+	                                    <input type="text" id="spotAddr" name="spotAddr" style="width: 200px; height: 35px; font-size: 10pt;"placeholder="도로명주소" readonly="readonly" required="required"/>
+										<button type="button" id="addrSearch" class="btn btn-warning px-3" style="height: 35px;">주소검색</button><br/>
+	                                 </div>
+	                                 <div class="modal-footer">
+	                                 	<span id="spotCheckStatus" style="position: absolute; left:320px;"></span>
+	                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative;">돌아가기</button>
+	                                    <button type="submit" class="btn btn-primary" id="submit">수정</button>
+	                                 </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+<!-- --------- -->
+<script>
+
+</script>
 										</div>
 									</div>
 								</div>

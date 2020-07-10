@@ -19,19 +19,11 @@
 <title>BooketList</title>
 
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
 
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
 <!-- Custom fonts for this template-->
 <link
 	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
@@ -57,6 +49,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+
+
 <!-- 테이블 부트스트랩 -->
 <script>
 	window.onload = function() {
@@ -137,6 +131,7 @@
 										}
 									});
 						});
+
 		$("#selectMemberCount").change(function() {
 			$(".chBox").prop("checked", false);
 			$("#allCheck").prop("checked", false);
@@ -231,7 +226,7 @@
 			var part = "member";
 				location.href="/excelDownTotal.do?part="+part
 		});
-
+		
 	};
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
@@ -373,6 +368,7 @@
 				
 			}
 		});
+		
 	}
 	
 	function deleteMember(obj){
@@ -384,12 +380,11 @@
 		}else{
 			
 		}
+		
 	}
 </script>
 </head>
-
 <body id="page-top">
-
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
@@ -499,19 +494,11 @@
 
 			<!-- Heading -->
 			<div class="sidebar-heading">SPOT 관리</div>
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapseUtilities"
-				aria-expanded="true" aria-controls="collapseUtilities"> <i
-					class="fas fa-fw fa-folder"></i> <span>SPOT</span>
-			</a>
-				<div id="collapseUtilities" class="collapse"
-					aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">SPOT</h6>
-						<a class="collapse-item" href="#">SPOT리스트</a> <a
-							class="collapse-item" href="#">SPOT생성</a>
-					</div>
-				</div></li>
+			<li class="nav-item">
+        	<a class="nav-link" href="/adminSpotList.do?reqPage=1&selectCount=10">
+          	<i class="fas fa-fw fa-table"></i>
+          	<span>SPOT</span></a>
+      </li>
 			<hr class="sidebar-divider">
 
 			<!-- Heading -->
@@ -657,7 +644,7 @@
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
 
-					<style>
+<style>
 .tableTop {
 	width: 100%;
 	height: 45px;
