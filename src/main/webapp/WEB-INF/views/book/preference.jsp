@@ -224,12 +224,13 @@
 		var rentListLength = ${rentList}.length;
 		var writerListLength = ${writerList}.length;
 		var rentDateListLength = ${rentDateList}.length;
-		
+		var rentCount = 0;
 		var rentBookCategory = new Array();
 		var rentBookCategoryCnt = new Array();
 		for(var i=0; i<rentListLength; i++) {
 			rentBookCategory.push(${rentList}[i]["bookCategory"]);
 			rentBookCategoryCnt.push(${rentList}[i]["cnt"]);
+			rentCount += ${rentList}[i]["cnt"];
 		}
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart1);
@@ -331,7 +332,21 @@
 			var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
 			chart.draw(view, options);
 		};
+		 $("#keywordBtn").click(function () {
+				console.log("click");
+				
+				console.log(rentCount);
+				if(rentCount > 3) {
+					var status = "left=200px, top=150px, width=980px, height=550px, menubar=no, status=no, scrollbars=no"; 
+					var title = "wordcloud";
+		 			window.open("/rjava/connection.do",title, status); 				
+				}else{
+					$("#myBtn2").trigger('click');
+				}
+					
+			 });
 	});
+    
 	function refresh() {
 		$.ajax({
 			url : '/rent/refresh.do',
@@ -352,62 +367,17 @@
 				console.log("Ajax error");
 			}
 		});
-	}
-/* 	function keywordBtn() {
- 		location.href = "/common/NewFile.html"; 
-		$.ajax({
-			url : '/rjava/connection.do',
-			success : function(data) {
-				console.log(data);
-				$("#htmlText").val(data);
-				$("#wordBtn").trigger('click');
-				var url = "/rjava/word.do"; //중복체크를 처리할 Servelet Mapping 값
-				var title = "wordcloud"; //새로 열리는 창과 checkIdFrm form을 연결할 값
- 				var status = "left=500px, top=100px, width=300px, height=200px, menubar=no, status=no, scrollbars=yes"; 
-				var popup = window.open("",title);
-				$("input[name=htmlText]").val(data);
-				$("#wordCloud").attr("action",url);
-				$("#wordCloud").attr("method","post"); //포스트
-				$("#wordCloud").attr("target",title); //새로열린 pop창과 form태그를 연결
-				$("#wordCloud").submit();
-				
- 				var styleScriptBody = data;
-				var style = styleScriptBody.split("~구분~")[0];
-				var script = styleScriptBody.split("~구분~")[1];
-				var body = styleScriptBody.split("~구분~")[2];
-				console.log(style);
-				console.log(script);
-				console.log(body);
-				$("#myBtn2").trigger('click');
-				 $(".modal-content2").html(body); 
-				$(".modal-content2").append(body);
-				$(".test").append(body);
-				$(".modal-content2").append(script);
-				$(".test").append(script); 
-				if(data == "성공") {
-					
-				}else {
-					$("#myBtn2").trigger('click');
-				}
-			}, error : function() {
-				console.log("실패");
-			}
-		});
-	}
-	 */
-	 $(function() {
-		 $("#keywordBtn").click(function () {
-			console.log("click");
-/* 			location.href = "/rjava/connection.do"; */
-		 });
-	 })
+	};
+
 	function searchBook(obj) {
 		console.log(obj);
 		var bookCategory = $('#input'+obj).val().split('~구분~')[0];
 		var bookName = $('#input'+obj).val().split('~구분~')[1];
+		console.log(bookCategory);
+		console.log(bookName);
 		location.href = "/rent/searchBookDetail.do?categorySelect="+bookCategory+"&bookAttr=book_name&reqPage=1&sort=book_name&inputText="+bookName;
 	};
-  </script>    
+</script>    
 <body style="line-height:normal;">
 <div class="wrapper"  style="background-color : #f3f5f7;">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -596,16 +566,12 @@
 			</c:otherwise>
 		</c:choose>
 	<div class="content">
-		<form id="wordCloud">
-			<input type="text" id="htmlText" name="htmlText">
-		</form>
 		<div id="chartDiv">
 			<div id="spanDivSpan">
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
 				${sessionScope.member.memberNickname }님의 독서 통계
 				<img style='height:20px; width:20px;' src="/resources/imgs/bookicon.png" class="check">
 				<c:if test="${rentListSize > 0}">	
-<!-- 					<button id="keywordBtn" onclick="keywordBtn();">워드클라우드</button>				 -->
 					<button id="keywordBtn" type="button">워드클라우드</button>									
 				</c:if>			
 			</div>
@@ -692,11 +658,12 @@
 <!-- The Modal -->
 <div id="myModal" class="modal">
 <!-- Modal content -->
-	<div class="modal-content" style="height : 285px;">
+	<div class="modal-content" style="height : 315px;">
 		<span class="close">&times;</span>
-		<h3>취향분석에 오신걸 환영합니다! </h3><br><br><br>                                                            
+		<h3><img src="/resources/imgs/fDot.png" style='width:23px; height:23px;'>&nbsp;&nbsp;취향분석에 오신걸 환영합니다!&nbsp;&nbsp;<img src="/resources/imgs/fDot.png" style='width:23px; height:23px;'></h3><br><br>                                                      
 		<p>회원 가입시 골라주신 카테고리와 대여한 책, 남기신 리뷰를 바탕으로 회원님께 맞는 책을 추천해드리는 코너입니다 :)</p>
 		<p>정확한 분석을 위해선 10권 이상의 대여 기록이 필요하니 이점 참고해주세요 !</p>
+		<p>또한, 워드 클라우드의 경우엔 3권 이상 대여시 이용이 가능하답니다 ^ 3^</p>
 	</div>
 </div>
 
@@ -706,10 +673,10 @@
 <!-- The Modal -->
 <div id="myModal2" class="modal2">
 <!-- Modal content -->
-	<div class="modal-content2" style="height : 285px;">
+	<div class="modal-content" style="height : 185px; width:450px;">
 		<span class="close2">&times;</span>
-		<h3>사용자의 데이터가 부족해 키워드 분석을 할 수 없습니다. </h3>
-		<h3>책을 대여해 데이터를 쌓아주세요 !</h3>
+		<p>사용자의 데이터가 부족해 키워드 분석을 할 수 없습니다. </p>
+		<p>책을 대여해 데이터를 쌓아주세요 ! </p>
 	</div>
 </div>
 </body>
