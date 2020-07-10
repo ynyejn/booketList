@@ -45,7 +45,7 @@ public class MailSend {
 			InternetAddress to = new InternetAddress(email);
 			msg.setRecipient(Message.RecipientType.TO, to);
 
-			msg.setSubject("인증메일(메일제목)", "UTF-8");
+			msg.setSubject("북킷리스트 인증메일입니다.", "UTF-8");
 			msg.setContent("<h1>북킷리스트 인증메일입니다.</h1><h3>인증번호[" + sb.toString() + "]입니다." + "회원가입 인증번호 칸에 입력해주세요.</h3>",
 					"text/html;charset=UTF-8");
 			Transport.send(msg);

@@ -95,14 +95,27 @@ public class UsedBoardService {
 	}
 	
 	@Transactional
-	public int insertComment(UsedComment uc, ArrayList<UsedFiles> fileList) {
+	public int insertComment(UsedComment uc, ArrayList<UsedFiles> fileList, int usedStatus) {
 		int result1 = dao.insertComment(uc);
 		int result2 = dao.insertFiles(fileList);
+		if(usedStatus==1 && !uc.getCommentWriter().equals("admin")) {
+			UsedBoard ub = new UsedBoard();
+			ub.setMemberId(uc.getCommentWriter());
+			ub.setUsedStatus(usedStatus);
+			ub.setUsedNo(uc.getUsedNo());
+			int result = dao.updateUsedStatus(ub);
+		}
 		return result1+result2;
 	}
 
 	public ArrayList<UsedComment> selectComment(int usedNo) {
 		List list = dao.selectComment(usedNo);
+		for(int i=0; i<list.size();i++) {
+			UsedComment uc =(UsedComment)list.get(i);
+			int commentNo= uc.getCommentNo();
+			List ufList = dao.selectFiles(commentNo);
+			uc.setUsedFiles((ArrayList<UsedFiles>)ufList);
+		}
 		return (ArrayList<UsedComment>)list;
 	}
 }
