@@ -644,7 +644,7 @@
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800">도서 대여 예약 목록</h1>
 
-					<style>
+<style>
 .tableTop {
 	width: 100%;
 	height: 45px;
@@ -670,27 +670,35 @@
 	position: absolute;
 	right: 0px;
 }
-
+.pagination{
+	margin-right:120px;
+}
 #excelDownLoad {
 	margin-top: 20px;
 	float: left;
+	border : none;
 }
 #excelDownLoadTotal {
+	margin-top: 20px;
 	float: left;
+	margin-left : 5px;
+	border : none;
 }
+
 #tbody button{
 width:50px;
 height:20px;
 font-size:8pt;
 padding-top:3px;
 }
-
+#back{
+ background-color:#303538;
+}
 </style>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">List</h4>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -777,16 +785,14 @@ padding-top:3px;
 													</tbody>
 												</table>
 												
-												<nav id="footNav2" style="text-align: center;">
-													<button class="btn btn-primary" id="excelDownLoad">엑셀
-														다운로드</button>
+												<nav id="footNav2" style="text-align:center;">
+													<button class="btn btn-primary" id="excelDownLoad">선택 항복 엑셀</button>
+													<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀</button>
 													<ul class="pagination">${pageNavi }</ul>
 													<div id="sel" style="float: right; margin-top: 20px;">
 														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 													</div>
 												</nav>
-												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
-														다운로드</button>
 										</div>
 									</div>
 								</div>

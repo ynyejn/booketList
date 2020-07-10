@@ -112,7 +112,7 @@
 														+ data.arrRentApplyDate[i]
 														+ "</td>";
 												resultText += "<td class=th2>"
-												+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+												+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 												+ "</td></tr>";
 											}
 											$("#tbody").html(resultText);
@@ -170,7 +170,7 @@
 														+ data.arrRentApplyDate[i]
 														+ "</td>";
 												resultText += "<td class=th2>"
-												+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+												+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 												+ "</td></tr>";
 											}
 											$("#tbody").html(resultText);
@@ -274,7 +274,7 @@
 							+ data.arrRentApplyDate[i]
 							+ "</td>";
 					resultText += "<td class=th2>"
-					+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+					+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 					+ "</td></tr>";
 				}
 				$("#tbody").html(resultText);
@@ -347,7 +347,7 @@
 							+ data.arrRentApplyDate[i]
 							+ "</td>";
 					resultText += "<td class=th2>"
-					+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)'>승인</button>"
+					+ "<button class='btn btn-danger' data-rentApply="+data.list[i].rentApply+" onclick='agreeRentApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 					+ "</td></tr>";
 				}
 				$("#tbody").html(resultText);
@@ -633,7 +633,7 @@
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800">도서 대여 신청 목록</h1>
 
-					<style>
+<style>
 .tableTop {
 	width: 100%;
 	height: 45px;
@@ -659,27 +659,35 @@
 	position: absolute;
 	right: 0px;
 }
-
+.pagination{
+	margin-right:120px;
+}
 #excelDownLoad {
 	margin-top: 20px;
 	float: left;
+	border : none;
 }
 #excelDownLoadTotal {
+	margin-top: 20px;
 	float: left;
+	margin-left : 5px;
+	border : none;
 }
+
 #tbody button{
 width:50px;
 height:20px;
 font-size:8pt;
 padding-top:3px;
 }
-
+#back{
+ background-color:#303538;
+}
 </style>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">List</h4>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -762,23 +770,21 @@ padding-top:3px;
 																<td class="th2">${l.spotName }</td>
 																<td class="th2">${l.rentApplyDate }</td>
 																<td class="th2">
-																	<button class="btn btn-danger" data-rentApply="${l.rentApply }" onclick="agreeRentApply(this)">승인</button>
+																	<button class="btn btn-danger" data-rentApply="${l.rentApply }" onclick="agreeRentApply(this)" style="border:none; background-color:#00a3e0;">승인</button>
 																</td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 												
-												<nav id="footNav2" style="text-align: center;">
-													<button class="btn btn-primary" id="excelDownLoad">엑셀
-														다운로드</button>
+												<nav id="footNav2" style="text-align:center;">
+													<button class="btn btn-primary" id="excelDownLoad">선택 항복 엑셀</button>
+													<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀</button>
 													<ul class="pagination">${pageNavi }</ul>
 													<div id="sel" style="float: right; margin-top: 20px;">
 														<button type="button" class="btn btn-primary" id="back">돌아가기</button>
 													</div>
 												</nav>
-												<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀
-														다운로드</button>
 										</div>
 									</div>
 								</div>
