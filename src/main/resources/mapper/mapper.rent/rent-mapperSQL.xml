@@ -36,7 +36,8 @@
          rent_start_date as rentStartDate,
          rent_end_date as rentEndDate,
          rent_return as rentReturn,
-         book_name as bookName
+         book_name as bookName,
+         round(rent_end_date-sysdate) as countinueDate
          from rent
          join book using(book_no)
          where member_id=#{_parameter}
