@@ -34,8 +34,7 @@ public class ReturnDao {
 	}
 
 	public void updateBookStatusTo3(String bookNo) {
-		sqlSession.update("return.updateBookStatusTo3",bookNo);
-		
+		sqlSession.update("return.updateBookStatusTo3",bookNo);	
 	}
 
 }
