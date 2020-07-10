@@ -206,7 +206,7 @@
 			if($("#file")[0].files[0]!=null){
 				
 	        $.ajax({
-	              url : "/chat/ajaxFormReceive.do"
+	              url : "/chat/ajaxFormReceive.do?title="+title
 	            , type : "POST"
 	            , processData : false
 	            , contentType : false
