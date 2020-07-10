@@ -42,6 +42,7 @@
          where member_id=#{_parameter}
 	
 	</select>
+	
 	<select id="rentApplyTotalCount" resultType="_int">
 		select count(*) as cnt from rentapply
 	</select>
@@ -161,5 +162,12 @@
 		,spot_name as spotName
 		,rentapply_date as rentApplyDate
 		from rentapply left join book using(book_no)
+	</select>
+	<select id="selectUserList" resultType="bookAndRent" parameterType="member">
+		select 
+			book_no as bookNo, book_name as bookName, book_content as bookContent,
+			book_publisher as bookPublisher, book_writer as bookWriter, book.book_category as bookCategory 
+		from rent join book using (book_no) 
+		where member_id = #{memberId}
 	</select>
 </mapper>
