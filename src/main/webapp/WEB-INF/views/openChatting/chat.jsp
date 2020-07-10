@@ -8,7 +8,7 @@
 <title>Booket List openChatting방</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <style type="text/css">
-	.${sessionScope.member.memberId}{
+	.a{
 		margin: 0 auto;
 		padding-left: 10px;
 		
@@ -23,6 +23,21 @@
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 	}
+	.b{
+		margin: 0 auto;
+		padding-left: 10px;
+		
+		background-color: cornflowerblue;
+		border: 1px solid antiquewhite;
+		width: 30%;
+		text-align: left;
+		display: block;
+        float: left;
+        border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
 	.time{
 		font-size : 0.7em;
 	}
@@ -31,6 +46,9 @@
 	width: 100%;
 	height: 300px;
 	overflow:auto;
+	}
+	a{
+		text-decoration :none;
 	}
 	#chatImg{
 	color: white;
@@ -81,7 +99,7 @@
 	
 
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.181/openChatting.do?memberNickname="+memberNickname+" "+title);
+		ws = new WebSocket("ws://192.168.10.16/openChatting.do?memberNickname="+memberNickname+" "+title);
 
 		
 		ws.onopen = function () {
@@ -99,7 +117,7 @@
 		
 		ws.onmessage = function (e) {
 			var msg = e.data;
-			var chat = $("#msgArea").html()+msg+"<br>";
+			var chat =$("#msgArea").html()+"<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='b' id='chatMsgg'>"+msg+"</p></div>";
 			$("#msgArea").html(chat);
 			$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 300);
 		
@@ -119,7 +137,7 @@
 		
 				$("a[name=${sessionScope.member.memberId}]").hide();
 			
-
+				 
 		
 		$('#msgArea').scrollTop($('#msgArea').prop('scrollHeight'));
 	
@@ -128,6 +146,66 @@
 	    let hours = today.getHours()<10?"0"+today.getHours():today.getHours(); // 시
 	    let minutes = today.getMinutes()<10?"0"+today.getMinutes():today.getMinutes();  // 분
 		var	title = $("#chatTitle").val();
+		$("#chatMsg").keydown(function (key) {
+			 if(key.keyCode == 13){
+		            searchBook();
+		        }
+		})
+		 searchBook = function () {
+			$(".memberId").hide();
+	        var form = $("#ajaxFrom")[0];
+	        var formData = new FormData(form);
+	        var fileName = "";
+	        formData.append("file", $("#file")[0].files[0]);
+			if($("#file")[0].files[0]!=null){
+				
+	        $.ajax({
+	              url : "/chat/ajaxFormReceive.do"
+	            , type : "POST"
+	            , processData : false
+	            , contentType : false
+	            , data : formData
+	            , success:function(data) {
+	            	console.log(data);
+	               fileName = data;
+	               console.log(fileName);
+	   			var chat = "<input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'><input type='hidden' id='fileName' value='"+fileName+"'>"+memberNickname+":<img id='img-view' width='150' src='"+fileName+"'><br><a href='javascript:fileDownload();'>다운로드</a><a  name='"+memberId+"'href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&fileName="+fileName+"' onclick='window.open(this.href,`_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span>";
+	   			var msg = $("#msgArea").html()+"<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='a' id='chatMsgg'>"+chat+"</p></div>";
+	   			$("#file").val("");
+	   			$("#msgArea").html(msg);
+	   			$("#chatMsg").val("");
+	   			var sendMsg = {
+	   					type : "chat",
+	   					msg : chat,
+	   					title : title,
+	   					memberNickname : memberNickname
+	   			};
+	   			var socketMsg = JSON.stringify(sendMsg);
+	   			ws.send(socketMsg);
+	   			$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 300);
+	   			$("a[name=${sessionScope.member.memberId}]").hide();
+	            }
+	              
+	        });
+			}else{
+				
+				var chat = "<input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'>"+memberNickname+":"+$("#chatMsg").val()+"<br><a name='"+memberId+"' href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&complainContent="+$("#chatMsg").val()+"'  onclick='window.open(this.href, `_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span><br>";
+	   			var msg = $("#msgArea").html()+"<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='a' id='chatMsgg'>"+chat+"</p></div>";
+	   			$("#msgArea").html(msg);
+	   			$("#chatMsg").val("");
+	   			var sendMsg = {
+	   					type : "chat",
+	   					msg : chat,
+	   					title : title,
+	   					memberNickname : memberNickname
+	   			};
+	   			var socketMsg = JSON.stringify(sendMsg);
+	   			ws.send(socketMsg);
+	   			$('#msgArea').stop().animate({ scrollTop: $('#msgArea')[0].scrollHeight }, 300);
+	   			$("a[name=${sessionScope.member.memberId}]").hide();
+			}
+	        
+		}
 		$("#sendBtn").click(function () {
 			$(".memberId").hide();
 	        var form = $("#ajaxFrom")[0];
@@ -146,8 +224,8 @@
 	            	console.log(data);
 	               fileName = data;
 	               console.log(fileName);
-	   			var chat = "<div><input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'><p class='${sessionScope.member.memberId} chatp'><input type='hidden' id='fileName' value='"+fileName+"'>"+memberNickname+":<img id='img-view' width='200' src='"+fileName+"'><br><a href='javascript:fileDownload();'>다운로드</a><a  name='"+memberId+"'href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&fileName="+fileName+"' onclick='window.open(this.href,`_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span></p></div>";
-	   			var msg = $("#msgArea").html()+chat;
+	   			var chat = "<input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'><input type='hidden' id='fileName' value='"+fileName+"'>"+memberNickname+":<img id='img-view' width='150' src='"+fileName+"'><br><a href='javascript:fileDownload();'>다운로드</a><a  name='"+memberId+"'href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&fileName="+fileName+"' onclick='window.open(this.href,`_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span>";
+	   			var msg = $("#msgArea").html()+"<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='a' id='chatMsgg'>"+chat+"</p></div>";
 	   			$("#file").val("");
 	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
@@ -165,9 +243,9 @@
 	              
 	        });
 			}else{
-				var tit="window.open(this.href, '_blank', ' location=no,width=500,height=600,toolbars=no,scrollbars=no'); return false;";
-				var chat = "<div style='margin: 0 auto;width:100%; overflow:hidden;'><input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'><p class='${sessionScope.member.memberId} chatp' id='chatMsgg'>"+memberNickname+":"+$("#chatMsg").val()+"<br><a name='"+memberId+"' href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&complainContent="+$("#chatMsg").val()+"'  onclick='window.open(this.href, `_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span></p></div><br>";
-	   			var msg = $("#msgArea").html()+chat;
+				
+				var chat = "<input type='hidden' id='memberId' value='${sessionScope.member.memberNickname}'>"+memberNickname+":"+$("#chatMsg").val()+"<br><a name='"+memberId+"' href='/complain/complain.do?memberIds=${sessionScope.member.memberId }&complainContent="+$("#chatMsg").val()+"'  onclick='window.open(this.href, `_blank`, ` location=no,width=500,height=600,toolbars=no,scrollbars=no`); return false;'>신고하기</a><span class='time'>"+hours+":"+minutes+"</span><br>";
+	   			var msg = $("#msgArea").html()+"<div style='margin: 0 auto;width:100%; overflow:hidden;'><p class='a' id='chatMsgg'>"+chat+"</p></div>";
 	   			$("#msgArea").html(msg);
 	   			$("#chatMsg").val("");
 	   			var sendMsg = {
