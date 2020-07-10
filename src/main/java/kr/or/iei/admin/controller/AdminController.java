@@ -1896,10 +1896,10 @@ public class AdminController {
 			int result = service.insertSpot(map);
 			if(result>0) {
 				System.out.println("성공");
-				return "redirect:/adminPage.do";
+				return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
 			}else {
 				System.out.println("실패");
-				return "redirect:/adminPage.do";
+				return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
 			}
 			
 		}
