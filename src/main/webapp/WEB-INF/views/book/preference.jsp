@@ -385,7 +385,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<c:choose>
 			<c:when test="${userCategory eq '사회과학'}">
-				<div class='mainImgDiv' style="background-image: url('/resources/imgs/social.png');">
+				<div class='mainImgDiv' style="background-image: url('/resources/imgs/social2.jpg');">
 					<div class="black"  style="opacity:30%;"></div>
 					<span class="userNameSpan">${sessionScope.member.memberNickname}님의 취향은</span><br>
 					<span class="userCategorySpan">[${userCategory}]입니다.</span>
