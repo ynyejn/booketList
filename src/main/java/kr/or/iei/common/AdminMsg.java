@@ -49,11 +49,10 @@ public class AdminMsg extends TextWebSocketHandler{
 			Alarm total = dao.selectTotalCount();  
 			String a = new Gson().toJson(total);
 			System.out.println(a);
-			if(!admin.isEmpty()) {
-				for(int i=0;i<admin.size();i++) {
-					admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
-				}
+			for(int i=0;i<admin.size();i++) {
+				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
 			}
+			
 			
 
 		}else if(type.equals("complainAlarmCount")) {
@@ -62,7 +61,9 @@ public class AdminMsg extends TextWebSocketHandler{
 			Alarm total = dao.selectTotalCount(); //모든 컬럼들 select 
 			String a = new Gson().toJson(total);
 			System.out.println(a);
+			System.out.println(admin.size());
 			for(int i=0;i<admin.size();i++) {
+				
 				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
 			}
 			
