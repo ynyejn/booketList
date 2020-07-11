@@ -2,7 +2,7 @@
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<!DOCTYPE html>
 <!-- <html lang="en" style="font-size:18px;">
 
 <head> -->
@@ -14,7 +14,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-<!--   <title>BooketList</title> -->
+  <title>BooketList</title>
    
 
   <!-- Custom fonts for this template-->
@@ -28,6 +28,7 @@
 	href="/resources/adminBootstrap/css/bootstrap.css" />
 	<!-- Custom styles for this template-->
   
+  <link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css"/>
   <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -38,7 +39,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
-<link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css"/>
 
 
 <script>
@@ -348,7 +348,7 @@
                      비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/delete.do" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/logout.do" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -356,6 +356,4 @@
             </li>
           </ul>
         </nav>
-       
-     
         <!-- End of Topbar -->

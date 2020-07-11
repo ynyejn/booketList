@@ -2079,6 +2079,10 @@ public class AdminController {
 					return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
 				}
 			}
+			@RequestMapping(value="/mainPage.do")
+			public String mainPage() {
+				return "redirect:/";
+			}
 }
 
 
