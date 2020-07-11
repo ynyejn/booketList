@@ -207,6 +207,7 @@ public class RentController {
 		}		
 		return new Gson().toJson(list);
 	}
+
 	
 	///////////////////////////////////////예진-스팟정하고 대여신청테이블에 넣기
 	@RequestMapping("/rentBook.do")

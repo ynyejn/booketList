@@ -105,7 +105,7 @@
 	});
 </script>
 End Channel Plugin
-</head>
+
 
 <body id="page-top">
 
@@ -436,6 +436,7 @@ End Channel Plugin
           </ul>
         </nav>
         End of Topbar -->
+        </head>
 <jsp:include page="/WEB-INF/views/common/adminSidebar.jsp"/>
 	<body id="page-top">
         <!-- Begin Page Content -->
@@ -842,7 +843,7 @@ End Channel Plugin
 	    		rentDateCountList[4]["rentDate"], rentDateCountList[5]["rentDate"], 
 	    		rentDateCountList[6]["rentDate"], rentDateCountList[7]["rentDate"], 
 	    		rentDateCountList[8]["rentDate"], rentDateCountList[9]["rentDate"], 
-	    		rentDateCountList[10]["rentDate"], rentDateCountList[11]["rentDate"]]
+	    		rentDateCountList[10]["rentDate"]] //, rentDateCountList[11]["rentDate"]
 		,datasets: [{
 	      label: "대여 권수",
 	      lineTension: 0.3,
