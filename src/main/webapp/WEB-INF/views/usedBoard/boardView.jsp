@@ -183,7 +183,6 @@
 
     .commentFrame {
         overflow: hidden;
-        padding-top: 60px;
         display: none;
     }
 
@@ -199,7 +198,6 @@
         /*        border-top: 1px solid #dddddd;*/
         border-top: 1px solid #585858;
         border-bottom: 1px solid #dddddd;
-        padding-bottom: 15px;
     }
 
     .commentBox:first-of-type {
@@ -213,6 +211,7 @@
     .commentWriter {
         border-bottom: 1px solid #dddddd;
         padding: 3px 30px;
+        margin-bottom: 10px;
     }
 
     .commentDate {
@@ -238,6 +237,7 @@
         display: inline-block;
         width: 50px;
         margin-right: 10px;
+        margin-bottom: 15px;
         background-size: cover;
         height: 50px;
         border: 1px solid black;
@@ -247,34 +247,10 @@
 
     .commentFiles {
         padding: 3px 30px;
+        margin-bottom: 10px;
     }
 
-    .bigImg {
-        opacity: 0;
-        position: absolute;
-        left: 50px;
-        overflow: hidden;
-        width: 600px;
-        z-index: 300;
-        background-color: white;
-        border: 1px solid black;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-    }
 
-    .bigImg>img {
-        width: 100%;
-    }
-
-    .smallImg:hover {
-        opacity: 100%;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-    }
-
-    .smallImg:hover>.bigImg {
-        opacity: 100%;
-    }
 
     .words {
         height: 25px;
@@ -417,21 +393,31 @@
                 </div>
                 <div class="commentFrame">
                     <div class="commentZone">
-                        <span class="tag">댓글 목록</span>
+                        <c:if test="${not empty ucList}">
+                        <span class="tag" style="margin-top:60px;">댓글 목록</span>
                         <c:forEach items="${ucList }" var="uc">
                             <div class="commentBox">
                                 <input type="hidden" name="commentNo" value="${uc.commentNo}">
-                                <div class="commentWriter"><span class="memberId">${uc.commentWriter}</span><span class="commentDate">${uc.commentDate}</span></div>
+                                <div class="commentWriter">
+                                     <c:if test="${uc.commentWriter ne 'admin'}">
+                                         <span class="memberId">${uc.commentWriter}</span>
+                                    </c:if>
+                                     <c:if test="${uc.commentWriter eq 'admin'}">
+                                         <span class="memberId" style="color: #00a3e0;">${uc.commentWriter}</span>
+                                    </c:if>     
+                                    <span class="commentDate">${uc.commentDate}</span></div>
                                 <div class="commentContent">${uc.commentContent}</div>
                                 <div class='commentFiles'>
                                     <c:forEach items="${uc.usedFiles }" var="uf">
-                                        <div class='smallImg' style='background-image:url(/resources/upload/usedBoard/${uf.commentFilepath })'>
-                                            <div class="bigImg"><img src="/resources/upload/usedBoard/${uf.commentFilepath }"></div>
-                                        </div>
+                                        <a href='javascript:void(0)' onclick='openModal("${uf.commentFilepath }");'>
+                                             <div class='smallImg' style='background-image:url(/resources/upload/usedBoard/${uf.commentFilepath })'>
+                                             </div>
+                                        </a>
                                     </c:forEach>
                                 </div>
                             </div>
                         </c:forEach>
+                            </c:if>
 
                     </div>
                     <c:if test="${not empty sessionScope.member }">
@@ -455,7 +441,7 @@
                                         <select name="usedStatus" id="usedStatus">
                                             <option value=1>피드백 요청</option>
                                             <option value=3>기증/판매 확정</option>
-                                            <option value=4>기증/판매 완료</option>
+                                            <option value=4>기증/판매 반려</option>
                                         </select>
                                     </c:if>
                                     <c:if test="${sessionScope.member.memberId ne 'admin' }">
@@ -475,7 +461,18 @@
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
 </body>
-
+  <div class="modal fade" id="myModal" style="top:20%;">
+    <div class="modal-dialog modal-lg" style="width:650px;">
+      <div class="modal-content" style="overflow:hidden;position:relative; border:1px solid #303538;">
+ <img id='modalImg' style='width:100%;'>
+          <button type="button" class="close" data-dismiss="modal" style="position:absolute;top:10px; right:15px;">&times;</button>
+     
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
 <script>
     var files = [];
     var files2 = [];
@@ -502,7 +499,6 @@
 
     function sendToServer() {
         if (files.length != 0) { 
-            alert("들어옴");
             var data = new FormData(); //form data객체를 생성
             var usedStatus = $("#usedStatus").val();
             var commentContent = $('#commentContentWrite').val();
@@ -648,6 +644,13 @@
         }
         $(".words").html(inputLength + "/150");
     });
+    //모달열기
+function openModal(filepath){
+    $("#modalImg").attr("src","/resources/upload/usedBoard/"+filepath+"");
+    $("#myModal").modal();
+  
+    
+}
 
 </script>
 

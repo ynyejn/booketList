@@ -461,14 +461,16 @@
                         var dt2 = new Date(test1);
                         var day = (dt1 - dt2) / (1000 * 86400);
                         day = Math.floor(day);
-                        html += "<div class='bad'>연체중</div></div>";
-                        html2 += "<tr><td class='delayBookName'>" + value + "</td>";
-                        html2 += "<td style='color: #FA6556;'>" + $(this).children('input[name=rentEndDate]').val() + "</td>";
-                        html2 += "<td class='delaydays'>" + day + "</td></tr>";
-                        $(".payPrice").html(Number($(".payPrice").html())+day*1000);
-                        $(".delayFrame").show();
-                        $(".delayBox").attr("status","false");
-                        
+                        if(day!=0){
+                        	html += "<div class='bad'>연체중</div></div>";
+                            html2 += "<tr><td class='delayBookName'>" + value + "</td>";
+                            html2 += "<td style='color: #FA6556;'>" + $(this).children('input[name=rentEndDate]').val() + "</td>";
+                            html2 += "<td class='delaydays'>" + day + "</td></tr>";
+                            $(".payPrice").html(Number($(".payPrice").html())+day*1000);
+                            $(".delayFrame").show();
+                            $(".delayBox").attr("status","false");	
+                        }
+        
                     } else {
                         html += "<div class='good'>대여중</div></div>";
                     }

@@ -105,7 +105,7 @@
 	});
 </script>
 End Channel Plugin
-</head>
+
 
 <body id="page-top">
 
@@ -436,6 +436,7 @@ End Channel Plugin
           </ul>
         </nav>
         End of Topbar -->
+        </head>
 <jsp:include page="/WEB-INF/views/common/adminSidebar.jsp"/>
 	<body id="page-top">
         <!-- Begin Page Content -->

@@ -98,7 +98,7 @@ public class UsedBoardService {
 	public int insertComment(UsedComment uc, ArrayList<UsedFiles> fileList, int usedStatus) {
 		int result1 = dao.insertComment(uc);
 		int result2 = dao.insertFiles(fileList);
-		if(usedStatus==1 && !uc.getCommentWriter().equals("admin")) {
+		if((usedStatus==1 && !uc.getCommentWriter().equals("admin"))||uc.getCommentWriter().equals("admin")) {
 			UsedBoard ub = new UsedBoard();
 			ub.setMemberId(uc.getCommentWriter());
 			ub.setUsedStatus(usedStatus);

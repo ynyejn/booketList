@@ -50,7 +50,9 @@ public class AdminMsg extends TextWebSocketHandler{
 			String a = new Gson().toJson(total);
 			System.out.println(a);
 			for(int i=0;i<admin.size();i++) {
-				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				if(admin.get(i).isOpen()) {
+					admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				}
 			}
 			
 			
@@ -63,8 +65,9 @@ public class AdminMsg extends TextWebSocketHandler{
 			System.out.println(a);
 			System.out.println(admin.size());
 			for(int i=0;i<admin.size();i++) {
-				
-				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				if(admin.get(i).isOpen()) {
+					admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				}
 			}
 			
 		}else if(type.equals("lostbookClick")) {
@@ -75,7 +78,9 @@ public class AdminMsg extends TextWebSocketHandler{
 			String a = new Gson().toJson(total);
 			System.out.println(a);
 			for(int i=0;i<admin.size();i++) {
-				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				if(admin.get(i).isOpen()) {
+					admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				}
 			}
 			
 		}else if(type.equals("complainAlarmClick")) {
@@ -86,7 +91,9 @@ public class AdminMsg extends TextWebSocketHandler{
 			String a = new Gson().toJson(total);
 			System.out.println(a);
 			for(int i=0;i<admin.size();i++) {
-				admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				if(admin.get(i).isOpen()) {
+					admin.get(i).sendMessage(new TextMessage(new Gson().toJson(total)));
+				}
 			}
 			
 		}else if(type.equals("output")){
