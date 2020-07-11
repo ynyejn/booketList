@@ -204,17 +204,10 @@
       </li>
       
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link" href="/adminLostBookList.do?reqPage=1">
           <i class="fas fa-fw fa-cog"></i>
           <span>도서 분실 신고</span>
          </a>
-         <div id="LostcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebard">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">분실 내역</h6>
-            <a class="collapse-item" href="/userLostBook.do">분실 신고</a>
-            <a class="collapse-item" href="/adminLostBookList.do?reqPage=1">분실 내역</a>
-          </div>
-        </div>
       </li>
       <hr class="sidebar-divider">
 
