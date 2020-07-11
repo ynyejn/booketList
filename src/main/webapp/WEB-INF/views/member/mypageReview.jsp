@@ -30,6 +30,15 @@
 td {
 	border: 1px solid #eeeeee;
 	border-collapse: collapse;
+	text-align: center;
+}
+.list-group>#mypage1:hover,.list-group>#mypage2:hover,.list-group>#mypage3:hover,.list-group>#mypage4:hover,.list-group>#mypage5:hover,.list-group>#mypage6:hover{
+	background-color : rgb(2, 132, 230);
+    	cursor : pointer;
+}
+#upBtn{
+	background-color: #666666;
+	border-color:#666666;
 }
 </style>
 <body>
@@ -41,18 +50,18 @@ td {
 				<div class="col-lg-3">
 					<h2 class="my-4">마이페이지</h2>
 					<div class="list-group">
-						<a href="/member/mypage.do"class="list-group-item ">내 정보 수정</a> 
-						<a href="/member/mypageRentFrm.do"class="list-group-item">도서 대여 목록</a> 
-						<a href="/member/mypageReservationFrm.do"class="list-group-item">도서 예약신청목록</a> 
-						<a href="/member/mypageApplyFrm.do"class="list-group-item">도서 입고신청</a>
-							<a href="/member/mypageLostBookFrm.do" class="list-group-item">도서 분실 신고</a> 
-						<a href="/member/mypageReviewFrm.do" class="list-group-item active">내가 작성한 후기</a>
+						<a href="/member/mypage.do"class="list-group-item " id="mypage1">내 정보 수정</a> 
+						<a href="/member/mypageRentFrm.do"class="list-group-item" id="mypage2">도서 대여 목록</a> 
+						<a href="/member/mypageReservationFrm.do"class="list-group-item" id="mypage3">도서 예약신청목록</a> 
+						<a href="/member/mypageApplyFrm.do"class="list-group-item" id="mypage4">도서 입고신청</a>
+							<a href="/member/mypageLostBookFrm.do" class="list-group-item" id="mypage5">도서 분실 신고</a> 
+						<a href="/member/mypageReviewFrm.do" class="list-group-item active" id="mypage6">내가 작성한 후기</a>
 					</div>
 				</div>
 				<!-- /.col-lg-3 -->
 
 				<div class="col-lg-9">
-					<div class="card mt-4">
+					<div class="card mt-4" style="width: 800px; height: 400px; margin:0 auto;">
 						<img class="card-img-top img-fluid"
 							src="http://placehold.it/900x400" alt="">
 						<div class="card-body">
@@ -92,7 +101,7 @@ td {
 						</table>	
 						
 							<hr>
-							<a href="#" class="btn btn-success">위로가기</a>
+							<a href="#" class="btn btn-success" id="upBtn">위로가기</a>
 						</div>
 					</div>
 					<!-- /.card -->

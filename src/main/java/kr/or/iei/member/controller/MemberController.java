@@ -242,5 +242,10 @@ public class MemberController {
 				return "없어";
 			}
 		}
+	@RequestMapping(value = "/mypageLostBookFrm.do")
+	public String mypageLostBookFrm() {
+		
+		return "member/mypageLostBook";	
+	}
 	}
 
