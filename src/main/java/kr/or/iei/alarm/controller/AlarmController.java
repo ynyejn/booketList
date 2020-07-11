@@ -14,12 +14,4 @@ public class AlarmController {
 	@Qualifier("alarmService")
 	private AlarmService service;
 	
-	@RequestMapping(value="/updateAlarm.do")
-	public String updateAlarm() {
-		int result = service.updateAlarm();
-		if(result>0) {
-			System.out.println("alarm : 11");
-		}
-		return "redirect:/userLostBook.do";
-	}
 }

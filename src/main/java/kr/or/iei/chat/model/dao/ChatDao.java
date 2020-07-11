@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.chat.model.vo.Chat;
+import kr.or.iei.chat.model.vo.ChatFile;
 
 @Repository("chatDao")
 public class ChatDao {
@@ -43,6 +44,11 @@ public class ChatDao {
 	public String selectOnetitle(String chatTitle) {
 		
 		return sql.selectOne("chat.selectOnetitle",chatTitle);
+	}
+
+	public int chatFileInsert(ChatFile c) {
+		// TODO Auto-generated method stub
+		return sql.insert("chat.chatFileInsert",c);
 	}
 
 }
