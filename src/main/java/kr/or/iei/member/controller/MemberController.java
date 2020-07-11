@@ -137,6 +137,15 @@ public class MemberController {
 		model.addAttribute("m",m);
 		return "member/mypage";
 	}
+	@RequestMapping("/rentUpdate.do")
+	public String rentUpdate(int rentNo) {
+		int result = service.rentUpdate(rentNo);
+		if(result>0) {
+			return "member/mypageRent";
+		}else {
+			return "member/mypage";
+		}
+	}
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
 	public String delete(HttpSession session) {
 		Member m = (Member)session.getAttribute("member");
@@ -198,7 +207,7 @@ public class MemberController {
 		if(member!=null) {
 			String mailCode = new MailSendPw().mailSendPw(m);
 			m.setMemberPw(mailCode);
-			int result = service.update(m);
+			int result = service.updatePw(m);
 			if(result>0) {
 				
 				return mailCode;

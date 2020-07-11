@@ -75,7 +75,7 @@ td {
 
 							<table class="rentList">
 								<tr>
-									<th>대여번호</th>
+									
 									<th>책번호</th>
 									<th>대여장소</th>
 									<th>대여일</th>
@@ -94,16 +94,16 @@ td {
 									<c:if test="${r.countinueDate >= 0 }">
 										<tr> 
 									</c:if>
-										<td>${r.rentNo}</td>
-										<td>${r.bookNo}</td>
+										
+										<td>${r.bookNo} </td>
+										
 										<td>${r.spotName}</td>
 										<td>${r.rentStartDate}</td>
 										<td>${r.rentEndDate}</td>
 										<td>${r.rentReturn}</td>
-										<td>${r.bookName}</td>
-						
+										<td>${r.bookName}<input id="rent" type ="hidden" value="${r.rentNo}"></td>
 										<td>
-										
+										<a href="/member/rentUpdate.do?rentNo=${r.rentNo}"></a>
 									<c:if test="${r.countinueDate >= 0 }">
 										<button type="button" class="delayBtn">연장하기</button>
 											</c:if><br>
@@ -116,32 +116,22 @@ td {
 							
 									$(function(){
 										$(".delayBtn").click(function(){
+													var rentNo = $(this).parent().parent().parent().children().find("#rent").val();
+													alert(rentNo);
 											if($(this).parent().prev().prev().html()==0){//버튼이어서 parent로 올라감
 												
 												if(!bool){
 													alert("연체된 책을 먼저 반납해주세요.");
 												}else{
-													alert("7일 연장되었습니다.");
-													var rentEndDate = $(this).parent().prev().prev().prev().html();
-													var rentReturn = $(this).parent().prev().prev().html();
-													$.ajax({
-														type:'POST',
-														data:{rentEndDate:rentEndDate},
-														{}
-													});
-												}
-														
+													alert("연장되었습니다.");
+													location.href="/member/rentUpdate.do?rentNo="+rentNo;
+													}
 											}else{
 												alert("연장은 1회만 가능합니다.");
+														
 											}
-												
-											
-											})
-											
-										});
-									
-								
-							
+										})
+									});	
 							</script>
 
 							<hr>

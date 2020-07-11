@@ -79,5 +79,11 @@ public class MemberDao {
 		
 		return sql.selectOne("member.selectId",m);
 	}
+
+
+	public int rentUpdate(int rentNo) {
+		
+		return sql.update("rent.rentUpdate",rentNo);
+	}
 	
 }
