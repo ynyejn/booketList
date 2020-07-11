@@ -446,6 +446,65 @@
 	}
 
 </script>
+<script>
+/*웹 소켓 */
+	var ws;
+	var memberId = '${sessionScope.member.memberId }'; 
+	function connect(){
+		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws.onopen = function(){
+			console.log("웹소켓 연결 생성");
+			var msg = {
+					type : "output"
+			};
+			ws.send(JSON.stringify(msg));
+		};
+		ws.onmessage = function(e){
+			if(JSON.parse(e.data).totalCount == 0){
+				$("#alarmss").html("");
+				$("#lostAlarm").html("");
+				$("#complainAlarm").html("");
+			}else{
+				$("#alarmss").html(JSON.parse(e.data).totalCount+"+");
+				if(JSON.parse(e.data).lostbookCount == 0){
+					$("#lostAlarm").html("");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount);
+				}else if(JSON.parse(e.data).complainCount == 0){
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
+					$("#complainAlarm").html("");
+				}else{
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount);
+				}
+			}
+
+		};
+		ws.onclose = function(){
+			console.log("연결종료");
+		};
+	}
+	
+	$(function(){
+		connect();
+		$("#lostbookClick").click(function(){
+			var data = $("#lostAlarm").html();
+			var sendMsg = {
+					type : "lostbookClick",
+					data : data
+			};
+			ws.send(JSON.stringify(sendMsg));
+		});
+		
+		$("#complainAlarmClick").click(function(){
+			var data = $("#complainAlarm").html();
+			var sendMsg = {
+					type : "complainAlarmClick",
+					data : data
+			};
+			ws.send(JSON.stringify(sendMsg));
+		});
+	});
+</script>
 </head>
 
 
@@ -748,14 +807,14 @@
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                 <img class="img-profile rounded-circle" src="/resources/imgs/bluelogo.png">
               </a>
-              <!-- Dropdown - User Information -->
+             <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/findPwFrm.do">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                      비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/logout.do" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
