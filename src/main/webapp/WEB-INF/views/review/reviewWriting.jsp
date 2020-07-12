@@ -17,7 +17,7 @@
 	}
 </style>
 </head>
-<body>
+<body  onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
 	<h1>후기 작성</h1>
 	<form action="/review/reviewInsert.do" method="post" enctype="multipart/form-data" target="reviewWriting.do">
 	닉네임 : <input type="text" name="memberNickName" value="${m.memberNickname }">${m.memberNickname }<br>
