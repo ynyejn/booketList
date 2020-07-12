@@ -120,16 +120,15 @@ td {
 
 							<form action="/member/mUpdate.do" method="post">
 								<div class="form-group">
-									<label for="id">아이디</label> <input type="text"
+									<label for="id">아이디</label> <input type="hidden"
 										class="form-control" id="memberId" name="memberId"
 										value="${sessionScope.member.memberId }" readonly>
 								</div>
 
-								<div class="form-group">
-									<label for="name">이름</label> <input type="text"
+								 <input type="text"
 										class="form-control" id="memberName" name="memberName"
 										value="${sessionScope.member.memberName }">
-								</div>
+								
 
 								<div class="form-group">
 									<label for="memberPhone">휴대폰 번호</label> <input type="text"
