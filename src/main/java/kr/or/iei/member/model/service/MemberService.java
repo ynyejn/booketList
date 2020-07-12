@@ -60,9 +60,13 @@ public class MemberService {
 		
 		return dao.selectOneMember(m);
 	}
+	public int update(Member m) {
+		System.out.println("수정된 데이터 dao로 갑시다.");
+		return dao.update(m);
+	}
 	
 	@Transactional
-	public int update(Member m) throws Exception {
+	public int updatePw(Member m) throws Exception {
 		try {
 			System.out.println(m.getMemberId());
 			m.setMemberPw(enc.encData(m.getMemberPw()));
@@ -118,6 +122,11 @@ public class MemberService {
 		System.out.println(m.getMemberId());
 		System.out.println("서비스갔다옴");
 		return memberId;
+	}
+
+	public int rentUpdate(int rentNo) {
+		
+		return dao.rentUpdate(rentNo);
 	}
 	
 }

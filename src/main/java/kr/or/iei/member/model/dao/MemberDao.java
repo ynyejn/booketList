@@ -37,7 +37,8 @@ public class MemberDao {
 	public Member selectOneMember(Member m) {
 		return sql.selectOne("member.selectOneMember",m);
 	}
-	public int update(Member m) {	
+	public int update(Member m) {
+		System.out.println("수정된 데이터 쿼리로..");
 		return sql.update("member.update", m);
 	}
 
@@ -78,6 +79,12 @@ public class MemberDao {
 	public Member selectId(Member m) {
 		
 		return sql.selectOne("member.selectId",m);
+	}
+
+
+	public int rentUpdate(int rentNo) {
+		
+		return sql.update("rent.rentUpdate",rentNo);
 	}
 	
 }

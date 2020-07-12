@@ -516,7 +516,7 @@ public class AdminController {
 	    }
 	    response.setContentType("application/vnd.ms-excel");
 
-	    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+	    response.setHeader("Content-Disposition", "attachment;filename=memberListSelect.xls");
 	    // 엑셀 출력
 	    wb.write(response.getOutputStream());
 	    wb.close();
@@ -647,7 +647,7 @@ public class AdminController {
 	    }
 	    response.setContentType("application/vnd.ms-excel");
 
-	    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+	    response.setHeader("Content-Disposition", "attachment;filename=bookStatusListSelect.xls");
 	    // 엑셀 출력
 	    wb.write(response.getOutputStream());
 	    wb.close();
@@ -1072,7 +1072,7 @@ public class AdminController {
 		    }
 		    response.setContentType("application/vnd.ms-excel");
 
-		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    response.setHeader("Content-Disposition", "attachment;filename=bookRentApplyListSelect.xls");
 		    // 엑셀 출력
 		    wb.write(response.getOutputStream());
 		    wb.close();
@@ -1188,7 +1188,7 @@ public class AdminController {
 		    }
 		    response.setContentType("application/vnd.ms-excel");
 
-		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    response.setHeader("Content-Disposition", "attachment;filename=bookTurnApplyListSelect.xls");
 		    // 엑셀 출력
 		    wb.write(response.getOutputStream());
 		    wb.close();
@@ -1706,7 +1706,7 @@ public class AdminController {
 		    }
 		    response.setContentType("application/vnd.ms-excel");
 
-		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    response.setHeader("Content-Disposition", "attachment;filename=TotalList.xls");
 		    // 엑셀 출력
 		    wb.write(response.getOutputStream());
 		    wb.close();
@@ -1858,7 +1858,7 @@ public class AdminController {
 		    }
 		    response.setContentType("application/vnd.ms-excel");
 
-		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    response.setHeader("Content-Disposition", "attachment;filename=bookReservationListSelect.xls");
 		    // 엑셀 출력
 		    wb.write(response.getOutputStream());
 		    wb.close();
@@ -2022,7 +2022,7 @@ public class AdminController {
 		    }
 		    response.setContentType("application/vnd.ms-excel");
 
-		    response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+		    response.setHeader("Content-Disposition", "attachment;filename=spotListSelect.xls");
 		    // 엑셀 출력
 		    wb.write(response.getOutputStream());
 		    wb.close();
@@ -2078,6 +2078,10 @@ public class AdminController {
 				}else {
 					return "redirect:/adminSpotList.do?reqPage=1&selectCount=10";
 				}
+			}
+			@RequestMapping(value="/mainPage.do")
+			public String mainPage() {
+				return "redirect:/";
 			}
 }
 

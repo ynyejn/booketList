@@ -1,6 +1,8 @@
 package kr.or.iei.review.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,23 @@ public class ReviewService {
 	}
 
 	public int reviewInsert(Review review) {
-		int result = dao.reviewInsert(review);
-		return result;
+		Review r = dao.selectOneReviews(review);
+		if(r==null) {
+			
+			int result = dao.reviewInsert(review);
+			return result;
+		}else {
+			return 0;
+		}
+		
+	}
+
+	public Review selectOneReview(String string, String memberNickName) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("bookName", string);
+		map.put("memberNickName", memberNickName);
+		Review r = dao.selectOneReview(map);
+		return r;
 	}
 
 }

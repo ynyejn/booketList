@@ -47,18 +47,18 @@ public class ComplainController {
 		return "complain/complain";
 	}
 	@RequestMapping("/complainInsert.do")
-	public String complainInsert(HttpServletRequest request,String fileName,Complain c,HttpServletResponse response) {
-		if(!fileName.isEmpty()) {
+	public String complainInsert(HttpServletRequest request,String complainFilename,Complain c,HttpServletResponse response) {
+		if(!complainFilename.isEmpty()) {
 				try {
-					System.out.println("/"+fileName);
-					String[] filepame = fileName.split("/");
-					System.out.println("/"+fileName);
+					System.out.println("/"+complainFilename);
+					String[] filepame = complainFilename.split("/");
+					System.out.println("/"+complainFilename);
 					//1)결로 설정
 					String root1 = request.getSession().getServletContext().getRealPath("resources/complain/");
 					String root = request.getSession().getServletContext().getRealPath("resources/chat/");
 					FileInputStream fis;
-					System.out.println("/"+fileName);
-					System.out.println("/"+fileName);
+					System.out.println("/"+complainFilename);
+					System.out.println("/"+complainFilename);
 					fis = new FileInputStream(root+filepame[3]);
 					FileOutputStream fos = new FileOutputStream(root1+filepame[3]);
 					int data;
@@ -70,13 +70,13 @@ public class ComplainController {
 					fos.flush();
 					fos.close();
 					fis.close();
-					c.setComplainContent("/resources/complain/"+filepame[3]);
+					c.setComplainFilename("/resources/complain/"+filepame[3]);
 					System.out.println(c.getAttacker());
 					System.out.println(c.getComplainCategory());
 					System.out.println(c.getComplainContent());
 					System.out.println(c.getMemberId());
 					System.out.println("파일 업로드 완료");
-					int result = service.complainInsert(c);
+					int result = service.complainInsertFile(c);
 					if(result>0) {
 						return "complain/complainSuccess";
 					}else {

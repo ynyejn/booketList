@@ -97,6 +97,9 @@
 		update complain set complain_Stauts=2 where complain_no = #{complainNo}
 	</update>
 	<insert id="complainInsert" parameterType="complain">
-		INSERT INTO COMPLAIN VALUES(COMPLAIN_SEQ.NEXTVAL, #{memberId }, #{attacker}, #{complainCategory}, sysdate, #{complainContent}, default)
+		INSERT INTO COMPLAIN VALUES(COMPLAIN_SEQ.NEXTVAL, #{memberId }, #{attacker}, #{complainCategory},sysdate,#{complainContent},null, default)
+	</insert>
+	<insert id="complainInsertFile" parameterType="complain">
+		INSERT INTO COMPLAIN VALUES(COMPLAIN_SEQ.NEXTVAL, #{memberId }, #{attacker},#{complainCategory},sysdate,   null, #{complainFilename},default)
 	</insert>
 </mapper>

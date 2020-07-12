@@ -105,6 +105,7 @@ public class MemberController {
 	@RequestMapping(value="/mUpdate.do",method = RequestMethod.POST)
 	public String update(HttpSession session,Member m) throws Exception {
 		int result = service.update(m);
+		System.out.println("수정된 데이터");
 		if(result>0) {
 			session.setAttribute("member", m);
 			System.out.println("회원정보가 수정되었습니다.");
@@ -137,7 +138,16 @@ public class MemberController {
 		model.addAttribute("m",m);
 		return "member/mypage";
 	}
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	@RequestMapping("/rentUpdate.do")
+	public String rentUpdate(int rentNo) {
+		int result = service.rentUpdate(rentNo);
+		if(result>0) {
+			return "member/mypageRent";
+		}else {
+			return "member/mypage";
+		}
+	}
+	@RequestMapping(value="/delete.do", method = {RequestMethod.POST,RequestMethod.GET})
 	public String delete(HttpSession session) {
 		Member m = (Member)session.getAttribute("member");
 		int result = service.delete(m.getMemberId());
@@ -198,7 +208,7 @@ public class MemberController {
 		if(member!=null) {
 			String mailCode = new MailSendPw().mailSendPw(m);
 			m.setMemberPw(mailCode);
-			int result = service.update(m);
+			int result = service.updatePw(m);
 			if(result>0) {
 				
 				return mailCode;
@@ -233,5 +243,10 @@ public class MemberController {
 				return "없어";
 			}
 		}
+	@RequestMapping(value = "/mypageLostBookFrm.do")
+	public String mypageLostBookFrm() {
+		
+		return "member/mypageLostBook";	
+	}
 	}
 
