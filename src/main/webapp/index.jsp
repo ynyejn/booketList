@@ -86,6 +86,7 @@
             </div>
         </div>
         <div class="content2">
+            <img src="/resources/imgs/banner.png" width="100%;">
             <div class="bookListNavi">
             <ul>
             <li><a class="bestSeller"  href="javascript:void(0)" onclick="bestSeller();">많이 대여된 책</a></li>
@@ -96,7 +97,7 @@
             
             <div class='bookList'>
             </div>
-            
+
             
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -191,7 +192,7 @@
         width: 1200px;
         overflow: hidden;
         margin: 0 auto;
-        height: 900px;
+        padding-bottom: 200px;
     }
     .bookList{
         clear: both;
@@ -249,7 +250,6 @@
         text-align: center;
         height:100px;
         line-height: 100px;
-        margin-top: 20px;
     }
     .bookListNavi ul{
         width: 800px;
@@ -263,8 +263,14 @@
     }
     .bookListNavi a{
        color: #778893; 
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
     }
-
+    .newBooks:hover,.bestSeller:hover{
+        color: #0066b3;
+        font-weight: bold;
+        border-bottom: 3px solid #0066b3;
+    }
     #selected {
         color: #0066b3;
         font-weight: bold;
