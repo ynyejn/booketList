@@ -29,12 +29,12 @@
 	<img class="sta" src="/resources/star/star3.jpg">
 	<img class="sta" src="/resources/star/star3.jpg">
 	<span id="reviewScore"></span>
-	<input type="hidden" name="reviewScore">
+	<input type="hidden" name="reviewScore" value="0">
 	</p><br>
 	이미지 첨부 :이게 왜 안맞아 <input type="file" name="file" id="file" onchange="loadImg(this);"><br>
 	이미지 보기  : <img id="img-view" width="350"><br>
-	후기 내용 : <input type="text" name="reviewContent"><br>
-	<input type="submit" value="작성하기" onclick="window.close()"><input type="reset" onclick="window.close()"value="취소">
+	후기 내용 : <input type="text" name="reviewContent" required><br>
+	<input type="submit" value="작성하기"onclick="window.close()"><input type="reset" onclick="window.close()"value="취소">
 	</form>
 <script type="text/javascript">
 function popupClose(form) {
@@ -60,11 +60,12 @@ function loadImg(f) {
 }
 	$(function () {
 		var memberId ='${sessionScope.member.memberId}';
+		var memberNickName =$("input[name=memberNickName]").val();
 		
 		$.ajax({
 			url : "/review/reviewSelectBook.do",
 			type : "post",
-			data : { memberId:memberId },
+			data : { memberId:memberId ,memberNickName:memberNickName},
 			success : function(data){
 				html="";
 				html2="";

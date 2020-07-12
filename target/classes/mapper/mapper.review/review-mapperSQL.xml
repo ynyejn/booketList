@@ -45,4 +45,12 @@
          where member_nickname=#{_parameter}
 	
 	</select>
+	<select id="selectOneReview" resultType="review">
+		select review_no as reviewNo from review
+         where member_nickname=#{memberNickName} and book_name = #{bookName }
+	</select>
+	<select id="selectOneReviews" parameterType="review" resultType="review">
+		select review_no as reviewNo from review
+         where member_nickname=#{memberNickName} and book_name = #{bookName }
+	</select>
 </mapper>
