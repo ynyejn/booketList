@@ -34,6 +34,8 @@ td {
 	overflow: hidden;
 	width: 500px;
 }
+
+
 </style>
 <script>
 	//모든 공백 체크 정규식
@@ -41,7 +43,7 @@ td {
 	//아이디 정규식
 	var id = /^[a-z0-9]{5,20}$/;
 	//비밀번호 정규식
-	var pw = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,11}$/;
+	var pw = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,11}$/;
 	//이름정규식
 	var name = /^[가-힇]{2,4}$/;
 	//닉네임 정규식
@@ -77,6 +79,8 @@ td {
 							} else {
 								alert("아이디사용가능");
 								$("#memberJoin").removeAttr("disabled");
+								$('#id_check').text('사용가능한 아이디입니다.');
+								$('#id_check').css('color', '#666666');
 							}
 						}
 					});
@@ -89,14 +93,11 @@ td {
 						"blur",
 						function(event) {
 							if (!pw.test($('#memberPw').val())) {
-								$('#pw_check')
-										.text(
-												'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+								$('#pw_check').text('비밀번호는 8자 이상 12자 이하이며, 숫자/소문자/특수문자를 모두 포함해야 합니다.(*대문자는 제외입니다)');
 								$('#pw_check').css('color', 'red');
 								$("#memberPw").val("");
 							} else {
-								if ($('#memberPw').val() != $('#memberPw2')
-										.val()) {
+								if ($('#memberPw').val() != $('#memberPw2').val()) {
 									$('#pw_check').text('비밀번호 확인을 다시 해주세요.');
 									$('#pw_check').css('color', 'red');
 									$("#memberPw").val("");
@@ -141,6 +142,8 @@ td {
 																	} else {
 																		alert("닉네임사용가능합니다.");
 																		$("#memberJoin").attr("disabled");
+																		$('#nickname_check').text('사용가능한 닉네임입니다.');
+																		$('#nickname_check').css('color', '#666666');
 										}
 									}
 								})
@@ -206,7 +209,7 @@ td {
 
 		if ($('#memberPw').val() == '') {
 			$('#pw_check').text(
-					'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+					'비밀번호는 8자 이상 12자 이하이며, 숫자/영소문자/특수문자를 모두 포함해야 합니다.(*대문자는 제외입니다)');
 			$('#pw_check').css('color', 'red');
 			return;
 		}
@@ -247,13 +250,13 @@ td {
 		});
 		if (bookArr.length > 3) {
 			alert("취향은 3개까지 선택가능합니다 :)");
-			$("#memberJoin").attr("disabled", "disabled");
+			return false;
 		} else if (bookArr.length == 3) {
 			alert("도서선호장르 3개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
 			var choice3 = bookArr[2];
-			$("#memberJoin").attr("disabled");
+			
 			console.log(choice1);
 			console.log(choice2);
 			console.log(choice3);
@@ -261,16 +264,16 @@ td {
 			alert("도서선호장르 2개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
-			$("#memberJoin").attr("disabled");
+			
 			console.log(choice1);
 			console.log(choice2);
 		} else if (bookArr.length == 1) {
 			alert("도서선호장르 1개가 선택되었습니다.");
-			$("#memberJoin").attr("disabled");
+			
 			var choice1 = bookArr[0];
 			console.log(choice1);
 		} else if (bookArr.length == 0) {
-			$("#memberJoin").attr("disabled");
+			
 			var choice1 = "";
 			console.log(choice1);
 		}
@@ -368,7 +371,8 @@ td {
 							<div class="check_font" id="email_check"></div>
 					</div>
 			
-					<h3>도서선호장르 최대3개까지 체크가능(선택사항입니다.)</h3>
+					<h4>도서선호장르 최대3개까지 체크가능</h4>
+					<h5>(선택사항입니다.)</h5>
 					<div class="form-group">
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="컴퓨터/모바일" />컴퓨터/모바일 <input type="checkbox" id="bookcheck"
@@ -385,19 +389,19 @@ td {
 						<input type="checkbox" id="bookcheck" name="bookcheck" value="만화" />만화
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="예술/대중문화" />예술/대중문화 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="잡지" />잡지 <input type="checkbox"
-							id="bookcheck" name="bookcheck" value="전집/중고전집" />전집/중고전집<br>
+							name="bookcheck" value="잡지" />잡지<br> <input type="checkbox"
+							id="bookcheck" name="bookcheck" value="전집/중고전집" />전집/중고전집
 						<input type="checkbox" id="bookcheck" name="bookcheck" value="외국어" />외국어
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="자기계발" />자기계발 <input type="checkbox" id="bookcheck"
 							name="bookcheck" value="수험서/자격증" />수험서/자격증 <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="초등학교참고서" />초등학교참고서
+							type="checkbox" id="bookcheck" name="bookcheck" value="초등학교참고서" />초등학교참고서<br>
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="중학교참고서" />중학교참고서 <input type="checkbox" id="bookcheck"
 							name="bookcheck" value="고등학교참고서" />고등학교참고서 <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="대학교재/전문서적" />대학교재/전문서적<br>
+							type="checkbox" id="bookcheck" name="bookcheck" value="대학교재/전문서적" />대학교재/전문서적
 						<input type="checkbox" id="bookcheck" name="bookcheck" value="유아" />유아
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="어린이" />어린이
+						<input type="checkbox" id="bookcheck" name="bookcheck" value="어린이" />어린이<br>
 						<input type="checkbox" id="bookcheck" name="bookcheck" value="청소년" />청소년
 						<input type="checkbox" id="bookcheck" name="bookcheck"
 							value="좋은부모" />좋은부모 <input type="checkbox" id="bookcheck"
