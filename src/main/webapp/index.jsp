@@ -88,9 +88,9 @@
         <div class="content2">
             <div class="bookListNavi">
             <ul>
-            <li><a href="#">많이 대여된 책</a></li>
-            <li><a href="#" style="font-weight:bold; cursor:default;">·</a></li>
-            <li><a href="#">새로 들어온 책</a></li>
+            <li><a class="bestSeller"  href="javascript:void(0)" onclick="bestSeller();">많이 대여된 책</a></li>
+            <li><a href="javascript:void(0)" style="font-weight:bold; cursor:default;">·</a></li>
+            <li><a class="newBooks" href="javascript:void(0)" onclick="newBooks();">새로 들어온 책</a></li>
             </ul>
             </div>
             
@@ -109,7 +109,45 @@
 
 <script type="text/javascript">
     $(function() {
-    	$.ajax({
+    	bestSeller();
+    })
+    function newBooks(){
+        $.ajax({
+            url: "/rent/selectNewbooks.do",
+            type: "get",
+            success: function(data) {
+            	var html="";
+                for (var i = 0; i < data.length; i++) {
+                    html+="<div class='onebook'>";
+                    html+="<img src='/resources/imgs/book_bg.png'>";
+                    html+="<div><img src='"+data[i].bookImg+"'></div>";
+                    html+=" <span class='bookName'>"+data[i].bookName+"</span><span class='bookWriter'>"+data[i].bookWriter+"</span></div>";
+                }
+                if ($('.bookList').hasClass('slick-initialized')) {
+                    $('.bookList').slick('destroy');
+                }
+                $('.bookList').empty();
+                $('.bestSeller').removeAttr("id");
+                $(".newBooks").attr("id","selected");
+                $('.bookList').append(html);
+
+                $('.bookList').slick({
+                	infinite: true, //무한 반복 옵션	 
+                    slidesToShow: 5, // 한 화면에 보여질 컨텐츠 개수
+                    slidesToScroll: 1, //스크롤 한번에 움직일 컨텐츠 개수
+                    speed: 1000, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+                    dots: false, // 스크롤바 아래 점으로 페이지네이션 여부
+                    autoplay: true, // 자동 스크롤 사용 여부
+                    autoplaySpeed: 1000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+                    pauseOnHover: true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+                    draggable: true
+                    //드래그 가능 여부 
+                });
+            }
+        });
+    }
+    function bestSeller(){
+        $.ajax({
             url: "/rent/selectBestSeller.do",
             type: "get",
             success: function(data) {
@@ -123,7 +161,9 @@
                 if ($('.bookList').hasClass('slick-initialized')) {
                     $('.bookList').slick('destroy');
                 }
-
+                $('.bookList').empty();
+                $('.newBooks').removeAttr("id");
+                $(".bestSeller").attr("id","selected");
                 $('.bookList').append(html);
 
                 $('.bookList').slick({
@@ -135,15 +175,12 @@
                     autoplay: true, // 자동 스크롤 사용 여부
                     autoplaySpeed: 1000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
                     pauseOnHover: true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
-                    vertical: false, // 세로 방향 슬라이드 옵션
-                    dotsClass: "slick-dots", //아래 나오는 페이지네이션(점) css class 지정
                     draggable: true
                     //드래그 가능 여부 
                 });
             }
         });
-
-    })
+    }
 
 </script>
 
@@ -212,32 +249,29 @@
         text-align: center;
         height:100px;
         line-height: 100px;
+        margin-top: 20px;
     }
     .bookListNavi ul{
-        width: 450px;
+        width: 800px;
         margin: 0 auto;
         
     }
     .bookListNavi li{
-        font-size: 23px;
+        font-size: 25px;
         float: left;
-        padding: 0 15px;
+        padding: 0 80px;
     }
     .bookListNavi a{
        color: #778893; 
     }
-    .bookListNavi li:first-of-type{
-        list-style-type: none;
-    }
-    .bookListNavi li:first-of-type>a{
-         color: #0066b3;
+
+    #selected {
+        color: #0066b3;
         font-weight: bold;
         border-bottom: 3px solid #0066b3;
     }
     
-    .bookListNavi li:last-of-type{
-       /* margin-left: 40px;*/
-    }
+    
 
 
     /* 아래점 */

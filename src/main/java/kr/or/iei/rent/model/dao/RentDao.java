@@ -101,6 +101,10 @@ public class RentDao {
 		return sql.selectList("book.selectBestSeller");
 	}
 
+	public List selectNewbooks() {
+		return sql.selectList("book.selectNewbooks");
+	}
+
 
 
 

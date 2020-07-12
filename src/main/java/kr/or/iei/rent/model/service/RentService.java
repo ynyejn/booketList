@@ -294,4 +294,9 @@ public class RentService {
 		return (ArrayList<Book>)list;
 	}
 
+	public ArrayList<Book> selectNewbooks() {
+		List list = dao.selectNewbooks();
+		return (ArrayList<Book>)list;
+	}
+
 }
