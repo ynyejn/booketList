@@ -75,6 +75,15 @@ update used_board set
 <if test="!memberId.equals('admin') and usedStatus==1">
 				used_status=2
 			</if>
+<if test="memberId.equals('admin') and usedStatus==1">
+used_status=1
+</if>
+<if test="memberId.equals('admin') and usedStatus==3">
+used_status=3
+</if>
+<if test="memberId.equals('admin') and usedStatus==4">
+used_status=4
+</if>
 where used_no=#{usedNo}
 </update>
 </mapper>

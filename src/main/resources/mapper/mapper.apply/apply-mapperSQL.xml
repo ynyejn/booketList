@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="apply">
  	<insert id="appltInsert" parameterType="apply">
- 		insert into apply values(APPLY_SEQ.NEXTVAL, 'user01', SYSDATE,#{applyContent },#{bookName },#{bookWriter },#{bookPublisher },DEFAULT,#{bookCategory },#{bookImg },#{bookPubDate },#{bookContent })
+ 		insert into apply values(APPLY_SEQ.NEXTVAL, #{memberId }, SYSDATE,#{applyContent },#{bookName },#{bookWriter },#{bookPublisher },DEFAULT,#{bookCategory },#{bookImg },#{bookPubDate },#{bookContent })
  	</insert>
  	<select id="selectCheck" parameterType="book" resultType="book">
  		select book_no as bookNo,
