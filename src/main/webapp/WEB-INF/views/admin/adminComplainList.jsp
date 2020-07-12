@@ -108,7 +108,9 @@
 				html += "<td>"+data.attacker+"</td></tr>";
 				html += "<tr><th>신고 날짜</th>";
 				html += "<td>"+data.complainDate+"</td></tr>";
-				html += "<tr><th>신고 사유</th>";
+				html += "<tr><th>신고 카테고리</th>";
+				html += "<th>"+data.complainCategory+"</th></tr>";
+				html += "<tr><th>신고 내용</th>";
 				html += "<td>"+data.complainContent+"</td></tr>";
 				$("#ComplainHold").children("table").append(html);
 				
@@ -134,7 +136,9 @@
 				html += "<th>"+data.attacker+"</th></tr>";
 				html += "<tr><th>신고 날짜</th>";
 				html += "<th>"+data.complainDate+"</th></tr>";
-				html += "<tr><th>신고 사유</th>";
+				html += "<tr><th>신고 카테고리</th>";
+				html += "<th>"+data.complainCategory+"</th></tr>";
+				html += "<tr><th>신고 내용</th>";
 				html += "<th>"+data.complainContent+"</th></tr>";
 				html += "<tr><th>신고 상태</th>";
 				
