@@ -11,7 +11,7 @@
 </head>
 <style>
 table {
-	
+	margin-top:100px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
@@ -55,6 +55,13 @@ table {
 .chatTitle{
 	width:100%;
 	height: 30px;
+	font-size: 1.5em;
+}
+.chatPeople{
+	width:100%;
+	height: 30px;
+	font-size: 1.5em;
+	
 }
 </style>
 <body  onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
@@ -67,34 +74,33 @@ table {
 		<table>
 			<tbody>
 				<tr>
-					<td><h1 class="title">오픈 채팅 방만들기!</h1></td>
+					<td colspan="2"><h1 class="title" >오픈 채팅 방만들기!</h1></td>
 				</tr>
 				<tr>
-					<td id="name">방제목</td>
+					<td id="name" colspan="2">방제목</td>
 				</tr>
 				<tr>
-					<td id="box"><input type="text" class="chatTitle"name="chatTitle" required></td>
+					<td id="box"colspan="2"><input type="text" class="chatTitle"name="chatTitle" required></td>
 				</tr>
 				<tr>
-					<td><span id="titleSpan"></span></td>
+					<td colspan="2"><span id="titleSpan"></span></td>
 				</tr>
 				<tr>
-					<td id="name">최대 인원수</td>
+					<td id="name"colspan="2">최대 인원수</td>
 				</tr>
 				<tr>
-					<td id="box"><input type="text" name="chatPeople" required></td>
+					<td id="box"colspan="2"><input type="text"class="chatPeople" name="chatPeople" required></td>
+					</tr>
 				<tr>
-					<td><span id="titleSpan2"></span></td>
+					<td colspan="2"><span id="titleSpan2"></span></td>
 				</tr>
-				</tr>
+				
 				<tr>
-					<td><input type="submit" value="방만들기" id="roomBtn">
-				</tr>
-				</td>
-				<tr>
+					<td><input type="submit" value="방만들기" id="roomBtn"></td>
 					<td><input type="button" onclick="window.close()" value="취소"
 						id="cancle"></td>
 				</tr>
+				
 
 			</tbody>
 		</table>
