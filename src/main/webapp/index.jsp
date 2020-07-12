@@ -86,39 +86,55 @@
             </div>
         </div>
         <div class="content2">
+            <div class="bookListNavi">
+            <ul>
+            <li><a href="#">많이 대여된 책</a></li>
+            <li><a href="#" style="font-weight:bold; cursor:default;">·</a></li>
+            <li><a href="#">새로 들어온 책</a></li>
+            </ul>
+            </div>
+            
             <div class='bookList'>
                 <div class='onebook'>
                     <img src="/resources/imgs/book_bg.png">
                     <div>
                         <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
                     </div>
+                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
                 </div>
                 <div class='onebook'>
                     <img src="/resources/imgs/book_bg.png">
                     <div>
                         <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
                     </div>
-                </div>
-                <div class='onebook'>
+                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
+                </div><div class='onebook'>
                     <img src="/resources/imgs/book_bg.png">
                     <div>
                         <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
                     </div>
-                </div>
-                <div class='onebook'>
+                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
+                </div><div class='onebook'>
                     <img src="/resources/imgs/book_bg.png">
                     <div>
                         <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
                     </div>
-                </div>
-                <div class='onebook'>
+                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
+                </div><div class='onebook'>
                     <img src="/resources/imgs/book_bg.png">
                     <div>
                         <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
                     </div>
+                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
+                </div><div class='onebook'>
+                    <img src="/resources/imgs/book_bg.png">
+                    <div>
+                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
+                    </div>
+                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
                 </div>
-                
             </div>
+            
             <div style="padding: 300px 100px; background-color: skyblue; display: none;">
                 <div class="product">
                     <div>1</div>
@@ -144,14 +160,12 @@
 
 <script type="text/javascript">
     $(function() {
-        $('.product').slick({
-            slide: 'div', //슬라이드 되어야 할 태그 ex) div, li 
+        $('.bookList').slick({
             infinite: true, //무한 반복 옵션	 
-            slidesToShow: 4, // 한 화면에 보여질 컨텐츠 개수
+            slidesToShow: 5, // 한 화면에 보여질 컨텐츠 개수
             slidesToScroll: 1, //스크롤 한번에 움직일 컨텐츠 개수
             speed: 1000, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-            arrows: true, // 옆으로 이동하는 화살표 표시 여부
-            dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
+            dots: false, // 스크롤바 아래 점으로 페이지네이션 여부
             autoplay: true, // 자동 스크롤 사용 여부
             autoplaySpeed: 1000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
             pauseOnHover: true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
@@ -175,20 +189,25 @@
         height: 900px;
         border: 1px solid lightgray;
     }
-
+    .bookList{
+        clear: both;
+    }
     .onebook {
         float: left;
         width: 191px;
         overflow: hidden;
         position: relative;
-        margin-right: 60.5px;
+       /* padding-right:60.5px;*/
+        padding: 0 22px;
+        text-align: center;
     }
 
     .onebook>img {
-        width: 100%;
+        width: 190px;
     }
 
     .onebook>div {
+        padding: 0 22px;
         position: absolute;
         top: 0;
         left: 0;
@@ -200,30 +219,56 @@
         border: 1px solid #a9a9a9;
     }
 
-    .onebook:last-of-type {
-        margin-right: 0px;
+/*    .onebook:last-of-type {
+        padding-right: 0px;
+    }*/
+    .bookName{
+        display: inline-block;
+        width: 100%;
+        height: 38px;
+        color: black;
+    }
+    .bookWriter{
+        white-space: nowrap;
+        display: inline-block;
+        width: 100%
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #797979;
+    }
+    .bookListNavi{
+        width: 100%;
+        overflow: hidden;
+        text-align: center;
+        height:100px;
+        line-height: 100px;
+    }
+    .bookListNavi ul{
+        width: 450px;
+        margin: 0 auto;
+        
+    }
+    .bookListNavi li{
+        font-size: 23px;
+        float: left;
+        padding: 0 15px;
+    }
+    .bookListNavi a{
+       color: #778893; 
+    }
+    .bookListNavi li:first-of-type{
+        list-style-type: none;
+    }
+    .bookListNavi li:first-of-type>a{
+         color: #0066b3;
+        font-weight: bold;
+        border-bottom: 3px solid #0066b3;
+    }
+    
+    .bookListNavi li:last-of-type{
+       /* margin-left: 40px;*/
     }
 
-    /* 화살표 */
-    .slick-arrow {
-        z-index: 2;
-        /* prev버튼은 위치 이동시 이미지 뒤로 숨겨짐 */
-        position: absolute;
-        /* 원하는 위치에 지정 */
-        top: 0;
-        width: 50px;
-        height: 50px;
-    }
-
-    .slick-prev.slick-arrow {
-        /* prev 이전 */
-        left: 0;
-    }
-
-    .slick-next.slick-arrow {
-        /* next 다음 */
-        right: 0;
-    }
 
     /* 아래점 */
     .slick-dots {
