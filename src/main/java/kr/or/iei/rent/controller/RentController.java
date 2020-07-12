@@ -123,6 +123,7 @@ public class RentController {
 				System.out.println(c.getBookPublisher());
 				cartList.add(c);
 			}
+			System.out.println(param.length+"권 중 "+cartList.size()+"권이 대여가능해서 넘어감");
 			ArrayList<Integer> bookNoList = new ArrayList<Integer>();
 			bookNoList = service.selectBookNo(cartList);
 			model.addAttribute("bookNo", new Gson().toJson(bookNoList));

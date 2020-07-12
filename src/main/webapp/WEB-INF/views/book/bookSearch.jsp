@@ -169,6 +169,17 @@
     #bookListAdd:hover, #bookListRemove:hover {
     	cursor : pointer;
     }
+    #goToCartBtn, #cancelBtn {
+    	border: none;
+	    background-color: #666666;
+	    color: white;
+	    width: 70px;
+	    height: 30px;
+	    font-size: 14px;
+	    border-radius: 2px;    
+	    margin : 10px;
+	    display : inline-block;
+    }
 
 
 </style>
@@ -233,19 +244,19 @@ $(function(){
 					html += "<tr style='height : 40px;  border: 1px dashed #e5e5e5; '><td style='font-size:14px; text-align:center;'>"+(i+1)+"</td>";
 					html += "<td style='font-size:14px; text-align:center;'>"+data[i].bookName+"</td>";
 					if(data[i].bookStatus == 0) {
-						html += "<td style='font-size:14px; text-align:center;'>대여 가능</td>";						
+						html += "<td style='font-size:13px; color:#0066b3; font-weight:bold; text-align:center;'>대여 가능</td>";						
 					}else if(data[i].bookStatus == 1) {
-						html += "<td style='font-size:14px; text-align:center;'>대여 신청중</td>";
+						html += "<td style='font-size:13px; text-align:center;'>대여 신청중</td>";
 					}else if(data[i].bookStatus == 2) {
-						html += "<td style='font-size:14px; text-align:center;'>대여중</td>";
+						html += "<td style='font-size:13px; text-align:center;'>대여중</td>";
 					}else if(data[i].bookStatus == 3) {
-						html += "<td style='font-size:14px; text-align:center;'>반납신청중</td>";
+						html += "<td style='font-size:13px;  text-align:center;'>반납신청중</td>";
 					}else if(data[i].bookStatus == 4) {
-						html += "<td style='font-size:14px; text-align:center;'>연체중</td>";
+						html += "<td style='font-size:13px; color:brown; font-weight:bold;  text-align:center;'>연체중</td>";
 					}else if(data[i].bookStatus == 5) {
-						html += "<td style='font-size:14px; text-align:center;'>반납완료</td>";
+						html += "<td style='font-size:13px; text-align:center;'>반납완료</td>";
 					}else if(data[i].bookStatus == 6) {
-						html += "<td style='font-size:14px; text-align:center;'>분실중</td>";
+						html += "<td style='font-size:13px; color:brown; font-weight:bold; text-align:center;'>분실중</td>";
 					}
 					if((data[i].bookPubDate).split(' ')[0].split('월')[0].length == 1) {						
 	 					var month = "0"+(data[i].bookPubDate).split(' ')[0].split('월')[0]; 
@@ -348,18 +359,13 @@ $(function(){
 				traditional : true,
 				data : {chkArray : chkArray},
 				success : function(data) {
-					console.log("return :"+data);
-					console.log("아작스 성공");
 					if(data == -1) {
-						alert("책을 선택해야만 합니다. ");
+						$("#myBtn").trigger('click');
 					}else if(data == 0){
-						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
+						$("#myBtn2").trigger('click');
 					}else {
-						var chkArraySize = chkArray.length;
-						var yesNo = confirm(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다.\n장바구니로 가시겠습니까?");
-						if(yesNo) {
-							location.href="/cart/goMyCart.do?reqPage=1";
-						}
+						$("#cartCountSpan").html(data);
+						$("#myBtn5").trigger('click');
 					}
 				}, error : function () {
 					console.log("아작스 실패");
@@ -383,18 +389,13 @@ $(function(){
 				traditional : true,
 				data : {chkArray : chkArray},
 				success : function(data) {
-					console.log("return :"+data);
-					console.log("아작스 성공");
 					if(data == -1) {
-						alert("책을 선택해야만 합니다. ");
+						$("#myBtn").trigger('click');
 					}else if(data == 0){
-						alert("해당 책들은 이미 장바구니에 있는 책들입니다. ");
+						$("#myBtn2").trigger('click');
 					}else {
-						var chkArraySize = chkArray.length;
-						var yesNo = confirm(chkArraySize+"권 중에 "+data+"권이 장바구니에 들어갔습니다.\n장바구니로 가시겠습니까?");
-						if(yesNo) {
-							location.href="/cart/goMyCart.do?reqPage=1";
-						}
+						$("#cartCountSpan").html(data);
+						$("#myBtn5").trigger('click');
 					}
 				}, error : function () {
 					console.log("아작스 실패");
@@ -414,9 +415,9 @@ $(function(){
 				data : {resVal : resVal},
 				success : function(data) {
 					if(data == -1) {
-						alert("이미 예약되어 있는 책입니다. ");						
+						$("#myBtn4").trigger('click');
 					}else {
-						alert("예약 성공");
+						$("#myBtn3").trigger('click');
 					}
 				}, error : function(){
 					console.log("아작스 실패");
@@ -425,6 +426,9 @@ $(function(){
 			$("div.loader").css("display","none");
 		});
 	});
+	function goToCartBtn() {
+		location.href="/cart/goMyCart.do?reqPage=1";
+	}
 </script>
 
 <body>
@@ -520,10 +524,14 @@ $(function(){
 											</td>
 											<td rowspan="5" style='width:130px; text-align:center; padding-top:0;'><img style='width : 95px; height: 135px;' src='${n.bookImg }'></td>
 											<td rowspan="5" style='wdith:730px; padding-left : 10px;'> 
-												<span style='font-weight:bold;' class='nameSpan'>${n.bookName}</span>&nbsp;&nbsp;&nbsp;<div style='border-radius:5px; display:inline;font-weight:bold; font-size:12px; background-color:brown; color:white;'>&nbsp;${n.avgScore }&nbsp;</div> 
-												<c:if test="${n.cnt eq '0'}">
-													<button type="button" style='background-color:rgb(0, 102, 179);' id="reservationButton">예약하기</button>
-													<input type="hidden" id="reservationInput" value="${n.bookName }~구분~${n.bookWriter }~구분~${n.bookPublisher}~구분~${n.bookCategory}">
+												<c:if test="${n.avgScore > 4 }">
+													<span style='font-weight:bold;display:inline-block; white-space:nowrap; width:750px;overflow:hidden;text-overflow:ellipsis' class='nameSpan'>${n.bookName}</span>&nbsp;&nbsp;&nbsp;<div style='border-radius:5px; display:inline;font-weight:bold; font-size:12px; background-color:green; color:white;'>&nbsp;${n.avgScore }&nbsp;</div> 
+												</c:if>
+												<c:if test="${n.avgScore >= 3 && n.avgScore < 4 }">
+													<span style='font-weight:bold;display:inline-block; white-space:nowrap; width:750px;overflow:hidden;text-overflow:ellipsis' class='nameSpan'>${n.bookName}</span>&nbsp;&nbsp;&nbsp;<div style='border-radius:5px; display:inline;font-weight:bold; font-size:12px; background-color:orange; color:white;'>&nbsp;${n.avgScore }&nbsp;</div> 
+												</c:if>
+												<c:if test="${n.avgScore < 3 }">
+	 												<span style='font-weight:bold;display:inline-block;  white-space:nowrap; width:750px;overflow:hidden;text-overflow:ellipsis' class='nameSpan'>${n.bookName}</span>&nbsp;&nbsp;&nbsp;<div style='border-radius:5px; display:inline;font-weight:bold; font-size:12px; background-color:brown; color:white;'>&nbsp;${n.avgScore }&nbsp;</div>
 												</c:if>
 												<br>
 												<c:if test="${not empty n.bookWriter}">
@@ -534,6 +542,10 @@ $(function(){
 												</c:if>
 												<br>
 													<span  class='categorySpan'>${n.bookCategory }</span>
+													<c:if test="${n.cnt eq '0'}">
+														<button type="button" style='background-color:rgb(0, 102, 179);' id="reservationButton">예약하기</button>
+														<input type="hidden" id="reservationInput" value="${n.bookName }~구분~${n.bookWriter }~구분~${n.bookPublisher}~구분~${n.bookCategory}">
+													</c:if>
 												<br>
 												<c:if test="${not empty n.bookPublisher}">
 													<span class='publisherSpan'>${n.bookPublisher}</span>
@@ -560,8 +572,9 @@ $(function(){
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<div id="listDivEmpty">
-								<h1>검색 결과가 없습니다.</h1>
+							<div id="listDivEmpty" style='width:100%; height:200px;'>
+								<span id="listDivEmptySpan">검색 결과가 없습니다. </span><br>
+								<span id="listDivEmptySpan">혹시 다른 검색어로 검색해보시는건 어떠세요? </span>
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -583,6 +596,177 @@ $(function(){
 	<div class="loader" style='display:none;'></div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </div>
+<button id="myBtn">Open Modal</button>
+<div id="myModal" class="modal">
+	<div class="modal-content" style="height : 120px; width : 280px;">
+		<span class="close">&times;</span>                                         
+		<p>책을 선택해야만 합니다. </p>
+	</div>
+</div>
+<button id="myBtn2">Open Modal</button>
+<div id="myModal2" class="modal">
+	<div class="modal-content" style="height : 120px; width : 280px;">
+		<span class="close">&times;</span>                                         
+		<p>이미 장바구니에 있는 책입니다. </p>
+	</div>
+</div>
+<button id="myBtn3">Open Modal</button>
+<div id="myModal3" class="modal">
+	<div class="modal-content" style="height : 120px; width : 280px;">
+		<span class="close">&times;</span>                                         
+		<p>예약하였습니다 :) </p>
+	</div>
+</div>
+<button id="myBtn4">Open Modal</button>
+<div id="myModal4" class="modal">
+	<div class="modal-content" style="height : 120px; width : 280px;">
+		<span class="close">&times;</span>                                         
+		<p>이미 예약된 책입니다 :) </p>
+	</div>
+</div>
+<button id="myBtn5">Open Modal</button>
+<div id="myModal5" class="modal">
+	<div class="modal-content" style="height : 195px; width : 400px;">
+		<br>
+		<p>선택하신 <span id="cartCountSpan"></span>권이 장바구니에 들어갔습니다</p>
+		<p>장바구니로 이동하시겠습니까</p>
+		<div style="width:100%; text-align : center;">
+			<button style="display:inline-block;" type="button" id="goToCartBtn" onclick="goToCartBtn();">이동</button>
+			<button style="display:inline-block;"  type="button" id="cancelBtn">취소</button>		
+		</div>
+	</div>
+</div>
 </body>
-
+<style>
+	#listDivEmpty {
+		text-align : center;
+		padding-top : 80px;
+	}
+	#listDivEmptySpan {
+		font-size : 18px;
+		font-weight : bold;
+	}
+</style>
+<style>
+      /* The Modal (background) */
+      	.modal-content > span {
+	      	text-align : right;
+      	}
+      	.modal-content > h3, .modal-content > p {
+	      	text-align : center;
+      	}
+      	.modal-content > p {
+      		font-size : 14px;
+      		font-weight : bold;
+      	}      
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }
+        .modal-content5 {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }        
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /*------------------------ */
+      
+</style>
+<script>
+	var modal = document.getElementById('myModal');
+	var btn = document.getElementById("myBtn");
+	var span = document.getElementsByClassName("close")[0];                                          
+	var modal2 = document.getElementById('myModal2');
+	var btn2 = document.getElementById("myBtn2");
+	var span2 = document.getElementsByClassName("close")[1];                                          
+	var modal3 = document.getElementById('myModal3');
+	var btn3 = document.getElementById("myBtn3");
+	var span3 = document.getElementsByClassName("close")[2];                                          
+	var modal4 = document.getElementById('myModal4');
+	var btn4 = document.getElementById("myBtn4");
+	var span4 = document.getElementsByClassName("close")[3];
+	var modal5 = document.getElementById('myModal5');
+	var btn5 = document.getElementById("myBtn5");
+	var closeBtn = document.getElementById("cancelBtn");
+	var span5 = document.getElementsByClassName("close")[4];
+	
+	btn.onclick = function() {
+	    modal.style.display = "block";
+	}
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	    }
+	}
+	btn2.onclick = function() {
+	    modal2.style.display = "block";
+	}
+	span2.onclick = function() {
+	    modal2.style.display = "none";
+	}
+	btn3.onclick = function() {
+	    modal3.style.display = "block";
+	}
+	span3.onclick = function() {
+	    modal3.style.display = "none";
+	}
+	btn4.onclick = function() {
+	    modal4.style.display = "block";
+	}
+	span4.onclick = function() {
+	    modal4.style.display = "none";
+	}
+	btn5.onclick = function() {
+	    modal5.style.display = "block";
+	}
+	btn5.onclick = function() {
+	    modal5.style.display = "block";
+	}
+	closeBtn.onclick = function() {
+	    modal5.style.display = "none";
+	}	
+	span5.onclick = function() {
+	    modal5.style.display = "none";
+	}
+	$(document).ready(function() {
+		$("#myBtn").hide();
+		$("#myBtn2").hide();
+		$("#myBtn3").hide();
+		$("#myBtn4").hide();
+		$("#myBtn5").hide();
+	});
+</script>
 </html>
