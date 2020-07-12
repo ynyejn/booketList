@@ -33,7 +33,8 @@ public class UsedBoardController {
 
 	@RequestMapping("/goUsedBoard.do")
 	private String goUsedBoard(Model model, int reqPage) {
-		UsedBoardPageData upd = service.selectAllUsedList(reqPage);
+		String usedStatus="-1";
+		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus);
 
 		model.addAttribute("list", upd.getList());
 		model.addAttribute("pageNavi", upd.getPageNavi());
@@ -41,13 +42,13 @@ public class UsedBoardController {
 	}
 
 	@RequestMapping("/goAdminUsedBoard.do")
-	private String goAdminUsedBoard(Model model) {
-		int reqPage = 1;
-		UsedBoardPageData upd = service.selectAllUsedList(reqPage);
+	private String goAdminUsedBoard(Model model, int reqPage, String usedStatus) {
+		System.out.println(usedStatus);
+		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus);
 
 		model.addAttribute("list", upd.getList());
 		model.addAttribute("pageNavi", upd.getPageNavi());
-
+		model.addAttribute("selectStatus",usedStatus);
 		return "usedBoard/adminUsedList";
 	}
 
