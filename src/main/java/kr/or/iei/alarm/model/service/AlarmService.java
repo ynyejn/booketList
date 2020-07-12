@@ -12,5 +12,4 @@ public class AlarmService {
 	@Qualifier("alarmDao")
 	private AlarmDao dao;
 	
-	
 }

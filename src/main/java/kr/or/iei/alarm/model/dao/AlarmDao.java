@@ -12,7 +12,7 @@ public class AlarmDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	public int updateAlarm(int data) {
+	public int lostUpdateAlarm(int data) {
 		return sqlSession.update("alarm.updateAlarm",data);
 	}
 

@@ -44,6 +44,10 @@
 	
 	</select>
 	
+	<update id="rentUpdate" parameterType="int" >
+		update rent set rent_end_date = (rent_end_date+interval '7' day),rent_return = rent_return+1 where rent_no=#{_parameter}
+	</update>
+	
 	<select id="rentApplyTotalCount" resultType="_int">
 		select count(*) as cnt from rentapply
 	</select>

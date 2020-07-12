@@ -119,13 +119,10 @@ td {
 			}
 		});
 
-		$('#memberNickname')
-				.on(
-						"blur",
+		$('#memberNickname').on("blur",
 						function(event) {
 							if (!nickname.test($('#memberNickname').val())) {
-								$('#nickname_check').text(
-										'2~10자의 영문 대소문자,한글,숫자,특수문자 사용 가능합니다.');
+								$('#nickname_check').text('2~10자의 영문 대소문자,한글,숫자,특수문자 사용 가능합니다.');
 								$('#nickname_check').css('color', 'red');
 								$("#memberNickname").val("");
 							} else {
@@ -137,21 +134,13 @@ td {
 													$.ajax({type : 'POST',
 															data : {memberNickname : memberNickname},
 																url : '/member/checkNickname.do',
-																success : function(
-																		data) {
+																success : function(data) {
 																	if (data == "1") {
 																		alert("중복닉네임입니다.");
-																		$(
-																				"#memberJoin")
-																				.attr(
-																						"disabled",
-																						"disabled");
+																		$("#memberJoin").attr("disabled","disabled");
 																	} else {
 																		alert("닉네임사용가능합니다.");
-																		$(
-																				"#memberJoin")
-																				.attr(
-																						"disabled");
+																		$("#memberJoin").attr("disabled");
 										}
 									}
 								})
@@ -160,7 +149,7 @@ td {
 						})
 		$('#memberPhone').on("blur", function(event) {
 			if (!phone.test($('#memberPhone').val())) {
-				$('#phone_check').text('휴대폰 번호에 숫자만 입력해주세요');
+				$('#phone_check').text('01X0000000 또는 01X00000000 형식으로 입력해주세요');
 				$('#phone_check').css('color', 'red');
 				$("#memberPhone").val("");
 			} else {
@@ -184,9 +173,7 @@ td {
 					$.ajax({
 						url : "/member/sendMail.do",
 						type : "post",
-						data : {
-							mail : mail
-						},
+						data : {mail : mail},
 						success : function(data) {
 							mailCode = data;
 							$("#mailCode").show();
@@ -260,26 +247,30 @@ td {
 		});
 		if (bookArr.length > 3) {
 			alert("취향은 3개까지 선택가능합니다 :)");
+			$("#memberJoin").attr("disabled", "disabled");
 		} else if (bookArr.length == 3) {
-			alert("3개 취향존중");
+			alert("도서선호장르 3개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
 			var choice3 = bookArr[2];
+			$("#memberJoin").attr("disabled");
 			console.log(choice1);
 			console.log(choice2);
 			console.log(choice3);
 		} else if (bookArr.length == 2) {
-			alert("2개 취향존중");
+			alert("도서선호장르 2개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
+			$("#memberJoin").attr("disabled");
 			console.log(choice1);
 			console.log(choice2);
 		} else if (bookArr.length == 1) {
-			alert("1개 취향존중");
+			alert("도서선호장르 1개가 선택되었습니다.");
+			$("#memberJoin").attr("disabled");
 			var choice1 = bookArr[0];
 			console.log(choice1);
 		} else if (bookArr.length == 0) {
-			alert("0개 취향존중");
+			$("#memberJoin").attr("disabled");
 			var choice1 = "";
 			console.log(choice1);
 		}
