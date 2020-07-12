@@ -224,4 +224,10 @@ public class RentController {
 			return "redirect:/rent/goBookSearch.do?reqPage=1&msg=1";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value = "/selectBestSeller.do", produces = "application/json;charset=utf-8")
+	public String selectBestSeller() {
+		ArrayList<Book> list = service.selectBestSeller();
+		return new Gson().toJson(list);
+	}
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.usedBoard.model.service.UsedBoardService;
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
@@ -159,4 +161,5 @@ public class UsedBoardController {
 		Calendar today = Calendar.getInstance();
 		return today.getTimeInMillis();
 	}
+
 }

@@ -95,60 +95,9 @@
             </div>
             
             <div class='bookList'>
-                <div class='onebook'>
-                    <img src="/resources/imgs/book_bg.png">
-                    <div>
-                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
-                    </div>
-                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
-                </div>
-                <div class='onebook'>
-                    <img src="/resources/imgs/book_bg.png">
-                    <div>
-                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
-                    </div>
-                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
-                </div><div class='onebook'>
-                    <img src="/resources/imgs/book_bg.png">
-                    <div>
-                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
-                    </div>
-                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
-                </div><div class='onebook'>
-                    <img src="/resources/imgs/book_bg.png">
-                    <div>
-                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
-                    </div>
-                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
-                </div><div class='onebook'>
-                    <img src="/resources/imgs/book_bg.png">
-                    <div>
-                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
-                    </div>
-                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
-                </div><div class='onebook'>
-                    <img src="/resources/imgs/book_bg.png">
-                    <div>
-                        <img src="https://image.aladin.co.kr/product/24158/20/coversum/k292639642_1.jpg">
-                    </div>
-                    <span class="bookName">책제목책제목체</span><span class="bookWriter">지은이지은이</span>
-                </div>
             </div>
             
-            <div style="padding: 300px 100px; background-color: skyblue; display: none;">
-                <div class="product">
-                    <div>1</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>8</div>
-                    <div>9</div>
-                    <div>10</div>
-                </div>
-            </div>
+            
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
@@ -160,21 +109,40 @@
 
 <script type="text/javascript">
     $(function() {
-        $('.bookList').slick({
-            infinite: true, //무한 반복 옵션	 
-            slidesToShow: 5, // 한 화면에 보여질 컨텐츠 개수
-            slidesToScroll: 1, //스크롤 한번에 움직일 컨텐츠 개수
-            speed: 1000, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-            dots: false, // 스크롤바 아래 점으로 페이지네이션 여부
-            autoplay: true, // 자동 스크롤 사용 여부
-            autoplaySpeed: 1000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
-            pauseOnHover: true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
-            vertical: false, // 세로 방향 슬라이드 옵션
-            dotsClass: "slick-dots", //아래 나오는 페이지네이션(점) css class 지정
-            draggable: true
-            //드래그 가능 여부 
+    	$.ajax({
+            url: "/rent/selectBestSeller.do",
+            type: "get",
+            success: function(data) {
+            	var html="";
+                for (var i = 0; i < data.length; i++) {
+                    html+="<div class='onebook'>";
+                    html+="<img src='/resources/imgs/book_bg.png'>";
+                    html+="<div><img src='"+data[i].bookImg+"'></div>";
+                    html+=" <span class='bookName'>"+data[i].bookName+"</span><span class='bookWriter'>"+data[i].bookWriter+"</span></div>";
+                }
+                if ($('.bookList').hasClass('slick-initialized')) {
+                    $('.bookList').slick('destroy');
+                }
 
+                $('.bookList').append(html);
+
+                $('.bookList').slick({
+                	infinite: true, //무한 반복 옵션	 
+                    slidesToShow: 5, // 한 화면에 보여질 컨텐츠 개수
+                    slidesToScroll: 1, //스크롤 한번에 움직일 컨텐츠 개수
+                    speed: 1000, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+                    dots: false, // 스크롤바 아래 점으로 페이지네이션 여부
+                    autoplay: true, // 자동 스크롤 사용 여부
+                    autoplaySpeed: 1000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+                    pauseOnHover: true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+                    vertical: false, // 세로 방향 슬라이드 옵션
+                    dotsClass: "slick-dots", //아래 나오는 페이지네이션(점) css class 지정
+                    draggable: true
+                    //드래그 가능 여부 
+                });
+            }
         });
+
     })
 
 </script>
@@ -187,10 +155,12 @@
         overflow: hidden;
         margin: 0 auto;
         height: 900px;
-        border: 1px solid lightgray;
     }
     .bookList{
         clear: both;
+        padding: 30px 0px;
+         border-top: 2px solid #585858;
+        border-bottom: 2px solid #585858;
     }
     .onebook {
         float: left;
@@ -203,7 +173,7 @@
     }
 
     .onebook>img {
-        width: 190px;
+        width: 191px;
     }
 
     .onebook>div {

@@ -473,4 +473,14 @@
 		,rent_return as rentReturn
 		from rent left join book using(book_no)
 	</select>
+	
+	<select id="selectBestSeller" resultType="book">
+	select book_no as bookNo, 
+			book_name as bookName, 
+			book_writer as bookWriter,
+			book_img as bookImg,
+			rank
+			from (select count(*) as cnt , book_no, row_number() over(order by count(*) desc) as rank from rent group by book_no) 
+			join book using(book_no) where rank between 1 and 6
+	</select>
 </mapper>
