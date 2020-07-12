@@ -22,5 +22,10 @@ public class ComplainService {
 		// TODO Auto-generated method stub
 		return dao.complainInsert(c);
 	}
+
+	public int complainInsertFile(Complain c) {
+		// TODO Auto-generated method stub
+		return dao.complainInsertFile(c);
+	}
 	
 }
