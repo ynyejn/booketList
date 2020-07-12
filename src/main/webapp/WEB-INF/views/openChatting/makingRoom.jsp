@@ -11,7 +11,7 @@
 </head>
 <style>
 table {
-	margin-top: 200px;
+	
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
@@ -49,8 +49,15 @@ table {
 #box {
 	width: 180px;
 }
+.title{
+	font-size: 2.2em;
+}
+.chatTitle{
+	width:100%;
+	height: 30px;
+}
 </style>
-<body>
+<body  onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
 
 
 	<form action="/chat/chat.do" method="post">
@@ -60,13 +67,13 @@ table {
 		<table>
 			<tbody>
 				<tr>
-					<td><h1>방만들기!</h1></td>
+					<td><h1 class="title">오픈 채팅 방만들기!</h1></td>
 				</tr>
 				<tr>
 					<td id="name">방제목</td>
 				</tr>
 				<tr>
-					<td id="box"><input type="text" name="chatTitle" required></td>
+					<td id="box"><input type="text" class="chatTitle"name="chatTitle" required></td>
 				</tr>
 				<tr>
 					<td><span id="titleSpan"></span></td>

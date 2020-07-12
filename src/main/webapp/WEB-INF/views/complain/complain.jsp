@@ -10,7 +10,7 @@
 </head>
 <body>
 	<form action="/complain/complainInsert.do" method="post">
-			신고자 : ${sessionScope.member.memberId}<br> <input type="hidden" name="memberId" value="${sessionScope.member.memberId}">
+<input type="hidden" name="memberId" value="${sessionScope.member.memberId}">
 			신고당한 아이디 :${memberIds }<br><input type="hidden" name="attacker" value="${memberIds }">
 	신고 사유
 	<select id="complainCategory" name="complainCategory">
@@ -22,8 +22,10 @@
 	신고내용 :
 	<c:if test="${empty complainContent  }">
 		<input type="hidden" name="complainFilename" value="${fileName }">
+		<img src="${fileName }">
 	</c:if>
 	<c:if test="${not empty complainContent  }">
+	${complainContent }
 		<input type="hidden" name="complainContent" value="${complainContent }">
 		<input type="hidden" name="complainFilename" value="">
 	</c:if>
