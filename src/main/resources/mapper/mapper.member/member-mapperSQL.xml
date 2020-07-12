@@ -39,7 +39,6 @@
 		update 
 		member set 
 		member_name =#{memberName},
-		member_nickname =#{memberNickname},
 		member_phone =#{memberPhone},
 		member_email =#{memberEmail},
 		member_category1=#{memberCategory1},
@@ -47,6 +46,7 @@
 		member_category3=#{memberCategory3}
 		where member_id=#{memberId}
 	</update>
+	
 	<delete id="delete" parameterType="String">
 		delete from member where member_id = #{memberId}
 	</delete>
