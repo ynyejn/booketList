@@ -18,7 +18,8 @@
 <!-- css 여기있어야함 -->
 <link rel="stylesheet" href="/resources/css/header/hStyle.css">
 
-<div class="header">
+<div class="header"
+>
 	<div class="header1">
 		<a href="/"><img src="/resources/imgs/bluelogo.png"></a>
 	</div>
@@ -50,7 +51,7 @@
 				<li><a href="#">${sessionScope.member.memberName }</a></li>
 				</c:if>
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
-				<li><a href="">${sessionScope.member.memberName }님</a></li>
+				<li><a href="/member/mypage.do">${sessionScope.member.memberName }님</a></li>
 				</c:if>
 				<li><a href="/member/logout.do">로그아웃</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
@@ -66,10 +67,15 @@
 				<li><a href="/rent/goPreference.do" data-toggle="tooltip" title="Try it!">취향분석</a></li>
 			</ul>
 			<ul class="hNavi2">
-				<li><a href="#">공지사항</a></li>
 				<li><a href="/review/reviewList.do">후기 게시판</a></li>
 				<li><a  href="javascript:void(0);" onclick="chat('${sessionScope.member.memberId}');" data-toggle="tooltip" title="와글와글!">오픈 채팅방</a></li>
+				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="/goUsedBoard.do?reqPage=1">도서기증 / 판매</a></li>
+				</c:if>
+				<c:if test="${sessionScope.member.memberId eq 'admin' }">
+				<li><a href="/goAdminUsedBoard.do?reqPage=1">도서기증 / 판매</a></li>
+				</c:if>
+				
 			</ul>
 		</div>
 	</div>

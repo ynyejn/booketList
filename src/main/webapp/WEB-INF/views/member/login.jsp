@@ -47,6 +47,9 @@ td {
 			<form id="login2" action="/member/login.do" method="post">
 				<h2>로그인</h2>
 				<br><br>
+				 <c:if test="${sessionScope.member.memberId eq 'admin' }">
+				 <a href="adminPage.do">
+				 </c:if>
 				<div class="form-group">
 						<label for="id">아이디</label> 
 						<input type="text"class="form-control" id="memberId" name="memberId"placeholder="ID" style="width: 430px;"><br>

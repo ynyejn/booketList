@@ -17,18 +17,24 @@
   <title>BooketList</title>
    
 
-  <!-- Custom fonts for this template-->
-  <link href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link
+	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
 
-  
-  
-  <link rel="stylesheet"
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-	<!-- Custom styles for this template-->
-  
-  <link
+
+<!-- Custom styles for this template-->
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
+	rel="stylesheet" type="text/css"/>
+
+
+<link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -38,7 +44,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
-<link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css"/>
+
+
 
 
 <script>
@@ -113,7 +120,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainPage.do">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-book"></i>
         </div>
@@ -147,7 +154,7 @@
           <i class="fas fa-fw fa-cog"></i>    
           <span>회원 신고 관리</span>
         </a>
-         <div id="complaincollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+         <div id="complaincollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebara">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">회원 신고 관리</h6>
             <a class="collapse-item" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">신고처리대기</a>
@@ -171,7 +178,7 @@
           <i class="fas fa-fw fa-folder"></i>
           <span>도서 대여</span>
         </a>
-        <div id="collapsePagesRent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePagesRent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebarb">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
@@ -187,7 +194,7 @@
           <i class="fas fa-fw fa-folder"></i>
           <span>도서 내역</span>
         </a>
-        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebarc">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 내역</h6>
             <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
@@ -201,7 +208,7 @@
           <i class="fas fa-fw fa-cog"></i>
           <span>도서 분실 신고</span>
          </a>
-         <div id="LostcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+         <div id="LostcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebard">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">분실 내역</h6>
             <a class="collapse-item" href="/userLostBook.do">분실 신고</a>
@@ -257,7 +264,7 @@
           </button>
           
           <div style="margin-left:350px;">
-             <a href="#"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+             <a href="/mainPage.do"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
           </div>
 
           <!-- Topbar Search -->
@@ -300,7 +307,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span id="alarmss" class="badge badge-danger badge-counter danger"></span>
+                <span id="alarmss" class="badge badge-danger badge-counter" style="background-color:red;"></span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
