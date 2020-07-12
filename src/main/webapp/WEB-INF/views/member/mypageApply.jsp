@@ -32,6 +32,9 @@ td {
 	border-collapse: collapse;
 	text-align: center;
 }
+tr {
+	text-align: center;
+}
 .list-group>#mypage1:hover,.list-group>#mypage2:hover,.list-group>#mypage3:hover,.list-group>#mypage4:hover,.list-group>#mypage5:hover,.list-group>#mypage6:hover{
 	background-color : rgb(2, 132, 230);
     	cursor : pointer;
@@ -39,6 +42,9 @@ td {
 #upBtn{
 	background-color: #666666;
 	border-color:#666666;
+}
+.card-header{
+	font-weight:bold;
 }
 </style>
 <body>
@@ -62,8 +68,9 @@ td {
 
 				<div class="col-lg-9">
 					<div class="card mt-4" style="width: 800px; height: 400px; margin:0 auto;">
+					
 						<img class="card-img-top img-fluid"
-							src="http://placehold.it/900x400" alt="">
+							src="/resources/imgs/mypage.png" alt=>
 						<div class="card-body">
 							<h3 class="card-title"></h3>
 							
@@ -81,21 +88,27 @@ td {
 							<th>신청일</th>
 							<th>상태</th>
 							<th>신청사유</th>
-							
+							<hr>
 							  </tr>
 							 <c:forEach items="${list }" var="a">
 							 
                         <tr>
-                            <td>${a.bookName}</td>
+                            <td style="width: 400px;">${a.bookName}</td>
                             <td>${a.applyDate}</td>
-                            <td>${a.applyStatus}</td>
-                            <td>${a.applyContent}</td>
-                            
-
+                            <td class="applyStatus"style="width: 200px;">${a.applyStatus}</td>
+                            <td style="width: 400px;">${a.applyContent}</td>
                         </tr>
                     </c:forEach>
 						</table>	
-						
+						<script>
+						if($(".applyStatus").html()=="1"){
+							$(".applyStatus").html('처리완료');
+						}if($(".applyStatus").html()=="2"){
+							$(".applyStatus").html('반려');
+						}else{
+							$(".applyStatus").html('처리중');
+						}	
+						</script>
 							<hr>
 							<a href="#" class="btn btn-success" id="upBtn">위로가기</a>
 						</div>

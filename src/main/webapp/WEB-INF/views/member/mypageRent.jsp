@@ -56,6 +56,9 @@ tr {
 	background-color: #666666;
 	border-color: #666666;
 }
+.card-header{
+	font-weight:bold;
+}
 </style>
 <script>
 	var bool = true;
@@ -84,17 +87,18 @@ tr {
 				<!-- /.col-lg-3 -->
 
 				<div class="col-lg-9">
-					<div class="card mt-4" style="width: 800px; height: 400px; margin:0 auto;" >
-
-						<img class="card-img-top img-fluid"	src="/resources/imgs/mypage.png" >
+					<div class="card mt-4" style="width: 800px; height: 400px; margin:0 auto;">
+					
+						<img class="card-img-top img-fluid"
+							src="/resources/imgs/mypage.png" alt=>
 						<div class="card-body">
 							<h3 class="card-title"></h3>
-
-
+							
+							
 						</div>
 					</div>
 					<!-- /.card -->
-					<div class="card card-outline-secondary my-4">
+					<div class="card card-outline-secondary my-4" >
 						<div class="card-header">도서대여 목록</div>
 						<div class="card-body">
 
@@ -139,17 +143,13 @@ tr {
 							</table>
 							<script>
 								$(function() {
-									$(".delayBtn")
-											.click(
-													function() {
-														var rentNo = $(this)
-																.parent()
-																.parent()
+									$(".delayBtn").click(function() {
+														var rentNo = $(this).parent().parent()
 																.parent()
 																.children()
 																.find("#rent")
 																.val();
-														alert(rentNo);
+														
 														if ($(this).parent()
 																.prev().prev()
 																.html() == 0) {//버튼이어서 parent로 올라감

@@ -62,8 +62,9 @@ td {
 
 				<div class="col-lg-9">
 					<div class="card mt-4" style="width: 800px; height: 400px; margin:0 auto;">
+					
 						<img class="card-img-top img-fluid"
-							src="http://placehold.it/900x400" alt="">
+							src="/resources/imgs/mypage.png" alt=>
 						<div class="card-body">
 							<h3 class="card-title"></h3>
 							

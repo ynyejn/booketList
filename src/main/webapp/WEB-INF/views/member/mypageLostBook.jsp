@@ -40,6 +40,9 @@ td {
 	background-color: #666666;
 	border-color:#666666;
 }
+.card-header{
+	font-weight:bold;
+}
 </style>
 <body>
 	<div class="wrapper">
@@ -73,7 +76,7 @@ td {
 					</div>
 					<!-- /.card -->
 					<div class="card card-outline-secondary my-4">
-						<div class="card-header"></div>
+						<div class="card-header">도서 분실 신고</div>
 						<div class="card-body">
 						
 					

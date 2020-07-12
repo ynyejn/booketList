@@ -32,6 +32,9 @@ td {
 	border-collapse: collapse;
 	text-align: center;
 }
+tr {
+	text-align: center;
+}
 .list-group>#mypage1:hover,.list-group>#mypage2:hover,.list-group>#mypage3:hover,.list-group>#mypage4:hover,.list-group>#mypage5:hover,.list-group>#mypage6:hover{
 	background-color : rgb(2, 132, 230);
     	cursor : pointer;
@@ -39,6 +42,9 @@ td {
 #upBtn{
 	background-color: #666666;
 	border-color:#666666;
+}
+.card-header{
+	font-weight:bold;
 }
 </style>
 <body>
@@ -62,8 +68,9 @@ td {
 
 				<div class="col-lg-9">
 					<div class="card mt-4" style="width: 800px; height: 400px; margin:0 auto;">
+					
 						<img class="card-img-top img-fluid"
-							src="http://placehold.it/900x400" alt="">
+							src="/resources/imgs/mypage.png" alt=>
 						<div class="card-body">
 							<h3 class="card-title"></h3>
 							
@@ -81,11 +88,12 @@ td {
 							<th>신청일</th>
 							<th>출판사</th>
 							<th>저자</th>
+							<hr>
 							  </tr>
 							 <c:forEach items="${list }" var="r">
 							 
                         <tr>
-                            <td>${r.bookName}</td>
+                            <td style="width: 400px;">${r.bookName}</td>
                             <td>${r.reserveDate}</td>
                             <td>${r.bookPublisher}</td>
                             <td>${r.bookWriter}</td>
