@@ -339,13 +339,13 @@ td {
 		});
 		if (bookArr.length > 3) {
 			alert("취향은 3개까지 선택가능합니다 :)");
-			$("#memberJoin").attr("disabled", "disabled");
+			return false;
 		} else if (bookArr.length == 3) {
 			alert("도서선호장르 3개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
 			var choice3 = bookArr[2];
-			$("#memberJoin").attr("disabled");
+			
 			console.log(choice1);
 			console.log(choice2);
 			console.log(choice3);
@@ -353,16 +353,16 @@ td {
 			alert("도서선호장르 2개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
-			$("#memberJoin").attr("disabled");
+			
 			console.log(choice1);
 			console.log(choice2);
 		} else if (bookArr.length == 1) {
 			alert("도서선호장르 1개가 선택되었습니다.");
-			$("#memberJoin").attr("disabled");
+			
 			var choice1 = bookArr[0];
 			console.log(choice1);
 		} else if (bookArr.length == 0) {
-			$("#memberJoin").attr("disabled");
+			
 			var choice1 = "";
 			console.log(choice1);
 		}
