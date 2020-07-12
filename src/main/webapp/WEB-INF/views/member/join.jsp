@@ -11,11 +11,16 @@
 </head>
 <style>
 .content {
-	width: 1200px;
+	background-color: #f3f5f7;
+	width : 100%;
 	overflow: hidden;
 	margin: 120px auto 0 auto;
-	height: 1500px;
-	background-color: aliceblue;
+	height: 1380px;
+	
+}
+
+label {
+	font-weight : bold;
 }
 
 td {
@@ -24,18 +29,93 @@ td {
 }
 
 .join1 {
+	border-top : 2px solid #585858;
+	border-bottom : 2px solid #585858;
+	padding-top : 10px;
+	padding-bottom : 10px;
 	margin: 0 auto;
 	overflow: hidden;
 	width: 600px;
 }
-
+.join1 > div {
+	margin : 0 auto;
+}
+#memberJoin {
+    	border: none;
+	    background-color: #666666;
+	    color: white;
+	    width: 140px;
+	    height: 40px;
+	    font-size: 14px;
+	    border-radius: 2px;    
+	    margin-top : 10px;
+	    display : inline-block;
+    }
 #form_join {
 	margin: 0 auto;
 	overflow: hidden;
 	width: 500px;
 }
-
-
+#categoryTag {
+	font-weight : bold;
+	font-size : 22px;
+	margin : 0;
+}
+#categoryTag2 {
+	font-size : 13px;
+	font-weight : bold;
+}
+#doubleNick, #doubleId, #mailBtn, #mailResult {
+   	border: none;
+    background-color: #007bff;
+    color: white;
+    width: 80px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 2px;    
+    display : inline-block;
+    margin : 0;
+}
+#categoryTable {
+	width :450px;
+}
+#categoryTable tr td {
+	font-size : 11px;
+	font-weight : bold;
+	width:25%;
+	height : 16px;
+	line-height : 16px;
+	border:none;
+}
+#bookcheck {
+	width : 14px;
+	height : 14px;
+	vertical-align : 0;
+	line-height : 16px;
+}
+#titleDiv {
+	height : 160px;
+	background-color : white;
+	position : relative;
+	margin-bottom : 40px;
+	background-image : url('/resources/imgs/study.jpg');
+}
+#titleDivSpan {
+ 	color: #eeeeee; 
+    font-size: 40px;
+    font-weight: bolder;
+    position: absolute;
+    padding-left: 300px;
+    padding-right: 30px;
+    top: 45px;
+    left: 0px;
+    text-shadow: 1px 1px 2px black;
+    border-bottom: 5px solid #dddddd;
+    box-shadow: 0px 1px 0px black;
+}
+#memberEmail {
+	margin-bottom : 20px;
+}
 </style>
 <script>
 	//모든 공백 체크 정규식
@@ -59,10 +139,14 @@ td {
 			if (!id.test($('#memberId').val())) {
 				$('#id_check').text('아이디는 영소문자,숫자 포함 5자 이상 20자 이하입니다.');
 				$('#id_check').css('color', 'red');
+				$('#id_check').css('display', 'inline-block');
+				$('#id_check').css('font-size', '14px');
 				$("#memberId").val("");
 			} else {
 				$('#id_check').text('중복체크 버튼을 눌러주세요.');
 				$('#id_check').css('color', '#666666');
+				$('#id_check').css('display', 'inline-block');
+				$('#id_check').css('font-size', '14px');
 				//아이디 중복 확인
 				$("#doubleId").click(function() {
 					var memberId = $('#memberId').val();
@@ -79,8 +163,6 @@ td {
 							} else {
 								alert("아이디사용가능");
 								$("#memberJoin").removeAttr("disabled");
-								$('#id_check').text('사용가능한 아이디입니다.');
-								$('#id_check').css('color', '#666666');
 							}
 						}
 					});
@@ -93,17 +175,23 @@ td {
 						"blur",
 						function(event) {
 							if (!pw.test($('#memberPw').val())) {
-								$('#pw_check').text('비밀번호는 8자 이상 12자 이하이며, 숫자/소문자/특수문자를 모두 포함해야 합니다.(*대문자는 제외입니다)');
+								$('#pw_check')
+										.text(
+												'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
 								$('#pw_check').css('color', 'red');
+								$('#pw_check').css('font-size', '12px');								
 								$("#memberPw").val("");
 							} else {
-								if ($('#memberPw').val() != $('#memberPw2').val()) {
+								if ($('#memberPw').val() != $('#memberPw2')
+										.val()) {
 									$('#pw_check').text('비밀번호 확인을 다시 해주세요.');
+									$('#pw_check').css('font-size', '12px');								
 									$('#pw_check').css('color', 'red');
 									$("#memberPw").val("");
 									$("#memberPw2").val("");
 								} else {
 									$('#pw_check').text('비밀번호 형식에 맞습니다.');
+									$('#pw_check').css('font-size', '12px');								
 									$('#pw_check').css('color', '#666666');
 								}
 							}
@@ -125,9 +213,12 @@ td {
 							if (!nickname.test($('#memberNickname').val())) {
 								$('#nickname_check').text('2~10자의 영문 대소문자,한글,숫자,특수문자 사용 가능합니다.');
 								$('#nickname_check').css('color', 'red');
+								$('#nickname_check').css('display', 'inline-block');
+								$('#nickname_check').css('font-size', '14px');								
 								$("#memberNickname").val("");
 							} else {
 								$('#nickname_check').text('중복체크 버튼을 눌러주세요');
+								$('#nickname_check').css('display', 'inline-block');
 								$('#nickname_check').css('color', '#666666');
 								//닉네임 중복확인	
 								$("#doubleNick").click(function() {
@@ -142,8 +233,6 @@ td {
 																	} else {
 																		alert("닉네임사용가능합니다.");
 																		$("#memberJoin").attr("disabled");
-																		$('#nickname_check').text('사용가능한 닉네임입니다.');
-																		$('#nickname_check').css('color', '#666666');
 										}
 									}
 								})
@@ -209,7 +298,7 @@ td {
 
 		if ($('#memberPw').val() == '') {
 			$('#pw_check').text(
-					'비밀번호는 8자 이상 12자 이하이며, 숫자/영소문자/특수문자를 모두 포함해야 합니다.(*대문자는 제외입니다)');
+					'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
 			$('#pw_check').css('color', 'red');
 			return;
 		}
@@ -250,13 +339,13 @@ td {
 		});
 		if (bookArr.length > 3) {
 			alert("취향은 3개까지 선택가능합니다 :)");
-			return false;
+			$("#memberJoin").attr("disabled", "disabled");
 		} else if (bookArr.length == 3) {
 			alert("도서선호장르 3개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
 			var choice3 = bookArr[2];
-			
+			$("#memberJoin").attr("disabled");
 			console.log(choice1);
 			console.log(choice2);
 			console.log(choice3);
@@ -264,16 +353,16 @@ td {
 			alert("도서선호장르 2개가 선택되었습니다.");
 			var choice1 = bookArr[0];
 			var choice2 = bookArr[1];
-			
+			$("#memberJoin").attr("disabled");
 			console.log(choice1);
 			console.log(choice2);
 		} else if (bookArr.length == 1) {
 			alert("도서선호장르 1개가 선택되었습니다.");
-			
+			$("#memberJoin").attr("disabled");
 			var choice1 = bookArr[0];
 			console.log(choice1);
 		} else if (bookArr.length == 0) {
-			
+			$("#memberJoin").attr("disabled");
 			var choice1 = "";
 			console.log(choice1);
 		}
@@ -317,10 +406,12 @@ td {
 	<div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
+			<div id="titleDiv">
+				<span id="titleDivSpan">회원가입</span>
+			</div>
 			<div class="join1">
-
 				<form id="form_join" action="/member/joinSuccess.do" method="post">
-					<h2>회원가입</h2>
+					
 					<div class="form-group">
 						<label for="id">아이디</label> <input type="text"
 							class="form-control" id="memberId" name="memberId"
@@ -363,55 +454,118 @@ td {
 						<label for="email">이메일</label> <input type="text"
 							class="form-control" id="memberEmail" name="memberEmail"
 							placeholder="Email" style="width: 430px;">
-						<button type="button" id="mailBtn" class="btn btn-primary">메일전송</button>
+						<button type="button" id="mailBtn">메일전송</button>
 						<input type="text" id="mailCode" style="display: none;">
-						<button id="mailResult" type="button" class="btn btn-primary"
-							style="display: none;">메일확인</button>
+						<button id="mailResult" type="button"style="display: none;">메일확인</button>
 						<span id="mailMsg">
 							<div class="check_font" id="email_check"></div>
 					</div>
 			
-					<h4>도서선호장르 최대3개까지 체크가능</h4>
-					<h5>(선택사항입니다.)</h5>
+					<p id="categoryTag">도서선호장르 최대3개까지 체크가능</p>
+					<p id="categoryTag2">(선택사항입니다.)</p>
 					<div class="form-group">
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="컴퓨터/모바일" />컴퓨터/모바일 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="과학 " />과학 <input type="checkbox"
-							id="bookcheck" name="bookcheck" value="경제경영" />경제경영 <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="종교/역학" />종교/역학
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="사회과학" />사회과학 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="역사" />역사 <input type="checkbox"
-							id="bookcheck" name="bookcheck" value="여행" />여행<br> <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="소설/시/희곡" />소설/시/희곡
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="에세이" />에세이
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="인문학" />인문학
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="만화" />만화
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="예술/대중문화" />예술/대중문화 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="잡지" />잡지<br> <input type="checkbox"
-							id="bookcheck" name="bookcheck" value="전집/중고전집" />전집/중고전집
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="외국어" />외국어
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="자기계발" />자기계발 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="수험서/자격증" />수험서/자격증 <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="초등학교참고서" />초등학교참고서<br>
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="중학교참고서" />중학교참고서 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="고등학교참고서" />고등학교참고서 <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="대학교재/전문서적" />대학교재/전문서적
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="유아" />유아
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="어린이" />어린이<br>
-						<input type="checkbox" id="bookcheck" name="bookcheck" value="청소년" />청소년
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="좋은부모" />좋은부모 <input type="checkbox" id="bookcheck"
-							name="bookcheck" value="가정/요리/뷰티" />가정/요리/뷰티 <input
-							type="checkbox" id="bookcheck" name="bookcheck" value="건강/취미/레저" />건강/취미/레저
-						<input type="checkbox" id="bookcheck" name="bookcheck"
-							value="달력/기타" />달력/기타<br>
-
+						<table id="categoryTable">
+							<tr>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="컴퓨터/모바일" />컴퓨터/모바일 
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="과학 " />과학 
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="경제경영" />경제경영
+								</td>
+								<td>
+									<input	type="checkbox" id="bookcheck" name="bookcheck" value="종교/역학" />종교/역학
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="사회과학" />사회과학 
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="역사" />역사 
+								</td>
+								<td>
+								<input type="checkbox" id="bookcheck" name="bookcheck" value="여행" />여행
+								</td>
+								<td>
+								<input type="checkbox" id="bookcheck" name="bookcheck" value="소설/시/희곡" />소설/시/희곡
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="에세이" />에세이
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="인문학" />인문학
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="만화" />만화
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="예술/대중문화" />예술/대중문화 
+								</td>
+							</tr>
+							<tr>
+								<td>				
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="잡지" />잡지
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="전집/중고전집" />전집/중고전집
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="외국어" />외국어
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="자기계발" />자기계발
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="수험서/자격증" />수험서/자격증 
+								</td>
+								<td>
+								<input type="checkbox" id="bookcheck" name="bookcheck" value="초등학교참고서" />초등학교참고서
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="중학교참고서" />중학교참고서 
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="고등학교참고서" />고등학교참고서
+								</td>
+							</tr>
+							<tr>
+								<td>
+								 <input	type="checkbox" id="bookcheck" name="bookcheck" value="대학교재/전문서적" />대학교재/전문서적
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="유아" />유아
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="어린이" />어린이
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="청소년" />청소년
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="좋은부모" />좋은부모 
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="가정/요리/뷰티" />가정/요리/뷰티 
+								</td>
+								<td>
+									<input type="checkbox" id="bookcheck" name="bookcheck" value="건강/취미/레저" />건강/취미/레저
+								</td>
+								<td>
+								<input type="checkbox" id="bookcheck" name="bookcheck" value="달력/기타" />달력/기타
+								</td>
+							</tr>
+						</table>
 						<button type="button" onclick="member_join()" id="memberJoin"
-							disabled="disabled" style="width: 430px;">회원가입</button>
+							disabled="disabled" style="width: 440px;">회원가입</button>
 							
 					</div>
 			</div>

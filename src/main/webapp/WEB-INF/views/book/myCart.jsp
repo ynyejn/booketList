@@ -167,7 +167,14 @@
     	display : inline-block;
     	float:right;
     }
-
+	#listDivEmpty {
+		text-align : center;
+		padding-top : 80px;
+	}
+	#listDivEmptySpan {
+		font-size : 18px;
+		font-weight : bold;
+	}
     
 
 
@@ -226,13 +233,13 @@ $(function () {
 				console.log("return :"+data);
 				console.log("아작스 성공");
 				if(data == -1) {
-					alert("책을 선택해야만 합니다. ");
+					$("#myBtn").trigger('click');
 				}else if(data == 0){
 					alert("삭제에 실패했습니다. ");
 				}else {
 					var chkArraySize = chkArray.length;
-					alert(data+"권이 삭제되었습니다.");
-					location.href="/cart/goMyCart.do?reqPage=1";
+					$("#deleteBookCountSpan").html(data);
+					$("#myBtn4").trigger('click');
 				}
 			}, error : function () {
 				console.log("아작스 실패");
@@ -257,13 +264,13 @@ $(function () {
 				console.log("return :"+data);
 				console.log("아작스 성공");
 				if(data == -1) {
-					alert("책을 선택해야만 합니다. ");
+					$("#myBtn").trigger('click');
 				}else if(data == 0){
 					alert("삭제에 실패했습니다. ");
 				}else {
 					var chkArraySize = chkArray.length;
-					alert(data+"권이 삭제되었습니다.");
-					location.href="/cart/goMyCart.do?reqPage=1";
+					$("#deleteBookCountSpan").html(data);
+					$("#myBtn4").trigger('click');
 				}
 			}, error : function () {
 				console.log("아작스 실패");
@@ -282,7 +289,7 @@ $(function () {
 			}
 		}
 		if(chkArray.length == 0) {
-			alert("선택한 책이 없습니다. ");
+			$("#myBtn").trigger('click');
 			return;
 		}else {
 			$.ajax({
@@ -292,11 +299,11 @@ $(function () {
 				data : {chkArray : chkArray},
 				success : function(data) {
 					if(data == -1) {
-						alert("책을 선택해야만 합니다. ");
+						$("#myBtn").trigger('click');
 					}else if(data == 0){
-						alert("data 0 ");
+						alert("해당 책은 이미 누가 대여한 책입니다. ");
 					}else {
-						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
+ 						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
 					}
 				}, error : function () {
 					console.log("아작스 실패");
@@ -313,7 +320,7 @@ $(function () {
 			}
 		}
 		if(chkArray.length == 0) {
-			alert("선택한 책이 없습니다. ");
+			$("#myBtn").trigger('click');
 			return;
 		}else {
 			$.ajax({
@@ -323,11 +330,11 @@ $(function () {
 				data : {chkArray : chkArray},
 				success : function(data) {
 					if(data == -1) {
-						alert("책을 선택해야만 합니다. ");
+						$("#myBtn").trigger('click');
 					}else if(data == 0){
 						alert("data 0 ");
 					}else {
-						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
+ 						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
 					}
 				}, error : function () {
 					console.log("아작스 실패");
@@ -351,13 +358,13 @@ $(function () {
 				console.log("return :"+data);
 				console.log("아작스 성공");
 				if(data == -1) {
-					alert("책을 선택해야만 합니다. ");
+					$("#myBtn").trigger('click');
 				}else if(data == 0){
 					alert("삭제에 실패했습니다. ");
 				}else {
 					var chkArraySize = chkArray.length;
-					alert(data+"권이 삭제되었습니다.");
-					location.href="/cart/goMyCart.do?reqPage=1";
+					$("#deleteBookCountSpan").html(data);
+					$("#myBtn4").trigger('click');
 				}
 			}, error : function () {
 				console.log("아작스 실패");
@@ -382,24 +389,34 @@ $(function () {
 				</div>							
 			</div>
 			<div class="contentDiv">
-				<c:forEach items="${list }" var="n" varStatus="i">
-				<div class="listDiv">
-					<table class="listTable">
-						<tr class="listTr">
-							<td class="listTd1" style='vertical-align: 0;'><input type="checkbox" name="chkbox" id="no{i.count}" value="${n.bookName }~구분~${n.bookWriter}~구분~${n.bookPublisher}">&nbsp;&nbsp;${i.count }.</td>
-							<td class="listTd2"><img src='${n.bookImg }'></td>
-							<td class="listTd3" style='vertical-align: 0;'>
-								<span class="nameSpan">${n.bookName }</span><br>
-								<span class="writerSpan">${n.bookWriter }</span><br>
-								<span class="publisherSpan">${n.bookPublisher }</span>
-							</td>
-							<td class="listTd4">
-								<button type="button" style='background-color:df0000;' id="deleteButton" onclick='deleteButton(this);'>삭제</button>
-							</td>
-						</tr>					
-					</table>				
-				</div>
-				</c:forEach>
+				<c:choose>
+					<c:when test="${not empty list }">					
+						<c:forEach items="${list }" var="n" varStatus="i">
+						<div class="listDiv">
+							<table class="listTable">
+								<tr class="listTr">
+									<td class="listTd1" style='vertical-align: 0;'><input type="checkbox" name="chkbox" id="no{i.count}" value="${n.bookName }~구분~${n.bookWriter}~구분~${n.bookPublisher}">&nbsp;&nbsp;${i.count }.</td>
+									<td class="listTd2"><img src='${n.bookImg }'></td>
+									<td class="listTd3" style='vertical-align: 0;'>
+										<span class="nameSpan">${n.bookName }</span><br>
+										<span class="writerSpan">${n.bookWriter }</span><br>
+										<span class="publisherSpan">${n.bookPublisher }</span>
+									</td>
+									<td class="listTd4">
+										<button type="button" style='background-color:df0000;' id="deleteButton" onclick='deleteButton(this);'>삭제</button>
+									</td>
+								</tr>					
+							</table>				
+						</div>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<div id="listDivEmpty" style='width:100%; height:200px;'>
+							<span id="listDivEmptySpan">장바구니가 비어있습니다. </span><br>
+							<span id="listDivEmptySpan">책들로 가득채워주세요 :) </span>
+						</div>					
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="bottomNavi">
 				<div class="buttonDiv2">
@@ -416,5 +433,176 @@ $(function () {
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
+<!-- Trigger/Open The Modal -->
+<button id="myBtn">Open Modal</button>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 120px; width : 250px;">
+		<span class="close">&times;</span>                                         
+		<p>책을 선택해야만 합니다. </p>
+	</div>
+</div>
+<!-- Trigger/Open The Modal -->
+<button id="myBtn2">Open Modal</button>
+<!-- The Modal -->
+<div id="myModal2" class="modal">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 120px; width : 250px;">
+		<span class="close">&times;</span>                                         
+		<p>해당 책은 재고가 없습니다. </p>
+	</div>
+</div>	
+<!-- Trigger/Open The Modal -->
+<button id="myBtn3">Open Modal</button>
+<!-- The Modal -->
+<div id="myModal3" class="modal">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 120px; width : 250px;">
+		<span class="close">&times;</span>                                         
+		<p>책을 한 권 삭제하였습니다. </p>
+	</div>
+</div>	
+<!-- Trigger/Open The Modal -->
+<button id="myBtn4">Open Modal</button>
+<!-- The Modal -->
+<div id="myModal4" class="modal">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 120px; width : 250px;">
+		<span class="close">&times;</span>                                         
+		<p>책을 <span id="deleteBookCountSpan"></span> 권 삭제하였습니다. </p>
+	</div>
+</div>
+<!-- Trigger/Open The Modal -->
+<button id="myBtn5">Open Modal</button>
+<!-- The Modal -->
+<div id="myModal5" class="modal">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 140px; width : 250px;">
+		<span class="close">&times;</span>                                         
+		<p>선택하신 <span id="selectBookCountSpan"></span>권의 책들 중</p>
+		<p>재고가 존재하는 <span id="availableBookCountSpan"></span>권이 대여가능합니다. </p>
+	</div>
+</div>
 </body>
+<style>
+      /* The Modal (background) */
+      	.modal-content > span {
+	      	text-align : right;
+      	}
+      	.modal-content > h3, .modal-content > p {
+	      	text-align : center;
+      	}
+      	.modal-content > p {
+      		font-size : 14px;
+      		font-weight : bold;
+      	}      
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /*------------------------ */
+      
+</style>
+<script>
+	// Get the modal
+	var modal = document.getElementById('myModal');
+	var modal2 = document.getElementById('myModal2');
+	var modal3 = document.getElementById('myModal3');
+	var modal4 = document.getElementById('myModal4');
+	var modal5 = document.getElementById('myModal5');
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("myBtn");
+	var btn2 = document.getElementById("myBtn2");
+	var btn3 = document.getElementById("myBtn3");
+	var btn4 = document.getElementById("myBtn4");
+	var btn5 = document.getElementById("myBtn5");
+	
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];                                          
+	var span2 = document.getElementsByClassName("close")[1];  	
+	var span3 = document.getElementsByClassName("close")[2];  	
+	var span4 = document.getElementsByClassName("close")[3];  	
+	var span5 = document.getElementsByClassName("close")[4];  	
+	// When the user clicks on the button, open the modal 
+	btn.onclick = function() {
+	    modal.style.display = "block";
+	}
+	btn2.onclick = function() {
+	    modal2.style.display = "block";
+	}	
+	btn3.onclick = function() {
+	    modal3.style.display = "block";
+	}	
+	btn4.onclick = function() {
+	    modal4.style.display = "block";
+	}	
+	btn5.onclick = function() {
+	    modal5.style.display = "block";
+	}	
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+	span2.onclick = function() {
+	    modal2.style.display = "none";
+	}	
+	span3.onclick = function() {
+	    modal3.style.display = "none";
+	}	
+	span4.onclick = function() {
+	    modal4.style.display = "none";
+		location.href="/cart/goMyCart.do?reqPage=1";
+	}	
+	span5.onclick = function() {
+	    modal5.style.display = "none";
+/* 		location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data; */
+	}	
+	
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	    }
+	}
+	$(document).ready(function() {
+		$("#myBtn").hide();
+		$("#myBtn2").hide();
+		$("#myBtn3").hide();
+		$("#myBtn4").hide();
+		$("#myBtn5").hide();
+	});
+	///////////////////////
+	
+</script>
 </html>
