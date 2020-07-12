@@ -47,15 +47,16 @@ public class RjavaBean {
 		ArrayList<BookAndRent> userRentList = rentService.selectUserList(member);
 		if(userRentList.size()>0) {
 			RConnection conn = new RConnection();    //RConnection 객체 선언
-
-			conn.eval("library('tidyverse')");
-			conn.eval("library('KoNLP')");
+			conn.eval("library(Rserve)");
+			conn.eval("Rserve()");
+			conn.eval("library(tidyverse)");
+			conn.eval("library(KoNLP)");
 			conn.eval("useNIADic()");
-			conn.eval("library('reshape2')");
-			conn.eval("library('wordcloud2')");
+			conn.eval("library(reshape2)");
+			conn.eval("library(wordcloud2)");
 			conn.eval("library(htmlwidgets)");
-			conn.eval("library('rvest')");
-			conn.eval("library('R6')");
+			conn.eval("library(rvest)");
+			conn.eval("library(R6)");
 			conn.eval("library(htmltools)");
 
 			String bookName = "bookName <- ";
