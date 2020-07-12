@@ -192,7 +192,7 @@
         width: 1200px;
         overflow: hidden;
         margin: 0 auto;
-        padding-bottom: 200px;
+        padding-bottom: 100px;
     }
     .bookList{
         clear: both;

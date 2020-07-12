@@ -27,6 +27,7 @@ public class ReturnController {
 	//@Scheduled(cron = "0 0 12 * * *")
 	@RequestMapping("/bookDelay.do")
 	public void bookDalay() {
+		System.out.println("연체로직 gogo");
 		int result = service.bookDalay();
 		if(result>0) {
 			System.out.println("성공");
