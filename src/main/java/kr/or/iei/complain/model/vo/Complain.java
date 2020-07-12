@@ -11,5 +11,6 @@ public class Complain {
 	private String complainCategory;
 	private Date complainDate;
 	private String complainContent;
+	private String complainFilename;
 	private int complainStauts;
 }

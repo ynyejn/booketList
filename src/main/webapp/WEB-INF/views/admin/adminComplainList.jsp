@@ -111,7 +111,11 @@
 				html += "<tr><th>신고 카테고리</th>";
 				html += "<th>"+data.complainCategory+"</th></tr>";
 				html += "<tr><th>신고 내용</th>";
-				html += "<td>"+data.complainContent+"</td></tr>";
+				if(data.complainFilename == null){
+					html += "<th>"+data.complainContent+"</th></tr>";
+				}else{
+					html += "<th><img src='"+data.complainFilename+"'><br>"+data.complainContent+"</th></tr>";
+				}
 				$("#ComplainHold").children("table").append(html);
 				
 			},
@@ -139,7 +143,12 @@
 				html += "<tr><th>신고 카테고리</th>";
 				html += "<th>"+data.complainCategory+"</th></tr>";
 				html += "<tr><th>신고 내용</th>";
-				html += "<th>"+data.complainContent+"</th></tr>";
+				if(data.complainFilename == null){
+					html += "<th>"+data.complainContent+"</th></tr>";
+				}else{
+					html += "<th><img src='"+data.complainFilename+"'><br>"+data.complainContent+"</th></tr>";
+				}
+				
 				html += "<tr><th>신고 상태</th>";
 				
 				if(data.complainStauts == 1){

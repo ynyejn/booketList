@@ -86,7 +86,7 @@
 		select complain_no as complainNo, member_id as memberId,
 		attacker as attacker,
 		complain_category as complainCategory, complain_date as complainDate,
-		complain_content as complainContent, complain_Stauts as complainStauts
+		complain_content as complainContent, complain_filename as complainFilename, complain_Stauts as complainStauts
 		from complain
 		where complain_no = #{complainNo}
 	</select>
