@@ -16,7 +16,7 @@
 	<select id="complainCategory" name="complainCategory">
 		<option value="욕설">욕설</option>
 		<option value="음란물">음란물</option>
-		<option value="정정당당하지못하는 태도">정정당당하지못하는 태도</option>
+		<option value="성적인발언">성적인발언</option>
 	</select>
 	 
 	신고내용 :
