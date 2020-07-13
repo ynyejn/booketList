@@ -59,6 +59,11 @@
 	display: inline-block;
 	margin: 0;
 }
+.reviewContent{
+	width: 96%;
+	height: 50px;
+	font-size: 1.2em;
+}
 </style>
 </head>
 <body  onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
@@ -98,8 +103,8 @@
 	</tr>
 	<tr>
 		<th>후기 내용</th>
-		<td colspan="2"><input type="text" name="reviewContent" required>
-	
+		<td colspan="2">
+		<textarea id="reviewContent" name="reviewContent" rows="4" cols="32.5"  style = "resize : none;" required></textarea>
 		</td>
 	</tr>
 	<tr>
