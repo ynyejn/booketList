@@ -77,7 +77,7 @@
 	color: white;
 	width: 110px;
 	height: 35px;
-	font-size: 20px;
+	font-size: 14px;
 	border-radius: 3px;
 }
 
@@ -161,11 +161,11 @@ table {
 	padding-left : 8px;
 	padding-right : 8px;
 	border-top : 1px solid lightgray;
-		color: #333333;
+	color: #333333;
 
 }
 #contentTr>td {
-/* 	background-color : #f3f5f7; */
+ 	background-color : #f3f5f7;
 	text-align:left;
 	padding-left : 8px;
 	padding-right : 8px;
@@ -324,6 +324,8 @@ table {
 					</c:forEach>
 				</div>
 			</div>
+			<div id="searchDiv"></div>
+			<br><br>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>

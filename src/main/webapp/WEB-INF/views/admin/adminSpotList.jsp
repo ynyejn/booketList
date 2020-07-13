@@ -532,6 +532,39 @@
 			console.log(updateResult);
 		}
 	}
+	function selectDeleteSpot() {
+		var result = confirm("삭제하시겠습니까?")
+		if(result){
+		var checkArr = new Array();
+		$("input[class='chBox']:checked").each(function(){
+			checkArr.push($(this).attr("data-spotNo"));
+		});
+		console.log(checkArr.length)
+		console.log(checkArr)
+		if(checkArr != 0){
+		$.ajax({
+				url : "/selectDeleteSpot.do",
+				type : "post",
+				dataType : "json",
+				traditional : true,
+				data : {
+					checkArr : checkArr					
+				},
+				success : function(data){
+					alert(checkArr.length+"명 중"+data+"명 승인하였습니다.")
+					location.reload();
+				},
+				error : function(data){
+					
+				}
+		});
+			}else{
+				alert("선택해주세요");
+			}
+		}else{
+			
+		}
+	}
 </script>
 <script>
 /*웹 소켓 */
@@ -1067,6 +1100,9 @@ var memberId = '${sessionScope.member.memberId }';
 												type="hidden" value="0"><span>도로명 주소</span></th>
 											<th class="th2" style="width: 15%" onclick="clickAlign(this)"><input
 												type="hidden" value="0"><span>지역명</span></th>
+											<th><button class="btn btn-danger"
+														onclick="selectDeleteSpot()"
+														style="background-color: #FA6556; border: none;">선택 삭제</button></th>
 										</tr>
 									</thead>
 									<tbody id="tbody">
