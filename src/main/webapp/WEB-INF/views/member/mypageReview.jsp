@@ -106,7 +106,7 @@ td {
                             <td>${r.bookPublisher}</td>
                             <td>${r.bookWriter}</td>
                             <td>${r.bookCategory}</td>
-							<td><button type="button" class="deleteBtn">삭제하기</button></td>						
+							<td><a><button type="button" class="deleteBtn">삭제하기</button></a></td>						
                         </tr>
                     </c:forEach>
 						</table>	
