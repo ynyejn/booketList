@@ -52,7 +52,7 @@
 
 	#msgArea{
 	width: 100%;
-	height: 360px;
+	height: 370px;
 	overflow:auto;
 	background-color:aliceblue;
 	}
@@ -62,14 +62,14 @@
 	}
 	#chatImg{
 	color: white;
-	line-height: 70px;
+	line-height: 74px;
 	float: left;
 	display: block;
 	border: 1px solid white;
 	text-align: center;
 	width: 99.5%;
-	height: 70px;
-	font-size : 20px;
+	height: 140px;
+	font-size : 2.5em;
 	background-color : #0066b3;
 	margin: 0 auto;
 	margin-bottom : 10px;
@@ -97,6 +97,15 @@
         font-size: 14px;
         border-radius: 2px;
     }
+    #sendBtns{
+    border: none;
+        background-color: #666666;
+        color: white;
+        width: 60px;
+        height: 30px;
+        font-size: 14px;
+        border-radius: 2px;
+    }
     #sendBtntd{
     	padding-bottom: 5px;
     }
@@ -107,12 +116,16 @@
 	.nick{
 		font-weight:bold;
 	}
-
+.sendBtns{
+	text-align: right;
+}
 </style>
 </head>
 
 <body onresize="parent.resizeTo(500,670)" onload="parent.resizeTo(500,670)">
-<div id="chatImg">${c.chatTitle }</div>
+<div id="chatImg"><div>${c.chatTitle }</div>
+
+<div class="sendBtns"><button id="sendBtns" onclick="window.close()">방나가기</button></div></div>
 
 <div>
 <div id="msgArea">

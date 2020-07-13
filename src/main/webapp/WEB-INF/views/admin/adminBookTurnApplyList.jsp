@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -415,7 +414,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -967,7 +966,7 @@ padding-top:3px;
 						<footer class="sticky-footer bg-white">
 							<div class="container my-auto">
 								<div class="copyright text-center my-auto">
-									<span>Copyright &copy; Your Website 2019</span>
+									<span></span>
 								</div>
 							</div>
 						</footer>
