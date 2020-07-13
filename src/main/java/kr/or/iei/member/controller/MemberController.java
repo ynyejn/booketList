@@ -90,7 +90,7 @@ public class MemberController {
 		return mailCode;
 	}
 	@RequestMapping(value = "/login.do")
-	public String loginMember(HttpSession session, Member m) {
+	public String loginMember(HttpSession session, Member m,Model model) {
 		System.out.println(m.getMemberId());
 		System.out.println(m.getMemberPw());
 		Member member = service.selectOneMember(m);
@@ -100,6 +100,7 @@ public class MemberController {
 			session.setAttribute("member", member);
 			return "redirect:/";
 		} else {
+			model.addAttribute("fail", 5);
 			return "member/login";
 		}
 	}
