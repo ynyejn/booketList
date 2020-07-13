@@ -53,7 +53,10 @@ td{
 #yellow{
 	background-color: #dddddd;
 }
-
+.chatFile{
+	width: 80%;
+	height: 200px;
+}
 </style>
 <body>
 	<form action="/complain/complainInsert.do" method="post" id="yellow">
@@ -86,7 +89,7 @@ td{
 					<td>신고내용 :</td>
 					<td><c:if test="${empty complainContent  }">
 							<input type="hidden" name="complainFilename" value="${fileName }">
-							<img src="${fileName }">
+							<img src="${fileName }" class="chatFile">
 						</c:if> <c:if test="${not empty complainContent  }">${complainContent }
 		<input type="hidden" name="complainContent"
 								value="${complainContent }">
