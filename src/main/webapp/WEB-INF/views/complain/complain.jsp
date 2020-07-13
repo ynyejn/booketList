@@ -47,13 +47,16 @@ td{
 	font-size: 20px;
 }
 #complainCategory{
-	 height: 25px;
+	 height: 30px;
 	 font-size: 20px;
 }
 #yellow{
 	background-color: #dddddd;
 }
-
+.chatFile{
+	width: 80%;
+	height: 200px;
+}
 </style>
 <body>
 	<form action="/complain/complainInsert.do" method="post" id="yellow">
@@ -86,7 +89,7 @@ td{
 					<td>신고내용 :</td>
 					<td><c:if test="${empty complainContent  }">
 							<input type="hidden" name="complainFilename" value="${fileName }">
-							<img src="${fileName }">
+							<img src="${fileName }" class="chatFile">
 						</c:if> <c:if test="${not empty complainContent  }">${complainContent }
 		<input type="hidden" name="complainContent"
 								value="${complainContent }">
@@ -107,7 +110,7 @@ td{
 	var ws;
 	var memberId = '${sessionScope.member.memberId }';
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
 		ws.onopen = function() {
 			console.log("웹소켓 연결 생성");
 		};

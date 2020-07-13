@@ -104,14 +104,14 @@
     [name=returnBtn]:hover, #payBtn:hover{
         background-color: #222222;
     }
-    form{
-    	text-align: center;
-    }
+    
     #bookImg1{
     color: white;
     	 
     }
-    
+   .reviewSubmit{
+   	text-align: center;
+   }
 </style>
 </head>
 <body>
@@ -138,35 +138,35 @@
 						<th>도서이름</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookName" name="bookName" style="width: 400px;height: 40px;">
+						<input type="text" id="bookName" name="bookName" style="width: 603px;height: 40px;">
 						</th>
 					</tr>
 					<tr>
 						<th>출판일</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookPubDates" name="bookPubDates"style="width: 400px;height: 40px;">
+						<input type="text" id="bookPubDates" name="bookPubDates"style="width: 603px;height: 40px;">
 						</th>
 					</tr>
 					<tr>
 						<th>작가</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookWriter" name="bookWriter"style="width: 400px;height: 40px;">
+						<input type="text" id="bookWriter" name="bookWriter"style="width: 603px;height: 40px;">
 						</th>
 					</tr>
 					<tr>
 						<th>출판사</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookPublisher" name="bookPublisher"style="width: 400px;height: 40px;">
+						<input type="text" id="bookPublisher" name="bookPublisher"style="width: 603px;height: 40px;">
 						</th>
 					</tr>
 					<tr>
 						<th>카테 고리</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookCategory" name="bookCategory"style="width: 400px;height: 40px;">
+						<input type="text" id="bookCategory" name="bookCategory"style="width: 603px;height: 40px;">
 						</th>
 					</tr>
 					<tr>
@@ -179,12 +179,12 @@
 					<tr>
 						<th>도서내용</th>
 						<td id="Space"></td>
-						<th><input type="text" id="bookContent" name="bookContent"style="width: 400px;height: 40px;"></th>
+						<th><input type="text" id="bookContent" name="bookContent"style="width: 603px;height: 40px;"></th>
 					</tr>
 					<tr>
 						<th id="applyCon">신청 사유</th>
 						<td id="Space"></td>
-						<th><textarea id="applyContent" name="applyContent" rows="8" cols="55"  style = "resize : none;"></textarea></th>
+						<th><textarea id="applyContent" name="applyContent" rows="8" cols="49"  style = "resize : none;"></textarea></th>
 					</tr>
 					<tr>
 						<td colspan="3"></td>
@@ -193,7 +193,7 @@
 			</div>
 			<div class="emptyDiv" style="height:35px;"> 
                     </div>
-			<input type="submit" name="returnBtn"value="신청하기">
+			<div class="reviewSubmit"><input type="submit" name="returnBtn"value="신청하기"></div>
 			</form>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

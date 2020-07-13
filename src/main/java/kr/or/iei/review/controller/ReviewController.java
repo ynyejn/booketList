@@ -71,7 +71,7 @@ public class ReviewController {
 			review.setBookName(type);
 			ArrayList<Book> list = service.reviewSelectBook(m.getMemberId());
 			for (Book b : list) {
-				if (b.getBookName() == type) {
+				if (b.getBookName().equals(review.getBookName())) {
 					System.out.println(b.getBookCategory());
 					System.out.println(b.getBookPublisher());
 					System.out.println(b.getBookWriter());
@@ -80,6 +80,8 @@ public class ReviewController {
 					review.setBookWriter(b.getBookWriter());
 				}
 			}
+			System.out.println(review.getBookPublisher());
+			System.out.println(review.getBookWriter());
 			int result = service.reviewInsert(review);
 			if (result > 0) {
 				try {
@@ -105,8 +107,10 @@ public class ReviewController {
 			System.out.println(review.getReviewScore() + "점수");
 			review.setBookName(type);
 			ArrayList<Book> list = service.reviewSelectBook(m.getMemberId());
+			
 			for (Book b : list) {
-				if (b.getBookName() == type) {
+				
+				if (b.getBookName().equals(review.getBookName())) {
 					System.out.println(b.getBookCategory());
 					System.out.println(b.getBookPublisher());
 					System.out.println(b.getBookWriter());
@@ -115,6 +119,7 @@ public class ReviewController {
 					review.setBookWriter(b.getBookWriter());
 				}
 			}
+		
 			int result = service.reviewInsert(review);
 			if (result > 0) {
 				ArrayList<Review> list2 = service.selectReview();

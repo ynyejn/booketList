@@ -105,6 +105,10 @@ public class RentDao {
 		return sql.selectList("book.selectNewbooks");
 	}
 
+	public int memberDelayChk(Member member) {
+		return sql.selectOne("member.memberDelayChk", member);
+	}
+
 
 
 

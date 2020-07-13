@@ -107,29 +107,41 @@ public class RentController {
 	@ResponseBody
 	@RequestMapping(value= "/selectedCart.do", method = RequestMethod.GET)
 	public ArrayList<Integer> selectedCart(HttpServletRequest request, HttpSession session, Model model) {
+		ArrayList<Integer> bookNoList = new ArrayList<Integer>();
+		
 		if(request.getParameter("chkArray") != null) {			
 			String[] param = request.getParameterValues("chkArray");
 			//로그인 된 아이디 받기
 			Member member = (Member)session.getAttribute("member");
-			ArrayList<Cart> cartList = new ArrayList<Cart>();
-			for(int i=0; i<param.length; i++) {
-				Cart c = new Cart();
-				System.out.println(param[i]);
-				c.setBookName(param[i].split("~구분~")[0]);
-				c.setBookWriter(param[i].split("~구분~")[1]);
-				c.setBookPublisher(param[i].split("~구분~")[2]);					
-				System.out.println(c.getBookName());
-				System.out.println(c.getBookWriter());
-				System.out.println(c.getBookPublisher());
-				cartList.add(c);
+			//연체 확인 
+			int result = service.memberDelayChk(member);
+			if(result>0) {
+				//연체일때
+				bookNoList.add(-2);
+				return bookNoList;
+			}else {
+				//연체가 아닐때,
+				ArrayList<Cart> cartList = new ArrayList<Cart>();
+				for(int i=0; i<param.length; i++) {
+					Cart c = new Cart();
+					System.out.println(param[i]);
+					c.setBookName(param[i].split("~구분~")[0]);
+					c.setBookWriter(param[i].split("~구분~")[1]);
+					c.setBookPublisher(param[i].split("~구분~")[2]);					
+					System.out.println(c.getBookName());
+					System.out.println(c.getBookWriter());
+					System.out.println(c.getBookPublisher());
+					cartList.add(c);
+				}
+				System.out.println(param.length+"권 중 "+cartList.size()+"권이 대여가능해서 넘어감");
+				
+				bookNoList = service.selectBookNo(cartList);
+				model.addAttribute("bookNo", new Gson().toJson(bookNoList));
+				return bookNoList;
 			}
-			System.out.println(param.length+"권 중 "+cartList.size()+"권이 대여가능해서 넘어감");
-			ArrayList<Integer> bookNoList = new ArrayList<Integer>();
-			bookNoList = service.selectBookNo(cartList);
-			model.addAttribute("bookNo", new Gson().toJson(bookNoList));
-			return bookNoList;
 		}else {
-			return null;			
+			bookNoList.add(0);
+			return bookNoList;			
 		}
 	}
 
