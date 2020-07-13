@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -89,7 +89,16 @@
 	
 	$(function(){
 		connect();
+		var memberId = '${sessionScope.member.memberId }';
 		
+		if(memberId == ""){
+			alert("로그인 후 이용해 주세요");
+			location.href="mainPage.do";
+		}else if(memberId != 'admin'){
+			alert("관리자로 로그인 하십시오");
+			location.href="mainPage.do";
+		}
+			
 			$("#lostbookClick").click(function(){
 				if($("#lostAlarm").html() != ""){
 					var data = $("#lostAlarm").html();
@@ -122,7 +131,7 @@
 
    </head>
 	<body id="page-top">
-
+	
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -325,7 +334,7 @@
                   <div>
                     <!-- <div class="small text-gray-500">December 12, 2019</div> -->
                     <span class="font-weight-bold">도서 분실 신고</span>
-                    <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
+                    <span id="lostAlarm" class="badge badge-danger badge-counter danger" style="background-color:red;"></span>
                   </div>
                 </a>
                 <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">
@@ -336,7 +345,7 @@
                   </div>
                   <div>
                     <span class="font-weight-bold">회원신고</span>
-                    <span id="complainAlarm" class="badge badge-danger badge-counter danger"></span>
+                    <span id="complainAlarm" class="badge badge-danger badge-counter danger" style="background-color:red;"></span>
                   </div>
                 </a>
               </div>

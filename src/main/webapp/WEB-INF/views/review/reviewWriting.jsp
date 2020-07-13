@@ -8,6 +8,13 @@
 <title>Booket List 후기 작성</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <style type="text/css">
+	* {
+		font-family: 'Noto Sans KR', sans-serif;
+		color: #333333;
+	}
+	body {
+
+	}
 	.sta{
 		width: 20px;
 		height: 20px;
@@ -20,9 +27,10 @@
     }
     
 	.reviewType{
-		width: 100%;
-		height: 30px;
-		text-overflow: ellipsis;
+		width: 95%;
+		height: 35px;
+ 		text-overflow: ellipsis; 
+ 		border:1px solid lightgary;
 	}
 	h1{
 		text-align: center;
@@ -34,8 +42,9 @@
 		text-align: center;
 	}
 	.reviewDiv{
-	margin:0 auto;
-		width: 80%;
+		margin:0 auto;
+		width: 100%;
+		margin-top:80px;
 	}
 	.reviewSubmit{
 	border: none;
@@ -64,52 +73,108 @@
 	height: 50px;
 	font-size: 1.2em;
 }
+#tableMain {
+	width: 100%;
+	height : 450px;
+	margin:0 auto;
+	border-collapse: separate;
+	border-spacing: 0;
+	table-layout:fixed;
+}
+#tableMain  tr {
+
+	height: 40px;
+}
+.nameTag {
+	width : 25%;
+	font-size : 16px;
+	font-weight: bold;
+	text-align:center;
+	background-color : #f3f4fa;
+	color : #585858;
+}
+.spanMemberName {
+	font-size : 14px;
+/* 	font-weight: bold; */
+}
+.reviewSta {
+	width : 65%;
+}
+#title {
+	width:100%;
+	position : absolute;
+	left:0;
+	top :0;
+	height:70px;
+	background-color:rgb(0, 102, 179);
+}
+#titleTag {
+       color: #eeeeee;
+       font-size: 24px;
+       font-weight: bolder;
+       position: absolute;
+       padding-left: 45px;
+       top: 15px;
+       text-shadow: 1px 1px 2px black;
+       border-bottom: 2px solid #dddddd;
+       box-shadow: 0px 1px 0px black;
+}
+.reviewSubmit:hover, #cancle:hover {
+	cursor:pointer;
+}
+.nameTag2 {
+	padding-left :3px;
+}
+
 </style>
 </head>
 <body  onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
-	<h1>후기 작성</h1>
+	<div id="title">
+		<span id="titleTag">후기 작성</span>
+	</div>
 	<div class="reviewDiv">
 	<form action="/review/reviewInsert.do" method="post" enctype="multipart/form-data" target="reviewWriting.do">
-	<table>
+	<table id="tableMain">
 	<tr>
-		<th>닉네임 </th>
-		<th colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }">${m.memberNickname }<br></th>
+		<td class="nameTag">닉네임 </td>
+		<td class="nameTag2" colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }"><span class="spanMemberName">${m.memberNickname }</span></td>
 	</tr>
 	<tr>
-		<th >책 선택</th>
-		<th colspan="2" >
-		<select id="type" name="type" class="reviewType"></select>
-		</th>
-	</tr>
-	<tr>
-		<th>평점</th>
-		<td class="reviewSta"><img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	
-	
-	<input type="hidden" name="reviewScore" value="0"></td>
-	<th><span id="reviewScore">0점</span></th>
-	</tr>
-	<tr>
-		<th>이미지 첨부</th>
-		<td colspan="2"><input type="file" name="file" id="file" onchange="loadImg(this);"></td>
-	</tr>
-	<tr>
-		<th>이미지 보기</th>
-		<td colspan="2"><img id="img-view" width="250" height="150px"></td>
-	</tr>
-	<tr>
-		<th>후기 내용</th>
-		<td colspan="2">
-		<textarea id="reviewContent" name="reviewContent" rows="4" cols="32.5"  style = "resize : none;" required></textarea>
+		<td class="nameTag">책 선택</td>
+		<td  class="nameTag2" colspan="2" >
+			<select id="type" style='width:330px;' name="type" class="reviewType"></select>
 		</td>
 	</tr>
 	<tr>
-		
-		<td colspan="3"><input type="submit" value="작성하기" class="reviewSubmit" onclick="window.close()"><input id="cancle"type="reset" onclick="window.close()"value="취소"></td>
+		<td class="nameTag">평점</td>
+		<td  class="nameTag2" class="reviewSta">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<input type="hidden" name="reviewScore" value="0">
+		</td>
+		<td><span id="reviewScore">0점</span></td>
+	</tr>
+	<tr>
+		<td class="nameTag">이미지 첨부</td>
+		<td  class="nameTag2" colspan="2"><input type="file" name="file" id="file" onchange="loadImg(this);"></td>
+	</tr>
+	<tr>
+		<td class="nameTag">이미지 보기</td>
+		<td  class="nameTag2" colspan="2"><img id="img-view" style="width:95%; height:140px;"></td>
+	</tr>
+	<tr>
+		<td class="nameTag">후기 내용</td>
+		<td  class="nameTag2" colspan="2">
+		<textarea id="reviewContent" name="reviewContent" style="width:93%; height:100px; resize: none; border:1px solid lightgary;"></textarea>
+	</tr>
+	<tr>
+		<td colspan="3" style='width:100%; text-align:center;'>
+			<input type="submit" value="작성하기" class="reviewSubmit" onclick="window.close()">
+			<input id="cancle"type="reset" onclick="window.close()"value="취소">
+		</td>
 	</tr>
 	</table>
 	</form>

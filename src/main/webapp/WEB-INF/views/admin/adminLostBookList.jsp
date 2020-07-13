@@ -129,7 +129,7 @@
 var ws;
 var memberId = '${sessionScope.member.memberId }'; 
 function connect(){
-	ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
+	ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
 	ws.onopen = function(){
 		console.log("웹소켓 연결 생성");
 		var msg = {
@@ -165,7 +165,15 @@ function connect(){
 
 $(function(){
 	connect();
+	var memberId = '${sessionScope.member.memberId }';
 	
+	if(memberId == ""){
+		alert("로그인 후 이용해 주세요");
+		location.href="mainPage.do";
+	}else if(memberId != 'admin'){
+		alert("관리자로 로그인 하십시오");
+		location.href="mainPage.do";
+	}
 		$("#lostbookClick").click(function(){
 			if($("#lostAlarm").html() != ""){
 				var data = $("#lostAlarm").html();
