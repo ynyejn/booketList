@@ -95,7 +95,7 @@ public class OpenChatting extends TextWebSocketHandler {
 			for(String key : members.keySet()){//리절트에 해당하는 대화방의 저장되어있는 세션을 모두 순회
 					
 					WebSocketSession ws = members.get(key);
-					ws.sendMessage(new TextMessage(memberNickname+"님이 입장하셧습니다."));
+					ws.sendMessage(new TextMessage(memberNickname+"님이 입장하셨습니다."));
 				}
 	        
 
