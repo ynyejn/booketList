@@ -34,8 +34,8 @@
 		text-align: center;
 	}
 	.reviewDiv{
-	margin:0 auto;
-		width: 80%;
+		margin:0 auto;
+		width: 100%;
 	}
 	.reviewSubmit{
 	border: none;
@@ -70,46 +70,47 @@
 	<h1>후기 작성</h1>
 	<div class="reviewDiv">
 	<form action="/review/reviewInsert.do" method="post" enctype="multipart/form-data" target="reviewWriting.do">
-	<table>
+	<table style='width:470px;'>
 	<tr>
-		<th>닉네임 </th>
-		<th colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }">${m.memberNickname }<br></th>
+		<td>닉네임 </td>
+		<td colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }">${m.memberNickname }<br></td>
 	</tr>
 	<tr>
-		<th >책 선택</th>
-		<th colspan="2" >
-		<select id="type" name="type" class="reviewType"></select>
-		</th>
+		<td>책 선택</td>
+		<td colspan="2" >
+			<select id="type" name="type" class="reviewType"></select>
+		</td>
 	</tr>
 	<tr>
-		<th>평점</th>
-		<td class="reviewSta"><img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	<img class="sta" src="/resources/star/star3.jpg">
-	
-	
-	<input type="hidden" name="reviewScore" value="0"></td>
-	<th><span id="reviewScore">0점</span></th>
+		<td>평점</td>
+		<td class="reviewSta">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<img class="sta" src="/resources/star/star3.jpg">
+			<input type="hidden" name="reviewScore" value="0">
+		</td>
+		<td><span id="reviewScore">0점</span></td>
 	</tr>
 	<tr>
-		<th>이미지 첨부</th>
+		<td>이미지 첨부</td>
 		<td colspan="2"><input type="file" name="file" id="file" onchange="loadImg(this);"></td>
 	</tr>
 	<tr>
-		<th>이미지 보기</th>
+		<td>이미지 보기</td>
 		<td colspan="2"><img id="img-view" width="250" height="150px"></td>
 	</tr>
 	<tr>
-		<th>후기 내용</th>
+		<td>후기 내용</td>
 		<td colspan="2">
 		<textarea id="reviewContent" name="reviewContent" rows="4" cols="32.5"  style = "resize : none;" required></textarea>
 		</td>
 	</tr>
 	<tr>
-		
-		<td colspan="3"><input type="submit" value="작성하기" class="reviewSubmit" onclick="window.close()"><input id="cancle"type="reset" onclick="window.close()"value="취소"></td>
+		<td colspan="3">
+			<input type="submit" value="작성하기" class="reviewSubmit" onclick="window.close()"><input id="cancle"type="reset" onclick="window.close()"value="취소">
+		</td>
 	</tr>
 	</table>
 	</form>
