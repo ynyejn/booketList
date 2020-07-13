@@ -98,7 +98,7 @@ td {
 	background-color : white;
 	position : relative;
 	margin-bottom : 40px;
-	background-image : url('/resources/imgs/study.jpg');
+	background-image : url('/resources/upload/images/returnbook2.jpg');
 }
 #titleDivSpan {
  	color: #eeeeee; 

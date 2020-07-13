@@ -94,6 +94,7 @@
 	.nick{
 		font-weight:bold;
 	}
+
 </style>
 </head>
 
@@ -120,7 +121,7 @@
 </form>
             </td>
             <td>
-            <textarea id="chatMsg" name="chatMsg" rows="2" cols="50"  style = "resize : none;"></textarea>
+            <textarea id="chatMsg" name="chatMsg" class="chatMsg"rows="2" cols="50"  style = "resize : none;"></textarea>
             
             </td>
             <td id="sendBtntd">

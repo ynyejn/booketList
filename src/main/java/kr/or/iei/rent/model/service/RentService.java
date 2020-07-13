@@ -299,4 +299,8 @@ public class RentService {
 		return (ArrayList<Book>)list;
 	}
 
+	public int memberDelayChk(Member member) {
+		return dao.memberDelayChk(member);
+	}
+
 }

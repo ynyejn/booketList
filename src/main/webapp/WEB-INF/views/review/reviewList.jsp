@@ -18,17 +18,20 @@
 
 .reviewBox {
 	text-align: center;
-
-	border: 1px solid black;
+	border: 1px solid lightgray;
 	width: 350px;
-	
+	margin : 0 auto;
 	display: block;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-radius: 3px;
 	overflow: hidden;
-	float: left;
+	margin : 10px;
+	background-color : white;
+	box-shadow: 1px 1px 5px lightgray;
+/* 	float: left; */
+}
+.reviewBox>table tr:first-child {
+	background-color : #f3f5f7;
+	border-bottom : 1px solid lightgray;
 }
 
 .reviews {
@@ -36,7 +39,7 @@
 	margin-bottom: 2%;
 	display: inline-block;
 	width: 370px;
-	
+	margin : 0 auto;
 }
 
 .cTop {
@@ -79,20 +82,13 @@
 }
 
 #searchDiv {
-	width: 1100px;
-	padding: 15px 10px;
 	margin: 0 auto;
-	border-top: 2px solid #585858;
+	border-top: 2px solid #666666;
 	text-align: center;
 }
 
 .reviceImg {
-	width: 95%;
-	padding-bottom: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+	width: 100%;
 }
 
 table {
@@ -108,8 +104,8 @@ table {
 }
 
 #reviewList {
-padding-left:50px;
-display : flex;
+	padding-left:50px;
+	display : flex;
 	align-content: space-between;
 	content: "";
 	clear: both;
@@ -127,15 +123,61 @@ display : flex;
 .reviewImgBox{
 	width: 40px;
 	height: 40px;
+	padding : 0;
 }
 .reviewScore{
 	text-align: right;
 	padding-right: 10px;
 }
+#listBookNameSpan {
+	font-size : 13px;
+	font-weight : bold;
+}
+#listBookPublisherSpan, #listBookWriterSpan {
+	font-size : 12px;
+	color : #3e4348;
+}
+#listReviewContent {
+	width : 332px;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-break:break-all;
+	overflow:hidden;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #333333;
+	
+
+}
+#lastContentTr>td {
+	font-size : 15px;
+	width:340px;
+}
+#lastContentTr>td {
+	text-align:left;
+	padding-top:4px;
+	padding-left : 8px;
+	padding-right : 8px;
+	border-top : 1px solid lightgray;
+		color: #333333;
+
+}
+#contentTr>td {
+/* 	background-color : #f3f5f7; */
+	text-align:left;
+	padding-left : 8px;
+	padding-right : 8px;
+	
+}
+#reviewImgBox2 {
+	padding: 0;
+}
 </style>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper" style ="background-color : #f3f5f7;">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="cTop">
 			<div class="black"></div>
@@ -163,17 +205,29 @@ display : flex;
 											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
 										<tr>
-											<th colspan="3">${list.bookName }<br>
-												${list.bookPublisher }<br> ${list.bookWriter }
-												
-											</th>
-										</tr>
-										<tr>
-											<th colspan="3">${list.reviewContent }</th>
-										</tr>
-										<tr>
-											<th colspan="3"><img class="reviceImg"
+											<th id="reviewImgBox2" colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
+										</tr>
+										<tr id="contentTr">
+											<td colspan="3"><span id="listBookNameSpan">${list.bookName }</span><br>
+												<c:if test="${not empty list.bookWriter && not empty list.bookPublisher}">
+													<span id="listBookWriterSpan">${list.bookWriter } / </span><span id="listBookPublisherSpan">${list.bookPublisher }</span>																					
+												</c:if>
+												<c:if test="${empty list.bookWriter && not empty list.bookPublisher}">
+													<span id="listBookPublisherSpan">${list.bookPublisher }</span>												
+												</c:if>
+												<c:if test="${not empty list.bookWriter && empty list.bookPublisher}">
+													<span id="listBookWriterSpan">${list.bookWriter }</span>																																	
+												</c:if>
+												<c:if test="${empty list.bookWriter && empty list.bookPublisher}">
+													<br>																																	
+												</c:if>
+											</td>
+										</tr>
+										<tr id="lastContentTr">
+											<td colspan="3">
+												<pre id="listReviewContent">${list.reviewContent }</pre>
+											</td>
 										</tr>
 									</table>
 								</div>
@@ -196,17 +250,29 @@ display : flex;
 											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
 										<tr>
-											<th colspan="3">${list.bookName }<br>
-												${list.bookPublisher }<br> ${list.bookWriter }
-											</th>
-										</tr>
-										<tr>
-											<th colspan="3">${list.reviewContent }</th>
-										</tr>
-										<tr>
-											<th colspan="3"><img class="reviceImg"
+											<th id="reviewImgBox2" colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
 										</tr>
+										<tr id="contentTr">
+											<td colspan="3"><span id="listBookNameSpan">${list.bookName }</span><br>
+												<c:if test="${not empty list.bookWriter && not empty list.bookPublisher}">
+													<span id="listBookWriterSpan">${list.bookWriter } / </span><span id="listBookPublisherSpan">${list.bookPublisher }</span>																					
+												</c:if>
+												<c:if test="${empty list.bookWriter && not empty list.bookPublisher}">
+													<span id="listBookPublisherSpan">${list.bookPublisher }</span>												
+												</c:if>
+												<c:if test="${not empty list.bookWriter && empty list.bookPublisher}">
+													<span id="listBookWriterSpan">${list.bookWriter }</span>																																	
+												</c:if>
+												<c:if test="${empty list.bookWriter && empty list.bookPublisher}">
+													<br>																																	
+												</c:if>
+											</td>
+										</tr>
+										<tr id="lastContentTr">
+											<td colspan="3"><pre id="listReviewContent">${list.reviewContent }</pre></td>
+										</tr>
+
 									</table>
 								</div>
 							</div>
@@ -228,17 +294,29 @@ display : flex;
 											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
 										<tr>
-											<th colspan="3">${list.bookName }<br>
-												${list.bookPublisher }<br> ${list.bookWriter }
-											</th>
-										</tr>
-										<tr>
-											<th colspan="3">${list.reviewContent }</th>
-										</tr>
-										<tr>
-											<th colspan="3"><img class="reviceImg"
+											<th id="reviewImgBox2" colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
 										</tr>
+										<tr id="contentTr">
+											<td colspan="3"><span id="listBookNameSpan">${list.bookName }</span><br>
+												<c:if test="${not empty list.bookWriter && not empty list.bookPublisher}">
+													<span id="listBookWriterSpan">${list.bookWriter } / </span><span id="listBookPublisherSpan">${list.bookPublisher }</span>																					
+												</c:if>
+												<c:if test="${empty list.bookWriter && not empty list.bookPublisher}">
+													<span id="listBookPublisherSpan">${list.bookPublisher }</span>												
+												</c:if>
+												<c:if test="${not empty list.bookWriter && empty list.bookPublisher}">
+													<span id="listBookWriterSpan">${list.bookWriter }</span>																																	
+												</c:if>
+												<c:if test="${empty list.bookWriter && empty list.bookPublisher}">
+													<br>																																	
+												</c:if>
+											</td>
+										</tr>
+										<tr id="lastContentTr">
+											<td colspan="3"><pre id="listReviewContent">${list.reviewContent }</pre></td>
+										</tr>
+
 									</table>
 								</div>
 							</div>
