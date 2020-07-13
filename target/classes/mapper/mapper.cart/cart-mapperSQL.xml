@@ -9,7 +9,10 @@
       				SELECT COUNT(*) FROM CART WHERE BOOK_NAME = #{bookName} AND BOOK_WRITER= #{bookWriter} AND BOOK_PUBLISHER = #{bookPublisher})	
 	</insert> -->
 	<select id='dupChk' parameterType="cart" resultType="_int">
-		SELECT COUNT(*) CNT FROM CART WHERE BOOK_NAME = #{bookName} AND BOOK_WRITER = #{bookWriter} AND BOOK_PUBLISHER = #{bookPublisher}
+		SELECT COUNT(*) CNT 
+		FROM CART 
+		WHERE BOOK_NAME = #{bookName} AND BOOK_WRITER = #{bookWriter}
+			 AND BOOK_PUBLISHER = #{bookPublisher} AND MEMBER_ID = #{memberId}
 	
 	</select>
 	<insert id="insertCart" parameterType = "cart">

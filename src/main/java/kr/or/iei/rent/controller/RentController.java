@@ -123,6 +123,7 @@ public class RentController {
 				System.out.println(c.getBookPublisher());
 				cartList.add(c);
 			}
+			System.out.println(param.length+"권 중 "+cartList.size()+"권이 대여가능해서 넘어감");
 			ArrayList<Integer> bookNoList = new ArrayList<Integer>();
 			bookNoList = service.selectBookNo(cartList);
 			model.addAttribute("bookNo", new Gson().toJson(bookNoList));
@@ -222,5 +223,17 @@ public class RentController {
 		}else {
 			return "redirect:/rent/goBookSearch.do?reqPage=1&msg=1";
 		}
+	}
+	@ResponseBody
+	@RequestMapping(value = "/selectBestSeller.do", produces = "application/json;charset=utf-8")
+	public String selectBestSeller() {
+		ArrayList<Book> list = service.selectBestSeller();
+		return new Gson().toJson(list);
+	}
+	@ResponseBody
+	@RequestMapping(value = "/selectNewbooks.do", produces = "application/json;charset=utf-8")
+	public String selectNewbooks() {
+		ArrayList<Book> list = service.selectNewbooks();
+		return new Gson().toJson(list);
 	}
 }

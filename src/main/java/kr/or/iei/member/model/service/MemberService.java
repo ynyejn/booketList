@@ -62,6 +62,7 @@ public class MemberService {
 		return dao.selectOneMember(m);
 	}
 	public int update(Member m) {
+		System.out.println("수정된 데이터 dao로 갑시다.");
 		return dao.update(m);
 	}
 	

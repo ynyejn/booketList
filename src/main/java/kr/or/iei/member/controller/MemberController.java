@@ -106,6 +106,7 @@ public class MemberController {
 	@RequestMapping(value="/mUpdate.do",method = RequestMethod.POST)
 	public String update(HttpSession session,Member m) throws Exception {
 		int result = service.update(m);
+		System.out.println("수정된 데이터");
 		if(result>0) {
 			session.setAttribute("member", m);
 			System.out.println("회원정보가 수정되었습니다.");
@@ -147,7 +148,7 @@ public class MemberController {
 			return "member/mypage";
 		}
 	}
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	@RequestMapping(value="/delete.do", method = {RequestMethod.POST,RequestMethod.GET})
 	public String delete(HttpSession session) {
 		Member m = (Member)session.getAttribute("member");
 		int result = service.delete(m.getMemberId());

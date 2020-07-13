@@ -20,5 +20,10 @@ public class ComplainDao {
 		// TODO Auto-generated method stub
 		return sql.insert("complain.complainInsert",c);
 	}
+
+	public int complainInsertFile(Complain c) {
+		// TODO Auto-generated method stub
+		return sql.insert("complain.complainInsertFile",c);
+	}
 	
 }

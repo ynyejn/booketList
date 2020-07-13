@@ -95,8 +95,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+												
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -122,6 +122,7 @@
 														
 												resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+" style='background-color:#FA6556; border:none;'>탈퇴</button></td></tr>";
 											}
+											$("#ajaxReqPage").val(data.reqPage);
 											$("#tbody").html(resultText);
 											$(".pagination")
 													.html(data.pageNavi);
@@ -163,8 +164,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+												
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 														 + ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -189,6 +190,7 @@
 														+ "</td>";
 												resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+" style='background-color:#FA6556; border:none;'>탈퇴</button></td></tr>";
 											}
+											$("#ajaxReqPage").val(data.reqPage);
 											$("#tbody").html(resultText);
 											$(".pagination")
 													.html(data.pageNavi);
@@ -271,8 +273,8 @@
 				$("#tbody").html("");
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
-					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+					
+					resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 							+ ((data.reqPage - 1) * data.selectCount + i + 1)
 							+ "</th>";
 					resultText += "<td class=th2>" + data.list[i].memberId
@@ -289,6 +291,7 @@
 							+ "</td>";
 					resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+" style='background-color:#FA6556; border:none;'>탈퇴</button></td></tr>";
 				}
+				$("#ajaxReqPage").val(data.reqPage);
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
 			},
@@ -340,8 +343,8 @@
 				$("#tbody").html("");
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
-					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
+				
+					resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-memberId="+data.list[i].memberId+">"
 							+ ((data.reqPage - 1) * data.selectCount + i + 1)
 							+ "</th>";
 					resultText += "<td class=th2>" + data.list[i].memberId
@@ -358,6 +361,7 @@
 							+ "</td>";
 					resultText += "<td class=th2><button class='btn btn-danger' onclick='deleteMember(this)' data-memberId="+data.list[i].memberId+" style='background-color:#FA6556; border:none;'>탈퇴</button></td></tr>";
 				}
+				$("#ajaxReqPage").val(data.reqPage);
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
 				
@@ -462,7 +466,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainPage.do">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminPage.do">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-book"></i>
         </div>
@@ -734,19 +738,19 @@
 <!--             <div class="topbar-divider d-none d-sm-block"></div> -->
 
             <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
+           <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                 <span class="glyphicon glyphicon-user" style="font-size:15px;"></span>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/findPwFrm.do">
+                <a class="dropdown-item" href="/member/findPwFrm.do">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                      비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout.do" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/member/logout.do">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -874,7 +878,7 @@ padding-top:3px;
 											</div>
 										</li>
 									</ul>
-
+									<input type="hidden" id="ajaxReqPage" value="${reqPage }">
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
@@ -894,7 +898,7 @@ padding-top:3px;
 													<tbody id="tbody">
 														<c:forEach items="${list }" var="l" varStatus="i">
 															<tr>
-																<input type="hidden" id="ajaxReqPage" value="${reqPage }">
+																
 																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-memberId="${l.memberId }">${(reqPage-1)*selectCount + i.count }</th>
 																<td class="th2">${l.memberId }</td>
 																<td class="th2">${l.memberName }</td>

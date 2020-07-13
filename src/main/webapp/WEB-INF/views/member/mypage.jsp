@@ -26,42 +26,88 @@
 	height: 1500px;
 	background-color: aliceblue;
 }
-.form-group{
+label {
+	font-weight : bold;
+}
+.form-group {
 	width: 430px;
 }
-.nickName{
+
+.nickName {
 	margin-left: 350px;
 }
+
 td {
 	border: 1px solid #eeeeee;
 	border-collapse: collapse;
 	text-align: center;
 }
-#mUpdate{
-	background-color: #00a3e0;
-	font-color:#3cbcc7;
-	border-radius: 2px;
-	border-color:#00a3e0;
-	color: white;
-}
-#delete{
-	background-color: #666666;
-	font-color:#3cbcc7;
-	border-radius: 2px;
-	border-color:#303538;
-	color: white;
-}
-.list-group>#mypage1:hover,.list-group>#mypage2:hover,.list-group>#mypage3:hover,.list-group>#mypage4:hover,.list-group>#mypage5:hover,.list-group>#mypage6:hover{
-	background-color : rgb(2, 132, 230);
-    	cursor : pointer;
-}
-#upBtn{
-	background-color: #666666;
-	border-color:#666666;
-}
-    
 
+#mUpdate {
+	background-color: #00a3e0;
+	font-color: #3cbcc7;
+	border-radius: 2px;
+	border-color: #00a3e0;
+	color: white;
+	
+	width: 440px; 
+	margin: 0 auto;
+}
+
+#memberDelete{
+	background-color: #666666;
+	font-color: #3cbcc7;
+	border-radius: 2px;
+	border-color: #303538;
+	color: white;
+	width: 440px; 
+	
+}
+.memberDelete{
+	margin-left:205px;
+
+}
+
+.list-group>#mypage1:hover, .list-group>#mypage2:hover, .list-group>#mypage3:hover,
+	.list-group>#mypage4:hover, .list-group>#mypage5:hover, .list-group>#mypage6:hover
+	{
+	background-color: rgb(2, 132, 230);
+	cursor: pointer;
+}
+
+#upBtn {
+	background-color: #666666;
+	border-color: #666666;
+}
+.form-group{
+	margin: 0 auto;
+}
+.nickName{
+	text-align: right;
+	margin-left:120px;
+}
+.card-title{
+margin: 0 auto;
+	text-align: center;
+}
 </style>
+<script>
+	$(function() {
+		$('#memberDelete').on("click", function(event) {
+			$('#delete').text('탈퇴하시겠습니까?');
+			$("#memberDelete").css("display", "none");
+			$("#deleteYes").show();
+			$("#deleteNo").show();
+			$('#deleteYes').on("click", function(event) {
+				location.href = "/member/delete.do";
+			});
+			$('#deleteNo').on("click", function(event) {
+				location.href = "/member/mypage.do";
+			});
+
+		});
+	})
+</script>
 <body>
 	<div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -69,90 +115,112 @@ td {
 			<div class="row">
 
 				<div class="col-lg-3">
+				
 					<h2 class="my-4">마이페이지</h2>
-					<div class="list-group" >
-						<a href="/member/mypage.do" class="list-group-item active" id="mypage1">내정보 수정</a> 
-						<a href="/member/mypageRentFrm.do" class="list-group-item" id="mypage2">도서대여 목록</a> 
-						<a href="/member/mypageReservationFrm.do"class="list-group-item" id="mypage3">도서 예약신청목록</a> 
-						<a href="/member/mypageApplyFrm.do" class="list-group-item" id="mypage4">도서입고신청</a> 
-						<a href="/member/mypageLostBookFrm.do"class="list-group-item" id="mypage5">도서 분실 신고</a> 
-						<a href="/member/mypageReviewFrm.do" class="list-group-item" id="mypage6">내가작성한 후기</a>
+					<div class="list-group">
+						<a href="/member/mypage.do" class="list-group-item active"
+							id="mypage1">내정보 수정</a> <a href="/member/mypageRentFrm.do"
+							class="list-group-item" id="mypage2">도서대여 목록</a> <a
+							href="/member/mypageReservationFrm.do" class="list-group-item"
+							id="mypage3">도서 예약신청목록</a> <a href="/member/mypageApplyFrm.do"
+							class="list-group-item" id="mypage4">도서입고신청</a> <a
+							href="/member/mypageLostBookFrm.do" class="list-group-item"
+							id="mypage5">도서 분실 신고</a> <a href="/member/mypageReviewFrm.do"
+							class="list-group-item" id="mypage6">내가작성한 후기</a>
 					</div>
 				</div>
 				<!-- /.col-lg-3 -->
 
 				<div class="col-lg-9">
 					<div class="card mt-4">
-		
+
 						<div class="card-body">
-							<h3 class="card-title">내정보 수정	</h3>
+							<h3 class="card-title">내정보 수정</h3>
+							
 							<div class="nickName">
-								<p>닉네임: ${sessionScope.member.memberNickname } </p>
+								닉네임: ${sessionScope.member.memberNickname }
 							</div>
-							<div class="nickName">
-									<p>아이디: ${sessionScope.member.memberId }</p>
-								</div>
-																					
+							
+
 							<form action="/member/mUpdate.do" method="post">
+								<div class="form-group1">
+									 <input type="hidden"
+										class="form-control" id="memberId" name="memberId"
+										value="${sessionScope.member.memberId }">
+								</div>
+									<div class="form-group">
+									<label for="memberName">이름 </label>
+								 <input type="text"
+										class="form-control" id="memberName" name="memberName"
+										value="${sessionScope.member.memberName }">
 								
-								<div class="form-group">
-								<label for="name">이름</label> 
-								<input type="text"	class="form-control" id="memberName" name="memberName"
-									value="${sessionScope.member.memberName }">	</div>
-								
-								<div class="form-group">	
-								<label for="memberPhone">휴대폰 번호</label>
-								 <input type="text"	class="form-control" id="memberPhone" name="memberPhone"
-									value="${sessionScope.member.memberPhone }">
-								</div>
-								<div class="form-group">	
-								<label for="memberEmail">이메일</label>
-								 <input type="text"	class="form-control" id="memberEmail" name="memberEmail"
-									value="${sessionScope.member.memberEmail }">
-								</div>
-								<div class="form-group">	
-								<label for="memberCategory1">도서취향1</label>
-								 <input type="text"	class="form-control" id="memberCategory1" name="memberCategory1"
-									value="${sessionScope.member.memberCategory1 }">
 								</div>
 								<div class="form-group">
-								<label for="memberCategory2">도서취향2</label>
-								 <input type="text"	class="form-control" id="memberCategory2" name="memberCategory2"
-									value="${sessionScope.member.memberCategory2 }">
+									<label for="memberPhone">휴대폰 번호</label> <input type="text"
+										class="form-control" id="memberPhone" name="memberPhone"
+										value="${sessionScope.member.memberPhone }">
 								</div>
 								<div class="form-group">
-								<label for="memberCategory3">도서취향3</label>
-								 <input type="text"	class="form-control" id="memberCategory3" name="memberCategory3"
-									value="${sessionScope.member.memberCategory3 }">
+									<label for="memberEmail">이메일</label> <input type="text"
+										class="form-control" id="memberEmail" name="memberEmail"
+										value="${sessionScope.member.memberEmail }">
 								</div>
 								<div class="form-group">
-								<label for="enrollDate">가입일</label>
-								 <input type="text"	class="form-control" id="enrollDate" name="enrollDate"
-									value="${sessionScope.member.enrollDate }" readonly>
-								</div>										
-								<input type="submit" id="mUpdate" value="정보수정" style="width: 440px;">
-								
-						</form>
-							<br>
-							<c:if test="${not empty sessionScope.member }">
-							<form action="/member/delete.do" method="post">
-							<input type="submit" id="delete"value="회원탈퇴"style="width: 440px;">
+									<label for="memberCategory1">도서취향1</label> <input type="text"
+										class="form-control" id="memberCategory1"
+										name="memberCategory1"
+										value="${sessionScope.member.memberCategory1 }">
+								</div>
+								<div class="form-group">
+									<label for="memberCategory2">도서취향2</label> <input type="text"
+										class="form-control" id="memberCategory2"
+										name="memberCategory2"
+										value="${sessionScope.member.memberCategory2 }">
+								</div>
+								<div class="form-group">
+									<label for="memberCategory3">도서취향3</label> <input type="text"
+										class="form-control" id="memberCategory3"
+										name="memberCategory3"
+										value="${sessionScope.member.memberCategory3 }">
+								</div>
+								<div class="form-group">
+									<label for="enrollDate">가입일</label> <input type="text"
+										class="form-control" id="enrollDate" name="enrollDate"
+										value="${sessionScope.member.enrollDate }" readonly>
+								</div>
+								<div id="mUpdate">
+								<input type="submit" id="mUpdate" value="정보수정">
+									</div>
 							</form>
-						</c:if>
-						
+							<br>
+							<div class="memberDelete">
+							<c:if test="${not empty sessionScope.member }">
+								<form action="/member/delete.do" method="post" >
+									<button type="button" id="deleteYes" class="btn btn-primary"
+										style="display: none;">회원탈퇴</button>
+									<button type="button" id="deleteNo" class="btn btn-primary"
+										style="display: none;">탈퇴 취소</button>
+										
+										
+									<button type="button" id="memberDelete" >회원탈퇴</button>
+									</form>	
+								
+							</c:if>
+							</div>
+
+
 							
-							
+						</div>
 					</div>
+
+					<hr>
+					<a href="#" class="btn btn-success" id="upBtn">위로가기</a>
 				</div>
-
-				<hr>
-				<a href="#" class="btn btn-success" id="upBtn">위로가기</a>
 			</div>
-		</div>
-		<!-- /.card -->
+			<!-- /.card -->
 
-	</div>
-	<!-- /.col-lg-9 -->
+		</div>
+		<!-- /.col-lg-9 -->
 
 	</div>
 

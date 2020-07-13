@@ -102,8 +102,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+												
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -124,6 +124,7 @@
 														+ data.list[i].spotNo
 														+ "'onclick='deleteSpot(this)' style='background-color:#FA6556; border:none; margin-left:3px;'>삭제</button></td></tr>";
 											}
+											$("#ajaxReqPage").val(data.reqPage);
 											$("#tbody").html(resultText);
 											$(".pagination")
 													.html(data.pageNavi);
@@ -167,8 +168,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+											
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -189,6 +190,7 @@
 														+ data.list[i].spotNo
 														+ "'onclick='deleteSpot(this)' style='background-color:#FA6556; border:none; margin-left:3px;'>삭제</button></td></tr>";
 											}
+											$("#ajaxReqPage").val(data.reqPage);
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
 										},
@@ -318,8 +320,8 @@
 						$("#tbody").html("");
 						var resultText = "";
 						for (var i = 0; i < data.list.length; i++) {
-							resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-							resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+							
+							resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
 									+ ((data.reqPage - 1) * data.selectCount
 											+ i + 1) + "</th>";
 							resultText += "<td class=th2>"
@@ -335,6 +337,7 @@
 									+ data.list[i].spotNo
 									+ "'onclick='deleteSpot(this)' style='background-color:#FA6556; border:none; margin-left:3px;'>삭제</button></td></tr>";
 						}
+						$("#ajaxReqPage").val(data.reqPage);
 						$("#tbody").html(resultText);
 						$(".pagination").html(data.pageNavi);
 					},
@@ -387,8 +390,8 @@
 						$("#tbody").html("");
 						var resultText = "";
 						for (var i = 0; i < data.list.length; i++) {
-							resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-							resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
+						
+							resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-spotNo="+data.list[i].spotNo+">"
 									+ ((data.reqPage - 1) * data.selectCount
 											+ i + 1) + "</th>";
 							resultText += "<td class=th2>"
@@ -404,6 +407,7 @@
 									+ data.list[i].spotNo
 									+ "'onclick='deleteSpot(this)' style='background-color:#FA6556; border:none; margin-left:3px;'>삭제</button></td></tr>";
 						}
+						$("#ajaxReqPage").val(data.reqPage);
 						$("#tbody").html(resultText);
 						$(".pagination").html(data.pageNavi);
 
@@ -678,7 +682,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainPage.do">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminPage.do">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-book"></i>
         </div>
@@ -957,12 +961,12 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/findPwFrm.do">
+                <a class="dropdown-item" href="/member/findPwFrm.do">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                      비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout.do" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/member/logout.do">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -1037,7 +1041,7 @@
 								</div>
 							</li>
 						</ul>
-
+					<input type="hidden" id="ajaxReqPage" value="${reqPage }">
 						<div id="myTabContent" class="tab-content">
 							<div role="tabpanel" class="tab-pane fade active in" id="home"
 								aria-labelledby="home-tab">
@@ -1060,7 +1064,7 @@
 									<tbody id="tbody">
 										<c:forEach items="${list }" var="l" varStatus="i">
 											<tr>
-												<input type="hidden" id="ajaxReqPage" value="${reqPage }">
+												
 												<th scope="row" class="num"><input type="checkbox"
 													name="chBox" class="chBox" data-spotNo="${l.spotNo }">${(reqPage-1)*selectCount + i.count }</th>
 												<td class="th2">${l.spotName }</td>

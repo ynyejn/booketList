@@ -289,12 +289,6 @@
 			<when test='alignTitle.equals("반납예정일자") and alignStatus=="1"'>
 			order by rent_end_date asc)n)
 			</when>
-			<when test='alignTitle.equals("대여상태") and alignStatus=="0"'>
-			order by rent_return asc)n)
-			</when>
-			<when test='alignTitle.equals("대여상태") and alignStatus=="1"'>
-			order by rent_return desc)n)
-			</when>
 		</choose>
 		where rnum between #{start} and #{end}
 	</select>
@@ -472,5 +466,24 @@
 		,rent_end_date as rentEndDate
 		,rent_return as rentReturn
 		from rent left join book using(book_no)
+	</select>
+	
+	<select id="selectBestSeller" resultType="book">
+	select book_no as bookNo, 
+			book_name as bookName, 
+			book_writer as bookWriter,
+			book_img as bookImg,
+			rank
+			from (select count(*) as cnt , book_no, row_number() over(order by count(*) desc) as rank from rent group by book_no) 
+			join book using(book_no) where rank between 1 and 6
+	</select>
+	<select id="selectNewbooks" resultType="book">
+	select book_no as bookNo, 
+			book_name as bookName, 
+			book_writer as bookWriter,
+			book_img as bookImg,
+			rank 
+			from (select book_no, book_name, book_writer,book_img, row_number() over(order by book_no desc) as rank from book)
+			where rank between 1 and 6
 	</select>
 </mapper>

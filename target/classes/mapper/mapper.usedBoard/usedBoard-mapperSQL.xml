@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="usedBoard">
-<select id="selectListCount" resultType="_int">
-select count(*) from used_board
+<select id="selectListCount" parameterType="map" resultType="_int">
+select count(*) from used_board 
+<if test="usedStatus != null and !usedStatus.equals('-1')">
+where used_status=#{usedStatus}
+</if>
+<if test="memberId != null and !memberId.equals('')">
+where member_id=#{memberId}
+</if>
 </select>
 <select id="selectAllList" parameterType="map" resultType="usedBoard">
 	select
@@ -19,6 +25,12 @@ select count(*) from used_board
 		 from
 		(select ROWNUM as rnum, u.* from
 		(select * from used_board order by used_no desc)u
+		<if test="usedStatus!=null and !usedStatus.equals('-1')">
+				where used_status=#{usedStatus}
+			</if>
+		<if test="memberId != null and !memberId.equals('')">
+			where member_id=#{memberId}
+			</if>
 		)
 		where rnum between #{start} and #{end}
 </select>

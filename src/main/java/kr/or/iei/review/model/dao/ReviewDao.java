@@ -2,6 +2,7 @@ package kr.or.iei.review.model.dao;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,17 @@ public class ReviewDao {
 	public int reviewInsert(Review review) {	
 		return sql.insert("review.reviewInsert",review);
 	}
+
+	public Review selectOneReview(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sql.selectOne("review.selectOneReview",map);
+	}
+
+	public Review selectOneReviews(Review review) {
+		// TODO Auto-generated method stub
+		return sql.selectOne("review.selectOneReviews",review);
+	}
+
+	
 
 }
