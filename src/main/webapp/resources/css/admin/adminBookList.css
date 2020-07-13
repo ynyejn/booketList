@@ -6,7 +6,7 @@ h2 {
 	margin-bottom: 30px;
 }
 .width0{
-	width:5%;
+	width:10%;
 	text-align: center;
 }
 .width1 {
@@ -37,6 +37,10 @@ h2 {
 }
 .width8{
 	width:60%;
+	text-align: center;
+}
+.width9{
+	width:65%;
 	text-align: center;
 }
 .title {

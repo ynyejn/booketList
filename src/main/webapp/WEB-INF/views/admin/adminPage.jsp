@@ -2,13 +2,10 @@
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" style="font-size:18px;">
 
 <head>
-<!--
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.3.1.js"></script>
   <meta charset="utf-8">
@@ -20,18 +17,24 @@
   <title>BooketList</title>
    
 
-  Custom fonts for this template
-  <link href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link
+	href="/resources/adminBootstrap/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
 
-  
-  
-  <link rel="stylesheet"
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<link rel="stylesheet"
 	href="/resources/adminBootstrap/css/bootstrap.css" />
-	Custom styles for this template
-  
-  <link
+
+<!-- Custom styles for this template-->
+<link href="/resources/adminBootstrap/css/sb-admin-2.min.css"
+	rel="stylesheet" type="text/css"/>
+
+
+<link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -41,7 +44,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
-<link href="/resources/adminBootstrap/css/sb-admin-2.min.css" rel="stylesheet" type="text/css"/>
+
+
 
 
 <script>
@@ -49,7 +53,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -63,16 +67,16 @@
 				$("#lostAlarm").html("");
 				$("#complainAlarm").html("");
 			}else{
-				$("#alarmss").html(JSON.parse(e.data).totalCount);
+				$("#alarmss").html(JSON.parse(e.data).totalCount+"+");
 				if(JSON.parse(e.data).lostbookCount == 0){
 					$("#lostAlarm").html("");
-					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount);
 				}else if(JSON.parse(e.data).complainCount == 0){
-					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
 					$("#complainAlarm").html("");
 				}else{
-					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount+"+");
-					$("#complainAlarm").html(JSON.parse(e.data).complainCount+"+");
+					$("#lostAlarm").html(JSON.parse(e.data).lostbookCount);
+					$("#complainAlarm").html(JSON.parse(e.data).complainCount);
 				}
 			}
 			/* $("#alarmss").html(JSON.parse(e.data).totalCount);
@@ -85,61 +89,71 @@
 	
 	$(function(){
 		connect();
-		$("#lostbookClick").click(function(){
-			var data = $("#lostAlarm").html();
-			var sendMsg = {
-					type : "lostbookClick",
-					data : data
-			};
-			ws.send(JSON.stringify(sendMsg));
-		});
+		
+			$("#lostbookClick").click(function(){
+				if($("#lostAlarm").html() != ""){
+					var data = $("#lostAlarm").html();
+					var sendMsg = {
+						type : "lostbookClick",
+						data : data
+					};
+					ws.send(JSON.stringify(sendMsg));
+				}else{
+					location.href="/adminLostBookList.do?reqPage=1";
+				}
+			});
+			
+		
 		
 		$("#complainAlarmClick").click(function(){
-			var data = $("#complainAlarm").html();
-			var sendMsg = {
-					type : "complainAlarmClick",
-					data : data
-			};
-			ws.send(JSON.stringify(sendMsg));
+			if($("#complainAlarm").html() != ""){
+				var data = $("#complainAlarm").html();
+				var sendMsg = {
+						type : "complainAlarmClick",
+						data : data
+				};
+				ws.send(JSON.stringify(sendMsg));
+			}else{
+				location.href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1";
+			}
 		});
 	});
 </script>
-End Channel Plugin
 
+   </head>
+	<body id="page-top">
 
-<body id="page-top">
-
-  Page Wrapper
+  <!-- Page Wrapper -->
   <div id="wrapper">
 
-    Sidebar
+    <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-      Sidebar - Brand
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminPage.do">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-book"></i>
         </div>
         <div class="sidebar-brand-text mx-3">BooketList</div>
       </a>
-        Divider
+        <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      Nav Item - Dashboard
+      <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
         <a class="nav-link" href="/adminPage.do">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>관리자 페이지</span></a>
       </li>
 
-      Divider
+      <!-- Divider -->
       <hr class="sidebar-divider">
 
-      Heading
+      <!-- Heading -->
       <div class="sidebar-heading">
            회원 관리
       </div>
-      Nav Item - Pages Collapse Menu
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link" href="/memberList.do?reqPage=1&selectCount=10">
           <i class="fas fa-fw fa-table"></i>
@@ -150,7 +164,7 @@ End Channel Plugin
           <i class="fas fa-fw fa-cog"></i>    
           <span>회원 신고 관리</span>
         </a>
-         <div id="complaincollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+         <div id="complaincollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebara">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">회원 신고 관리</h6>
             <a class="collapse-item" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">신고처리대기</a>
@@ -160,21 +174,21 @@ End Channel Plugin
       </li>
 
 
-      Divider
+      <!-- Divider -->
       <hr class="sidebar-divider">
 
-      Heading
+      <!-- Heading -->
       <div class="sidebar-heading">
            도서 관리
       </div>
       
-      Nav Item - Pages Collapse Menu
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesRent" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
           <span>도서 대여</span>
         </a>
-        <div id="collapsePagesRent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePagesRent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebarb">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 대여</h6>
             <a class="collapse-item" href="/adminBookRentalStatusList.do?reqPage=1&selectCount=10">도서 대여 현황</a>
@@ -190,7 +204,7 @@ End Channel Plugin
           <i class="fas fa-fw fa-folder"></i>
           <span>도서 내역</span>
         </a>
-        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="bookcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebarc">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">도서 내역</h6>
             <a class="collapse-item" href="/adminBookList.do?reqPage=1&check=1&reqPage2=1">도서내역</a>
@@ -200,40 +214,25 @@ End Channel Plugin
       </li>
       
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#LostcollapsePages" aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link" href="/adminLostBookList.do?reqPage=1">
           <i class="fas fa-fw fa-cog"></i>
           <span>도서 분실 신고</span>
          </a>
-         <div id="LostcollapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">분실 내역</h6>
-            <a class="collapse-item" href="/userLostBook.do">분실 신고</a>
-            <a class="collapse-item" href="/adminLostBookList.do?reqPage=1">분실 내역</a>
-          </div>
-        </div>
       </li>
       <hr class="sidebar-divider">
 
-      Heading
+      <!-- Heading -->
       <div class="sidebar-heading">
            SPOT 관리
       </div>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>SPOT</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">SPOT</h6>
-            <a class="collapse-item" href="#">SPOT리스트</a>
-            <a class="collapse-item" href="#">SPOT생성</a>
-          </div>
-        </div>
+        	<a class="nav-link" href="/adminSpotList.do?reqPage=1&selectCount=10">
+          	<i class="fas fa-fw fa-table"></i>
+          	<span>SPOT</span></a>
       </li>
       <hr class="sidebar-divider">
 
-      Heading
+      <!-- Heading -->
       <div class="sidebar-heading">
            챗봇 관리
       </div>
@@ -242,56 +241,55 @@ End Channel Plugin
           <i class="fas fa-fw fa-cog"></i>
           <span>챗봇</span></a>
       </li>
-      Divider
+      <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
-      Sidebar Toggler (Sidebar)
+      <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
 
     </ul>
-    End of Sidebar
+    <!-- End of Sidebar -->
 
-    Content Wrapper
+    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-      Main Content
+      <!-- Main Content -->
       <div id="content">
 
-        Topbar
+        <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-          Sidebar Toggle (Topbar)
+          <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
           
-          <div style="margin-left:350px;">
-             <a href="#"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+          <div class="mr-auto">
+          </div>
+          <div class="mr-auto">
+              
           </div>
 
-          Topbar Search
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+          <!-- Topbar Search -->
+           <form class="d-none d-sm-inline-block form-inline  ml-md-3 my-2 my-md-0 mw-100 navbar-search"  >
+             <div class="input-group">
+               <div class="input-group-append" style="margin-left:10px;">
+             	<a href="/mainPage.do"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+              </div> 
+             </div> 
+-           </form> 
 
-          Topbar Navbar
+          <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
-            Nav Item - Search Dropdown (Visible Only XS)
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
             <li class="nav-item dropdown no-arrow d-sm-none">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-search fa-fw"></i>
               </a>
-              Dropdown - Messages
+              <!-- Dropdown - Messages -->
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
@@ -306,14 +304,14 @@ End Channel Plugin
               </div>
             </li>
 
-            Nav Item - Alerts
+            <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
-                Counter - Alerts
-                <span id="alarmss" class="badge badge-danger badge-counter danger"></span>
+                <!-- Counter - Alerts -->
+                <span id="alarmss" class="badge badge-danger badge-counter" style="background-color:red;"></span>
               </a>
-              Dropdown - Alerts
+              <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                 	알람
@@ -325,12 +323,12 @@ End Channel Plugin
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
+                    <!-- <div class="small text-gray-500">December 12, 2019</div> -->
                     <span class="font-weight-bold">도서 분실 신고</span>
                     <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a if="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
+                <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
@@ -341,86 +339,16 @@ End Channel Plugin
                     <span id="complainAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
             </li>
 
-            Nav Item - Messages
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                Counter - Messages
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
-              Dropdown - Messages
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                    <div class="small text-gray-500">Emily Fowler · 58m</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                    <div class="status-indicator"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                    <div class="status-indicator bg-warning"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
-            </li>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            Nav Item - User Information
+            <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="/resources/imgs/bluelogo.png">
+                <span class="glyphicon glyphicon-user" style="font-size:15px;"></span>
               </a>
-              Dropdown - User Information
+              <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -435,10 +363,8 @@ End Channel Plugin
             </li>
           </ul>
         </nav>
-        End of Topbar -->
-        </head>
-<jsp:include page="/WEB-INF/views/common/adminSidebar.jsp"/>
-	<body id="page-top">
+        <!-- End of Topbar -->
+	
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -535,7 +461,7 @@ End Channel Plugin
                   <h6 class="m-0 font-weight-bold text-primary">월별 대여량</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                     
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header"><!-- Dropdown Header: --></div>
@@ -563,7 +489,7 @@ End Channel Plugin
                   <h6 class="m-0 font-weight-bold text-primary">장르별 대여 비율</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
 <!--                       <div class="dropdown-header">Dropdown Header:</div>

@@ -289,12 +289,6 @@
 			<when test='alignTitle.equals("반납예정일자") and alignStatus=="1"'>
 			order by rent_end_date asc)n)
 			</when>
-			<when test='alignTitle.equals("대여상태") and alignStatus=="0"'>
-			order by rent_return asc)n)
-			</when>
-			<when test='alignTitle.equals("대여상태") and alignStatus=="1"'>
-			order by rent_return desc)n)
-			</when>
 		</choose>
 		where rnum between #{start} and #{end}
 	</select>
