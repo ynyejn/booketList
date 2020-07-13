@@ -57,11 +57,12 @@ h2{
 		width: 500px; 
 	}
 	#loginBtn{
+			margin-top : 10px;
 	    	border: none;
 		    background-color: rgb(2, 132, 230);
 		    color: white;
 		    width: 488px;
-		    height: 38px;
+		    height: 40px;
 		    font-size: 14px;
 		    border-radius: 2px;
 	}
@@ -71,7 +72,7 @@ h2{
 		    background-color: #666666;
 		    color: white;
 		    width: 222px;
-		    height: 36px;
+		    height: 38px;
 		    font-size: 14px;
 		    border-radius: 2px;
 		    margin-top : 20px;
@@ -84,6 +85,9 @@ h2{
 	}
 	.form-group {
 		margin : 0 auto;
+	}
+	#form1 {
+/* 		border-top : 2px solid black; */
 	}
 </style>
 <script>
@@ -106,12 +110,12 @@ h2{
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
 			<form id="login2" action="/member/login.do" method="post">
-				<br><br>
-				<h2>로그인</h2>
+				<br><br><br><br>
+				<h2>로그인</h2><br>
 				 <c:if test="${sessionScope.member.memberId eq 'admin' }">
 				 <a href="adminPage.do">
 				 </c:if>
-				<div class="form-group" style='margin-bottom: 0;'>
+				<div class="form-group" id='form1' style='margin-bottom: 0;'>
 						<label for="id">아이디</label> 
 						<input type="text"class="form-control" id="memberId" name="memberId"placeholder="ID" style="width: 474px;"><br>
 				</div>
@@ -122,9 +126,7 @@ h2{
 				<input type="submit" value="로그인" id="loginBtn"><br>
 				<button type="button" id="findIdbtn">아이디찾기</button>
 				<button type="button" id="findPwbtn">비밀번호 찾기</button>
-				
 			</form>	
-			
 		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
