@@ -40,6 +40,16 @@ td {
 	background-color: #666666;
 	border-color:#666666;
 }
+.delayBtn {
+	margin-top: 20px;
+	background-color: #00a3e0;
+	color: white;
+	border: 2px solid #00a3e0;
+	border-radius: 2px;
+}
+.card-header{
+	font-weight:bold;
+}
 </style>
 <body>
 	<div class="wrapper">
@@ -96,7 +106,7 @@ td {
                             <td>${r.bookPublisher}</td>
                             <td>${r.bookWriter}</td>
                             <td>${r.bookCategory}</td>
-
+							<td><button type="button" class="deleteBtn">삭제하기</button></td>						
                         </tr>
                     </c:forEach>
 						</table>	
