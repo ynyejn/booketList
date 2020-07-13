@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.apply.model.vo.Apply;
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.common.SHA256Util;
 import kr.or.iei.member.model.dao.MemberDao;
 import kr.or.iei.member.model.vo.Member;
@@ -126,6 +127,10 @@ public class MemberService {
 	public int rentUpdate(int rentNo) {
 		
 		return dao.rentUpdate(rentNo);
+	}
+
+	public List userLostBook(Member m) {
+		return dao.userLostBook(m);
 	}
 	
 }

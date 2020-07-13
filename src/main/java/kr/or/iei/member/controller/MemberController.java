@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.iei.apply.model.vo.Apply;
+import kr.or.iei.book.model.vo.BookAndRent;
 import kr.or.iei.mail.util.MailSend;
 import kr.or.iei.mail.util.MailSendId;
 import kr.or.iei.mail.util.MailSendPw;
@@ -243,9 +244,13 @@ public class MemberController {
 			}
 		}
 	@RequestMapping(value = "/mypageLostBookFrm.do")
-	public String mypageLostBookFrm() {
-		
-		return "member/mypageLostBook";	
+	public String mypageLostBookFrm(HttpSession session,Model model) {
+		Member m = (Member)session.getAttribute("member");
+//		System.out.println(m.getMemberId());
+		ArrayList<BookAndRent> list = (ArrayList<BookAndRent>)service.userLostBook(m);
+		System.out.println(list);
+		model.addAttribute("list", list);
+		return "member/mypageLostBook";
 	}
 	}
 

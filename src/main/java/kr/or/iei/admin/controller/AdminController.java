@@ -82,7 +82,7 @@ public class AdminController {
 		ArrayList<BookAndRent> list = (ArrayList<BookAndRent>)service.userLostBook(m);
 		System.out.println(list);
 		model.addAttribute("list", list);
-		return "admin/userLostBook";
+		return "member/mypageLostBook";
 	}
 	@ResponseBody
 	@RequestMapping(value="/userLostBookUpdate.do")

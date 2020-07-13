@@ -85,5 +85,11 @@ public class MemberDao {
 		
 		return sql.update("rent.rentUpdate",rentNo);
 	}
+
+
+	public List userLostBook(Member m) {
+		
+		return sql.selectList("book.userLostBook",m);
+	}
 	
 }
