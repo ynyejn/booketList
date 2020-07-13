@@ -410,22 +410,33 @@
 	
 	$(function(){
 		connect();
-		$("#lostbookClick").click(function(){
-			var data = $("#lostAlarm").html();
-			var sendMsg = {
-					type : "lostbookClick",
-					data : data
-			};
-			ws.send(JSON.stringify(sendMsg));
-		});
+		
+			$("#lostbookClick").click(function(){
+				if($("#lostAlarm").html() != ""){
+					var data = $("#lostAlarm").html();
+					var sendMsg = {
+						type : "lostbookClick",
+						data : data
+					};
+					ws.send(JSON.stringify(sendMsg));
+				}else{
+					location.href="/adminLostBookList.do?reqPage=1";
+				}
+			});
+			
+		
 		
 		$("#complainAlarmClick").click(function(){
-			var data = $("#complainAlarm").html();
-			var sendMsg = {
-					type : "complainAlarmClick",
-					data : data
-			};
-			ws.send(JSON.stringify(sendMsg));
+			if($("#lostAlarm").html() != ""){
+				var data = $("#complainAlarm").html();
+				var sendMsg = {
+						type : "complainAlarmClick",
+						data : data
+				};
+				ws.send(JSON.stringify(sendMsg));
+			}else{
+				location.href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1";
+			}
 		});
 	});
 </script>
@@ -574,21 +585,21 @@
             <i class="fa fa-bars"></i>
           </button>
           
-          <div style="margin-left:350px;">
-             <a href="/mainPage.do"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+           <div class="mr-auto">
+          </div>
+          <div class="mr-auto">
+              
           </div>
 
           <!-- Topbar Search -->
-<!--           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"> -->
-<!--             <div class="input-group"> -->
-<!--               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2"> -->
-<!--               <div class="input-group-append"> -->
-<!--                 <button class="btn btn-primary" type="button"> -->
-<!--                   <i class="fas fa-search fa-sm"></i> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </form> -->
+           <form class="d-none d-sm-inline-block form-inline  ml-md-3 my-2 my-md-0 mw-100 navbar-search"  >
+             <div class="input-group">
+               <div class="input-group-append" style="margin-left:10px;">
+             	<a href="/mainPage.do"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+              </div> 
+             </div> 
+-           </form> 
+
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -637,7 +648,7 @@
                     <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
+                <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
@@ -648,18 +659,7 @@
                     <span id="complainAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                
               </div>
             </li>
 
@@ -725,7 +725,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="/resources/imgs/bluelogo.png">
+                <span class="glyphicon glyphicon-user" style="font-size:15px;"></span>
               </a>
             <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

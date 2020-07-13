@@ -9,21 +9,27 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="resources/mypageBootstrap/vendor/bootstrap/css/bootstrap.min.css">
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="css/shop-item.css" rel="stylesheet">
+<link href="resources//mypageBootstrap/css/shop-item.css" rel="stylesheet">
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<meta charset="UTF-8">
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- Bootstrap core JavaScript -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <title>도서 분실 신고</title>
-</head>
 <style>
 .content {
 	width: 1200px;
 	overflow: hidden;
 	margin: 120px auto 0 auto;
 	background-color: aliceblue;
+}
+.delAttr{
+	border : none;
 }
 
 td {
@@ -48,7 +54,7 @@ td {
 	height: 42px;
 	color: #535253;
 	vertical-align: text-bottom;
-	width: 1100px;
+	width: 500px;
 	height: 140px;
 	margin: 0 auto;
 }
@@ -60,22 +66,20 @@ td {
 }
 
 #contentDiv {
-	width: 1100px;
-	padding: 20px;
+	width: 100%;
 	margin: 0 auto;
-	border-top: 1px solid #e5e5e5;
 }
 
 #ck_all {
 	border: none;
 	background-color: #666666;
 	color: white;
-	width: 110px;
+	width: 80px;
 	height: 35px;
 	font-size: 14px;
 	border-radius: 2px;
 	cursor: pointer;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 }
 
 #needCenter {
@@ -95,6 +99,7 @@ td {
 	cursor: pointer;
 }
 </style>
+
 <script>
 var ws;
 var memberId = '${sessionScope.member.memberId }';
@@ -214,7 +219,7 @@ function connect() {
 									data : count
 								};
 								ws.send(JSON.stringify(sendMsg));
-								location.href = "/userLostBook.do"; 
+								location.href = "mypageLostBookFrm.do"; 
 							} else {
 								alert("수정이 실패 하였습니다.");
 							}
@@ -240,6 +245,9 @@ function connect() {
 		}
 	});
 </script>
+
+</head>
+
 <body>
 	<div class="wrapper">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -274,8 +282,6 @@ function connect() {
 					<div class="card card-outline-secondary my-4">
 						<div class="card-header">도서 분실 신고</div>
 						<div class="card-body">
-						
-						<h2>분실신고</h2>
 	<div id="contentDiv">
 		<button type="button" id="ck_all">전체 선택</button>
 		<div id="MainContentDiv">
@@ -283,12 +289,12 @@ function connect() {
 				<tbody>
 					<c:forEach items="${list }" var="p" varStatus="i">
 						<tr>
-							<th class="width0"><input type="checkbox" class="checkRow"
+							<th class="width5 delAttr" style="padding:40px;"><input type="checkbox" class="checkRow"
 								value="${p.bookNo }"></th>
-							<td class="width2"><img src="${p.bookImg }"
+							<td class="width2 delAttr"><img src="${p.bookImg }"
 								style="width: 110px; height: 160px;"></td>
-							<td class="width3" style="text-align: left;"><span
-								style="font-weight: bold; color: #0066b3">${p.bookName }</span>
+							<td class="width9 delAttr" style="text-align: left;"><span
+								style="font-weight: bold; color: #0066b3;margin-left:10px;">${p.bookName }</span>
 								<ul style="padding-left: 15px;">
 									<li
 										style="font-size: 13px; text-align: left; margin-bottom: 3px;">작가
@@ -311,7 +317,9 @@ function connect() {
 		</div>
 	</div>
 	<div class="payInfo">
+	
 		<div id="needCenter" class="payBackground">
+		
 			<img src="/resources/imgs/bluecheck.png" class="check"><span
 				class="payPrice" style="font-size: 20px; font-weight: bold;">0</span><b><small>원</small></b><small
 				style="color: gray; margin-left: 15px; font-weight: bold">한
@@ -321,7 +329,7 @@ function connect() {
 		</div>
 
 	</div>
-							<a href="#" class="btn btn-success" id="upBtn">위로가기</a>
+				<a href="#" class="btn btn-success" id="upBtn">위로가기</a>			
 						</div>
 					</div>
 					<!-- /.card -->
@@ -332,9 +340,7 @@ function connect() {
 			</div>
 
 		</div>
-		<!-- Bootstrap core JavaScript -->
-		<script src="vendor/jquery/jquery.min.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		
 	</div>
 	<br><br><br><br>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
