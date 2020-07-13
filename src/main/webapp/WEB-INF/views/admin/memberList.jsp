@@ -218,6 +218,7 @@
 				checkArr.push($(this).attr("data-memberId"));
 			});
 			if(checkArr != 0){
+				console.log(checkArr.length);
 				location.href="/excelDown.do?checkArr="+checkArr;	
 			}else{
 				alert("선택해주세요");
@@ -230,6 +231,39 @@
 		});
 		
 	};
+	function selectDeleteMember() {
+		var result = confirm("탈퇴시키시겠습니까?");
+		if(result){
+		var checkArr = new Array();
+		$("input[class='chBox']:checked").each(function(){
+			checkArr.push($(this).attr("data-memberId"));
+		});
+		console.log(checkArr.length)
+		console.log(checkArr)
+		if(checkArr != 0){
+		$.ajax({
+				url : "/selectDeleteMember.do",
+				type : "post",
+				dataType : "json",
+				traditional : true,
+				data : {
+					checkArr : checkArr					
+				},
+				success : function(data){
+					alert(checkArr.length+"명 중"+data+"명 탈퇴하였습니다.")
+					location.reload();
+				},
+				error : function(data){
+					
+				}
+		});
+			}else{
+				alert("선택해주세요");
+			}
+		}else{
+			
+		}
+	}
 	function searchPageNavi(obj) {
 		console.log($(obj).html());
 		console.log("searchPageNavi 클릭");
@@ -893,6 +927,7 @@ padding-top:3px;
 															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>전화번호</span></th>
 															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>닉네임</span></th>
 															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>가입일</span></th>
+															<th class="th2"><button class="btn btn-danger" onclick="selectDeleteMember()" style="background-color:#FA6556; border:none;">선택 탈퇴</button></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
