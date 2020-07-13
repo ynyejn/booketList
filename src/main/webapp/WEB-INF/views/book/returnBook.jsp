@@ -327,6 +327,51 @@
     [name=returnBtn]:hover, #payBtn:hover{
         background-color: #222222;
     }
+          /* The Modal (background) */
+      	.modal-content > span {
+	      	text-align : right;
+      	}
+      	.modal-content > h3, .modal-content > p {
+	      	text-align : center;
+      	}
+      	.modal-content > p {
+      		font-size : 14px;
+      		font-weight : bold;
+      	}      
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /*------------------------ */
 
 </style>
 
@@ -393,7 +438,13 @@
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
 </body>
-
+<div id="myModal" class="modal">
+<!-- Modal content -->
+	<div class="modal-content" style="height : 120px; width : 250px;">
+		<span class="close" data-dismiss="modal">&times;</span>                                         
+		<p id="msg"></p>
+	</div>
+</div>
 
 </html>
 
@@ -401,9 +452,11 @@
     $(function() {
     	if("${msg}"!=""){
     		if("${msg}"==0){
-    			alert("반납신청이 완료되었습니다.");
+    			$("#msg").html("반납신청이 완료되었습니다.");
+        		$("#myModal").modal();
     		}else{
-    			alert("반납신청이 실패했습니다.");
+    			$("#msg").html("반납신청이 실패했습니다.");
+        		$("#myModal").modal();
     		}
     	}
     	
@@ -493,6 +546,10 @@
         
     //대여중인 도서 전체 반납
         $(".allCheck").click(function(){
+        	if("${fn:length(list)}"==0){
+        		$("#msg").html("대여중인 도서가 없습니다.");
+        		$("#myModal").modal();
+        	}else{
             if($(".nobook").css("display")=="block"){
                         $(".nobook").hide();
                     }
@@ -503,6 +560,7 @@
                $("input[name=bookName]").val($(this).children().html());
                  $("input[name=bookName]").focusout();
             });
+        	}
         });
          $("button").mousedown(function(){
             $(this).css("outline","none");

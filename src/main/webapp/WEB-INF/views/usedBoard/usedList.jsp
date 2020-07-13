@@ -54,8 +54,7 @@
     .notice {
         width: 1100px;
         padding: 25px 50px;
-        margin: 0 auto;
-        margin-top: 50px;
+        margin: 50px auto;
         border: 1px solid #e5e5e5;
         overflow: hidden;
         background-color: white;
@@ -87,6 +86,7 @@
         overflow: hidden;
         width: 1100px;
         padding: 50px;
+        padding-top:30px;
         margin: 20px auto;
         border: 1px solid #dddddd;
         background-color: #ffffff;
@@ -105,9 +105,12 @@
         line-height: 30px;
         background-color: #e5e5e5;
     }
-    
+    .boardFrame>span:hover{
+    	background-color: #222222;
+    	color:white;
+    }
     .boardList {
-        margin-top: 40px;
+        margin-top:40px;
     }
 
     .boardBox {
@@ -238,6 +241,7 @@
             <div class="boardFrame">
                 <c:if test="${not empty sessionScope.member }">
 		<c:if test="${sessionScope.member.memberId != 'admin' }">
+		<span onclick="location.href='/goUsedBoard.do?reqPage=1&memberId=${sessionScope.member.memberId}'" style="right:165px; cursor:pointer;">내 글 보기</span>
             <span onclick="location.href='/goBoardWrite.do'" style="cursor:pointer;">글작성</span></c:if></c:if>
                 <div class="boardList">
                     <c:forEach items="${list }" var="l">

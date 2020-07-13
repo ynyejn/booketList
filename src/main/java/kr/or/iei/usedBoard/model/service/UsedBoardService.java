@@ -21,11 +21,13 @@ public class UsedBoardService {
 	@Autowired
 	private UsedBoardDao dao;
 
-	public UsedBoardPageData selectAllUsedList(int reqPage, String usedStatus) {
+	public UsedBoardPageData selectAllUsedList(int reqPage, String usedStatus, String memberId) {
 		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("usedStatus",usedStatus);
+		map.put("memberId",memberId);
 		
 		int numPerPage=10; //한페이지당 게시물 수
-		int totalCount = dao.totalCount(usedStatus);//총 게시물 수를 구해오는 dao호출
+		int totalCount = dao.totalCount(map);//총 게시물 수를 구해오는 dao호출
 		System.out.println("총게시글수: "+totalCount);
 		//총 페이지 수를 연산
 		int totalPage= 0;
@@ -41,7 +43,6 @@ public class UsedBoardService {
 		
 		map.put("start", String.valueOf(start));
 		map.put("end", String.valueOf(end));
-		map.put("usedStatus",usedStatus);
 		List list = dao.selectAllList(map);
 		ArrayList<UsedBoard> list2=(ArrayList<UsedBoard>)list; 
 		//페이지 네비게이션 작성시작
