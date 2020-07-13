@@ -98,7 +98,7 @@ td {
 	background-color : white;
 	position : relative;
 	margin-bottom : 40px;
-	background-image : url('/resources/imgs/study.jpg');
+	background-image : url('/resources/upload/images/returnbook2.jpg');
 }
 #titleDivSpan {
  	color: #eeeeee; 
@@ -177,7 +177,7 @@ td {
 							if (!pw.test($('#memberPw').val())) {
 								$('#pw_check')
 										.text(
-												'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+												'비밀번호는 8자 이상 12자 이하이며, 숫자/영소문자/특수문자를 모두 포함해야 합니다.');
 								$('#pw_check').css('color', 'red');
 								$('#pw_check').css('font-size', '12px');								
 								$("#memberPw").val("");
@@ -298,7 +298,7 @@ td {
 
 		if ($('#memberPw').val() == '') {
 			$('#pw_check').text(
-					'비밀번호는 8자 이상 12자 이하이며, 숫자/영대소문자/특수문자를 모두 포함해야 합니다.');
+					'비밀번호는 8자 이상 12자 이하이며, 숫자/영소문자/특수문자를 모두 포함해야 합니다.');
 			$('#pw_check').css('color', 'red');
 			return;
 		}
