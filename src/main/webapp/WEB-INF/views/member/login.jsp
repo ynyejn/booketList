@@ -21,11 +21,40 @@ td {
 	border: 1px solid #eeeeee;
 	border-collapse: collapse;
 }
+h2{
+	text-align:center;
+}
 
 #login2 {
 	margin: 0 auto;
 	overflow: hidden;
 	width: 500px;
+}
+#loginBtn {
+	background-color: #00a3e0;
+	font-color: #3cbcc7;
+	border-radius: 2px;
+	border-color: #00a3e0;
+	color: white;
+	width: 440px; 
+	margin: 0 auto;
+}
+#findIdbtn{
+	background-color: #666666;
+	font-color: #3cbcc7;
+	border-radius: 2px;
+	border-color: #303538;
+	color: white;
+	width: 440px; 
+}
+#findPwbtn
+{
+	background-color: #666666;
+	font-color: #3cbcc7;
+	border-radius: 2px;
+	border-color: #303538;
+	color: white;
+	width: 440px; 
 }
 </style>
 <script>
@@ -45,6 +74,7 @@ td {
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
 			<form id="login2" action="/member/login.do" method="post">
+			<br><br>
 				<h2>로그인</h2>
 				<br><br>
 				 <c:if test="${sessionScope.member.memberId eq 'admin' }">
@@ -59,9 +89,9 @@ td {
 						<input type="password"class="form-control" id="memberPw" name="memberPw" placeholder="PASSWORD" style="width: 430px;"><br>
 				</div>
 				
-				<input type="submit" value="로그인" style="width: 430px;"><br><br>
-				<button type="button" id="findIdbtn" style="width: 430px;">아이디찾기</button><br><br>
-				<button type="button" id="findPwbtn" style="width: 430px;">비밀번호 찾기</button><br><br>
+				<input type="submit" value="로그인" id="loginBtn"><br><br>
+				<button type="button" id="findIdbtn">아이디찾기</button><br><br>
+				<button type="button" id="findPwbtn">비밀번호 찾기</button><br><br>
 				
 			</form>	
 			

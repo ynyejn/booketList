@@ -26,7 +26,9 @@
 	height: 1500px;
 	background-color: aliceblue;
 }
-
+label {
+	font-weight : bold;
+}
 .form-group {
 	width: 430px;
 }
@@ -47,14 +49,23 @@ td {
 	border-radius: 2px;
 	border-color: #00a3e0;
 	color: white;
+	
+	width: 440px; 
+	margin: 0 auto;
 }
 
-#delete {
+#memberDelete{
 	background-color: #666666;
 	font-color: #3cbcc7;
 	border-radius: 2px;
 	border-color: #303538;
 	color: white;
+	width: 440px; 
+	
+}
+.memberDelete{
+	margin-left:205px;
+
 }
 
 .list-group>#mypage1:hover, .list-group>#mypage2:hover, .list-group>#mypage3:hover,
@@ -67,6 +78,17 @@ td {
 #upBtn {
 	background-color: #666666;
 	border-color: #666666;
+}
+.form-group{
+	margin: 0 auto;
+}
+.nickName{
+	text-align: right;
+	margin-left:120px;
+}
+.card-title{
+margin: 0 auto;
+	text-align: center;
 }
 </style>
 <script>
@@ -93,6 +115,7 @@ td {
 			<div class="row">
 
 				<div class="col-lg-3">
+				
 					<h2 class="my-4">마이페이지</h2>
 					<div class="list-group">
 						<a href="/member/mypage.do" class="list-group-item active"
@@ -113,23 +136,25 @@ td {
 
 						<div class="card-body">
 							<h3 class="card-title">내정보 수정</h3>
+							
 							<div class="nickName">
-								<p>닉네임: ${sessionScope.member.memberNickname }</p>
+								닉네임: ${sessionScope.member.memberNickname }
 							</div>
 							
 
 							<form action="/member/mUpdate.do" method="post">
-								<div class="form-group">
-									<label for="id">아이디</label> <input type="hidden"
+								<div class="form-group1">
+									 <input type="hidden"
 										class="form-control" id="memberId" name="memberId"
-										value="${sessionScope.member.memberId }" readonly>
+										value="${sessionScope.member.memberId }">
 								</div>
-
+									<div class="form-group">
+									<label for="memberName">이름 </label>
 								 <input type="text"
 										class="form-control" id="memberName" name="memberName"
 										value="${sessionScope.member.memberName }">
 								
-
+								</div>
 								<div class="form-group">
 									<label for="memberPhone">휴대폰 번호</label> <input type="text"
 										class="form-control" id="memberPhone" name="memberPhone"
@@ -163,25 +188,28 @@ td {
 										class="form-control" id="enrollDate" name="enrollDate"
 										value="${sessionScope.member.enrollDate }" readonly>
 								</div>
-								<input type="submit" id="mUpdate" value="정보수정"
-									style="width: 440px;">
-
+								<div id="mUpdate">
+								<input type="submit" id="mUpdate" value="정보수정">
+									</div>
 							</form>
 							<br>
-							
+							<div class="memberDelete">
 							<c:if test="${not empty sessionScope.member }">
-								<form action="/member/delete.do" method="post">
+								<form action="/member/delete.do" method="post" >
 									<button type="button" id="deleteYes" class="btn btn-primary"
 										style="display: none;">회원탈퇴</button>
 									<button type="button" id="deleteNo" class="btn btn-primary"
 										style="display: none;">탈퇴 취소</button>
-									<button type="button" id="memberDelete" style="width: 430px;">회원탈퇴</button>
-
-								</form>
+										
+										
+									<button type="button" id="memberDelete" >회원탈퇴</button>
+									</form>	
+								
 							</c:if>
+							</div>
 
 
-
+							
 						</div>
 					</div>
 
