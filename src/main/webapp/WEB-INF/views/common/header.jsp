@@ -43,12 +43,11 @@
 				<li><a href="/member/loginFrm.do">로그인</a></li>
 				<li><a href="/member/join.do">회원가입</a></li>
 				<li><a href="/cart/goMyCart.do?reqPage=1">장바구니</a></li>
-				<li><a href="/adminPage.do">관리자 페이지</a></li>
 			</c:if>
 			<c:if test="${not empty sessionScope.member }">
 				<!--로그인되어있을때 -->
 				<c:if test="${sessionScope.member.memberId eq 'admin' }">
-				<li><a href="#">${sessionScope.member.memberName }</a></li>
+				<li><a href="/adminPage.do">${sessionScope.member.memberName }</a></li>
 				</c:if>
 				<c:if test="${sessionScope.member.memberId ne 'admin' }">
 				<li><a href="/member/mypage.do">${sessionScope.member.memberName }님</a></li>
