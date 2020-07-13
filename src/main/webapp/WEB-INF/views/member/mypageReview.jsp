@@ -26,8 +26,12 @@
 	height: 1500px;
 	background-color: aliceblue;
 }
+th{
+text-align: center;
+padding-left: 10px;
 
-td {
+}
+td{
 	border: 1px solid #eeeeee;
 	border-collapse: collapse;
 	text-align: center;
@@ -49,6 +53,27 @@ td {
 }
 .card-header{
 	font-weight:bold;
+}
+.allCheck {
+	border: none;
+	background-color: #666666;
+	color: white;
+	width: 90%;
+	height: 35px;
+	font-size: 20px;
+	border-radius: 3px;
+}
+.upCheck {
+	border: none;
+	background-color: #666666;
+	color: white;
+	width: 90%;
+	height: 35px;
+	font-size: 20px;
+	border-radius: 3px;
+}
+.reviewList{
+	width: 100%;
 }
 </style>
 <body>
@@ -95,6 +120,8 @@ td {
 							<th>출판사</th>
 							<th>작가</th>
 							<th>도서카테고리</th>
+							<th>수정</th>
+							<th>삭제</th>
 							  </tr>
 							 <c:forEach items="${list }" var="r">
 							 
@@ -106,7 +133,8 @@ td {
                             <td>${r.bookPublisher}</td>
                             <td>${r.bookWriter}</td>
                             <td>${r.bookCategory}</td>
-							<td><a><button type="button" class="deleteBtn">삭제하기</button></a></td>						
+                            <td><a href="javascript:void(0);" onclick="reviewUpdate(${r.reviewNo });"><button type="button" class="upCheck">수정하기</button></a></td>
+							<td><a href="javascript:void(0);"onclick="return deleteSalon(${r.reviewNo });"><button type="button" class="allCheck">삭제하기</button></a></td>						
                         </tr>
                     </c:forEach>
 						</table>	
@@ -128,5 +156,24 @@ td {
 		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	<script type="text/javascript">
+	function reviewUpdate(reviewNo) {
+		window.name = "reviewUpdate.do";
+		var url = "/review/reviewUpdateFrm.do?reviewNo="+reviewNo;
+		var title = "후기 수정";
+		var style = "width=400,height=400,top=100,left=400";
+		window.open(url, title, style);
+	}
+	function deleteSalon(reviewNo) {			
+		if (confirm("삭제 하시겠습니까??")) {
+			location.href ="/review/reviewDelete.do?reviewNo="+reviewNo;
+			return true;
+		}else{
+			return false;				
+			
+		}
+		
+	}
+	</script>
 </body>
 </html>

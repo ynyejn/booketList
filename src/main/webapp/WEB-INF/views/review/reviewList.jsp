@@ -204,10 +204,12 @@ table {
 											</th>
 											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
-										<tr>
+										<c:if test="${not empty list.reviewFilepath}">
+													<tr>
 											<th id="reviewImgBox2" colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
-										</tr>
+										</tr>																					
+												</c:if>
 										<tr id="contentTr">
 											<td colspan="3"><span id="listBookNameSpan">${list.bookName }</span><br>
 												<c:if test="${not empty list.bookWriter && not empty list.bookPublisher}">
@@ -249,10 +251,13 @@ table {
 											</th>
 											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
-										<tr>
+										<c:if test="${not empty list.reviewFilepath}">
+													<tr>
 											<th id="reviewImgBox2" colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
-										</tr>
+										</tr>																					
+												</c:if>
+										
 										<tr id="contentTr">
 											<td colspan="3"><span id="listBookNameSpan">${list.bookName }</span><br>
 												<c:if test="${not empty list.bookWriter && not empty list.bookPublisher}">
@@ -293,10 +298,12 @@ table {
 											</th>
 											<th class="reviewScore">${list.reviewScore }점</th>
 										</tr>
-										<tr>
+										<c:if test="${not empty list.reviewFilepath}">
+													<tr>
 											<th id="reviewImgBox2" colspan="3"><img class="reviceImg"
 												src="${list.reviewFilepath }"></th>
-										</tr>
+										</tr>																					
+												</c:if>
 										<tr id="contentTr">
 											<td colspan="3"><span id="listBookNameSpan">${list.bookName }</span><br>
 												<c:if test="${not empty list.bookWriter && not empty list.bookPublisher}">
