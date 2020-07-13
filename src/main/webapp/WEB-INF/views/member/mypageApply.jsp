@@ -91,24 +91,25 @@ tr {
 							<hr>
 							  </tr>
 							 <c:forEach items="${list }" var="a">
-							 
                         <tr>
                             <td style="width: 400px;">${a.bookName}</td>
-                            <td>${a.applyDate}</td>
-                            <td class="applyStatus"style="width: 200px;">${a.applyStatus}</td>
+                            <td style="width: 200px;">${a.applyDate}</td>
+                            <%-- <td class="applyStatus"style="width: 200px;">${a.applyStatus}</td> --%>
+                            <td style="width: 200px;">
+                            	<c:if test="${a.applyStatus == 0}">
+									처리 대기
+								</c:if> 
+								<c:if test="${a.applyStatus == 1}">
+									신청 완료
+								</c:if> 
+								<c:if test="${a.applyStatus == 2}">
+									반려
+								</c:if>
+							</td>
                             <td style="width: 400px;">${a.applyContent}</td>
                         </tr>
                     </c:forEach>
 						</table>	
-						<script>
-						if($(".applyStatus").html()=="1"){
-							$(".applyStatus").html('처리완료');
-						}if($(".applyStatus").html()=="2"){
-							$(".applyStatus").html('반려');
-						}else{
-							$(".applyStatus").html('처리중');
-						}	
-						</script>
 							<hr>
 							<a href="#" class="btn btn-success" id="upBtn">위로가기</a>
 						</div>

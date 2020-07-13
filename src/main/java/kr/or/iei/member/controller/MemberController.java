@@ -96,7 +96,7 @@ public class MemberController {
 		Member member = service.selectOneMember(m);
 		
 		if (member != null) {
-			System.out.println();
+			System.out.println("ASDfasdfasdf"+member.getMemberId());
 			session.setAttribute("member", member);
 			return "redirect:/";
 		} else {

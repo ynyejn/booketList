@@ -140,7 +140,7 @@
 	
 
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.179/openChatting.do?memberNickname="+memberNickname+" "+title);
+		ws = new WebSocket("ws://192.168.10.181/openChatting.do?memberNickname="+memberNickname+" "+title);
 
 		
 		ws.onopen = function () {

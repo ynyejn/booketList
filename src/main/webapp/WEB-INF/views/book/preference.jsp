@@ -319,7 +319,8 @@
 			var options = {
 				title: "내가 남긴 장르별 평점",
 				chartArea:{width:"70%",height:"70%"},
-				bar: {groupWidth: 550/reviewListLength+'px'},
+				bar : {groupWidth: "20%"},
+/* 				bar: {groupWidth: 200/reviewListLength+'px'}, */
 				opacity: 0.8,
 				legend: { position: "none" },
 				animation: {
@@ -327,6 +328,13 @@
 				    easing: 'out',
 				    startup: true
 				},
+	          	vAxis: {
+		              viewWindowMode:'explicit',
+		              viewWindow: {
+		                max:0,
+		                min:5
+		              }
+	          	},
 				colors: ['red', 'green', 'blue']
 			};
 			var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
