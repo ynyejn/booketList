@@ -70,4 +70,8 @@
 		review_date as reviewDate,
 		book_category as bookCategory from review where review_no=#{reviewNo}
 	</select>
+	<update id="reviewUpdate" parameterType="review">
+		update review set review_filename=#{reviewFilename},review_filepath=#{reviewFilepath},review_content=#{reviewContent}
+  	 where review_no=#{reviewNo}
+	</update>
 </mapper>

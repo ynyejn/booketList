@@ -201,7 +201,7 @@ public class ReviewController {
 	public String noticeUpdate(HttpSession session,String status, Review r,Model model,HttpServletRequest request, MultipartFile file,String filepath1) {
 		String res = "";
 		
-		
+		String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
 		if(!file.isEmpty()) {
 			if(status.equals("stay")&& file.isEmpty()) {
 				
@@ -223,7 +223,7 @@ public class ReviewController {
 				}
 			}else {
 				
-				String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
+				
 				String originalFileName = file.getOriginalFilename();
 				String onlyFilename = originalFileName.substring(0, originalFileName.lastIndexOf("."));
 				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -236,7 +236,8 @@ public class ReviewController {
 				int result = service.reviewUpdate(r);
 				if(result>0) {
 					if(status.equals("delete")) {
-						File delFile = new File(savePath+filepath1);
+						String[] fileName = filepath1.split("/");
+						File delFile = new File(savePath+fileName[3]);
 						delFile.delete();
 					}
 					try {
@@ -260,13 +261,15 @@ public class ReviewController {
 			}
 		}else {
 			if(status.equals("delete")) {
-				
-				File delFile = new File(savePath+filepath1);
+				String[] fileName = filepath1.split("/");
+				File delFile = new File(savePath+fileName[3]);
 				delFile.delete();
-				n.setFilename("");
+				r.setReviewFilename("");
 			}
-			
-			int result = service.noticeUpdate(n);
+			System.out.println("여기탄다");
+			System.out.println(r.getReviewNo());
+			System.out.println(r.getReviewContent());
+			int result = service.reviewUpdate(r);
 			if(result>0) {
 				Member m = (Member)session.getAttribute("member");
 				ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
@@ -282,7 +285,7 @@ public class ReviewController {
 			}
 		}
 	
-		
+		return "member/mypageReview";
 		
 	
 	}

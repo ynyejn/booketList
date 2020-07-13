@@ -70,4 +70,9 @@ public class ReviewService {
 		return dao.selectOnReview(reviewNo);
 	}
 
+	public int reviewUpdate(Review r) {
+		
+		return dao.reviewUpdate(r);
+	}
+
 }

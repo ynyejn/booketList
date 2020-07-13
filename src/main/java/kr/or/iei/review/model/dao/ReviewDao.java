@@ -65,6 +65,11 @@ public class ReviewDao {
 		return sql.selectOne("review.selectOnReview",reviewNo);
 	}
 
+	public int reviewUpdate(Review r) {
+		// TODO Auto-generated method stub
+		return sql.update("review.reviewUpdate",r);
+	}
+
 	
 
 }

@@ -132,11 +132,12 @@
 	<div id="title">
 		<span id="titleTag">후기 작성</span>
 	</div>
+	
 	<div class="reviewDiv">
 	<form action="/review/reviewUpdate.do" method="post" enctype="multipart/form-data" target="reviewUpdate.do">
 	<table id="tableMain">
 	<tr>
-		<td class="nameTag">닉네임 </td>
+		<td class="nameTag"><input type="hidden" name="reviewNo" value="${r.reviewNo }">닉네임 </td>
 		<td class="nameTag2" colspan="2"> <input type="hidden" name="memberNickName" value="${r.memberNickName }"><span class="spanMemberName">${r.memberNickName }</span></td>
 	</tr>
 	<tr>
@@ -157,9 +158,9 @@
 		<td  class="nameTag2" colspan="2">
 		<input type="hidden" name="status" value="stay">
                         <c:if test="${not empty r.reviewFilename }">
-                         <input type="hidden" name="filename" value="${r.reviewFilename }">
+                         <input type="hidden" name="reviewFilename" value="${r.reviewFilename }">
                         <input type="hidden" name="filepath1" value="${r.reviewFilepath }">
-                            <img src="${r.reviewFilepath }" width="20px">
+                            <img id="img-views"src="${r.reviewFilepath }" width="20px" height="20px;">
                             
 							<input type="file" name="file" id="file" style="display:none;" onchange="loadImg(this);">
                             <button type="button" id="fileDelBtn" class="delFile" >파일 삭제</button>
@@ -173,7 +174,7 @@
 	</tr>
 	<tr>
 		<td class="nameTag">이미지 보기</td>
-		<td  class="nameTag2" colspan="2"><img id="img-view" style="width:95%; height:140px;"></td>
+		<td  class="nameTag2" colspan="2"><img id="img-view" style="width:95%; height:140px;"src="${r.reviewFilepath }"></td>
 	</tr>
 	<tr>
 		<td class="nameTag">후기 내용</td>
@@ -197,12 +198,16 @@
 		    $("#file").show();
 		    $("input[name=status]").val('delete');
 		    $("#img-view").attr("src", "");
+		    $("#img-views").attr("src", "");
+		    $("#img-view").hide();
+		    $("#img-views").hide();
 		});
 		$("#file1").change(function() {
 			$("#file1").hide();
 			$(".delFile").show();
 		    $("#fileDelBtn").show();
 		    $(".delFile1").html(e.target.result);
+		   
 		})
 	})
 	function popupClose(form) {
@@ -217,11 +222,13 @@
 			var reader = new FileReader();
 			reader.readAsDataURL(f.files[0]);
 			reader.onload = function(e) { //파일업로드 기달리는거
-				$("#img-view").show();
+				 $("#img-view").show();
+				    $("#img-views").show();
 				$("#img-view").attr("src", e.target.result);
+				$("#img-views").attr("src",e.target.result);
 			}
 		} else {
-			$("#img-view").hide();
+		
 			$("#img-view").attr("src", "");
 		}
 	}
