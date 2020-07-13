@@ -7,11 +7,14 @@
 <meta charset="UTF-8">
 <title>Booket List openChatting방</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<link
+	href="https://fonts.googleapis.com/css?family=Bangers|Noto+Sans+KR&display=swap"
+	rel="stylesheet">
+	<link rel="stylesheet" href="/resources/css/header/hStyle.css">
 <style type="text/css">
 	.a{
 		margin: 0 auto;
 		padding-left: 10px;
-		
 		background-color: antiquewhite;
 		border: 1px solid antiquewhite;
 		width: 35%;
@@ -24,12 +27,15 @@
 		border-bottom-right-radius: 10px;
 	}
 	
+	* {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #333333;
+}
 	.b{
 		margin: 0 auto;
 		padding-left: 10px;
-		
-		background-color: cornflowerblue;
-		border: 1px solid antiquewhite;
+		background-color: #E2E2E2;
+		border: 1px solid #E2E2E2;
 		width: 35%;
 		text-align: left;
 		display: block;
@@ -48,39 +54,45 @@
 	width: 100%;
 	height: 360px;
 	overflow:auto;
+	background-color:aliceblue;
 	}
+	
 	a{
 		text-decoration :none;
 	}
 	#chatImg{
 	color: white;
-	line-height: 150px;
+	line-height: 70px;
 	float: left;
 	display: block;
 	border: 1px solid white;
 	text-align: center;
-	width: 100%;
-	height: 150px;
-	font-size : 2.5em;
-	background-image: url(/resources/imgs/bookChat.jpg);
-	margin: 0 auot;
+	width: 99.5%;
+	height: 70px;
+	font-size : 20px;
+	background-color : #0066b3;
+	margin: 0 auto;
+	margin-bottom : 10px;
 	background-size: 100%;
 	}
 	html{
-	margin: 0 auot;
+	margin: 0 auto;
 	padding: 0;
+	background-color:aliceblue;
 	}
-	 .fileImg{
+	
+	.fileImg{
         width: 40px;
         height: 50px;
         cursor:pointer;
         
     }
+    
     #sendBtn{
     border: none;
         background-color: #666666;
         color: white;
-        width: 50px;
+        width: 44px;
         height: 35px;
         font-size: 14px;
         border-radius: 2px;
@@ -90,6 +102,7 @@
     }
     body {
     overflow-y: hidden; overflow-x: hidden;
+    margin : 0;
     }
 	.nick{
 		font-weight:bold;
@@ -98,8 +111,8 @@
 </style>
 </head>
 
-<body onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
-<div id="chatImg">${c.chatTitle }오픈채팅방</div>
+<body onresize="parent.resizeTo(500,670)" onload="parent.resizeTo(500,670)">
+<div id="chatImg">${c.chatTitle }</div>
 
 <div>
 <div id="msgArea">
@@ -121,7 +134,7 @@
 </form>
             </td>
             <td>
-            <textarea id="chatMsg" name="chatMsg" class="chatMsg"rows="2" cols="50"  style = "resize : none;"></textarea>
+            <textarea id="chatMsg" name="chatMsg" class="chatMsg" rows="2" cols="50"  style = "resize : none;"></textarea>
             
             </td>
             <td id="sendBtntd">
@@ -140,7 +153,7 @@
 	
 
 	function connect() {
-		ws = new WebSocket("ws://192.168.10.181/openChatting.do?memberNickname="+memberNickname+" "+title);
+		ws = new WebSocket("ws://192.168.10.16/openChatting.do?memberNickname="+memberNickname+" "+title);
 
 		
 		ws.onopen = function () {
@@ -183,7 +196,6 @@
 			         var filePath=$('#file').val(); 
 					console.log(filePath);
 			         $("#chatMsg").val(filePath);
-			         
 			     });
 		
 		$('#msgArea').scrollTop($('#msgArea').prop('scrollHeight'));
@@ -255,7 +267,6 @@
 		}
 		$("#sendBtn").click(function () {
 			searchBook();
-	        
 		});
 		
 	});

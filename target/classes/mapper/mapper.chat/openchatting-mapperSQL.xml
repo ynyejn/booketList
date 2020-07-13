@@ -28,4 +28,7 @@
  	<insert id="chatFileInsert" parameterType="chatFile">
  		insert into chatfile values(#{chatTitle},#{chatFilepath})
  	</insert>
+ 	<select id="chatFileSelect" parameterType="string" resultType="chatFile">
+ 		select chat_filepath as chatFilepath from chatfile where chat_title=#{title}
+ 	</select>
 </mapper>
