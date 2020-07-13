@@ -58,7 +58,7 @@ td{
 	border: none;
 	background-color: #666666;
 	color: white;
-	width: 90%;
+	width: 100px;
 	height: 35px;
 	font-size: 20px;
 	border-radius: 3px;
@@ -67,7 +67,7 @@ td{
 	border: none;
 	background-color: #666666;
 	color: white;
-	width: 90%;
+	width: 100px;
 	height: 35px;
 	font-size: 20px;
 	border-radius: 3px;
