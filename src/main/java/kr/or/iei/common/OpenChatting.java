@@ -1,5 +1,6 @@
 package kr.or.iei.common;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -19,9 +20,11 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import kr.or.iei.chat.controller.ChatController;
 import kr.or.iei.chat.model.dao.ChatDao;
 import kr.or.iei.chat.model.service.ChatService;
 import kr.or.iei.chat.model.vo.Chat;
+import kr.or.iei.chat.model.vo.ChatFile;
 
 
 @Component("openChatting")
@@ -29,6 +32,7 @@ public class OpenChatting extends TextWebSocketHandler {
 	@Autowired
 	@Qualifier("chatDao")
 	private ChatDao dao;
+	
 	private ArrayList<WebSocketSession> allSession;
 	private HashMap<String, HashMap<String, WebSocketSession>> map;
 	
@@ -129,6 +133,18 @@ public class OpenChatting extends TextWebSocketHandler {
             		if(members.isEmpty()) {
             			System.out.println(title[1]+"대화방 삭제");
             				int result2 = dao.titleDlelte(title[1]);
+            				if(result2>0) {
+            					
+            					ArrayList<ChatFile> chatFile = dao.chatFileSelect(title[1]);
+            					
+            				
+            					String saveDirectory = "C:/Users/SEC/spring-book/booketList/src/main/webapp/resources/chat/";
+            					for(ChatFile c : chatFile) {
+            						String[] fileName = c.getChatFilepath().split("/");
+            						File delFile = new File(saveDirectory+fileName[3]);
+            						delFile.delete();
+            					}
+            				}
             				map.remove(title[1]);
             		}
             	}

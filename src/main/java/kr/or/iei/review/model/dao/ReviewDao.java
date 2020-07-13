@@ -50,6 +50,26 @@ public class ReviewDao {
 		return sql.selectOne("review.selectOneReviews",review);
 	}
 
+	public int reviewDelete(int reviewNo) {
+		// TODO Auto-generated method stub
+		return sql.delete("review.reviewDelete",reviewNo);
+	}
+
+	public List reviewList(String memberNickname) {
+		// TODO Auto-generated method stub
+		return sql.selectList("review.reviewList", memberNickname);
+	}
+
+	public Review selectOnReview(int reviewNo) {
+		// TODO Auto-generated method stub
+		return sql.selectOne("review.selectOnReview",reviewNo);
+	}
+
+	public int reviewUpdate(Review r) {
+		// TODO Auto-generated method stub
+		return sql.update("review.reviewUpdate",r);
+	}
+
 	
 
 }
