@@ -449,7 +449,7 @@
                                             <option value="${ub.usedStatus}" selected>${ub.usedStatus}</option>
                                         </select></c:if>
                                     <input type="submit" id="gogogo" style="display:none">
-                                    <div id="commentSubmit" onclick="sendToServer();">등록</div>
+                                    <div id="commentSubmit" onclick="return sendToServer();">등록</div>
                                 </div>
 
                             </form>
@@ -497,6 +497,10 @@
     }
 
     function sendToServer() {
+    	if($('#commentContentWrite').val()==""){
+    	alert("댓글 내용을 입력해주세요.");	
+    	return false;
+    	}
         if (files.length != 0) { 
             var data = new FormData(); //form data객체를 생성
             var usedStatus = $("#usedStatus").val();
