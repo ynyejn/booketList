@@ -34,9 +34,9 @@ public class UsedBoardController {
 	private UsedBoardService service;
 
 	@RequestMapping("/goUsedBoard.do")
-	private String goUsedBoard(Model model, int reqPage) {
+	private String goUsedBoard(Model model, int reqPage,String memberId) {
 		String usedStatus="-1";
-		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus);
+		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus,memberId);
 
 		model.addAttribute("list", upd.getList());
 		model.addAttribute("pageNavi", upd.getPageNavi());
@@ -46,7 +46,8 @@ public class UsedBoardController {
 	@RequestMapping("/goAdminUsedBoard.do")
 	private String goAdminUsedBoard(Model model, int reqPage, String usedStatus) {
 		System.out.println(usedStatus);
-		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus);
+		String memberId=null;
+		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus,memberId);
 
 		model.addAttribute("list", upd.getList());
 		model.addAttribute("pageNavi", upd.getPageNavi());
