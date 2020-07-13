@@ -171,4 +171,93 @@ public class ReviewController {
 		
 		return new Gson().toJson(list);
 	}
+	@RequestMapping(value = "/reviewUpdate.do")
+	public String noticeUpdate(HttpSession session,String status, Review r,Model model,HttpServletRequest request, MultipartFile file,String filepath1) {
+		String res = "";
+		
+		
+		if(!file.isEmpty()) {
+			if(status.equals("stay")&& file.isEmpty()) {
+				
+				r.setReviewFilepath(filepath1);
+				int result = service.reviewUpdate(r);
+				if(result>0) {
+					Member m = (Member)session.getAttribute("member");
+					ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+					System.out.println(reviewList.size());
+					model.addAttribute("list", reviewList);
+					return "member/mypageReview";
+					
+				}else {
+					Member m = (Member)session.getAttribute("member");
+					ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+					System.out.println(reviewList.size());
+					model.addAttribute("list", reviewList);
+					return "member/mypageReview";
+				}
+			}else {
+				
+				String savePath = request.getSession().getServletContext().getRealPath("resources/review/");
+				String originalFileName = file.getOriginalFilename();
+				String onlyFilename = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				String filepath = onlyFilename + "_" + getCurrentTime() + extension;
+				String fullpath = savePath + filepath;
+				r.setReviewFilename(onlyFilename);
+				r.setReviewFilepath("/resources/review/" + filepath);
+				
+				
+				int result = service.reviewUpdate(r);
+				if(result>0) {
+					if(status.equals("delete")) {
+						File delFile = new File(savePath+filepath1);
+						delFile.delete();
+					}
+					try {
+						byte[] bytes = file.getBytes();
+						BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
+						bos.write(bytes);
+						bos.close();
+						
+						System.out.println("파일 업로드 완료");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Member m = (Member)session.getAttribute("member");
+					ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+					System.out.println(reviewList.size());
+					model.addAttribute("list", reviewList);
+					return "member/mypageReview";
+					
+			}
+			}
+		}else {
+			if(status.equals("delete")) {
+				
+				File delFile = new File(savePath+filepath1);
+				delFile.delete();
+				n.setFilename("");
+			}
+			
+			int result = service.noticeUpdate(n);
+			if(result>0) {
+				Member m = (Member)session.getAttribute("member");
+				ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+				System.out.println(reviewList.size());
+				model.addAttribute("list", reviewList);
+				return "member/mypageReview";
+			}else {
+				Member m = (Member)session.getAttribute("member");
+				ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+				System.out.println(reviewList.size());
+				model.addAttribute("list", reviewList);
+				return "member/mypageReview";
+			}
+		}
+	
+		
+		
+	
+	}
 }
