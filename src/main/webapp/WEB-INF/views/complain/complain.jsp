@@ -47,7 +47,7 @@ td{
 	font-size: 20px;
 }
 #complainCategory{
-	 height: 25px;
+	 height: 30px;
 	 font-size: 20px;
 }
 #yellow{
