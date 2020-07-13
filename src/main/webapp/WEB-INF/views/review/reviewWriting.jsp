@@ -74,11 +74,15 @@
 	font-size: 1.2em;
 }
 #tableMain {
-	width: 420px;
+	width: 100%;
 	height : 450px;
 	margin:0 auto;
+	border-collapse: separate;
+	border-spacing: 0;
+	table-layout:fixed;
 }
 #tableMain  tr {
+
 	height: 40px;
 }
 .nameTag {
@@ -86,6 +90,8 @@
 	font-size : 16px;
 	font-weight: bold;
 	text-align:center;
+	background-color : #f3f4fa;
+	color : #585858;
 }
 .spanMemberName {
 	font-size : 14px;
@@ -116,6 +122,9 @@
 .reviewSubmit:hover, #cancle:hover {
 	cursor:pointer;
 }
+.nameTag2 {
+	padding-left :3px;
+}
 
 </style>
 </head>
@@ -128,17 +137,17 @@
 	<table id="tableMain">
 	<tr>
 		<td class="nameTag">닉네임 </td>
-		<td colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }"><span class="spanMemberName">${m.memberNickname }</span></td>
+		<td class="nameTag2" colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }"><span class="spanMemberName">${m.memberNickname }</span></td>
 	</tr>
 	<tr>
 		<td class="nameTag">책 선택</td>
-		<td colspan="2" >
-			<select id="type" name="type" class="reviewType"></select>
+		<td  class="nameTag2" colspan="2" >
+			<select id="type" style='width:330px;' name="type" class="reviewType"></select>
 		</td>
 	</tr>
 	<tr>
 		<td class="nameTag">평점</td>
-		<td class="reviewSta">
+		<td  class="nameTag2" class="reviewSta">
 			<img class="sta" src="/resources/star/star3.jpg">
 			<img class="sta" src="/resources/star/star3.jpg">
 			<img class="sta" src="/resources/star/star3.jpg">
@@ -150,15 +159,15 @@
 	</tr>
 	<tr>
 		<td class="nameTag">이미지 첨부</td>
-		<td colspan="2"><input type="file" name="file" id="file" onchange="loadImg(this);"></td>
+		<td  class="nameTag2" colspan="2"><input type="file" name="file" id="file" onchange="loadImg(this);"></td>
 	</tr>
 	<tr>
 		<td class="nameTag">이미지 보기</td>
-		<td colspan="2"><img id="img-view" style="width:95%; height:140px;"></td>
+		<td  class="nameTag2" colspan="2"><img id="img-view" style="width:95%; height:140px;"></td>
 	</tr>
 	<tr>
 		<td class="nameTag">후기 내용</td>
-		<td colspan="2">
+		<td  class="nameTag2" colspan="2">
 		<textarea id="reviewContent" name="reviewContent" style="width:93%; height:100px; resize: none; border:1px solid lightgary;"></textarea>
 	</tr>
 	<tr>
