@@ -423,7 +423,7 @@
                      비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/member/logout.do" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/member/logout.do">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
