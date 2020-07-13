@@ -180,7 +180,10 @@
 	    margin : 10px;
 	    display : inline-block;
     }
-
+    #allSelect:hover, #insertCart:hover, #allSelect2:hover, #insertCart2:hover {
+	    background-color: rgb(0, 102, 179);
+    }    
+    
 
 </style>
 	<!-- 로딩 -->
@@ -596,35 +599,35 @@ $(function(){
 	<div class="loader" style='display:none;'></div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </div>
-<button id="myBtn">Open Modal</button>
+<button id="myBtn" style='display:none;'>Open Modal</button>
 <div id="myModal" class="modal">
 	<div class="modal-content" style="height : 120px; width : 280px;">
 		<span class="close">&times;</span>                                         
 		<p>책을 선택해야만 합니다. </p>
 	</div>
 </div>
-<button id="myBtn2">Open Modal</button>
+<button id="myBtn2" style='display:none;'>Open Modal</button>
 <div id="myModal2" class="modal">
 	<div class="modal-content" style="height : 120px; width : 280px;">
 		<span class="close">&times;</span>                                         
 		<p>이미 장바구니에 있는 책입니다. </p>
 	</div>
 </div>
-<button id="myBtn3">Open Modal</button>
+<button id="myBtn3" style='display:none;'>Open Modal</button>
 <div id="myModal3" class="modal">
 	<div class="modal-content" style="height : 120px; width : 280px;">
 		<span class="close">&times;</span>                                         
 		<p>예약하였습니다 :) </p>
 	</div>
 </div>
-<button id="myBtn4">Open Modal</button>
+<button id="myBtn4" style='display:none;'>Open Modal</button>
 <div id="myModal4" class="modal">
 	<div class="modal-content" style="height : 120px; width : 280px;">
 		<span class="close">&times;</span>                                         
 		<p>이미 예약된 책입니다 :) </p>
 	</div>
 </div>
-<button id="myBtn5">Open Modal</button>
+<button id="myBtn5" style='display:none;'>Open Modal</button>
 <div id="myModal5" class="modal">
 	<div class="modal-content" style="height : 195px; width : 400px;">
 		<br>

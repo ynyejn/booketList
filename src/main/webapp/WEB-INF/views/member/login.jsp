@@ -67,6 +67,9 @@ h2{
 		$("#findIdbtn").click(function(){
 			location.href='/member/findIdFrm.do';
 		});
+		if( ${fail } != null){
+			alert("아이디 또는 비밀번호를 확인해주세요.");
+		}
 	});
 </script>
 <body>

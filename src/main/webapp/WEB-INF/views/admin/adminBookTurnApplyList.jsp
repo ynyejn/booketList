@@ -95,8 +95,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
+												
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -117,6 +117,7 @@
 												+ "<button class='btn btn-danger' data-turnApply="+data.list[i].turnApply+" onclick='agreeTurnApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 												+ "</td></tr>";
 											}
+											$("#ajaxReqPage").val(data.reqPage);
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
 										},
@@ -153,8 +154,8 @@
 											console.log(data.pageNavi);
 											var resultText = "";
 											for (var i = 0; i < data.list.length; i++) {
-												resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-												resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
+												
+												resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
 														+ ((data.reqPage - 1)
 																* data.selectCount
 																+ i + 1)
@@ -175,6 +176,7 @@
 												+ "<button class='btn btn-danger' data-turnApply="+data.list[i].turnApply+" onclick='agreeTurnApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 												+ "</td></tr>";
 											}
+											$("#ajaxReqPage").val(data.reqPage);
 											$("#tbody").html(resultText);
 											$(".pagination").html(data.pageNavi);
 										},
@@ -258,8 +260,8 @@
 				$("#tbody").html("");
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
-					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
+					
+					resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
 							+ ((data.reqPage - 1)
 									* data.selectCount
 									+ i + 1)
@@ -280,6 +282,7 @@
 					+ "<button class='btn btn-danger' data-turnApply="+data.list[i].turnApply+" onclick='agreeTurnApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 					+ "</td></tr>";
 				}
+				$("#ajaxReqPage").val(data.reqPage);
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
 			},
@@ -331,8 +334,8 @@
 				$("#tbody").html("");
 				var resultText = "";
 				for (var i = 0; i < data.list.length; i++) {
-					resultText += "<tr><input type='hidden' id='ajaxReqPage' value="+data.reqPage+">";
-					resultText += "<th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
+					
+					resultText += "<tr><th scope=row class=num><input type=checkbox name=chBox class=chBox data-turnApply="+data.list[i].turnApply+">"
 							+ ((data.reqPage - 1)
 									* data.selectCount
 									+ i + 1)
@@ -353,6 +356,7 @@
 					+ "<button class='btn btn-danger' data-turnApply="+data.list[i].turnApply+" onclick='agreeTurnApply(this)' style='border:none; background-color:#00a3e0;'>승인</button>"
 					+ "</td></tr>";
 				}
+				$("#ajaxReqPage").val(data.reqPage);
 				$("#tbody").html(resultText);
 				$(".pagination").html(data.pageNavi);
 				
@@ -378,7 +382,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -413,22 +417,33 @@
 	
 	$(function(){
 		connect();
-		$("#lostbookClick").click(function(){
-			var data = $("#lostAlarm").html();
-			var sendMsg = {
-					type : "lostbookClick",
-					data : data
-			};
-			ws.send(JSON.stringify(sendMsg));
-		});
+		
+			$("#lostbookClick").click(function(){
+				if($("#lostAlarm").html() != ""){
+					var data = $("#lostAlarm").html();
+					var sendMsg = {
+						type : "lostbookClick",
+						data : data
+					};
+					ws.send(JSON.stringify(sendMsg));
+				}else{
+					location.href="/adminLostBookList.do?reqPage=1";
+				}
+			});
+			
+		
 		
 		$("#complainAlarmClick").click(function(){
-			var data = $("#complainAlarm").html();
-			var sendMsg = {
-					type : "complainAlarmClick",
-					data : data
-			};
-			ws.send(JSON.stringify(sendMsg));
+			if($("#complainAlarm").html() != ""){
+				var data = $("#complainAlarm").html();
+				var sendMsg = {
+						type : "complainAlarmClick",
+						data : data
+				};
+				ws.send(JSON.stringify(sendMsg));
+			}else{
+				location.href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1";
+			}
 		});
 	});
 </script>
@@ -442,7 +457,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainPage.do">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminPage.do">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-book"></i>
         </div>
@@ -578,21 +593,21 @@
             <i class="fa fa-bars"></i>
           </button>
           
-          <div style="margin-left:350px;">
-             <a href="/mainPage.do"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+            <div class="mr-auto">
+          </div>
+          <div class="mr-auto">
+              
           </div>
 
           <!-- Topbar Search -->
-<!--           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"> -->
-<!--             <div class="input-group"> -->
-<!--               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2"> -->
-<!--               <div class="input-group-append"> -->
-<!--                 <button class="btn btn-primary" type="button"> -->
-<!--                   <i class="fas fa-search fa-sm"></i> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </form> -->
+           <form class="d-none d-sm-inline-block form-inline  ml-md-3 my-2 my-md-0 mw-100 navbar-search"  >
+             <div class="input-group">
+               <div class="input-group-append" style="margin-left:10px;">
+             	<a href="/mainPage.do"><img src="/resources/imgs/bluelogo.png" style="width:280px; height:80px;"></a>
+              </div> 
+             </div> 
+-           </form> 
+
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -641,7 +656,7 @@
                     <span id="lostAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="#">
+                <a id="complainAlarmClick" class="dropdown-item d-flex align-items-center" href="/adminComplainList.do?reqPage=1&check=1&reqPage2=1">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
@@ -652,18 +667,6 @@
                     <span id="complainAlarm" class="badge badge-danger badge-counter danger"></span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
             </li>
 
@@ -729,16 +732,16 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="/resources/imgs/bluelogo.png">
+                <span class="glyphicon glyphicon-user" style="font-size:15px;"></span>
               </a>
-             <!-- Dropdown - User Information -->
+              <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/findPwFrm.do">
+                <a class="dropdown-item" href="/member/findPwFrm.do">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                      비밀번호 변경
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout.do" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="/member/logout.do">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -866,7 +869,7 @@ padding-top:3px;
 											</div>
 										</li>
 									</ul>
-								
+								<input type="hidden" id="ajaxReqPage" value="${reqPage }">
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="home"
 											aria-labelledby="home-tab">
@@ -884,7 +887,7 @@ padding-top:3px;
 													<tbody id="tbody">
 														<c:forEach items="${list }" var="l" varStatus="i">
 															<tr>
-																<input type="hidden" id="ajaxReqPage" value="${reqPage }">
+																
 																<th scope="row" class="num"><input type="checkbox" name="chBox" class="chBox" data-turnApply="${l.turnApply }">${(reqPage-1)*selectCount + i.count }</th>
 																<td class="th2">${l.memberId }</td>
 																<td class="th2">${l.bookName }</td>

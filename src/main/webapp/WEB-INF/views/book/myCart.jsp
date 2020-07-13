@@ -96,6 +96,11 @@
 	    font-size: 14px;
 	    border-radius: 2px;
     }
+    .buttonDiv1 > button:hover, .buttonDiv2 >button:hover, .buttonDiv1>div>button:hover {
+	    background-color: rgb(0, 102, 179);
+    }
+    
+/*background-color: rgb(0, 102, 179);  */    
     #deleteButton {
        	border: none;
 	    background-color: #666666;
@@ -105,6 +110,7 @@
 	    font-size: 14px;
 	    border-radius: 2px;
     }
+
     .buttonDiv3> button {
        	border: none;
 	    background-color: #666666;
@@ -113,6 +119,9 @@
 	    height: 35px;
 	    font-size: 14px;
 	    border-radius: 2px;
+    }
+    .buttonDiv3 > button : hover {
+		background-color: #666666;    
     }
     .bottomNavi {
     	width: 1060px;
@@ -302,6 +311,9 @@ $(function () {
 						$("#myBtn").trigger('click');
 					}else if(data == 0){
 						alert("해당 책은 이미 누가 대여한 책입니다. ");
+					}else if(data == -2) {
+						$("#modalPTag1").html("연체 상태에선 책을 대여할 수 없습니다. ");
+						$("#myBtn").trigger('click');
 					}else {
  						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
 					}
@@ -329,11 +341,14 @@ $(function () {
 				traditional : true,
 				data : {chkArray : chkArray},
 				success : function(data) {
-					if(data == -1) {
+					if(data[0] == -1) {
 						$("#myBtn").trigger('click');
-					}else if(data == 0){
-						alert("data 0 ");
-					}else {
+					}else if(data[0] == 0){
+						alert("해당 책은 이미 누가 대여한 책입니다. ");
+					}else if(data[0] == -2) {
+						$("#modalPTag1").html("연체 상태에선 책을 대여할 수 없습니다. ");
+						$("#myBtn").trigger('click');
+					}else{
  						location.href="/goSpotPage2.do?reqPage=1&bookNoList="+data;
 					}
 				}, error : function () {
@@ -440,7 +455,7 @@ $(function () {
 <!-- Modal content -->
 	<div class="modal-content" style="height : 120px; width : 250px;">
 		<span class="close">&times;</span>                                         
-		<p>책을 선택해야만 합니다. </p>
+		<p id="modalPTag1">책을 선택해야만 합니다. </p>
 	</div>
 </div>
 <!-- Trigger/Open The Modal -->

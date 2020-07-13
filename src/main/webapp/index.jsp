@@ -15,7 +15,7 @@
 <body style="line-height: normal;">
     <div class="wrapper">
         <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-        <div id="slider" style="margin-top: 120px; height: 550px;">
+        <div id="slider" style="margin-top: 120px; height:74vh;">
             <div class="slides">
                 <div class="slider">
                     <div class="legend"></div>
