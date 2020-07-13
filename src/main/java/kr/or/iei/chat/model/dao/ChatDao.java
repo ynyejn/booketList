@@ -52,9 +52,9 @@ public class ChatDao {
 		return sql.insert("chat.chatFileInsert",c);
 	}
 
-	public List chatFileSelect(String title) {
-		// TODO Auto-generated method stub
-		return sql.selectList("chat.chatFileSelect",title);
+	public ArrayList<ChatFile> chatFileSelect(String title) {
+		List list = sql.selectList("chat.chatFileSelect",title);
+		return (ArrayList<ChatFile>)list;
 	}
 
 }

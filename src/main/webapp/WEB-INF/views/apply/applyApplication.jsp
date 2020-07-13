@@ -138,35 +138,35 @@
 						<th>도서이름</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookName" name="bookName" style="width: 603px;height: 40px;">
+						<input type="text" id="bookName" name="bookName" style="width: 603px;height: 40px;"readonly>
 						</th>
 					</tr>
 					<tr>
 						<th>출판일</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookPubDates" name="bookPubDates"style="width: 603px;height: 40px;">
+						<input type="text" id="bookPubDates" name="bookPubDates"style="width: 603px;height: 40px;"readonly>
 						</th>
 					</tr>
 					<tr>
 						<th>작가</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookWriter" name="bookWriter"style="width: 603px;height: 40px;">
+						<input type="text" id="bookWriter" name="bookWriter"style="width: 603px;height: 40px;"readonly>
 						</th>
 					</tr>
 					<tr>
 						<th>출판사</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookPublisher" name="bookPublisher"style="width: 603px;height: 40px;">
+						<input type="text" id="bookPublisher" name="bookPublisher"style="width: 603px;height: 40px;"readonly>
 						</th>
 					</tr>
 					<tr>
 						<th>카테 고리</th>
 						<td id="Space"></td>
 						<th>
-						<input type="text" id="bookCategory" name="bookCategory"style="width: 603px;height: 40px;">
+						<input type="text" id="bookCategory" name="bookCategory"style="width: 603px;height: 40px;"readonly>
 						</th>
 					</tr>
 					<tr>
@@ -179,7 +179,7 @@
 					<tr>
 						<th>도서내용</th>
 						<td id="Space"></td>
-						<th><input type="text" id="bookContent" name="bookContent"style="width: 603px;height: 40px;"></th>
+						<th><input type="text" id="bookContent" name="bookContent"style="width: 603px;height: 40px;"readonly></th>
 					</tr>
 					<tr>
 						<th id="applyCon">신청 사유</th>

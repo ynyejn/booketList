@@ -175,15 +175,5 @@ public class ChatController {
 				
 	}
 
-	public int fileDelete(HttpServletRequest request,String title) {
-		ArrayList<ChatFile> chatFile = service.chatFileSelect(title);
-		String root = request.getSession().getServletContext().getRealPath("resources/");
-		String saveDirectory = root+"chat/";
-		for(ChatFile c : chatFile) {
-			String[] fileName = c.getChatFilepath().split("/");
-			File delFile = new File(saveDirectory+fileName[3]);
-			delFile.delete();
-		}
-		return 0;
-	}
+	
 }
