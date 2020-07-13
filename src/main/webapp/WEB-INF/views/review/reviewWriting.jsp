@@ -76,8 +76,8 @@
 		<th colspan="2"> <input type="hidden" name="memberNickName" value="${m.memberNickname }">${m.memberNickname }<br></th>
 	</tr>
 	<tr>
-		<th>책 선택</th>
-		<th colspan="2">
+		<th >책 선택</th>
+		<th colspan="2" >
 		<select id="type" name="type" class="reviewType"></select>
 		</th>
 	</tr>
@@ -109,11 +109,12 @@
 	</tr>
 	<tr>
 		
-		<td colspan="3"><input type="submit" value="작성하기" class="reviewSubmit"><input id="cancle"type="reset" onclick="window.close()"value="취소"></td>
+		<td colspan="3"><input type="submit" value="작성하기" class="reviewSubmit" onclick="window.close()"><input id="cancle"type="reset" onclick="window.close()"value="취소"></td>
 	</tr>
 	</table>
 	</form>
 	</div>
+
 <script type="text/javascript">
 function popupClose(form) {
            
@@ -148,15 +149,13 @@ function loadImg(f) {
 			data : { memberId:memberId ,memberNickName:memberNickName},
 			success : function(data){
 				html="";
-				html2="";
+				
 				for(var i=0;i<data.length;i++){
 					html+="<option value='"+data[i].bookName+"'>"+data[i].bookName;+"</option>";
-					html2+= "<input type='hidden' name='bookPublisher'value='"+data[i].bookPublisher+"'>";
-					html2+= "<input type='hidden' name='bookWriter'value='"+data[i].bookWriter+"'>";
-					html2+= "<input type='hidden' name='bookCategory'value='"+data[i].bookCategory+"'>";
+					
 				}
 				$("#type").append(html);
-				$("#book").html(html2);
+				
 			}
 		});
 		
