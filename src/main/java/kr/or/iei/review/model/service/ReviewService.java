@@ -65,4 +65,9 @@ public class ReviewService {
 		
 	}
 
+	public Review selectOneReviews(int reviewNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOnReview(reviewNo);
+	}
+
 }

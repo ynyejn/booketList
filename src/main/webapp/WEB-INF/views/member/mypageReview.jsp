@@ -133,7 +133,7 @@ td{
                             <td>${r.bookPublisher}</td>
                             <td>${r.bookWriter}</td>
                             <td>${r.bookCategory}</td>
-                            <td><a href="/review/reviewUpdateFrm.do?reviewNo=${reviewNo }"><button type="button" class="upCheck">수정하기</button></a></td>
+                            <td><a href="/review/reviewUpdateFrm.do?reviewNo=${r.reviewNo }" onclick="window.open(this.href, '_blank', ' location=no,width=500,height=600,toolbars=no,scrollbars=no'); return false;"><button type="button" class="upCheck">수정하기</button></a></td>
 							<td><a href="javascript:void(0);"onclick="return deleteSalon(${r.reviewNo });"><button type="button" class="allCheck">삭제하기</button></a></td>						
                         </tr>
                     </c:forEach>

@@ -57,4 +57,17 @@
 	<delete id="reviewDelete" parameterType="_int">
 		delete from review where review_no=#{reviewNo}
 	</delete>
+	<select id="selectOnReview" parameterType="_int" resultType="review">
+		select review_no as reviewNo,
+		member_nickname as memberNickName,
+		review_content as reviewContent,
+		review_score as reviewScore,
+		review_filename as reviewFilename,
+		review_filepath as reviewFilepath,
+		book_name as bookName,
+		book_publisher as bookPublisher,
+		book_writer as bookWriter,
+		review_date as reviewDate,
+		book_category as bookCategory from review where review_no=#{reviewNo}
+	</select>
 </mapper>

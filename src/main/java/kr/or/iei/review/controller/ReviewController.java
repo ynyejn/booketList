@@ -190,9 +190,11 @@ public class ReviewController {
 		
 	}
 	@RequestMapping("/reviewUpdateFrm.do")
-	public String reviewUpdateFrm(int reviewNo) {
+	public String reviewUpdateFrm(int reviewNo,Model model) {
 		System.out.println(reviewNo);
-		return null;
+		Review r =  service.selectOneReviews(reviewNo);
+		model.addAttribute("r", r);
+		return "review/reviewUpdate";
 	}
 	@RequestMapping(value = "/reviewUpdate.do")
 	public String noticeUpdate(HttpSession session,String status, Review r,Model model,HttpServletRequest request, MultipartFile file,String filepath1) {
