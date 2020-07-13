@@ -64,5 +64,10 @@ public int chatFileInsert(ChatFile c) {
 	return dao.chatFileInsert(c);
 }
 
+public ArrayList<ChatFile> chatFileSelect(String title) {
+	List list = dao.chatFileSelect(title);
+	return (ArrayList<ChatFile>)list;
+}
+
 
 }

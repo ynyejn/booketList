@@ -1,5 +1,6 @@
 package kr.or.iei.chat.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -49,6 +50,11 @@ public class ChatDao {
 	public int chatFileInsert(ChatFile c) {
 		// TODO Auto-generated method stub
 		return sql.insert("chat.chatFileInsert",c);
+	}
+
+	public List chatFileSelect(String title) {
+		// TODO Auto-generated method stub
+		return sql.selectList("chat.chatFileSelect",title);
 	}
 
 }
