@@ -171,6 +171,29 @@ public class ReviewController {
 		
 		return new Gson().toJson(list);
 	}
+	@RequestMapping("/reviewDelete.do")
+	public String reviewDelete(HttpSession session,int reviewNo,Model model) {
+		int result = service.reviewDelete(reviewNo);
+		if(result>0) {
+			Member m = (Member)session.getAttribute("member");
+			ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+			System.out.println(reviewList.size());
+			model.addAttribute("list", reviewList);
+			return "member/mypageReview";
+		}else {
+			Member m = (Member)session.getAttribute("member");
+			ArrayList<Review> reviewList = service.reviewList(m.getMemberNickname());
+			System.out.println(reviewList.size());
+			model.addAttribute("list", reviewList);
+			return "member/mypageReview";
+		}
+		
+	}
+	@RequestMapping("/reviewUpdateFrm.do")
+	public String reviewUpdateFrm(int reviewNo) {
+		System.out.println(reviewNo);
+		return null;
+	}
 	@RequestMapping(value = "/reviewUpdate.do")
 	public String noticeUpdate(HttpSession session,String status, Review r,Model model,HttpServletRequest request, MultipartFile file,String filepath1) {
 		String res = "";

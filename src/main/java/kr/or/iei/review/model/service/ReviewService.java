@@ -54,4 +54,15 @@ public class ReviewService {
 		return r;
 	}
 
+	public int reviewDelete(int reviewNo) {
+		// TODO Auto-generated method stub
+		return dao.reviewDelete(reviewNo);
+	}
+
+	public ArrayList<Review> reviewList(String memberNickname) {
+		List reviewList = dao.reviewList(memberNickname);
+		return (ArrayList<Review>)reviewList;
+		
+	}
+
 }
