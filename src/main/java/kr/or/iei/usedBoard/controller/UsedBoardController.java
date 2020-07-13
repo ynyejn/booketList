@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.usedBoard.model.service.UsedBoardService;
 import kr.or.iei.usedBoard.model.vo.UsedBoard;
@@ -33,7 +35,8 @@ public class UsedBoardController {
 
 	@RequestMapping("/goUsedBoard.do")
 	private String goUsedBoard(Model model, int reqPage) {
-		UsedBoardPageData upd = service.selectAllUsedList(reqPage);
+		String usedStatus="-1";
+		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus);
 
 		model.addAttribute("list", upd.getList());
 		model.addAttribute("pageNavi", upd.getPageNavi());
@@ -41,13 +44,13 @@ public class UsedBoardController {
 	}
 
 	@RequestMapping("/goAdminUsedBoard.do")
-	private String goAdminUsedBoard(Model model) {
-		int reqPage = 1;
-		UsedBoardPageData upd = service.selectAllUsedList(reqPage);
+	private String goAdminUsedBoard(Model model, int reqPage, String usedStatus) {
+		System.out.println(usedStatus);
+		UsedBoardPageData upd = service.selectAllUsedList(reqPage,usedStatus);
 
 		model.addAttribute("list", upd.getList());
 		model.addAttribute("pageNavi", upd.getPageNavi());
-
+		model.addAttribute("selectStatus",usedStatus);
 		return "usedBoard/adminUsedList";
 	}
 
@@ -158,4 +161,5 @@ public class UsedBoardController {
 		Calendar today = Calendar.getInstance();
 		return today.getTimeInMillis();
 	}
+
 }

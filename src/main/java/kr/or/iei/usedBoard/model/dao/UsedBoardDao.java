@@ -17,8 +17,8 @@ public class UsedBoardDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	public int totalCount() {
-		return sqlSession.selectOne("usedBoard.selectListCount");
+	public int totalCount(String usedStatus) {
+		return sqlSession.selectOne("usedBoard.selectListCount",usedStatus);
 	}
 
 	public List selectAllList(HashMap<String, String> map) {

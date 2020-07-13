@@ -43,7 +43,6 @@
         overflow: hidden;
         margin: 0 auto;
         padding-bottom: 200px;
-        border: 1px solid lightgray;
     }
 
     /*--------------------------------------------------------------------------------------------------*/
@@ -51,52 +50,56 @@
     .notice {
         width: 1100px;
         padding: 25px 50px;
-        margin: 0 auto;
-        margin-top: 50px;
+        margin: 50px auto;
         overflow: hidden;
         background-color: white;
+        border: 1px solid #e5e5e5;
+        text-align: center;
     }
 
-    .notice>div {
-        float: left;
+    .notice>table{
+        width: 100%;
+        border: 1px solid lightgray;
     }
-
-    .imgBox {
-        margin-left: 80px;
+    .notice td{
+        height: 35px;
     }
-
-    .imgBox>img {
-        width: 80px;
-        height: 80px;
-        opacity: 70%;
+    .notice td:first-of-type {
+        width: 40%;
     }
+.notice td:last-of-type {
+        text-align: left;
+    }
+ 
 
     .text {
-        margin-left: 50px;
         padding-top: 5px;
-        font-size: 17px;
+        font-size: 20px;
         color: #666666;
+        margin-bottom: 20px;
     }
 
     .boardFrame {
         overflow: hidden;
         width: 100%;
-        background-color: white;
+        background-color: #f3f5f7;
         margin: 30px 0;
         text-align: center;
     }
 
     .boardFrame>table {
         border-top: 2px solid #222222;
+        border-bottom: 2px solid #222222;
         width: 100%;
         color: #595959;
         text-align: center;
+        margin-bottom: 20px;
     }
 
     .boardFrame>table th {
         background-color: #ebedf4;
-        border-bottom: 1px solid #dddddd;
-        height: 40px;
+        border-bottom: 1px solid #222222;
+        height: 50px;
     }
 
     .boardFrame>table td {
@@ -104,10 +107,35 @@
         border-bottom: 1px solid #dddddd;
         color: #595959;
     }
-    td>a:hover{
-        text-decoration: underline;
-    }
 
+     .tag {
+         float: left;
+        display: inline-block;
+        padding: 2px 35px;
+        font-size: 17px;
+        background-color: #03166c;
+        border: 1px solid black;
+        border-bottom: none;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        color: #f3f5f7;
+    }
+    /*--------------------------------페이징*/
+.naviBtn, .selectPage, .heading{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
+        color: #a8adb5;
+        display: inline-block;
+	}
+    .selectPage{
+        color: #222222;
+        font-size: 20px;
+    }
+    .heading{
+        width: 80px;
+    }
 </style>
 
 <body style="line-height:normal;">
@@ -118,10 +146,29 @@
         </div>
         <div class="content">
             <div class="notice">
-                <div class="imgBox"><img src="/resources/imgs/bookicon.png"></div>
-                <div class="text"><strong  style="text-decoration:underline;">여러분의 참여를 기다립니다.</strong><br>
-                    당신의 서재에서 잠자고 있는 자료들이 <span style="color:#3cbcc7;">Booket List</span>를 통해 세상의 빛과 만나게 됩니다.<br>
-                    기증 및 판매를 원하는 개인은 글을 작성하신 후 판매자의 응답에 따라 기증 및 판매가 가능합니다.</div>
+                <span class="tag">게시글 처리상태</span>
+                <table>
+                    <tr>
+                        <td>요청완료</td>
+                        <td>사용자가 최초 글을 올린 상태</td>
+                    </tr>
+                    <tr style="background-color:#E8DFEE;">
+                        <td>피드백 요청</td>
+                        <td>관리자가 사용자에게 추가자료를 요구한 상태</td>
+                    </tr>
+                    <tr style="background-color:#FCEBDA;">
+                        <td>피드백 완료</td>
+                        <td>사용자가 추가자료를 올린 상태</td>
+                    </tr>
+                    <tr style="background-color:#F1F8F2;">
+                        <td>기증/판매 확정</td>
+                        <td>기증/판매가 확정된 상태</td>
+                    </tr>
+                    <tr style="background-color:#e5e5e5;">
+                        <td>기증/판매 반려</td>
+                        <td>상태불량 등의 이유로 기증/판매 반려</td>
+                    </tr>
+                </table>
             </div>
             <div class="boardFrame">
                 <table>
@@ -131,7 +178,14 @@
                         <th>작성자</th>
                         <th>글 제목</th>
                         <th>등록일</th>
-                        <th>처리상태</th>
+                        <th><select id="usedStatus">
+                            <option value="-1">처리상태</option>
+                            <option value="0">요청 완료</option>
+                            <option value="1">피드백 요청</option>
+                            <option value="2">피드백 완료</option>
+                            <option value="3">기증/판매 확정</option>
+                            <option value="4">기증/판매 반려</option>
+                            </select></th>
                     </tr>
                     <c:forEach items="${list }" var="l">
                         <tr>
@@ -140,7 +194,21 @@
                             <td>${l.memberId}</td>
                             <td><a href="/goBoardView.do?usedNo=${l.usedNo}">${l.usedTitle}</a></td>
                             <td>${l.usedDate}</td>
-                            <td>${l.usedStatus}</td>
+                            <c:if test="${l.usedStatus eq 0}">
+                                <td class="usedStatus">요청 완료</td>
+                            </c:if>
+                            <c:if test="${l.usedStatus eq 1}">
+                                <td class="usedStatus">피드백 요청</td>
+                            </c:if>
+                            <c:if test="${l.usedStatus eq 2}">
+                                <td class="usedStatus">피드백 완료</td>
+                            </c:if>
+                            <c:if test="${l.usedStatus eq 3}">
+                                <td class="usedStatus">기증/판매 확정</td>
+                            </c:if>
+                            <c:if test="${l.usedStatus eq 4}">
+                                <td class="usedStatus">기증/판매 반려</td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                 </table>
@@ -150,5 +218,32 @@
         <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     </div>
 </body>
+<script>
+    $(function() {
+        $(".usedStatus").each(function() {
+            var usedStatus = $(this).html();
+            if (usedStatus == '피드백 요청') {
+                $(this).parent().css("background-color", "#E8DFEE");
+            } else if (usedStatus == '피드백 완료') {
+                $(this).parent().css("background-color", "#FCEBDA");
+            } else if (usedStatus == '기증/판매 확정') {
+                $(this).parent().css("background-color", "#F1F8F2");
+            } else if (usedStatus == '기증/판매 반려') {
+                $(this).parent().css("background-color", "#e5e5e5");
+            }else if (usedStatus == '요청 완료') {
+                $(this).parent().css("background-color", "white");
+            }
+        });
+        
+        $("#usedStatus").change(function(){
+           var usedStatus=$(this).val();
+           location.href="/goAdminUsedBoard.do?reqPage=1&usedStatus="+usedStatus;
+        });
+        if("${selectStatus}" != ""){
+            $("#usedStatus").val("${selectStatus}").prop("selected",true);
+        }
+    });
+
+</script>
 
 </html>
