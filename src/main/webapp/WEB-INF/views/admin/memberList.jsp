@@ -427,7 +427,15 @@
 	
 	$(function(){
 		connect();
+		var memberId = '${sessionScope.member.memberId }';
 		
+		if(memberId == ""){
+			alert("로그인 후 이용해 주세요");
+			location.href="mainPage.do";
+		}else if(memberId != 'admin'){
+			alert("관리자로 로그인 하십시오");
+			location.href="mainPage.do";
+		}
 			$("#lostbookClick").click(function(){
 				if($("#lostAlarm").html() != ""){
 					var data = $("#lostAlarm").html();
