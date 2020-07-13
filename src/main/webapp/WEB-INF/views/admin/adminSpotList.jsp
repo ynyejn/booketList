@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -134,6 +133,11 @@
 										}
 									});
 						});
+		$("#search").keydown(function(key) {
+			if (key.keyCode == 13) {
+				$("#sear").click();
+			}
+		});
 		$("#selectBookCount")
 				.change(
 						function() {
