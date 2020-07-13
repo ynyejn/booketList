@@ -133,7 +133,7 @@ td{
                             <td>${r.bookPublisher}</td>
                             <td>${r.bookWriter}</td>
                             <td>${r.bookCategory}</td>
-                            <td><a href="/review/reviewUpdateFrm.do?reviewNo=${r.reviewNo }" onclick="window.open(this.href, '_blank', ' location=no,width=500,height=600,toolbars=no,scrollbars=no'); return false;"><button type="button" class="upCheck">수정하기</button></a></td>
+                            <td><a href="javascript:void(0);" onclick="reviewUpdate(${r.reviewNo });"><button type="button" class="upCheck">수정하기</button></a></td>
 							<td><a href="javascript:void(0);"onclick="return deleteSalon(${r.reviewNo });"><button type="button" class="allCheck">삭제하기</button></a></td>						
                         </tr>
                     </c:forEach>
@@ -157,6 +157,13 @@ td{
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<script type="text/javascript">
+	function reviewUpdate(reviewNo) {
+		window.name = "reviewUpdate.do";
+		var url = "/review/reviewUpdateFrm.do?reviewNo="+reviewNo;
+		var title = "후기 수정";
+		var style = "width=400,height=400,top=100,left=400";
+		window.open(url, title, style);
+	}
 	function deleteSalon(reviewNo) {			
 		if (confirm("삭제 하시겠습니까??")) {
 			location.href ="/review/reviewDelete.do?reviewNo="+reviewNo;

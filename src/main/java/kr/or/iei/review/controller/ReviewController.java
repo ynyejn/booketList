@@ -193,6 +193,7 @@ public class ReviewController {
 	public String reviewUpdateFrm(int reviewNo,Model model) {
 		System.out.println(reviewNo);
 		Review r =  service.selectOneReviews(reviewNo);
+		System.out.println(r.getMemberNickName());
 		model.addAttribute("r", r);
 		return "review/reviewUpdate";
 	}
