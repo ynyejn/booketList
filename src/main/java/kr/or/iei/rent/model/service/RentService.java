@@ -289,4 +289,14 @@ public class RentService {
 		return result;
 	}
 
+	public ArrayList<Book> selectBestSeller() {
+		List list = dao.selectBestSeller();
+		return (ArrayList<Book>)list;
+	}
+
+	public ArrayList<Book> selectNewbooks() {
+		List list = dao.selectNewbooks();
+		return (ArrayList<Book>)list;
+	}
+
 }

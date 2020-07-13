@@ -88,13 +88,21 @@ public class RentDao {
 	public List selectUserList(Member member) {
 		return sql.selectList("rent.selectUserList", member);
 	}
-
+/////////////////////////////////////////////////////예진
 	public int insertRentApply(RentApply rent) {
 		return sql.insert("rent.insertRentApply",rent);
 	}
 
 	public void updateBookStatusTo1(int bookNo) {
 		sql.update("rent.updateBookStatusTo1",bookNo);	
+	}
+
+	public List selectBestSeller() {
+		return sql.selectList("book.selectBestSeller");
+	}
+
+	public List selectNewbooks() {
+		return sql.selectList("book.selectNewbooks");
 	}
 
 

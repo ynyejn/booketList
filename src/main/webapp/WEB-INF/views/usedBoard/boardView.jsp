@@ -472,7 +472,6 @@
         
       </div>
     </div>
-  </div>
 <script>
     var files = [];
     var files2 = [];
