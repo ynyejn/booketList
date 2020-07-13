@@ -376,6 +376,34 @@
 		location.href="/agreeTurnApply.do?turnApply="+turnApply;
 		
 	};
+	function selectAgreeTurnApply() {
+		var checkArr = new Array();
+		$("input[class='chBox']:checked").each(function(){
+			checkArr.push($(this).attr("data-turnApply"));
+		});
+		console.log(checkArr.length)
+		console.log(checkArr)
+		if(checkArr != 0){
+		$.ajax({
+				url : "/selectAgreeTurnApply.do",
+				type : "post",
+				dataType : "json",
+				traditional : true,
+				data : {
+					checkArr : checkArr					
+				},
+				success : function(data){
+					alert(checkArr.length+"명 중"+data+"명 승인하였습니다.")
+					location.reload();
+				},
+				error : function(data){
+					
+				}
+		});
+			}else{
+				alert("선택해주세요");
+			}
+	}
 </script>
 <script>
 /*웹 소켓 */
@@ -890,6 +918,7 @@ padding-top:3px;
 															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납 장소</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납신청날짜</span></th>
+															<th><button class="btn btn-danger" onclick="selectAgreeTurnApply()" style="border:none; background-color:#00a3e0;">승인</button></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
