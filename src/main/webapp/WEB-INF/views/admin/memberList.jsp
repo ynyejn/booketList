@@ -131,6 +131,11 @@
 										}
 									});
 						});
+		$("#search").keydown(function(key) {
+			if (key.keyCode == 13) {
+				$("#sear").click();
+			}
+		});
 
 		$("#selectMemberCount").change(function() {
 			$(".chBox").prop("checked", false);

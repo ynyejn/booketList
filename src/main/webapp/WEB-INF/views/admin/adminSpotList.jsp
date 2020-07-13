@@ -133,6 +133,11 @@
 										}
 									});
 						});
+		$("#search").keydown(function(key) {
+			if (key.keyCode == 13) {
+				$("#sear").click();
+			}
+		});
 		$("#selectBookCount")
 				.change(
 						function() {
