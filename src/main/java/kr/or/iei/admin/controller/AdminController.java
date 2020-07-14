@@ -901,7 +901,7 @@ public class AdminController {
 			String[] tomail = memberEmail;
 			String title = "[BooketList] 예약하신 도서 (" + bookList.getBookName() + ") 가 대여가능 합니다";
 			String textContent = "<div style='border:1px solid gray;width:500px;height:480px;text-align:center;margin:0 auto;'>"
-					+ "<a href='http://192.168.10.155'><img src='http://192.168.10.155/resources/imgs/bluelogo.png' style='width:400px;'></a>"
+					+ "<a href='http://192.168.10.179'><img src='http://192.168.10.179/resources/imgs/bluelogo.png' style='width:400px;'></a>"
 					+ "        <table style='margin:0 auto;border-top:1px solid #0066b3;border-bottom:1px solid #0066b3;width:450px;'>"
 					+ "            <tr>" + "                <td rowspan='2' style='width:100px;'><img src='"
 					+ bookList.getBookImg() + "'></td>"
@@ -911,7 +911,7 @@ public class AdminController {
 					+ "        </table>" + "        <div style='margin-top:50px;'>"
 					+ "            <span>해당도서를 대여하시겠습니까?</span><br><br>"
 					+ "            <div style='margin:0 auto;border:1px solid black;width:150px;height:40px;background-color:#0066b3;font-size:10pt;color:white;line-height:40px;display:block;'>"
-					+ "<a href='http://192.168.10.155/rent/goBookSearch.do?reqPage=1' style='text-decoration:none;color:white;display:block;'>대여페이지로 이동</a></div>"
+					+ "<a href='http://192.168.10.179/rent/goBookSearch.do?reqPage=1' style='text-decoration:none;color:white;display:block;'>대여페이지로 이동</a></div>"
 					+ "        </div>" + "    </div>";
 			MimeMessage message = mailSender.createMimeMessage();
 			System.out.println("메세지: " + message);
@@ -2137,7 +2137,7 @@ public class AdminController {
 				String[] tomail = memberEmail;
 				String title = "[BooketList] 예약하신 도서 (" + bookList.getBookName() + ") 가 대여가능 합니다";
 				String textContent = "<div style='border:1px solid gray;width:500px;height:480px;text-align:center;margin:0 auto;'>"
-						+ "<a href='http://192.168.10.155'><img src='http://192.168.10.155/resources/imgs/bluelogo.png' style='width:400px;'></a>"
+						+ "<a href='http://192.168.10.179'><img src='http://192.168.10.179/resources/imgs/bluelogo.png' style='width:400px;'></a>"
 						+ "        <table style='margin:0 auto;border-top:1px solid #0066b3;border-bottom:1px solid #0066b3;width:450px;'>"
 						+ "            <tr>" + "                <td rowspan='2' style='width:100px;'><img src='"
 						+ bookList.getBookImg() + "'></td>"
@@ -2147,7 +2147,7 @@ public class AdminController {
 						+ "        </table>" + "        <div style='margin-top:50px;'>"
 						+ "            <span>해당도서를 대여하시겠습니까?</span><br><br>"
 						+ "            <div style='margin:0 auto;border:1px solid black;width:150px;height:40px;background-color:#0066b3;font-size:10pt;color:white;line-height:40px;display:block;'>"
-						+ "<a href='http://192.168.10.155/rent/goBookSearch.do?reqPage=1' style='text-decoration:none;color:white;display:block;'>대여페이지로 이동</a></div>"
+						+ "<a href='http://192.168.10.179/rent/goBookSearch.do?reqPage=1' style='text-decoration:none;color:white;display:block;'>대여페이지로 이동</a></div>"
 						+ "        </div>" + "    </div>";
 				MimeMessage message = mailSender.createMimeMessage();
 				System.out.println("메세지: " + message);
