@@ -338,6 +338,7 @@ table {
 	</div>
 	<script type="text/javascript">
 		$(function() {
+			var memberNickname = '${sessionScope.member.memberNickname}';
 			var memberId = '${sessionScope.member.memberId}';
 			
 			$("button").click(function() {
@@ -346,11 +347,21 @@ table {
 					location.href="/member/loginFrm.do";
 				}else{
 					
-				window.name = "reviewWriting.do";
-				var url = "/review/reviewWriting.do";
-				var title = "후기";
-				var style = "width=400,height=400,top=100,left=400";
-				window.open(url, title, style);
+					$.ajax({
+		                  url : "/review/rentBook.do",
+		                  data :{memberId:memberId,memberNickname:memberNickname},
+		                  success:function(data) {
+		                     if(data=="1"){
+		                        window.name = "reviewWriting.do";
+		                        var url = "/review/reviewWriting.do";
+		                        var title = "후기";
+		                        var style = "width=400,height=400,top=100,left=400";
+		                        window.open(url, title, style);
+		                     }else{
+		                        alert("대여완료한 책이 없습니다.");
+		                     }
+		                  }
+		               })
 				}
 			});
 				

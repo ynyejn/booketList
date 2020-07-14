@@ -142,6 +142,9 @@
     }
     #naviDiv > .numberNavi2:hover > a, #naviDiv > .nextNavi:hover > a, #naviDiv > .prevNavi:hover > a {
     	color : white;
+    	display:inline-block;
+    	width:100%;
+    	height:100%;
     }
     #naviDiv {
     	text-align : center;

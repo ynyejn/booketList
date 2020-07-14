@@ -90,6 +90,18 @@ td {
 margin: 0 auto;
 	text-align: center;
 }
+#mUpdate, #deleteYes, #deleteNo, #memberDelete {
+	border: none;
+/* 	background-color: #666666; */
+	color: white;
+	width: 445px;
+	height: 40px;
+	font-size: 14px;
+	border-radius: 2px;
+/* 	display: inline-block; */
+	margin: 0 auto;
+}
+
 </style>
 <script>
 	$(function() {
@@ -109,7 +121,7 @@ margin: 0 auto;
 	})
 </script>
 <body>
-	<div class="wrapper">
+	<div class="wrapper" style='background-color :#f3f5f7;'>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">

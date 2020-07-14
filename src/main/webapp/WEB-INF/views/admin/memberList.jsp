@@ -939,7 +939,7 @@ padding-top:3px;
 															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>전화번호</span></th>
 															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>닉네임</span></th>
 															<th class="th2" onclick="clickAlign(this)"><input type="hidden" value="0"><span>가입일</span></th>
-															<th class="th2"><button class="btn btn-danger" onclick="selectDeleteMember()" style="background-color:#FA6556; border:none;">선택 탈퇴</button></th>
+															<th class="th2"><button class="btn btn-danger" onclick="selectDeleteMember()" style="background-color:#FA6556; border:none;">선택탈퇴</button></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">
@@ -960,7 +960,7 @@ padding-top:3px;
 												</table>
 												
 												<nav id="footNav2" style="text-align:center;">
-													<button class="btn btn-primary" id="excelDownLoad">선택 항복 엑셀</button>
+													<button class="btn btn-primary" id="excelDownLoad">선택 항목 엑셀</button>
 													<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀</button>
 													<ul class="pagination">${pageNavi }</ul>
 													<div id="sel" style="float: right; margin-top: 20px;">
