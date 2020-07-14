@@ -136,15 +136,11 @@
         <tr>
             <td>
             <form  id="ajaxFrom" method="post">
-
-            <input type="file" name="file" class="fileImg"id="file" style="display:none;" onchange="document.getElementById('chatMsg').value=this.value;">
+            	<input type="file" name="file" class="fileImg"id="file" style="display:none;" onchange="document.getElementById('chatMsg').value=this.value;">
                 <img class="fileImg"src="/resources/imgs/cameraIcon.png"onclick="document.getElementById('file').click();" />
-<input type="hidden" id="chatPeople"value="${c.chatPeople }">
-<input type="hidden" id="chatTitle"value="${c.chatTitle }">
-<input type="hidden" id="memberNickname"value="${c.memberNickname }">
-
-
-</form>
+				<input type="hidden" id="chatPeople"value="${c.chatPeople }">
+				<input type="hidden" id="chatTitle"value="${c.chatTitle }">
+				<input type="hidden" id="memberNickname"value="${c.memberNickname }"></form>
             </td>
             <td>
             <textarea id="chatMsg" name="chatMsg" class="chatMsg" rows="2" cols="50"  style = "resize : none;"></textarea>
