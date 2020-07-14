@@ -53,14 +53,15 @@
 }
 .allCheck {
 	border: none;
-	background-color: #666666;
+	background-color: #007bff;
 	color: white;
-	width: 110px;
-	height: 35px;
-	font-size: 20px;
+	width: 80px;
+	height: 30px;
+	font-size: 14px;
 	border-radius: 3px;
 	display: inline-block;
 	text-align: center;
+	font-weight : normal;
 }
 #searchDiv {
 	width: 1100px;
@@ -71,14 +72,13 @@
 }
 .chatTitle{
 	width: 100%;
-	height: 100px;
-	line-height:100px;
+	height: 70px;
+	line-height:70px;
 	text-align: center;
-	
-	text-align: center;
+
 }
 .openChatting{
-width: 32%;
+	width: 32%;
 	margin-bottom: 2%;
 	display: inline-block;
 	width: 370px;
@@ -86,28 +86,33 @@ width: 32%;
 }
 .openChattingBox {
 	text-align: center;
-
-	border: 1px solid black;
+	border: 1px solid lightgray;
 	width: 350px;
-	
 	display: inline-block;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-radius: 5px;
 	overflow: hidden;
-	float: left;
+	box-shadow : 1px 1px 3px lightgray;
+	background-color : white;
+	
+/* 	float: left; */
 }
 table {
 	width: 350px;
 }
+.chatABox{
+	line-height : 30px;
+}
+
 .chatDate{
 	text-align: right;
 	padding-right: 15px;
+	font-weight : normal;
 }
 .chatPers{
 	text-align: right;
 	padding-right: 15px;
+	font-weight : normal;
+
 }
 .aRet{
 	text-align: right;
@@ -120,7 +125,7 @@ table {
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="wrapper" style='background-color : #f3f5f7;'>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="cTop">
 			<div class="black"></div>
@@ -139,7 +144,8 @@ table {
 		<div class="openChattingBox">
 		<table>
 			<tr  class="chatTitle">
-				<th colspan="2" class="chatTitle"><div class="chatTitle"><h2 class="chatTitle">${list.chatTitle }방</h2></div>
+				<th colspan="2" class="chatTitle">
+					<div class="chatTitle"><span class="chatTitle">${list.chatTitle }방</span></div>
 				<input type="hidden" class="title" value="${list.chatTitle }">
 				</th>
 			</tr>
@@ -154,7 +160,8 @@ table {
 				</th>
 			</tr>
 			<tr>
-				<th colspan="2" class="aRet"><div class="aBox"><div class="chatABox"><a  type="button"class="allCheck"  href="/chat/chatRoom.do?title=${list.chatTitle }"  onclick="window.open(this.href, '_blank', ' location=no,width=500,height=600,toolbars=no,scrollbars=no'); return false;">
+				<th colspan="2" class="aRet"><div class="aBox"><div class="chatABox">
+					<a  type="button"class="allCheck"  href="/chat/chatRoom.do?title=${list.chatTitle }"  onclick="window.open(this.href, '_blank', ' location=no,width=500,height=600,toolbars=no,scrollbars=no'); return false;">
 				방참여</a></div></div>
 				</th>
 			</tr>
