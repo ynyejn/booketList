@@ -144,7 +144,7 @@ function connect() {
 		$(".checkRow").click(function() {
 			var count = 0;
 			$(".checkRow:checked").each(function() {
-				count += 1000;
+				count += 20000;
 			});
 			$(".payPrice").html(count);
 		});
