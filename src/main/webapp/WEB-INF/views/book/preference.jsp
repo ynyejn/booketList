@@ -262,6 +262,7 @@
 					easing: 'out',
 					startup: true 
 				},
+				sliceVisibilityThreshold: .1,
 				slices: 
 					{0: {color: '#0066b3', offset: 0.05}, 
 				 	1: {color: '#666666'}, 

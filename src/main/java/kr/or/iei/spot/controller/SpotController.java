@@ -66,7 +66,7 @@ public class SpotController {
 		String[] bookNo=request.getParameterValues("bookNo");
 		model.addAttribute("bookNo",bookNo);
 		//spot정보들
-		SpotPageData spd = service.selectAllSpot(reqPage,localName,keyword,bookNo);
+		SpotPageData spd = service.selectAllSpot2(reqPage,localName,keyword,bookNo);
 		model.addAttribute("list",spd.getList());
 		model.addAttribute("pageNavi",spd.getPageNavi());
 		//lacalName list
