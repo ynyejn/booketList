@@ -155,6 +155,7 @@ public class OpenChatting extends TextWebSocketHandler {
             					}
             				}
             				map.remove(title[1]);
+            				break;
             			}
             		}
             	}

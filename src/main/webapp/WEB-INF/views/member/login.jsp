@@ -93,7 +93,7 @@ h2{
 <script>
 	$(function(){
 		var fail = '${fail }';
-		if(fail != null){
+		if(fail == 5){
 			alert("비밀번호 또는 아이디를 확인해주세요");
 		}
 		$("#findPwbtn").click(function(){
