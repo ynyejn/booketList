@@ -40,8 +40,7 @@ public class ReturnController {
 	@RequestMapping("/goBookReturn.do")
 	public String goBookReturn(HttpSession session,Model model,String msg) {
 		Member m = (Member)session.getAttribute("member");
-		String memberId = m.getMemberId();
-		ArrayList<Rent> list = service.selectAllRent(memberId);
+		ArrayList<Rent> list = service.selectAllRent(m.getMemberId());
 		model.addAttribute("list",list);
 		if(msg!=null) {
 			model.addAttribute("msg",msg);
