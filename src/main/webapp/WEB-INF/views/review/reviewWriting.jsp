@@ -168,7 +168,7 @@
 	<tr>
 		<td class="nameTag">후기 내용</td>
 		<td  class="nameTag2" colspan="2">
-		<textarea id="reviewContent" name="reviewContent" style="width:93%; height:100px; resize: none; border:1px solid lightgary;"></textarea>
+		<textarea id="reviewContent" name="reviewContent" style="width:93%; height:100px; resize: none; border:1px solid lightgary;" required></textarea>
 	</tr>
 	<tr>
 		<td colspan="3" style='width:100%; text-align:center;'>

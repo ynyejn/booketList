@@ -174,41 +174,7 @@ public class ReviewController {
 
 		return today.getTimeInMillis();
 	}
-	@ResponseBody
-	@RequestMapping(value = "/rentBook.do", produces = "application/json; charset=utf-8")
-	public String rentBook(String memberId,String memberNickname) {
-		ArrayList<Book> list = service.reviewSelectBook(memberId);
-		HashMap<String,Object> map = new HashMap<String, Object>();
-		for(int i=0;i<list.size();i++) {
-			System.out.println(list.get(i).getBookName());
-		
-				Review review = service.selectOneReview(list.get(i).getBookName(),memberNickname);
-				System.out.println(review);
-				if(review!=null) {
-					
-					map.put(list.get(i).getBookName(), list.get(i));
-				}
-				
-			}
-			for(String s : map.keySet()) {
-				for(int i=0;i<list.size();i++) {
-					if(list.get(i).getBookName().equals(s)) {
-						System.out.println(s);
-						list.remove(i);
-					}
-					
-				}
-				
-			}
-			
-			if(list.size()!=0) {
-				System.out.println("dd");
-				return new Gson().toJson("1");
-			}else {
-				System.out.println("re");
-				return new Gson().toJson("0");
-			}
-	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/reviewSelectBook.do", produces = "application/json; charset=utf-8")
 	public String reviewSelectBook(String memberId, String memberNickName) {
