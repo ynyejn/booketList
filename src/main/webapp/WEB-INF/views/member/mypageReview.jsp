@@ -58,18 +58,18 @@ td{
 	border: none;
 	background-color: #666666;
 	color: white;
-	width: 100px;
-	height: 35px;
-	font-size: 20px;
+	width: 80px;
+	height: 30px;
+	font-size: 14px;
 	border-radius: 3px;
 }
 .upCheck {
 	border: none;
 	background-color: #666666;
 	color: white;
-	width: 100px;
-	height: 35px;
-	font-size: 20px;
+	width: 80px;
+	height: 30px;
+	font-size: 14px;
 	border-radius: 3px;
 }
 .reviewList{
@@ -79,7 +79,7 @@ td{
 
 </style>
 <body>
-	<div class="wrapper">
+	<div class="wrapper" style='background-color :#f3f5f7;'>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">

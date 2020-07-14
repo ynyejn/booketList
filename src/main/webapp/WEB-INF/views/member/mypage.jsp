@@ -121,7 +121,7 @@ margin: 0 auto;
 	})
 </script>
 <body>
-	<div class="wrapper">
+	<div class="wrapper" style='background-color :#f3f5f7;'>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">

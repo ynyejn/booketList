@@ -14,7 +14,7 @@
 	width: 100%;
 	overflow: hidden;
 	margin: 120px auto 0 auto;
-	height: 600px;
+	height: 700px;
 	background-color: #f3f5f7;
 }
 td {
@@ -123,7 +123,7 @@ h2{
 				<button type="button" id="findPwbtn">비밀번호 찾기</button>
 			</form>	
 		</div>
-	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>
