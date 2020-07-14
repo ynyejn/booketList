@@ -92,18 +92,15 @@ h2{
 </style>
 <script>
 	$(function(){
+		
 		$("#findPwbtn").click(function(){
 			location.href='/member/findPwFrm.do';
 		});
-	});
-	$(function(){
 		$("#findIdbtn").click(function(){
 			location.href='/member/findIdFrm.do';
 		});
-		if( ${fail } != null){
-			alert("아이디 또는 비밀번호를 확인해주세요.");
-		}
 	});
+	
 </script>
 <body>
 	<div class="wrapper">
@@ -112,9 +109,7 @@ h2{
 			<form id="login2" action="/member/login.do" method="post">
 				<br><br><br><br>
 				<h2>로그인</h2><br>
-				 <c:if test="${sessionScope.member.memberId eq 'admin' }">
-				 <a href="adminPage.do">
-				 </c:if>
+				 
 				<div class="form-group" id='form1' style='margin-bottom: 0;'>
 						<label for="id">아이디</label> 
 						<input type="text"class="form-control" id="memberId" name="memberId"placeholder="ID" style="width: 474px;"><br>

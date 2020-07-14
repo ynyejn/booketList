@@ -96,9 +96,16 @@ public class MemberController {
 		Member member = service.selectOneMember(m);
 		
 		if (member != null) {
-			System.out.println("ASDfasdfasdf"+member.getMemberId());
-			session.setAttribute("member", member);
-			return "redirect:/";
+			if(member.getMemberId().equals("admin")) {
+				System.out.println("ASDfasdfasdf"+member.getMemberId());
+				session.setAttribute("member", member);
+				return "admin/adminPage";
+			}else {
+				System.out.println("ASDfasdfasdf"+member.getMemberId());
+				session.setAttribute("member", member);
+				return "redirect:/";
+			}
+			
 		} else {
 			model.addAttribute("fail", 5);
 			return "member/login";

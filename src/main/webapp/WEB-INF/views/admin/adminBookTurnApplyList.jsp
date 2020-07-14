@@ -414,7 +414,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -922,7 +922,7 @@ padding-top:3px;
 															<th class="th2" style="width:40%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>책 제목</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납 장소</span></th>
 															<th class="th2" style="width:15%" onclick="clickAlign(this)"><input type="hidden" value="0"><span>반납신청날짜</span></th>
-															<th><button class="btn btn-danger" onclick="selectAgreeTurnApply()" style="border:none; background-color:#00a3e0;">승인</button></th>
+															<th><button class="btn btn-danger" onclick="selectAgreeTurnApply()" style="border:none; background-color:#00a3e0;">신청승인</button></th>
 														</tr>
 													</thead>
 													<tbody id="tbody">

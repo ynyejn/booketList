@@ -109,7 +109,9 @@
 <script type="text/javascript" src="/resources/slick/slick.js"></script>
 
 <script type="text/javascript">
+
     $(function() {
+    	
     	bestSeller();
     })
     function newBooks(){

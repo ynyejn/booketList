@@ -255,7 +255,7 @@
                                         ${l.usedTitle}</div>
                                     <div class='sec3' style='width:750px; height:26px;'>
                                         <c:if test="${l.usedStatus eq 0}">
-                                            <span style='color:#0066b3;' data-toggle="tooltip" data-placement="bottom" title="관리자의 답변을 기다리세요.">요청 완료</span>
+                                            <span style='color:#AAB6EF;' data-toggle="tooltip" data-placement="bottom" title="관리자의 답변을 기다리세요.">요청 완료</span>
                                         </c:if>
                                         <c:if test="${l.usedStatus eq 1}">
                                             <span style='color:#FA6556;' data-toggle="tooltip" data-placement="bottom" title="추가 자료를 올려주세요!">피드백 요청</span>
@@ -264,7 +264,7 @@
                                             <span style='color:#0066b3;' data-toggle="tooltip" data-placement="bottom" title="관리자의 답변을 기다리세요.">피드백 완료</span>
                                         </c:if>
                                         <c:if test="${l.usedStatus eq 3}">
-                                            <span style='color:#0066b3;'>기증/판매 확정</span>
+                                            <span style='color:#7ABA81;'>기증/판매 확정</span>
                                         </c:if>
                                         <c:if test="${l.usedStatus eq 4}">
                                             <span style='color:#FA6556;' data-toggle="tooltip" data-placement="bottom" title="반려되었습니다.">기증/판매 반려</span>

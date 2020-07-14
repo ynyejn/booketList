@@ -59,6 +59,9 @@ tr {
 .card-header{
 	font-weight:bold;
 }
+.rentList {
+	font-size : 14px;
+}
 </style>
 <script>
 	var bool = true;

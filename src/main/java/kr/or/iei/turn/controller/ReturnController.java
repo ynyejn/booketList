@@ -24,8 +24,8 @@ public class ReturnController {
 	@Autowired
 	private ReturnService service;
 	
-	//@Scheduled(cron = "0 0 12 * * *")
-	@RequestMapping("/bookDelay.do")
+	@Scheduled(cron = "0 0 12 * * *")
+	/* @RequestMapping("/bookDelay.do") */
 	public void bookDalay() {
 		System.out.println("연체로직 gogo");
 		int result = service.bookDalay();
