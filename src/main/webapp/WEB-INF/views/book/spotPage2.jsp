@@ -212,7 +212,7 @@
             <input type="text" name="keyword" value="${keyword }">
             <div id="searchBtn">검색</div>
             <c:forEach items="${bookNo}" var="no">
-            <input type="hidden" value="${no}" name="bookNoString">
+            <input type="hidden" value="${no}" name="bookNo">
                 </c:forEach>
             <button type="submit" id="submitBtn">대여신청</button>
             </div>
@@ -258,9 +258,9 @@
                    str+=("&bookNo="+bookNo[i].value);
            }
            if(localName==""){
-        	   location.href="/goSpotPage.do?reqPage=1"+str;
+        	   location.href="/goSpotPage3.do?reqPage=1"+str;
            }else{
-        	   location.href="/goSpotPage.do?reqPage=1&localName="+localName+str;   
+        	   location.href="/goSpotPage3.do?reqPage=1&localName="+localName+str;   
            }
         });
         $("#searchBtn").click(function(){
@@ -271,7 +271,7 @@
             for (var i = 0; i < bookNo.length; i++) {
                     str+=("&bookNo="+bookNo[i].value);
             }
-            location.href="/goSpotPage2.do?reqPage=1&keyword="+keyword+"&localName="+localName+str; 
+            location.href="/goSpotPage3.do?reqPage=1&keyword="+keyword+"&localName="+localName+str; 
         });
         
         $("input[name=keyword]").keydown(function(event){

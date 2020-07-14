@@ -224,18 +224,19 @@ public class RentController {
 	
 	///////////////////////////////////////예진-스팟정하고 대여신청테이블에 넣기
 	@RequestMapping("/rentBook.do")
-	public String goBookRent(HttpSession session, RentApply rent,String bookNoString,Model model) {
+	public String goBookRent(HttpSession session, RentApply rent,String bookNo,Model model) {
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
 		rent.setMemberId(memberId);
-		System.out.println("대여:"+bookNoString+"/"+rent.getSpotName());
-		int result = service.insertRentApply(rent,bookNoString);
+		System.out.println("대여:"+bookNo+"/"+rent.getSpotName());
+		int result = service.insertRentApply(rent,bookNo);
 		if(result>0) {
 			return "redirect:/rent/goBookSearch.do?reqPage=1&msg=0";
 		}else {
 			return "redirect:/rent/goBookSearch.do?reqPage=1&msg=1";
 		}
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "/selectBestSeller.do", produces = "application/json;charset=utf-8")
 	public String selectBestSeller() {

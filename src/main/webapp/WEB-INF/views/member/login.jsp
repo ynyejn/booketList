@@ -14,7 +14,7 @@
 	width: 100%;
 	overflow: hidden;
 	margin: 120px auto 0 auto;
-	height: 600px;
+	height: 700px;
 	background-color: #f3f5f7;
 }
 td {
@@ -92,7 +92,10 @@ h2{
 </style>
 <script>
 	$(function(){
-		
+		var fail = '${fail }';
+		if(fail == 5){
+			alert("비밀번호 또는 아이디를 확인해주세요");
+		}
 		$("#findPwbtn").click(function(){
 			location.href='/member/findPwFrm.do';
 		});
@@ -123,7 +126,7 @@ h2{
 				<button type="button" id="findPwbtn">비밀번호 찾기</button>
 			</form>	
 		</div>
-	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

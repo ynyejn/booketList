@@ -575,7 +575,7 @@
 	var ws;
 	var memberId = '${sessionScope.member.memberId }'; 
 	function connect(){
-		ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+		ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
 		ws.onopen = function(){
 			console.log("웹소켓 연결 생성");
 			var msg = {
@@ -1134,7 +1134,7 @@ var memberId = '${sessionScope.member.memberId }';
 
 								<nav id="footNav2" style="text-align: center;">
 									<button class="btn btn-primary" id="excelDownLoad">선택
-										항복 엑셀</button>
+										항목 엑셀</button>
 									<button class="btn btn-primary" id="excelDownLoadTotal">전체
 										목록 엑셀</button>
 									<ul class="pagination">${pageNavi }</ul>

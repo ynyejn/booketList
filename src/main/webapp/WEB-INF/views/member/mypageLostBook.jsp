@@ -104,7 +104,7 @@ td {
 var ws;
 var memberId = '${sessionScope.member.memberId }';
 function connect() {
-	ws = new WebSocket("ws://192.168.10.181/adminMsg.do");
+	ws = new WebSocket("ws://192.168.10.179/adminMsg.do");
 	ws.onopen = function() {
 		console.log("웹소켓 연결 생성");
 
@@ -249,7 +249,7 @@ function connect() {
 </head>
 
 <body>
-	<div class="wrapper">
+	<div class="wrapper" style='background-color :#f3f5f7;'>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">
