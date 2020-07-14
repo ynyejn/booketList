@@ -90,6 +90,18 @@ td {
 margin: 0 auto;
 	text-align: center;
 }
+#mUpdate, #deleteYes, #deleteNo, #memberDelete {
+	border: none;
+/* 	background-color: #666666; */
+	color: white;
+	width: 445px;
+	height: 40px;
+	font-size: 14px;
+	border-radius: 2px;
+/* 	display: inline-block; */
+	margin: 0 auto;
+}
+
 </style>
 <script>
 	$(function() {

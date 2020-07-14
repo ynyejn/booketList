@@ -74,7 +74,9 @@ td{
 }
 .reviewList{
 	width: 100%;
+	font-size : 14px;
 }
+
 </style>
 <body>
 	<div class="wrapper">

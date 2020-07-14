@@ -46,6 +46,9 @@ tr {
 .card-header{
 	font-weight:bold;
 }
+.applyList{
+	font-size : 14px;
+}
 </style>
 <body>
 	<div class="wrapper">
