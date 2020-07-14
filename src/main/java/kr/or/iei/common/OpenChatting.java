@@ -122,22 +122,31 @@ public class OpenChatting extends TextWebSocketHandler {
 			String array = session.getUri().getQuery();
 			String[] memberNickname = array.split("=");
 			String[] title = memberNickname[1].split(" ");
+			System.out.println(title[1]);
+			System.out.println(map.size());
 			members = map.get(title[1]);
 		for(String key : members.keySet()){  
             if(key.equals(title[0])) {
             	members.remove(title[0]);
             	System.out.println(title[0]);
             	int result = dao.chatUpdatedelete(title[1]);
-            	for(String key1 : map.keySet()) {
-            		members = map.get(title[1]);
-            		if(members.isEmpty()) {
-            			System.out.println(title[1]+"대화방 삭제");
+            	for(String key2 : members.keySet()){
+        			
+                    WebSocketSession ws = members.get(key2);
+        			ws.sendMessage(new TextMessage(title[0]+"님이 퇴장 하였습니다."));
+                }
+            	if(!map.isEmpty()) {
+            		
+            		for(String key1 : map.keySet()) {
+            			members = map.get(title[1]);
+            			if(members.isEmpty()) {
+            				System.out.println(title[1]+"대화방 삭제");
             				int result2 = dao.titleDlelte(title[1]);
             				if(result2>0) {
             					
             					ArrayList<ChatFile> chatFile = dao.chatFileSelect(title[1]);
             					
-            				
+            					
             					String saveDirectory = "C:/Users/SEC/spring-book/booketList/src/main/webapp/resources/chat/";
             					for(ChatFile c : chatFile) {
             						String[] fileName = c.getChatFilepath().split("/");
@@ -146,17 +155,14 @@ public class OpenChatting extends TextWebSocketHandler {
             					}
             				}
             				map.remove(title[1]);
+            			}
             		}
             	}
             	
             	
             }
         }
-		for(String key : members.keySet()){
-			
-            WebSocketSession ws = members.get(key);
-			ws.sendMessage(new TextMessage(title[0]+"님이 퇴장 하였습니다."));
-        }
+		
 		
 		}else {
 			
