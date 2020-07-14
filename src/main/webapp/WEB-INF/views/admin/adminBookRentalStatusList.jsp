@@ -994,7 +994,7 @@ padding-top:3px;
 												</table>
 												
 												<nav id="footNav2" style="text-align:center;">
-													<button class="btn btn-primary" id="excelDownLoad">선택 항복 엑셀</button>
+													<button class="btn btn-primary" id="excelDownLoad">선택 항목 엑셀</button>
 													<button class="btn btn-primary" id="excelDownLoadTotal">전체 목록 엑셀</button>
 													<ul class="pagination">${pageNavi }</ul>
 													<div id="sel" style="float: right; margin-top: 20px;">
