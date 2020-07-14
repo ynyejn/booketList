@@ -99,7 +99,7 @@ public class MemberController {
 			if(member.getMemberId().equals("admin")) {
 				System.out.println("ASDfasdfasdf"+member.getMemberId());
 				session.setAttribute("member", member);
-				return "admin/adminPage";
+				return "redirect:/adminPage.do";
 			}else {
 				System.out.println("ASDfasdfasdf"+member.getMemberId());
 				session.setAttribute("member", member);

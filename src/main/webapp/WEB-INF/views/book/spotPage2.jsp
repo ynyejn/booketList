@@ -258,9 +258,9 @@
                    str+=("&bookNo="+bookNo[i].value);
            }
            if(localName==""){
-        	   location.href="/goSpotPage.do?reqPage=1"+str;
+        	   location.href="/goSpotPage2.do?reqPage=1"+str;
            }else{
-        	   location.href="/goSpotPage.do?reqPage=1&localName="+localName+str;   
+        	   location.href="/goSpotPage2.do?reqPage=1&localName="+localName+str;   
            }
         });
         $("#searchBtn").click(function(){
