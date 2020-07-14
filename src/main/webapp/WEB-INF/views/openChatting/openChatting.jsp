@@ -143,14 +143,14 @@ table {
 		<br>
 		<div class="openChattingBox">
 		<table>
-			<tr  class="chatTitle">
+			<tr class="chatTitle">
 				<th colspan="2" class="chatTitle">
-					<div class="chatTitle"><span class="chatTitle">${list.chatTitle }방</span></div>
+					<div class="chatTitle"><span class="chatTitle">${list.chatTitle }</span></div>
 				<input type="hidden" class="title" value="${list.chatTitle }">
 				</th>
 			</tr>
-			<tr>
-			<th class="chatPe">현재 인원수</th>
+			<tr style="border-top:1px solid lightgray;">
+				<th class="chatPe">현재 인원수</th>
 				<th class="chatPers"> ${list.chatPersonnel }/${list.chatPeople }
 				</th>
 			</tr>

@@ -51,7 +51,9 @@ h2 {
 	text-align: center;
 }
 </style>
+
 <body>
+
 	<script>
 		$(function() {
 			$("#findIdBtn").click(function() {
@@ -71,6 +73,7 @@ h2 {
 		})
 	</script>
 	<div class="content">
+	
 		<h2>아이디찾기</h2>
 		<div class="form-group" id='form1'>
 			<table>
