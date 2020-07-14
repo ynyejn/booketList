@@ -15,7 +15,7 @@
 			서울특별시 영등포구 선유동2로 57 이레빌딩 (구관) 19F, 20F<br> 문의전화 02-000-0000 팩스
 			02-123-4567<br> Copyright© Booket-List. All rights reserved. <img
 				src="/resources/imgs/whitelogo.png">
-				<button onclick="location.href='/bookDelay.do';">연체</button>
+<!-- 				<button onclick="location.href='/bookDelay.do';">연체</button> -->
 		</div>
 	</div>
 </div>

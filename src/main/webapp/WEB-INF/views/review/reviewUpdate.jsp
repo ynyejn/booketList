@@ -130,7 +130,7 @@
 </head>
 <body  onresize="parent.resizeTo(500,660)" onload="parent.resizeTo(500,660)">
 	<div id="title">
-		<span id="titleTag">후기 작성</span>
+		<span id="titleTag">후기 수정</span>
 	</div>
 	
 	<div class="reviewDiv">
