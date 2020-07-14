@@ -209,7 +209,7 @@
 					</tr>
 				</table>
 			</div>
-			<div class="reviewSubmit"><input type="submit" name="returnBtn"value="신청하기"></div>
+			<div class="reviewSubmit"><input id="btnbutton" type="submit" name="returnBtn"value="신청하기"></div>
 			</form>
 		</div></div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -223,6 +223,9 @@
 			var style = "width=500,height=600,top=100,left=400";
 			window.open(url,title,style);
 			
+		});
+		$("#btnbutton").click(function(){
+			alert("신청이 완료되었습니다.");
 		});
 	})
 </script>
