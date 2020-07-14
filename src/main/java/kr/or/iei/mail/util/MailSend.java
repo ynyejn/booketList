@@ -41,7 +41,7 @@ public class MailSend {
 		MimeMessage msg = new MimeMessage(session);
 		try {
 			msg.setSentDate(new Date());
-			msg.setFrom(new InternetAddress("booktetlistmaster@gmail.com", "보내는 사람 이름"));
+			msg.setFrom(new InternetAddress("booktetlistmaster@gmail.com", "북킷리스트"));
 			InternetAddress to = new InternetAddress(email);
 			msg.setRecipient(Message.RecipientType.TO, to);
 
