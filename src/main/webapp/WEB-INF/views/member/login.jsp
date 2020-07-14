@@ -92,7 +92,10 @@ h2{
 </style>
 <script>
 	$(function(){
-		
+		var fail = '${fail }';
+		if(fail != null){
+			alert("비밀번호 또는 아이디를 확인해주세요");
+		}
 		$("#findPwbtn").click(function(){
 			location.href='/member/findPwFrm.do';
 		});
