@@ -127,7 +127,7 @@ td {
 	//이름정규식
 	var name = /^[가-힇]{2,4}$/;
 	//닉네임 정규식
-	var nickname = /^[가-힇a-zA-Z0-9#?!@$%^&*-]{2,10}$/;
+	var nickname = /^[가-힣a-zA-Z0-9#?!@$%^&*-]{2,10}$/;
 	//휴대폰 번호 정규식
 	var phone = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 	//이메일 검사 정규식
@@ -161,8 +161,9 @@ td {
 								alert("중복아이디");
 								$("#memberJoin").attr("disabled", "disabled");
 							} else {
-								alert("아이디사용가능");
+								
 								$("#memberJoin").removeAttr("disabled");
+								$('#id_check').text('아이디 사용가능합니다.');
 							}
 						}
 					});
